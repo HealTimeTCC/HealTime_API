@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230102001435_TablePessoas")]
-    partial class TablePessoas
+    [Migration("20230103132032_CorrecaoTablePessoas")]
+    partial class CorrecaoTablePessoas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,8 @@ namespace WEBAPIHealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoas", b =>
                 {
-                    b.Property<int>("PessoaId")
-                        .HasColumnType("int");
+                    b.Property<string>("PessoaId")
+                        .HasColumnType("varchar(40)");
 
                     b.Property<string>("BairroEnderecoPessoa")
                         .IsRequired()
@@ -44,6 +44,10 @@ namespace WEBAPIHealTime.Migrations
 
                     b.Property<string>("ComplementoPessoa")
                         .HasColumnType("varchar(45)");
+
+                    b.Property<string>("CpfPessoa")
+                        .IsRequired()
+                        .HasColumnType("char(11)");
 
                     b.Property<string>("EnderecoPessoa")
                         .IsRequired()
@@ -71,6 +75,9 @@ namespace WEBAPIHealTime.Migrations
 
                     b.Property<DateTime>("dtNascimentoPesssoa")
                         .HasColumnType("date");
+
+                    b.Property<DateTime>("dtUltimoAcesso")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("PessoaId");
 

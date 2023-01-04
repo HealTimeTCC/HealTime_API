@@ -6,5 +6,7 @@ namespace WEB_API_HealTime.Data;
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-    public DbSet<Pessoas> Pessoas { get; set; }
+    public DbSet<Pessoa> Pessoas { get; set; }
+    //Colocar valor default dps
+
 }

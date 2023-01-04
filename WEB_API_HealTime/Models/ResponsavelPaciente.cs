@@ -9,11 +9,11 @@ public class ResponsavelPaciente
 
     //Tem que testar esse relacionamento para ver se vai dar certo, tenho minhas dúvidas ksks
     public int PacienteInId { get; set; }
-    public Pessoas Id { get; set; }
+    public Pessoa Id { get; set; }
 
     //Esse vai funcionar normal, só precisa saber do de cima
     public int ResponsavelId { get; set; }
-    public Pessoas PessoaId { get; set; }
+    public Pessoa PessoaId { get; set; }
 
     public int GrauParentescoId { get; set; }
     public GrauParentesco GrauParentesco { get; set; }

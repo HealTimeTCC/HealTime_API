@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEBAPIHealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class TablePessoas : Migration
+    public partial class CorrecaoTablePessoas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,10 +15,12 @@ namespace WEBAPIHealTime.Migrations
                 name: "Pessoas",
                 columns: table => new
                 {
-                    PessoaId = table.Column<int>(type: "int", nullable: false),
+                    PessoaId = table.Column<string>(type: "varchar(40)", nullable: false),
                     TipoPessoa = table.Column<int>(type: "int", nullable: false),
                     NomePessoa = table.Column<string>(type: "varchar(25)", nullable: false),
                     SobrenomePessoa = table.Column<string>(type: "varchar(40)", nullable: false),
+                    CpfPessoa = table.Column<string>(type: "char(11)", nullable: false),
+                    dtUltimoAcesso = table.Column<DateTime>(type: "datetime2", nullable: false),
                     dtNascimentoPesssoa = table.Column<DateTime>(type: "date", nullable: false),
                     GeneroPessoa = table.Column<int>(type: "int", nullable: false),
                     ObsPacienteIncapaz = table.Column<string>(type: "varchar(350)", nullable: true),
