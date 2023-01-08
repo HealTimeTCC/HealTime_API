@@ -5,6 +5,7 @@ using System;
 using System.Linq.Expressions;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Utility;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -20,10 +21,15 @@ public class PessoasController : ControllerBase
     {
 		try
 		{
+            VerificadorCpf verificadorCpf = new VerificadorCpf();
+
             Pessoa buscaP = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == pessoa.CpfPessoa);
             if (buscaP != null)
-                throw new Exception("Usuario existe");
+                throw new Exception("Cpf já cadastrado.");
             //O endereço tera como auto preenchimento será consumida em outra api
+
+            if (!verificadorCpf.VerificadorCpfPessoa(pessoa.CpfPessoa))
+                throw new Exception($"Cpf '{pessoa.CpfPessoa}' está inválido.");
 
             Guid idGuid;
             while (true)
@@ -49,7 +55,7 @@ public class PessoasController : ControllerBase
 		}
     }
 
-    [HttpPost("InfoContato")]
+    /*[HttpPost("InfoContato")]
     public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
     {
         try
@@ -60,7 +66,7 @@ public class PessoasController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
+    }*/
 
     [HttpPost("IncluiInfoPacienteIn")]//Cria model so para molde do Pa In?
     public async Task<IActionResult> IncluiInfoPacienteIn(string cpfBusca, string obs)
