@@ -13,6 +13,7 @@ namespace WEB_API_HealTime.Controllers;
 public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
+    private Guid pkGlobal = new Guid();
     public PessoasController(DataContext context){ _context = context; }
 
     [HttpPost("Cadastro")]
@@ -39,6 +40,9 @@ public class PessoasController : ControllerBase
             }
             pessoa.PessoaId = idGuid;
 
+            //Uso de variavel Global para criação de contato
+            pkGlobal = pessoa.PessoaId;
+            
             await _context.Pessoas.AddAsync(pessoa);
             await _context.SaveChangesAsync();
             return Ok($"{pessoa.NomePessoa} salvo!");
@@ -50,10 +54,16 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("InfoContato")]
-    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
+    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt, string? cpf)
     {
         try
         {
+            ContatoPessoa cttPessoa = await _context.ContatoPessoas
+                .Include(x => x.Pessoas)
+                .FirstOrDefaultAsync(x => x.PessoaId == pkGlobal);
+            if (cttPessoa is null)
+                throw new Exception("Error Interno - Tipo 1");
+
 
         }
         catch (Exception ex)
