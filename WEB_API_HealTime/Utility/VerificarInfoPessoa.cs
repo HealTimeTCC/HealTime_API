@@ -1,7 +1,8 @@
 ﻿namespace WEB_API_HealTime.Utility;
 
-public class VerificadorCpf
+public class VerificarInfoPessoa
 {
+    //Verificador de cpf (inicio)
     public int Soma { get; set; }
     public int ResulMulti { get; set; }
     public int ResulMod { get; set; }
@@ -19,7 +20,7 @@ public class VerificadorCpf
 
     private bool VerificarPriDigito(char[] cpf)
     {
-        var tools = new VerificadorCpf();
+        var tools = new VerificarInfoPessoa();
 
         int multi = 10;
         for (int i = 0; i < 9; i++)
@@ -37,7 +38,7 @@ public class VerificadorCpf
 
     private bool VerificarSegDigito(char[] cpf)
     {
-        var tools = new VerificadorCpf();
+        var tools = new VerificarInfoPessoa();
 
         int multi = 11;
         for (int i = 0; i < 10; i++)
@@ -63,4 +64,7 @@ public class VerificadorCpf
             return (resulId);
 
     }
+    //Verificador de cpf (fim)
+
+
 }
