@@ -16,7 +16,7 @@ public class PessoasController : ControllerBase
     public PessoasController(DataContext context){ _context = context; }
 
     [HttpPost("Cadastro")]
-    public async Task<IActionResult> AddPessoa(Pessoa pessoa)
+    public async Task<IActionResult> CadastroAsync(Pessoa pessoa)
     {
 		try
 		{
@@ -49,15 +49,28 @@ public class PessoasController : ControllerBase
 		}
     }
 
-    [HttpPost("IncluiInfoPacienteIn")]
+    [HttpPost("InfoContato")]
+    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("IncluiInfoPacienteIn")]//Cria model so para molde do Pa In?
     public async Task<IActionResult> IncluiInfoPacienteIn(string cpfBusca, string obs)
     {
         try
         {
-            if (cpfBusca == null)
+            if (cpfBusca is null)
                 throw new Exception("O CPF é obrigatório");
             
-            if (obs == null)
+            if (obs is null)
                 throw new Exception("O campo Observação não deve estar em branco");
             
             Pessoa buscaInfP = await _context.Pessoas.FirstOrDefaultAsync(p => p.CpfPessoa == cpfBusca);
@@ -83,7 +96,6 @@ public class PessoasController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
 
 
 }
