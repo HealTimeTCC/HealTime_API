@@ -3956,23 +3956,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Suporte4\\.nuget\\packages\\": {},
+    "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Suporte4\\Desktop\\Projetos\\Heal_Time\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+      "projectUniqueName": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
       "projectName": "WEB_API_HealTime",
-      "projectPath": "C:\\Users\\Suporte4\\Desktop\\Projetos\\Heal_Time\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
-      "packagesPath": "C:\\Users\\Suporte4\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Suporte4\\Desktop\\Projetos\\Heal_Time\\WEB_API_HealTime\\obj\\",
+      "projectPath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+      "packagesPath": "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Suporte4\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thiago da S. Roque\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3981,7 +3981,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4052,7 +4051,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }
