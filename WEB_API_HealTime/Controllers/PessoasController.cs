@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
@@ -14,6 +15,7 @@ namespace WEB_API_HealTime.Controllers;
 public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
+    private Guid pkGlobal = new Guid();
     public PessoasController(DataContext context){ _context = context; }
 
     [HttpPost("Cadastro")]
@@ -50,6 +52,9 @@ public class PessoasController : ControllerBase
             }
             pessoa.PessoaId = idGuid;
 
+            //Uso de variavel Global para criação de contato
+            pkGlobal = idGuid;
+            
             await _context.Pessoas.AddAsync(pessoa);
             await _context.SaveChangesAsync();
             return Ok($"{pessoa.NomePessoa} salvo!");
@@ -60,19 +65,41 @@ public class PessoasController : ControllerBase
 		}
     }
 
-    /*[HttpPost("InfoContato")]
+    [HttpPost("InfoContato")]
     public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
     {
         try
         {
+            //Adicionar verificador de telefone
+            List<ContatoPessoa> listaMax = await _context.ContatoPessoas
+                .Where(x => x.PessoaId == pkGlobal)
+                .ToListAsync();
+            int limit = listaMax.Count;
+            if (limit > 2)
+                throw new Exception("É permitido somente dois telefones ou emails");
+            ContatoPessoa numerosExistentes = await _context.ContatoPessoas
+                .FirstOrDefaultAsync(x => x.TelefoneContato == ctt.TelefoneContato || x.EmailContato.ToUpper() == x.EmailContato.ToUpper());
 
+            if (numerosExistentes != null)
+                throw new Exception("Email/Telefone já cadastrados");
+
+            await _context.ContatoPessoas.AddAsync(numerosExistentes);
+            await _context.SaveChangesAsync();
+            
+            string msg = "";
+            if (ctt.TelefoneContato != null && ctt.EmailContato != null)
+                msg = $"email e telefone {ctt.TipoCtt}, Cadastrados com sucesso!";
+            else if (ctt.TelefoneContato != null)
+                msg = $"Telefone {ctt.TipoCtt} Cadastrados com sucesso!";
+            else if (ctt.EmailContato != null)
+                msg = $"Email {ctt.TipoCtt} Cadastrados com sucesso!";
+            return Ok(msg);
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
-    }*/
-
+    }
     [HttpPost("IncluiInfoPacienteIn")]//Cria model so para molde do Pa In?
     public async Task<IActionResult> IncluiInfoPacienteIn(string cpfBusca, string obs)
     {
