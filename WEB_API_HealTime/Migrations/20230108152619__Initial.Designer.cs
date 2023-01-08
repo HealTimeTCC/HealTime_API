@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API_HealTime.Data;
 
@@ -11,9 +12,11 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230108152619__Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,31 +24,6 @@ namespace WEBAPIHealTime.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
-                {
-                    b.Property<int>("ContatoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"));
-
-                    b.Property<string>("EmailContato")
-                        .HasColumnType("VARCHAR(70)");
-
-                    b.Property<Guid>("PessoaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("TelefoneContato")
-                        .HasColumnType("VARCHAR(11)");
-
-                    b.Property<int>("TipoCtt")
-                        .HasColumnType("int");
-
-                    b.HasKey("ContatoId");
-
-                    b.ToTable("ContatoPessoas");
-                });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
                 {
