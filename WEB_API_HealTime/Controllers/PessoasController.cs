@@ -21,15 +21,20 @@ public class PessoasController : ControllerBase
     {
 		try
 		{
-            VerificadorCpf verificadorCpf = new VerificadorCpf();
+            VerificarInfoPessoa verificarInfoPessoa = new VerificarInfoPessoa();
 
             Pessoa buscaP = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == pessoa.CpfPessoa);
             if (buscaP != null)
                 throw new Exception("Cpf já cadastrado.");
             //O endereço tera como auto preenchimento será consumida em outra api
 
-            if (!verificadorCpf.VerificadorCpfPessoa(pessoa.CpfPessoa))
+            if (!verificarInfoPessoa.VerificadorCpfPessoa(pessoa.CpfPessoa))
                 throw new Exception($"Cpf '{pessoa.CpfPessoa}' está inválido.");
+
+            if(!verificarInfoPessoa.VerificarNomePessoa(pessoa.NomePessoa, pessoa.SobrenomePessoa))
+                throw new Exception($"O nome está inválido.");
+            if(!verificarInfoPessoa.VerificarDtNascimentoPessoa(pessoa.DtNascimentoPesssoa, pessoa.TipoPessoa))
+                throw new Exception($"Data de nascimento está inválido.");
 
             Guid idGuid;
             while (true)

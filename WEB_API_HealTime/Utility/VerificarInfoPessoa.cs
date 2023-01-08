@@ -1,4 +1,7 @@
-﻿namespace WEB_API_HealTime.Utility;
+﻿using Newtonsoft.Json;
+using WEB_API_HealTime.Models.Enuns;
+
+namespace WEB_API_HealTime.Utility;
 
 public class VerificarInfoPessoa
 {
@@ -9,6 +12,8 @@ public class VerificarInfoPessoa
 
     public bool VerificadorCpfPessoa(string cpf)
     {
+        cpf = cpf.Replace(".", "").Replace("-", "");
+
         if (cpf.Length != 11)
             return false;
 
@@ -65,6 +70,26 @@ public class VerificarInfoPessoa
 
     }
     //Verificador de cpf (fim)
+
+    public bool VerificarNomePessoa(String nomePessoa, String sobrenomePessoa)
+    {
+        if ((nomePessoa.Length >= 3) && (sobrenomePessoa.Length >= 2))
+            return true;
+        else
+            return false;
+    }
+
+    public bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, TipoPessoa tipoPessoa)
+    {
+        var idadePessoa = DateTime.Now.Year - dtNascimentoPessoa.Year;
+
+        if (idadePessoa < 18 && tipoPessoa != TipoPessoa.Paciente_Incapaz)
+            return false;
+        if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
+            return false;
+
+        return true;
+    }
 
 
 }
