@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Utility;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -21,10 +23,15 @@ public class PessoasController : ControllerBase
     {
 		try
 		{
+            VerificadorCpf verificadorCpf = new VerificadorCpf();
+
             Pessoa buscaP = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == pessoa.CpfPessoa);
             if (buscaP != null)
-                throw new Exception("Usuario existe");
+                throw new Exception("Cpf já cadastrado.");
             //O endereço tera como auto preenchimento será consumida em outra api
+
+            if (!verificadorCpf.VerificadorCpfPessoa(pessoa.CpfPessoa))
+                throw new Exception($"Cpf '{pessoa.CpfPessoa}' está inválido.");
 
             Guid idGuid;
             while (true)
@@ -41,7 +48,7 @@ public class PessoasController : ControllerBase
             pessoa.PessoaId = idGuid;
 
             //Uso de variavel Global para criação de contato
-            pkGlobal = pessoa.PessoaId;
+            pkGlobal = idGuid;
             
             await _context.Pessoas.AddAsync(pessoa);
             await _context.SaveChangesAsync();
@@ -54,24 +61,40 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("InfoContato")]
-    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt, string? cpf)
+    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
     {
         try
         {
-            ContatoPessoa cttPessoa = await _context.ContatoPessoas
-                .Include(x => x.Pessoas)
-                .FirstOrDefaultAsync(x => x.PessoaId == pkGlobal);
-            if (cttPessoa is null)
-                throw new Exception("Error Interno - Tipo 1");
+            //Adicionar verificador de telefone
+            List<ContatoPessoa> listaMax = await _context.ContatoPessoas
+                .Where(x => x.PessoaId == pkGlobal)
+                .ToListAsync();
+            int limit = listaMax.Count;
+            if (limit > 2)
+                throw new Exception("É permitido somente dois telefones ou emails");
+            ContatoPessoa numerosExistentes = await _context.ContatoPessoas
+                .FirstOrDefaultAsync(x => x.TelefoneContato == ctt.TelefoneContato || x.EmailContato.ToUpper() == x.EmailContato.ToUpper());
 
+            if (numerosExistentes != null)
+                throw new Exception("Email/Telefone já cadastrados");
 
+            await _context.ContatoPessoas.AddAsync(numerosExistentes);
+            await _context.SaveChangesAsync();
+            
+            string msg = "";
+            if (ctt.TelefoneContato != null && ctt.EmailContato != null)
+                msg = $"email e telefone {ctt.TipoCtt}, Cadastrados com sucesso!";
+            else if (ctt.TelefoneContato != null)
+                msg = $"Telefone {ctt.TipoCtt} Cadastrados com sucesso!";
+            else if (ctt.EmailContato != null)
+                msg = $"Email {ctt.TipoCtt} Cadastrados com sucesso!";
+            return Ok(msg);
         }
         catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
     }
-
     [HttpPost("IncluiInfoPacienteIn")]//Cria model so para molde do Pa In?
     public async Task<IActionResult> IncluiInfoPacienteIn(string cpfBusca, string obs)
     {
