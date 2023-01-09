@@ -13,17 +13,17 @@ public class Pessoa
     [Required(ErrorMessage ="Tipo de pessoa é obrigatório")]
     public TipoPessoa TipoPessoa { get; set; }
 
-    [Required(ErrorMessage ="Nome é obrigatório")]
+    //[Required(ErrorMessage ="Nome é obrigatório")]
     [Column(TypeName = "varchar(25)")]
     [Display(Name ="Nome")]
     public string NomePessoa { get; set; }
 
-    [Required(ErrorMessage = "Sobrenome é obrigatório")]
+    //[Required(ErrorMessage = "Sobrenome é obrigatório")]
     [Column(TypeName = "varchar(40)")]
     [Display(Name ="Sobre nome")]
     public string SobrenomePessoa { get; set; }
 
-    [Required(ErrorMessage ="O CPF é obrigatório!")]
+    //[Required(ErrorMessage ="O CPF é obrigatório!")]
     [Column(TypeName ="char(11)")]
     [Display(Name ="CPF")]
     public string CpfPessoa { get; set; }
@@ -31,7 +31,7 @@ public class Pessoa
     [Display(Name = "Ultimo Acesso")]
     public DateTime dtUltimoAcesso { get; set; }
 
-    [Required(ErrorMessage = "Data nascimento é obrigatório")]
+    //[Required(ErrorMessage = "Data nascimento é obrigatório")]
     [Column(TypeName = "date")]
     public DateTime dtNascimentoPesssoa { get; set; }
     public Generos GeneroPessoa { get; set; }
@@ -39,26 +39,26 @@ public class Pessoa
     [Column(TypeName = "varchar(350)")]
     public string ObsPacienteIncapaz { get; set; }
 
-    [Required]
+    //[Required]
     [Column(TypeName = "varchar(45)")]
     public string EnderecoPessoa { get; set; }
 
-    [Required]
+    //[Required]
     [Column(TypeName = "varchar(30)")]
     public string BairroEnderecoPessoa { get; set; }
 
-    [Required]
+    //[Required]
     [Column(TypeName = "varchar(20)")]
     public string CidadeEnderecoPessoa { get; set; }
 
     [Column(TypeName = "varchar(45)")]
     public string ComplementoPessoa { get; set; }
 
-    [Required]
+    //[Required]
     [Column(TypeName = "char(8)")]
     public string CepEndereco { get; set; }
 
-    [Required]
+    //[Required]
     public UFs UfEndereco { get; set; }
 
     //public List<ResponsavelPaciente> Pacientes { get; set; }

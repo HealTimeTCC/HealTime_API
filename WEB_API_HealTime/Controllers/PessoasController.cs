@@ -50,7 +50,7 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("IncluiInfoPacienteIn")]
-    public async Task<IActionResult> IncluiInfoPacienteIn(string cpfBusca, string obs)
+    public async Task<IActionResult> IncluiInfoPacienteInAsync(string cpfBusca, string obs)
     {
         try
         {
@@ -83,7 +83,24 @@ public class PessoasController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
 
+    [HttpPut("AtualizarEndereco")]//Parado 
+    public async Task<IActionResult> AtualizarEnderecoAsync(Pessoa enderecoPessoa)
+    {
+        try
+        {
+            //Dados obrigatorios -> CPF 
+            //Dados que podem ser atualizados -> CEP - RUA - UF - NRO
 
+            Pessoa pBusca = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == enderecoPessoa.CpfPessoa);
+            if (pBusca == null)
+                throw new Exception("CPF não existe");
+
+            return Ok(enderecoPessoa);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
