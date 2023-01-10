@@ -87,7 +87,6 @@ public class VerificarInfoPessoa
             return false;
         if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
             return false;
-
         return true;
     }
 
