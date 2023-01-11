@@ -11,7 +11,8 @@ public class ContatoPessoa
     
     [NotMapped]
     public Pessoa Pessoas { get; set; }
-    public Guid PessoaId { get; set; }
+    //public Guid PessoaId { get; set; }
+    public string PessoaId { get; set; }
 
     [Column(TypeName = "VARCHAR(1)")]
     public string TelefoneCelular { get; set; }

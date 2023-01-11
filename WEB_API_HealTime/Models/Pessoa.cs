@@ -8,7 +8,7 @@ public class Pessoa
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
     [Column(TypeName ="varchar(40)")]
-    public Guid PessoaId { get; set; }
+    public string PessoaId { get; set; }
 
     [Required(ErrorMessage ="Tipo de pessoa é obrigatório")]
     public TipoPessoa TipoPessoa { get; set; }

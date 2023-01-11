@@ -9,17 +9,9 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WEB_API_HealTime
 build_property.RootNamespace = WEB_API_HealTime
-<<<<<<< HEAD
 build_property.ProjectDir = C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime
-=======
-build_property.ProjectDir = D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\
-build_property.RazorLangVersion = 7.0
-build_property.SupportLocalizedComponentNames = 
-build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime
->>>>>>> 2438ac63269e6dd9697317b42f4df46a0f5652c8
 build_property._RazorSourceGeneratorDebug = 
