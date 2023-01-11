@@ -27,13 +27,13 @@ public class Pessoa
     [Column(TypeName ="char(11)")]
     [Display(Name ="CPF")]
     public string CpfPessoa { get; set; }
-
+    //Exceto Paciente Incapaz
     [Display(Name = "Ultimo Acesso")]
-    public DateTime dtUltimoAcesso { get; set; }
+    public DateTime DtUltimoAcesso { get; set; }
 
     //[Required(ErrorMessage = "Data nascimento é obrigatório")]
     [Column(TypeName = "date")]
-    public DateTime dtNascimentoPesssoa { get; set; }
+    public DateTime DtNascimentoPesssoa { get; set; }
     public Generos GeneroPessoa { get; set; }
 
     [Column(TypeName = "varchar(350)")]

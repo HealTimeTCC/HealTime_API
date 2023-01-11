@@ -22,7 +22,32 @@ namespace WEBAPIHealTime.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.Pessoas", b =>
+            modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
+                {
+                    b.Property<int>("ContatoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ContatoId"));
+
+                    b.Property<string>("EmailContato")
+                        .HasColumnType("VARCHAR(70)");
+
+                    b.Property<Guid>("PessoaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TelefoneContato")
+                        .HasColumnType("VARCHAR(11)");
+
+                    b.Property<int>("TipoCtt")
+                        .HasColumnType("int");
+
+                    b.HasKey("ContatoId");
+
+                    b.ToTable("ContatoPessoas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
                 {
                     b.Property<string>("PessoaId")
                         .HasColumnType("varchar(40)");
@@ -45,6 +70,12 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("CpfPessoa")
                         .IsRequired()
                         .HasColumnType("char(11)");
+
+                    b.Property<DateTime>("DtNascimentoPesssoa")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("DtUltimoAcesso")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("EnderecoPessoa")
                         .IsRequired()
@@ -69,12 +100,6 @@ namespace WEBAPIHealTime.Migrations
 
                     b.Property<int>("UfEndereco")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("dtNascimentoPesssoa")
-                        .HasColumnType("date");
-
-                    b.Property<DateTime>("dtUltimoAcesso")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("PessoaId");
 
