@@ -11,11 +11,15 @@ public class ContatoPessoa
     
     [NotMapped]
     public Pessoa Pessoas { get; set; }
-    public Guid PessoaId { get; set; }
+    //public Guid PessoaId { get; set; }
+    public string PessoaId { get; set; }
 
-    [Column(TypeName = "VARCHAR(11)")]
-    public string TelefoneContato { get; set; }
-    
+    [Column(TypeName = "VARCHAR(1)")]
+    public string TelefoneCelular { get; set; }
+
+    [Column(TypeName = "VARCHAR(10)")]
+    public string TelefoneFixo { get; set; }
+
     [Column(TypeName = "VARCHAR(70)")]
     public string EmailContato { get; set; }
     public TipoCtt TipoCtt { get; set; }
