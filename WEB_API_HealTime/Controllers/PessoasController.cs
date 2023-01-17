@@ -72,9 +72,16 @@ public class PessoasController : ControllerBase
                 .ContatoPessoas
                 .Where(x => x.PessoaId == x.PessoaId)
                 .ToListAsync();
+            if (ctt.TelefoneCelular is null)
+                throw new Exception("O numero de telefone é obrigatório");
             if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelular))
                 new Exception("Telefone Celular invalido");
-            
+            if (ctt.TelefoneFixo != null)
+            {
+                if (!verificarInfoPessoa.VerificarTelefoneFixo(ctt.TelefoneFixo))
+                    throw new Exception("Telefone Fixo Invalido");
+            }
+            return Ok("Cadastrado com sucesso");
 
         }
         catch (Exception ex)
