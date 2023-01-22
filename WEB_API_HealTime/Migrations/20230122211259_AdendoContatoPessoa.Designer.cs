@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230122195528_Inicial")]
-    partial class Inicial
+    [Migration("20230122211259_AdendoContatoPessoa")]
+    partial class AdendoContatoPessoa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,10 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("PessoaId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<string>("TelefoneCelular")
+                    b.Property<string>("TelefoneCelularObri")
+                        .HasColumnType("VARCHAR(11)");
+
+                    b.Property<string>("TelefoneCelularOpcional")
                         .HasColumnType("VARCHAR(11)");
 
                     b.Property<string>("TelefoneFixo")
@@ -53,6 +56,20 @@ namespace WEBAPIHealTime.Migrations
                     b.HasIndex("PessoaId");
 
                     b.ToTable("ContatoPessoas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
+                {
+                    b.Property<int>("GrauParentescoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DescGrauParentesco")
+                        .IsRequired()
+                        .HasColumnType("varchar(30)");
+
+                    b.HasKey("GrauParentescoId");
+
+                    b.ToTable("GrausParentesco");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
@@ -107,11 +124,70 @@ namespace WEBAPIHealTime.Migrations
                     b.ToTable("Pessoas");
                 });
 
+            modelBuilder.Entity("WEB_API_HealTime.Models.ResponsavelPaciente", b =>
+                {
+                    b.Property<int>("ResponsavelPacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GrauParentescoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdResponsavelPessoaId")
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<string>("PacienteIdPessoaId")
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<string>("PacienteInId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResponsavelId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ResponsavelPacienteId");
+
+                    b.HasIndex("GrauParentescoId");
+
+                    b.HasIndex("IdResponsavelPessoaId");
+
+                    b.HasIndex("PacienteIdPessoaId");
+
+                    b.ToTable("ResponsaveisPaciente");
+                });
+
             modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.Pessoa", null)
                         .WithMany("ContatosPessoa")
                         .HasForeignKey("PessoaId");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ResponsavelPaciente", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.GrauParentesco", "GrauParentesco")
+                        .WithMany("ResponsavelPacientes")
+                        .HasForeignKey("GrauParentescoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "IdResponsavel")
+                        .WithMany()
+                        .HasForeignKey("IdResponsavelPessoaId");
+
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "PacienteId")
+                        .WithMany()
+                        .HasForeignKey("PacienteIdPessoaId");
+
+                    b.Navigation("GrauParentesco");
+
+                    b.Navigation("IdResponsavel");
+
+                    b.Navigation("PacienteId");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
+                {
+                    b.Navigation("ResponsavelPacientes");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>

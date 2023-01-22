@@ -61,6 +61,7 @@ public class Pessoa
     //[Required]
     public UFs UfEndereco { get; set; }
 
+    [NotMapped]
     public List<ContatoPessoa> ContatosPessoa { get; set; }
 
     //public List<ResponsavelPaciente> Pacientes { get; set; }

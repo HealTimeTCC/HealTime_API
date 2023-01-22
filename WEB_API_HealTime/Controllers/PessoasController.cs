@@ -65,15 +65,19 @@ public class PessoasController : ControllerBase
         VerificarInfoPessoa verificarInfoPessoa = new();
         try
         {
-            List<ContatoPessoa> maxCtt = await _context
-                .ContatoPessoas
-                .Where(x => x.PessoaId == x.PessoaId)
-                .ToListAsync();
+            if (ctt.TelefoneCelularObri != null)
+            {
+                if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularObri))
+                    throw new Exception("Telefone Celular invalido");
+                if (ctt.TelefoneCelularOpcional != null)
+                {
+                    if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularOpcional))
+                        throw new Exception("Telefone Celular invalido");
+                }
+            }
+            else
+                throw new Exception("O telefone é obrigatório!");
 
-            if (ctt.TelefoneCelular is null)
-                throw new Exception("O numero de telefone é obrigatório");
-            if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelular))
-                throw new Exception("Telefone Celular invalido");
             if (ctt.TelefoneFixo != null)
             {
                 if (!verificarInfoPessoa.VerificarTelefoneFixo(ctt.TelefoneFixo))
@@ -198,7 +202,7 @@ public class PessoasController : ControllerBase
 
     }
 
-    [HttpDelete("DeleteContato/{idContato:int}")]
+    [HttpDelete("DeleteContato/{idContato:int}")]//Verificar questão de excluir so um contato e não a tabela inteira => Ao querer excluir o o secundario passa a ser o principal
     public async Task<IActionResult> DeleteContatoAsync(int idContato)
     {
         try

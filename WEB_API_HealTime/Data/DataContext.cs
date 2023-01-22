@@ -12,7 +12,7 @@ public class DataContext : DbContext
     public DbSet<ContatoPessoa> ContatoPessoas { get; set; }
     public DbSet<ResponsavelPaciente> ResponsaveisPaciente { get; set; }
     public DbSet<GrauParentesco> GrausParentesco { get; set; }
-
+    public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /*modelBuilder.Entity<ContatoPessoa>().HasData(

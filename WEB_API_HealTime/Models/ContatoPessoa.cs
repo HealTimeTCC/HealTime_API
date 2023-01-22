@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -9,13 +10,16 @@ public class ContatoPessoa
     [Key]
     public int ContatoId { get; set; }
     
-    [NotMapped]
+    [JsonIgnore]
     public Pessoa Pessoas { get; set; }
     //public Guid PessoaId { get; set; }
     public string PessoaId { get; set; }
 
     [Column(TypeName = "VARCHAR(11)")]
-    public string TelefoneCelular { get; set; }
+    public string TelefoneCelularObri { get; set; }
+
+    [Column(TypeName = "VARCHAR(11)")]
+    public string? TelefoneCelularOpcional { get; set; }
 
     [Column(TypeName = "VARCHAR(10)")]
     public string TelefoneFixo { get; set; }

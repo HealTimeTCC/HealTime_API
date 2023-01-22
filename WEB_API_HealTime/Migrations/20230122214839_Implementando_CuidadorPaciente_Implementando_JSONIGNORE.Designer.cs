@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230122202631_Relacionamento")]
-    partial class Relacionamento
+    [Migration("20230122214839_Implementando_CuidadorPaciente_Implementando_JSONIGNORE")]
+    partial class ImplementandoCuidadorPacienteImplementandoJSONIGNORE
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,10 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("PessoaId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<string>("TelefoneCelular")
+                    b.Property<string>("TelefoneCelularObri")
+                        .HasColumnType("VARCHAR(11)");
+
+                    b.Property<string>("TelefoneCelularOpcional")
                         .HasColumnType("VARCHAR(11)");
 
                     b.Property<string>("TelefoneFixo")
@@ -53,6 +56,30 @@ namespace WEBAPIHealTime.Migrations
                     b.HasIndex("PessoaId");
 
                     b.ToTable("ContatoPessoas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.CuidadorPaciente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CuidadorId")
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<string>("PacienteIncapaz")
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<string>("PessoasPessoaId")
+                        .HasColumnType("varchar(40)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PessoasPessoaId");
+
+                    b.ToTable("CuidadorPacientes");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
@@ -135,11 +162,11 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("PacienteIdPessoaId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<int>("PacienteInId")
-                        .HasColumnType("int");
+                    b.Property<string>("PacienteInId")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResponsavelId")
-                        .HasColumnType("int");
+                    b.Property<string>("ResponsavelId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ResponsavelPacienteId");
 
@@ -154,9 +181,20 @@ namespace WEBAPIHealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
                 {
-                    b.HasOne("WEB_API_HealTime.Models.Pessoa", null)
-                        .WithMany("ContatosPessoa")
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "Pessoas")
+                        .WithMany()
                         .HasForeignKey("PessoaId");
+
+                    b.Navigation("Pessoas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.CuidadorPaciente", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "Pessoas")
+                        .WithMany()
+                        .HasForeignKey("PessoasPessoaId");
+
+                    b.Navigation("Pessoas");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ResponsavelPaciente", b =>
@@ -185,11 +223,6 @@ namespace WEBAPIHealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
                 {
                     b.Navigation("ResponsavelPacientes");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
-                {
-                    b.Navigation("ContatosPessoa");
                 });
 #pragma warning restore 612, 618
         }

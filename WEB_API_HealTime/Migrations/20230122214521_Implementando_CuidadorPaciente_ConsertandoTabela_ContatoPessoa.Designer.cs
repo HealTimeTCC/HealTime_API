@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230122203418_TipoColunaResponsavelPacienteString")]
-    partial class TipoColunaResponsavelPacienteString
+    [Migration("20230122214521_Implementando_CuidadorPaciente_ConsertandoTabela_ContatoPessoa")]
+    partial class ImplementandoCuidadorPacienteConsertandoTabelaContatoPessoa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,7 +39,10 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("PessoaId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<string>("TelefoneCelular")
+                    b.Property<string>("TelefoneCelularObri")
+                        .HasColumnType("VARCHAR(11)");
+
+                    b.Property<string>("TelefoneCelularOpcional")
                         .HasColumnType("VARCHAR(11)");
 
                     b.Property<string>("TelefoneFixo")
@@ -154,9 +157,11 @@ namespace WEBAPIHealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
                 {
-                    b.HasOne("WEB_API_HealTime.Models.Pessoa", null)
-                        .WithMany("ContatosPessoa")
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "Pessoas")
+                        .WithMany()
                         .HasForeignKey("PessoaId");
+
+                    b.Navigation("Pessoas");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ResponsavelPaciente", b =>
@@ -185,11 +190,6 @@ namespace WEBAPIHealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
                 {
                     b.Navigation("ResponsavelPacientes");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
-                {
-                    b.Navigation("ContatosPessoa");
                 });
 #pragma warning restore 612, 618
         }
