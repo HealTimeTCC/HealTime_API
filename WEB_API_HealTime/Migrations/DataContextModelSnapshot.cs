@@ -33,16 +33,21 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("EmailContato")
                         .HasColumnType("VARCHAR(70)");
 
-                    b.Property<Guid>("PessoaId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("PessoaId")
+                        .HasColumnType("varchar(40)");
 
-                    b.Property<string>("TelefoneContato")
+                    b.Property<string>("TelefoneCelular")
                         .HasColumnType("VARCHAR(11)");
+
+                    b.Property<string>("TelefoneFixo")
+                        .HasColumnType("VARCHAR(10)");
 
                     b.Property<int>("TipoCtt")
                         .HasColumnType("int");
 
                     b.HasKey("ContatoId");
+
+                    b.HasIndex("PessoaId");
 
                     b.ToTable("ContatoPessoas");
                 });
@@ -53,22 +58,18 @@ namespace WEBAPIHealTime.Migrations
                         .HasColumnType("varchar(40)");
 
                     b.Property<string>("BairroEnderecoPessoa")
-                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.Property<string>("CepEndereco")
-                        .IsRequired()
                         .HasColumnType("char(8)");
 
                     b.Property<string>("CidadeEnderecoPessoa")
-                        .IsRequired()
                         .HasColumnType("varchar(20)");
 
                     b.Property<string>("ComplementoPessoa")
                         .HasColumnType("varchar(45)");
 
                     b.Property<string>("CpfPessoa")
-                        .IsRequired()
                         .HasColumnType("char(11)");
 
                     b.Property<DateTime>("DtNascimentoPesssoa")
@@ -78,21 +79,18 @@ namespace WEBAPIHealTime.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EnderecoPessoa")
-                        .IsRequired()
                         .HasColumnType("varchar(45)");
 
                     b.Property<int>("GeneroPessoa")
                         .HasColumnType("int");
 
                     b.Property<string>("NomePessoa")
-                        .IsRequired()
                         .HasColumnType("varchar(25)");
 
                     b.Property<string>("ObsPacienteIncapaz")
                         .HasColumnType("varchar(350)");
 
                     b.Property<string>("SobrenomePessoa")
-                        .IsRequired()
                         .HasColumnType("varchar(40)");
 
                     b.Property<int>("TipoPessoa")
@@ -104,6 +102,18 @@ namespace WEBAPIHealTime.Migrations
                     b.HasKey("PessoaId");
 
                     b.ToTable("Pessoas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.Pessoa", null)
+                        .WithMany("ContatosPessoa")
+                        .HasForeignKey("PessoaId");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
+                {
+                    b.Navigation("ContatosPessoa");
                 });
 #pragma warning restore 612, 618
         }

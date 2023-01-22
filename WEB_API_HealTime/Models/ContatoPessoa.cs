@@ -14,7 +14,7 @@ public class ContatoPessoa
     //public Guid PessoaId { get; set; }
     public string PessoaId { get; set; }
 
-    [Column(TypeName = "VARCHAR(1)")]
+    [Column(TypeName = "VARCHAR(11)")]
     public string TelefoneCelular { get; set; }
 
     [Column(TypeName = "VARCHAR(10)")]
