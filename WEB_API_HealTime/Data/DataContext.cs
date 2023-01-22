@@ -10,6 +10,9 @@ public class DataContext : DbContext
     public DbSet<Pessoa> Pessoas { get; set; }
     //Colocar valor default dps
     public DbSet<ContatoPessoa> ContatoPessoas { get; set; }
+    public DbSet<ResponsavelPaciente> ResponsaveisPaciente { get; set; }
+    public DbSet<GrauParentesco> GrausParentesco { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /*modelBuilder.Entity<ContatoPessoa>().HasData(

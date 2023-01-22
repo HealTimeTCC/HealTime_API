@@ -171,18 +171,18 @@ public class PessoasController : ControllerBase
             if (pessoaResponsavel.TipoPessoa != Models.Enuns.TipoPessoa.Responsavel)
                 throw new Exception("Essa pessoa não pode ser associada a esse paciente.");
 
-            //GrauParentesco parentesco = await _context.GrauParentescos.FirstOrDefaultAsync
-            //(grau => grau.GrauParentescoId == grauParentesco);
+            GrauParentesco parentesco = await _context.GrausParentesco.FirstOrDefaultAsync
+                                            (grau => grau.GrauParentescoId == grauParentesco);
 
-            //if (parentesco is null)
-            //return NotFound("Grau de parentesco não cadastrado.");
+            if (parentesco is null)
+            return NotFound("Grau de parentesco não cadastrado.");
 
-            //responsavelPaciente.GrauParentescoId = parentesco.GrauParentescoId;
-            //responsavelPaciente.ResponsavelId = idResponsavel;
-            //responsavelPaciente.PacienteInId = idPaciente;
+            responsavelPaciente.GrauParentescoId = parentesco.GrauParentescoId;
+            responsavelPaciente.ResponsavelId = idResponsavel;
+            responsavelPaciente.PacienteInId = idPaciente;
 
-            //await _context.ResponsaveisPacientes.AddAsync(responsavelPaciente);
-            //await _context.SaveChangesAsync();
+            await _context.ResponsaveisPaciente.AddAsync(responsavelPaciente);
+            await _context.SaveChangesAsync();
 
             return Ok();
         }
@@ -230,6 +230,29 @@ public class PessoasController : ControllerBase
             return Ok(pessoaContatos);
         }
         catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    //Não sei se o grau de parentesco vai ser o usuario que cadastre, eu acho que não deveria ter, ou deveria ter uns valores padrões
+    //ele cadastrasse caso queira
+    [HttpPost("CadastrarGrauParentesco")]
+    public async Task<IActionResult> CadastrarGrauParentescoAsync(GrauParentesco grauParentesco)
+    {
+        try
+        {
+            if (grauParentesco.DescGrauParentesco is null)
+                throw new Exception("Descrição vazia, campo obrigatório.");
+
+            //Incrementar o id
+            await _context.GrausParentesco.AddAsync(grauParentesco);
+            await _context.SaveChangesAsync();
+
+            return Ok("Cadastrado com sucesso!");
+
+        }
+        catch(Exception ex)
         {
             return BadRequest(ex.Message);
         }

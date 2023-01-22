@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API_HealTime.Data;
 
@@ -11,9 +12,11 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230122202631_Relacionamento")]
+    partial class Relacionamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,11 +135,11 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("PacienteIdPessoaId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<string>("PacienteInId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PacienteInId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("ResponsavelId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ResponsavelId")
+                        .HasColumnType("int");
 
                     b.HasKey("ResponsavelPacienteId");
 
