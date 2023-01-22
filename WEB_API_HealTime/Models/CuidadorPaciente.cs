@@ -20,5 +20,12 @@ public class CuidadorPaciente
     [JsonIgnore]//Item de navegação Não aparece no edit do Json quando mencionado
     public Pessoa IdPacienteIncapaz { get; set; }
 
+    [Column(TypeName = "varchar(40)")]
+    [ForeignKey("Pessoas")]
+    public string ResponsavelId { get; set; }
+    [JsonIgnore]//Item de navegação Não aparece no edit do Json quando mencionado
+    public Pessoa IdResponsavel { get; set; }
 
+    [Column(TypeName = "smalldatetime")]
+    public DateTime CriadoEm { get; set; }
 }

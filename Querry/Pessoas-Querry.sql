@@ -3,6 +3,9 @@ SELECT * FROM Pessoas
 SELECT P.NomePessoa, P.DtUltimoAcesso, C.TelefoneCelularObri FROM Pessoas P
 INNER JOIN ContatoPessoas C ON C.PessoaId = P.PessoaId
 
+SELECT p.NomePessoa, c.CriadoEm FROM Pessoas p
+INNER JOIN CuidadorPacientes c ON C.CuidadorId = p.PessoaId
+
 UPDATE P SET P.ObsPacienteIncapaz = 'Alérgico a leite' FROM Pessoas P
 
 DELETE P FROM Pessoas P
