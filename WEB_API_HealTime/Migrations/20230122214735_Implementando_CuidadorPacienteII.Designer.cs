@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API_HealTime.Data;
 
@@ -11,9 +12,11 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230122214735_Implementando_CuidadorPacienteII")]
+    partial class ImplementandoCuidadorPacienteII
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,20 +69,10 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("CuidadorId")
                         .HasColumnType("varchar(40)");
 
-                    b.Property<string>("IdCuidadorPessoaId")
-                        .HasColumnType("varchar(40)");
-
-                    b.Property<string>("IdPacienteIncapazPessoaId")
-                        .HasColumnType("varchar(40)");
-
-                    b.Property<string>("PacienteIncapazId")
+                    b.Property<string>("PacienteIncapaz")
                         .HasColumnType("varchar(40)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("IdCuidadorPessoaId");
-
-                    b.HasIndex("IdPacienteIncapazPessoaId");
 
                     b.ToTable("CuidadorPacientes");
                 });
@@ -188,21 +181,6 @@ namespace WEBAPIHealTime.Migrations
                         .HasForeignKey("PessoaId");
 
                     b.Navigation("Pessoas");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.CuidadorPaciente", b =>
-                {
-                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "IdCuidador")
-                        .WithMany()
-                        .HasForeignKey("IdCuidadorPessoaId");
-
-                    b.HasOne("WEB_API_HealTime.Models.Pessoa", "IdPacienteIncapaz")
-                        .WithMany()
-                        .HasForeignKey("IdPacienteIncapazPessoaId");
-
-                    b.Navigation("IdCuidador");
-
-                    b.Navigation("IdPacienteIncapaz");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ResponsavelPaciente", b =>

@@ -1,6 +1,7 @@
 SELECT P.ObsPacienteIncapaz FROM Pessoas P
 SELECT * FROM Pessoas
-
+SELECT P.NomePessoa, P.DtUltimoAcesso, C.TelefoneCelularObri FROM Pessoas P
+INNER JOIN ContatoPessoas C ON C.PessoaId = P.PessoaId
 
 UPDATE P SET P.ObsPacienteIncapaz = 'Alérgico a leite' FROM Pessoas P
 

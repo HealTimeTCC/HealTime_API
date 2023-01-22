@@ -114,6 +114,40 @@ public class VerificarInfoPessoa
         }
         return false;
     }
+
+    public bool VerificarTelefoneFixo(string telefone)
+    {
+        if (telefone.Length == 10)
+        {
+            string dddIniTelFixo = telefone.Substring(0, 2);
+            bool inicioTelFixo = VerificaDDD(dddIniTelFixo);
+            if (!inicioTelFixo)
+                return false;
+            dddIniTelFixo = telefone.Substring(2, 1);
+            bool nove = VerificaIniFixo(dddIniTelFixo);
+            if (!inicioTelFixo)
+                return false;
+            return true;
+        }
+        else if (telefone.Length == 8)
+        {
+            string dddNove = telefone.Substring(0, 1);
+            bool nove = VerificaIniFixo(dddNove);
+            if (!nove)
+                return false;
+            return true;
+        }
+        return false;
+    }
+
+    private bool VerificaIniFixo(string iniTelFixo)
+    {
+        if (int.Parse(iniTelFixo) >= 2 && int.Parse(iniTelFixo) <= 5)
+            return true;
+        else
+            return false;
+    }
+
     public bool VerificaIniCelular(string dddNove)
     {
         if (int.Parse(dddNove) != 9)

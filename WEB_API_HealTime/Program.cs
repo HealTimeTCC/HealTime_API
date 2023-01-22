@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStrings"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DanSqlExpress"));
 });
 var app = builder.Build();
 

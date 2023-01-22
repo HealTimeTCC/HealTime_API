@@ -8,12 +8,14 @@ public class ResponsavelPaciente
     public int ResponsavelPacienteId { get; set; }
 
     //Tem que testar esse relacionamento para ver se vai dar certo, tenho minhas dúvidas ksks
-    public int PacienteInId { get; set; }
-    public Pessoa Id { get; set; }
+    [ForeignKey("Pessoas")]
+    public string PacienteInId { get; set; }
+    public Pessoa PacienteId { get; set; }
 
     //Esse vai funcionar normal, só precisa saber do de cima
-    public int ResponsavelId { get; set; }
-    public Pessoa PessoaId { get; set; }
+    [ForeignKey("Pessoas")]
+    public string ResponsavelId { get; set; }
+    public Pessoa IdResponsavel { get; set; }
 
     public int GrauParentescoId { get; set; }
     public GrauParentesco GrauParentesco { get; set; }

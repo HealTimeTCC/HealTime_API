@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Data.Entity;
-using System.Linq.Expressions;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Utility;
@@ -41,7 +37,7 @@ public class PessoasController : ControllerBase
             {
                 idGuid = Guid.NewGuid();
 
-                Pessoa pessoaGuid = await _context.Pessoas.FirstOrDefaultAsync(pId => pId.ToString() == idGuid.ToString());
+                Pessoa pessoaGuid = await _context.Pessoas.FirstOrDefaultAsync(pId => pId.PessoaId == idGuid.ToString());
 
                 if (pessoaGuid != null)
                     continue;
@@ -68,13 +64,29 @@ public class PessoasController : ControllerBase
         VerificarInfoPessoa verificarInfoPessoa = new();
         try
         {
-            List<ContatoPessoa> maxCtt = await _context
-                .ContatoPessoas
-                .Where(x => x.PessoaId == x.PessoaId)
-                .ToListAsync();
-            if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelular))
-                new Exception("Telefone Celular invalido");
-            
+            if (ctt.TelefoneCelularObri != null)
+            {
+                if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularObri))
+                    throw new Exception("Telefone Celular invalido");
+                if (ctt.TelefoneCelularOpcional != null)
+                {
+                    if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularOpcional))
+                        throw new Exception("Telefone Celular invalido");
+                }
+            }
+            else
+                throw new Exception("O telefone é obrigatório!");
+
+            if (ctt.TelefoneFixo != null)
+            {
+                if (!verificarInfoPessoa.VerificarTelefoneFixo(ctt.TelefoneFixo))
+                    throw new Exception("Telefone Fixo Invalido");
+            }
+
+            await _context.ContatoPessoas.AddAsync(ctt);
+            await _context.SaveChangesAsync();
+
+            return Ok("Cadastrado com sucesso");
 
         }
         catch (Exception ex)
@@ -133,6 +145,118 @@ public class PessoasController : ControllerBase
             return Ok(enderecoPessoa);
         }
         catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    //Verificar o relacionamento no model *THIAGO ANOTAÇÕES :)*
+    [HttpPost("IncluirGrauParentesco/{idPaciente}")]
+    public async Task<IActionResult> IncluirParentescoAsync(string idResponsavel, int grauParentesco, string idPaciente)
+    {
+        ResponsavelPaciente responsavelPaciente = new ResponsavelPaciente();
+
+        try
+        {
+            Pessoa pessoaPaciente = await _context.Pessoas.FirstOrDefaultAsync(pac => pac.PessoaId == idPaciente);
+
+            if (pessoaPaciente is null)
+                return NotFound("Paciente não encontrado.");
+
+            if (pessoaPaciente.TipoPessoa == Models.Enuns.TipoPessoa.Responsavel
+                        || pessoaPaciente.TipoPessoa == Models.Enuns.TipoPessoa.Cuidador)
+                throw new Exception("Paciente inválido.");
+
+
+            Pessoa pessoaResponsavel = await _context.Pessoas.FirstOrDefaultAsync(res => res.PessoaId == idResponsavel);
+
+            if (pessoaResponsavel is null)
+                return NotFound("Pessoa não encontrada");
+            if (pessoaResponsavel.TipoPessoa != Models.Enuns.TipoPessoa.Responsavel)
+                throw new Exception("Essa pessoa não pode ser associada a esse paciente.");
+
+            GrauParentesco parentesco = await _context.GrausParentesco.FirstOrDefaultAsync
+                                            (grau => grau.GrauParentescoId == grauParentesco);
+
+            if (parentesco is null)
+            return NotFound("Grau de parentesco não cadastrado.");
+
+            responsavelPaciente.GrauParentescoId = parentesco.GrauParentescoId;
+            responsavelPaciente.ResponsavelId = idResponsavel;
+            responsavelPaciente.PacienteInId = idPaciente;
+
+            await _context.ResponsaveisPaciente.AddAsync(responsavelPaciente);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
+    }
+
+    [HttpDelete("DeleteContato/{idContato:int}")]//Verificar questão de excluir so um contato e não a tabela inteira => Ao querer excluir o o secundario passa a ser o principal
+    public async Task<IActionResult> DeleteContatoAsync(int idContato)
+    {
+        try
+        {
+            ContatoPessoa contatoPessoa = await _context.ContatoPessoas.
+                                        FirstOrDefaultAsync(contato => contato.ContatoId == idContato);
+
+            if (contatoPessoa is null)
+                return NotFound("Não foi possível excluir o contato.");
+
+            _context.ContatoPessoas.Remove(contatoPessoa);
+            await _context.SaveChangesAsync();
+
+            return Ok("Contato removido com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("GetInfoContato/{idPessoa}")]
+    public async Task<IActionResult> GetInfoContatosAsync(string idPessoa)
+    {
+        try
+        {
+            Pessoa pessoaContatos = await _context.Pessoas
+                                    .Include(contato => contato.ContatosPessoa)
+                                    .FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPessoa);
+
+            if (pessoaContatos is null)
+                return NotFound("Pessoa não encontrada.");
+
+            return Ok(pessoaContatos);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    //Não sei se o grau de parentesco vai ser o usuario que cadastre, eu acho que não deveria ter, ou deveria ter uns valores padrões
+    //ele cadastrasse caso queira
+    [HttpPost("CadastrarGrauParentesco")]
+    public async Task<IActionResult> CadastrarGrauParentescoAsync(GrauParentesco grauParentesco)
+    {
+        try
+        {
+            if (grauParentesco.DescGrauParentesco is null)
+                throw new Exception("Descrição vazia, campo obrigatório.");
+
+            //Incrementar o id
+            await _context.GrausParentesco.AddAsync(grauParentesco);
+            await _context.SaveChangesAsync();
+
+            return Ok("Cadastrado com sucesso!");
+
+        }
+        catch(Exception ex)
         {
             return BadRequest(ex.Message);
         }
