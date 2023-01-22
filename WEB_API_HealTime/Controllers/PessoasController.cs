@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
@@ -177,6 +178,10 @@ public class PessoasController : ControllerBase
             if (parentesco is null)
             return NotFound("Grau de parentesco não cadastrado.");
 
+            //Temporario apenas para realizar testes com essa função
+            int qtdeResponsavelPaciente = _context.ResponsaveisPaciente.Count();
+            responsavelPaciente.ResponsavelPacienteId = qtdeResponsavelPaciente;
+
             responsavelPaciente.GrauParentescoId = parentesco.GrauParentescoId;
             responsavelPaciente.ResponsavelId = idResponsavel;
             responsavelPaciente.PacienteInId = idPaciente;
@@ -253,6 +258,42 @@ public class PessoasController : ControllerBase
 
         }
         catch(Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("VerificarResponsavelPaciente/{idResponsavel}")]
+    public async Task<IActionResult> VerificarResponsavelPacienteAsync(string idResponsavel)
+    {
+        try
+        {
+            List<ResponsavelPaciente> responsavelPacientes;
+            Pessoa pessoaPaciente;
+            List<Pessoa> pessoasPacientes = new List<Pessoa>();
+            Pessoa responsavel;
+
+            responsavel = await _context.Pessoas.FirstOrDefaultAsync(re => re.PessoaId == idResponsavel);
+
+            if (responsavel.TipoPessoa != Models.Enuns.TipoPessoa.Responsavel)
+                throw new Exception($"{responsavel.NomePessoa} não está cadastrado como responsavel.");
+
+            responsavelPacientes = _context.ResponsaveisPaciente
+                    .Where(re => re.ResponsavelId == idResponsavel)
+                    .Include(pa => pa.PacienteId).ToList();
+
+            if (responsavelPacientes is null)
+                return NotFound("No momento não tem nenhum paciente associado a esse responsavel");
+
+            foreach (var item in responsavelPacientes)
+            {
+                pessoaPaciente = await _context.Pessoas.FirstAsync(pe => pe.PessoaId == item.PacienteInId);
+                pessoasPacientes.Add(pessoaPaciente);
+            }
+
+            return Ok(pessoasPacientes);
+        }
+        catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }

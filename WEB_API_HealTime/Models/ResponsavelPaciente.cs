@@ -12,7 +12,6 @@ public class ResponsavelPaciente
     public string PacienteInId { get; set; }
     public Pessoa PacienteId { get; set; }
 
-    //Esse vai funcionar normal, só precisa saber do de cima
     [ForeignKey("Pessoas")]
     public string ResponsavelId { get; set; }
     public Pessoa IdResponsavel { get; set; }
