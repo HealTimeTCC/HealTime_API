@@ -20,6 +20,9 @@ public class AssociarPessoasController : ControllerBase
         {   
             VerificarInfoPessoa verificar = new VerificarInfoPessoa();      
 
+            //metodo de adaptação para o codigo funcionar -> os fraco dirão que é gambiarra :0
+            if((registrar.CPFCuidador == registrar.CPFPacienteIn) || (registrar.CPFCuidador == registrar.CPFPacienteIn))
+
             if (!verificar.VerificadorCpfPessoa(registrar.CPFCuidador))
                 throw new Exception($"CPF do cuidador {registrar.CPFCuidador} é invalido!");
             Pessoa cuidador = _context.Pessoas.FirstOrDefault(x => x.CpfPessoa == registrar.CPFCuidador);
