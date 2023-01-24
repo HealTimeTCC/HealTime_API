@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Newtonsoft.Json;
+using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
 namespace WEB_API_HealTime.Utility;
@@ -168,5 +169,8 @@ public class VerificarInfoPessoa
             default: return true;
         }
     }
+
+    // Referente => Controller: AssociaPessoas
+    //public bool AntiDuplicidade(Registro registro)
 }
 
