@@ -158,16 +158,12 @@ public class VerificarInfoPessoa
     }
     public bool VerificaDDD(string dddVerifica)
     {
-        switch (int.Parse(dddVerifica))
+        int[] ddd = new int[23] { 23, 25, 26, 29,20, 30, 36, 39, 40, 50, 52, 55, 56, 57, 58, 59, 60, 70, 72, 76, 78, 80, 90};//atende False se encontrar um desses pois são ddd que nao sao utilizados
+        foreach (var item in ddd)
         {
-            case 23: return false;case 25: return false;case 26: return false;case 29: return false;
-            case 20: return false;case 30: return false;case 36: return false;case 39: return false;
-            case 40: return false;case 50: return false;case 52: return false;case 55: return false;
-            case 56: return false;case 57: return false;case 58: return false;case 59: return false;
-            case 60: return false;case 70: return false;case 72: return false;case 76: return false;
-            case 78: return false;case 80: return false;case 90: return false;
-            default: return true;
+            if(item == int.Parse(dddVerifica)) return false;
         }
+        return true;
     }
 
     // Referente => Controller: AssociaPessoas
