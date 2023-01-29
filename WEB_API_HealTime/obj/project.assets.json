@@ -4363,23 +4363,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\DanMarzoGil\\.nuget\\packages\\": {},
-    "D:\\Arquivos de Programas\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ETEC\\etec3\\D-TCC\\WEB_API_HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+      "projectUniqueName": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
       "projectName": "WEB_API_HealTime",
-      "projectPath": "D:\\ETEC\\etec3\\D-TCC\\WEB_API_HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
-      "packagesPath": "C:\\Users\\DanMarzoGil\\.nuget\\packages\\",
-      "outputPath": "D:\\ETEC\\etec3\\D-TCC\\WEB_API_HealTime\\WEB_API_HealTime\\obj\\",
+      "projectPath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+      "packagesPath": "C:\\Users\\Thiago da S. Roque\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Thiago da S. Roque\\Desktop\\Sparow\\API\\WEB-API-HealTime\\WEB_API_HealTime\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\Arquivos de Programas\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\DanMarzoGil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Thiago da S. Roque\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4388,7 +4388,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4463,7 +4462,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

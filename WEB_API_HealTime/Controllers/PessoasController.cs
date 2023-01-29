@@ -202,7 +202,7 @@ public class PessoasController : ControllerBase
 
     }
 
-    [HttpDelete("DeleteContato/{idContato:int}")]//Verificar questão de excluir so um contato e não a tabela inteira => Ao querer excluir o o secundario passa a ser o principal
+    [HttpDelete("DeleteContato/{idContato:int}")]
     public async Task<IActionResult> DeleteContatoAsync(int idContato)
     {
         try
