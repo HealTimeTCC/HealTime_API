@@ -13,7 +13,7 @@ public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
     public PessoasController(DataContext context){ _context = context; }
-
+    /*
     [HttpPost("Cadastro")]
     public async Task<IActionResult> CadastroAsync(Pessoa pessoa)
     {
@@ -301,5 +301,5 @@ public class PessoasController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    }
+    }*/
 }

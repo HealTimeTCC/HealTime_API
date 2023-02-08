@@ -12,7 +12,7 @@ public class AssociarPessoasController : ControllerBase
 
     private readonly DataContext _context;
     public AssociarPessoasController(DataContext context){_context = context;}
-
+    /*
     [HttpPost]
     public async Task<IActionResult> AssociaPacienteCuidador(Registrar registrar)
     {
@@ -60,6 +60,7 @@ public class AssociarPessoasController : ControllerBase
     {
         return Ok();
     }
+    */
 }
 
 public class Registrar

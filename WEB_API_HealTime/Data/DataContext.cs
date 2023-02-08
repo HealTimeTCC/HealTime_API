@@ -1,30 +1,199 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.Enuns;
 
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
     public DbSet<Pessoa> Pessoas { get; set; }
-    //Colocar valor default dps
     public DbSet<ContatoPessoa> ContatoPessoas { get; set; }
-    public DbSet<ResponsavelPaciente> ResponsaveisPaciente { get; set; }
+    public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
     public DbSet<GrauParentesco> GrausParentesco { get; set; }
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
+   
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        /*modelBuilder.Entity<ContatoPessoa>().HasData(
-            new ContatoPessoa()
-            {
-                ContatoId = 1,
-                EmailContato = "marzogildan@gmail.com",
-                PessoaId = "4c6f9a05-f3ee-447f-be11-21e00ad0177e"
+        /* - -------- PESSOAS -------- -*/
+        modelBuilder.Entity<Pessoa>()
+            .HasKey(key => key.PessoaId)
+            .HasName("PK_Pessoas");
+        //modelBuilder.Entity<Pessoa>()
+          //  .Property(key => key.PessoaId)
+            //.HasColumnType("VARCHAR(50)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(tp => tp.TipoPessoa)
+            .HasDefaultValue(TipoPessoa.Paciente_Capaz);
+        modelBuilder.Entity<Pessoa>()
+            .Property(nome => nome.NomePessoa)
+            .HasColumnType("VARCHAR(30)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(sNome => sNome.SobrenomePessoa)
+            .HasColumnType("VARCHAR(50)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(cpf => cpf.CpfPessoa)
+            .HasColumnType("CHAR(11)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(dt => dt.DtUltimoAcesso)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<Pessoa>()
+            .Property(dtn => dtn.DtNascimentoPessoa)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(gen => gen.GeneroPessoa)
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(obs => obs.ObsPacienteIncapaz)
+            .HasColumnType("VARCHAR(350)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(end => end.EnderecoPessoa)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(br => br.BairroEnderecoPessoa)
+            .HasColumnType("VARCHAR(40)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(cd => cd.CidadeEnderecoPessoa)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(cpl => cpl.ComplementoPessoa)
+            .HasColumnType("VARCHAR(40)");
+        modelBuilder.Entity<Pessoa>()
+            .Property(cep => cep.CepEndereco)
+            .HasColumnType("CHAR(8)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(uf => uf.UfEndereco)
+            .IsRequired();
 
-            });*/
+        /* - -------- Relação: PESSOAS-CONTATOPESSOAS -> 1-1 -------- -*/
+
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasOne<Pessoa>(one => one.Pessoa)
+            .WithMany(many => many.ContatosPessoas)
+                .HasForeignKey(fk => fk.PessoaId)
+                .HasConstraintName("FK_Pessoas_ContatosPessoas");
+
+        /* - -------- CONTATOPESSOAS -------- -*/
+
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasKey(key => key.ContatoId)
+            .HasName("PK_ContatoPessoas");
+
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(tel => tel.TelefoneCelularObri)
+            .HasColumnType("VARCHAR(11)")
+            .IsRequired();
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(tel => tel.TelefoneCelularOpcional)
+            .HasColumnType("VARCHAR(11)");
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(tel => tel.TelefoneFixo)
+            .HasColumnType("VARCHAR(10)");
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(tel => tel.EmailContato)
+            .HasColumnType("VARCHAR(70)");
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(tipo => tipo.TipoCtt)
+            .IsRequired();
+
+        /* - -------- Relação: PESSOAS-RESPONSAVEISPACIENTE -> 1-1 -------- -*/
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasKey(pk => pk.ResponsavelPacienteId)
+                .HasName("PK_ResponsavelPacienteId");
+
+        /* - -------- Relação: PESSOAS-RESPONSAVEISPACIENTE(PacienteInId - Pessoas) -> 1-1 -------- -*/
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasOne<Pessoa>(one => one.PacienteId)
+            .WithMany(many => many.PacienteIdInRe)
+                .HasForeignKey(fk => fk.PacienteInId)
+                .HasConstraintName("FK_PESSOAS_RESPONSAVELPACIENTE_PACIENTEINID");
+
+                
+        /* - -------- Relação: PESSOAS-RESPONSAVEISPACIENTE(ResponsavelId - Pessoas) -> 1-1 -------- -*/
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasOne<Pessoa>(one => one.IdResponsavel)
+            .WithMany(many => many.ResponsavelIdRe)
+                .HasForeignKey(fk => fk.ResponsavelId)
+                .HasConstraintName("FK_PESSOAS_RESPONSAVELPACIENTE_RESPONSAVELID");
+
+        /* - -------- RESPONSAVEISPACIENTE -------- -*/
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasKey(pk => pk.ResponsavelPacienteId)
+                .HasName("PK_ResponsavelPacienteId");
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .Property(pk => pk.ResponsavelPacienteId)
+            .HasColumnType("VARCHAR(40)");
+        modelBuilder.Entity<Models.ResponsavelPaciente>()
+            .Property(dt => dt.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired();
+
+        /* - -------- Relação: RESPONSAVEISPACIENTE-GRAUPARENTESCO -> 1-1 -------- -*/
+
+        modelBuilder.Entity<GrauParentesco>()
+            .HasOne<ResponsavelPaciente>(rp => rp.ResponsavelPacientes)
+            .WithOne(gp => gp.GrauParentesco)
+                .HasForeignKey<ResponsavelPaciente>(fk => fk.GrauParentescoId)
+                .HasConstraintName("FK_ResponsavelPaciente_GRAUPARENTESCO");
+
+
+        /* - -------- GRAUPARENTESCO -------- -*/
+
+        modelBuilder.Entity<GrauParentesco>()
+            .HasKey(pk => pk.GrauParentescoId)
+            .HasName("PK_GrauParentescoId");
+
+        modelBuilder.Entity<GrauParentesco>()
+            .Property(desc => desc.DescGrauParentesco)
+            .HasColumnType("VARCHAR(30)");
+
+        /* - -------- Relação: PESSOAS-CUIDADORPACIENTE(PacienteIncapazId - PacienteInIdCpRE) -> 1-1 -------- -*/
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasOne<Pessoa>(one => one.PacienteIncapazRelacaoNoPessoas)
+            .WithMany(many => many.PacienteInIdCpRE)
+                .HasForeignKey(fk => fk.PacienteIncapazId)
+                .HasConstraintName("FK_PESSOAS_CUIDADORPACIENTE_PacienteIncapazId");
+
+
+        /* - -------- Relação: PESSOAS-CUIDADORPACIENTE(ResponsavelReCP - ResponsavelIdCpRE) -> 1-1 -------- -*/
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasOne<Pessoa>(one => one.ResponsavelRelacaoNoPessoas)
+            .WithMany(many => many.ResponsavelIdCpRE)
+                .HasForeignKey(fk => fk.ResponsavelId)
+                .HasConstraintName("FK_PESSOAS_CUIDADORPACIENTE_RESPONSAVELID");
+
+        /* - -------- Relação: PESSOAS-CUIDADORPACIENTE(ResponsavelReCP - ResponsavelIdCpRE) -> 1-1 -------- -*/
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasOne<Pessoa>(one => one.CuidadorRelacaoNoPessoas)
+            .WithMany(many => many.CuidadorIdCpRE)
+                .HasForeignKey(fk => fk.CuidadorId)
+                .HasConstraintName("FK_PESSOAS_CUIDADORPACIENTE_CuidadorId");
+
+        /* - -------- CUIDADORPACIENTE -------- -*/
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasKey(pk => pk.CuidadorPacienteId)
+                .HasName("PK_CuidadorPacienteId");
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .Property(dt => dt.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()");
+
     }
-
-
-
 }
