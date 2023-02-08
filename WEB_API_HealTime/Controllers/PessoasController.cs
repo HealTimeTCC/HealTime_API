@@ -1,8 +1,10 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.Enuns;
 using WEB_API_HealTime.Utility;
 
 namespace WEB_API_HealTime.Controllers;
@@ -15,11 +17,12 @@ public class PessoasController : ControllerBase
     public PessoasController(DataContext context){ _context = context; }
 
     [HttpPost("Cadastro")]
-    public async Task<IActionResult> CadastroAsync(Pessoa pessoa)
+    public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
     {
 		try
 		{
             VerificarInfoPessoa verificarInfoPessoa = new VerificarInfoPessoa();
+
 
             Pessoa buscaP = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == pessoa.CpfPessoa);
             if (buscaP != null)
@@ -60,7 +63,7 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("InfoContato")]
-    public async Task<IActionResult> InfoContatoAsync(ContatoPessoa ctt)
+    public async Task<IActionResult> InfoContatoAsync([FromBody] ContatoPessoa ctt)
     {
         VerificarInfoPessoa verificarInfoPessoa = new();
         try
@@ -203,7 +206,7 @@ public class PessoasController : ControllerBase
     }
 
     [HttpDelete("DeleteContato/{idContato:int}")]
-    public async Task<IActionResult> DeleteContatoAsync(int idContato)
+    public async Task<IActionResult> DeleteContatoAsync([FromRoute] int idContato)
     {
         try
         {
@@ -231,6 +234,7 @@ public class PessoasController : ControllerBase
         {
             Pessoa pessoaContatos = await _context.Pessoas
                                     .Include(contato => contato.ContatosPessoa)
+                                    .AsNoTracking()
                                     .FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPessoa);
 
             if (pessoaContatos is null)
@@ -247,7 +251,7 @@ public class PessoasController : ControllerBase
     //Não sei se o grau de parentesco vai ser o usuario que cadastre, eu acho que não deveria ter, ou deveria ter uns valores padrões
     //ele cadastrasse caso queira
     [HttpPost("CadastrarGrauParentesco")]
-    public async Task<IActionResult> CadastrarGrauParentescoAsync(GrauParentesco grauParentesco)
+    public async Task<IActionResult> CadastrarGrauParentescoAsync([FromBody] GrauParentesco grauParentesco)
     {
         try
         {
@@ -268,7 +272,7 @@ public class PessoasController : ControllerBase
     }
 
     [HttpGet("VerificarResponsavelPaciente/{idResponsavel}")]
-    public async Task<IActionResult> VerificarResponsavelPacienteAsync(string idResponsavel)
+    public async Task<IActionResult> VerificarResponsavelPacienteAsync([FromQuery] string idResponsavel)
     {
         try
         {
@@ -298,6 +302,20 @@ public class PessoasController : ControllerBase
             return Ok(pessoasPacientes);
         }
         catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("ObsPaciente")]
+    public async Task<IActionResult> IncluirObservacoesPacienteAsync([FromQuery] string idPaciente, [FromQuery] int tipo)
+    {
+        try
+        {
+            Pessoa pessoa = await _context.Pessoas.FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPaciente && (Int32)TipoPessoa.Paciente_Incapaz == tipo);
+
+            return Ok();
+        }catch (Exception ex)
         {
             return BadRequest(ex.Message);
         }
