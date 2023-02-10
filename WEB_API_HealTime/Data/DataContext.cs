@@ -14,7 +14,7 @@ public class DataContext : DbContext
     public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
     public DbSet<GrauParentesco> GrausParentesco { get; set; }
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
-   
+    public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
@@ -50,27 +50,6 @@ public class DataContext : DbContext
         modelBuilder.Entity<Pessoa>()
             .Property(obs => obs.ObsPacienteIncapaz)
             .HasColumnType("VARCHAR(350)");
-        modelBuilder.Entity<Pessoa>()
-            .Property(end => end.EnderecoPessoa)
-            .HasColumnType("VARCHAR(40)")
-            .IsRequired();
-        modelBuilder.Entity<Pessoa>()
-            .Property(br => br.BairroEnderecoPessoa)
-            .HasColumnType("VARCHAR(40)");
-        modelBuilder.Entity<Pessoa>()
-            .Property(cd => cd.CidadeEnderecoPessoa)
-            .HasColumnType("VARCHAR(40)")
-            .IsRequired();
-        modelBuilder.Entity<Pessoa>()
-            .Property(cpl => cpl.ComplementoPessoa)
-            .HasColumnType("VARCHAR(40)");
-        modelBuilder.Entity<Pessoa>()
-            .Property(cep => cep.CepEndereco)
-            .HasColumnType("CHAR(8)")
-            .IsRequired();
-        modelBuilder.Entity<Pessoa>()
-            .Property(uf => uf.UfEndereco)
-            .IsRequired();
 
         /* - -------- Relação: PESSOAS-CONTATOPESSOAS -> 1-1 -------- -*/
 
@@ -195,5 +174,94 @@ public class DataContext : DbContext
             .HasColumnType("SMALLDATETIME")
             .HasDefaultValueSql("GETDATE()");
 
+        /* - -------- Relação: PESSOAS-PRESCRICAPACIENTE(PrescricaoPacientesDesc - PacienteRePresc) -> 1-N -------- -*/
+
+        modelBuilder.Entity<PrescricaoPaciente>()
+            .HasOne<Pessoa>(one => one.PacienteRePresc)
+            .WithMany(many => many.PrescricaoPacientesDesc)
+                .HasForeignKey(fk => fk.PacienteId)
+                .HasConstraintName("FK_PESSOAS_PRESCRICAOPACIENTE_PacienteId");
+        
+        /* - -------- PRESCRICAOPACIENTE -------- -*/
+
+        modelBuilder.Entity<PrescricaoPaciente>()
+        .HasKey(pk => pk.PrescricaoPacienteId)
+            .HasName("PK_PrescricaoPacienteId");
+        
+        modelBuilder.Entity<PrescricaoPaciente>()
+        .Property(dt => dt.Emissao)
+        .HasColumnType("SMALLDATETIME")
+        .IsRequired();
+        
+        modelBuilder.Entity<PrescricaoPaciente>()
+        .Property(desc => desc.DescFichaPessoa)
+        .HasColumnType("VARCHAR(300)");
+
+        /* - -------- Relação: PESSOAS-ENDERECOPESSOAS(Pessoas) -> 1-1 -------- -*/
+
+            modelBuilder.Entity<EnderecoPessoa>()
+            .HasOne<Pessoa>(one => one.Pessoa)
+            .WithOne(one => one.EnderecoPessoa)
+                .HasForeignKey<EnderecoPessoa>(fk => fk.PessoaId)
+                .HasConstraintName("FK_EnderecoPessoas_Pessoas");
+
+        /*- -------- ENDERECOPESSOAS -------- -*/
+
+        modelBuilder.Entity<EnderecoPessoa>()
+            .HasKey(id => id.PessoaId)
+            .HasName("PK_EnderecoPessoa");
+
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(end => end.Endereco)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(br => br.BairroEndereco)
+            .HasColumnType("VARCHAR(40)");
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(cd => cd.CidadeEndereco)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(cpl => cpl.Complemento)
+            .HasColumnType("VARCHAR(40)");
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(cep => cep.CepEndereco)
+            .HasColumnType("CHAR(8)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(uf => uf.UfEndereco)
+            .IsRequired();
+
+        /* - -------- Relação: PRESCRICAOMEDICAMENTOS-PRESCRICAOPACIENTES() -> N-1 -------- -*/
+        
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasOne<PrescricaoPaciente>(one => one.PrescricaoPaciente)
+            .WithMany(pm => pm.PrescricaoMedicamentos)
+            .HasForeignKey(fk => fk.PrescricaoPacienteId)
+                .HasConstraintName("FK_PrescricaoPacienteId");
+
+        /*- -------- PRESCRICAOMEDICAMENTOS -------- -*/
+
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasKey(pk => pk.PrescricaoMedicamentoId)
+            .HasName("PK_PrescricaoMedicamentoId");
+        
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .Property(p => p.HrDtMedicacao)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .Property(p => p.DtTerminoTratamento)
+            .HasColumnType("SMALLDATETIME");
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .Property(p => p.QtdDiariaMedia)
+            .IsRequired();
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .Property(p => p.CheckSituacao)
+            .HasDefaultValue(true);
+
+
+        
     }
 }
