@@ -15,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<GrauParentesco> GrausParentesco { get; set; }
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
+    public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
