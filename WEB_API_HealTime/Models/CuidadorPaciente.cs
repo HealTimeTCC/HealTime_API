@@ -5,27 +5,17 @@ namespace WEB_API_HealTime.Models;
 
 public class CuidadorPaciente
 {
-    public int Id { get; set; }//auto increment por se tratar de meio que um historico
+    public int CuidadorPacienteId { get; set; }//auto increment por se tratar de meio que um historico
     
-    [Column(TypeName = "varchar(40)")]
-    [ForeignKey("Pessoas")]
-    public string CuidadorId { get; set; }
-
+    public int? CuidadorId { get; set; }
     [JsonIgnore]//Item de navegação Não aparece no edit do Json quando mencionado
-    public Pessoa IdCuidador { get; set; }
-
-    [Column(TypeName = "varchar(40)")]
-    [ForeignKey("Pessoas")]
-    public string PacienteIncapazId { get; set; }
+    public Pessoa CuidadorRelacaoNoPessoas { get; set; }
+    public int? PacienteIncapazId { get; set; }
     [JsonIgnore]//Item de navegação Não aparece no edit do Json quando mencionado
-    public Pessoa IdPacienteIncapaz { get; set; }
-
-    [Column(TypeName = "varchar(40)")]
-    [ForeignKey("Pessoas")]
-    public string ResponsavelId { get; set; }
+    public Pessoa PacienteIncapazRelacaoNoPessoas { get; set; }
+    public int? ResponsavelId { get; set; }
     [JsonIgnore]//Item de navegação Não aparece no edit do Json quando mencionado
-    public Pessoa IdResponsavel { get; set; }
+    public Pessoa ResponsavelRelacaoNoPessoas { get; set; }
 
-    [Column(TypeName = "smalldatetime")]
-    public DateTime CriadoEm { get; set; }
+    public DateTime? CriadoEm { get; set; }
 }
