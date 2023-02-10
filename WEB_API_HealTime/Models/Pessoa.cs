@@ -8,8 +8,7 @@ namespace WEB_API_HealTime.Models;
 public class Pessoa
 {
     public int PessoaId { get; set; }
-
-    public TipoPessoa TipoPessoa { get; set; }
+    public TipoPessoa? TipoPessoa { get; set; }
 
     [Display(Name ="Nome")]
     public string NomePessoa { get; set; }
@@ -28,19 +27,6 @@ public class Pessoa
     public Generos? GeneroPessoa { get; set; }
 
     public string ObsPacienteIncapaz { get; set; }
-
-    public string EnderecoPessoa { get; set; }
-
-    public string BairroEnderecoPessoa { get; set; }
-
-    public string CidadeEnderecoPessoa { get; set; }
-
-    public string ComplementoPessoa { get; set; }
-
-    public string CepEndereco { get; set; }
-
-    public UFs? UfEndereco { get; set; }
-
     [JsonIgnore]
     public List<ContatoPessoa> ContatosPessoas { get; set; }
     [JsonIgnore]
@@ -53,4 +39,8 @@ public class Pessoa
     public List<CuidadorPaciente> ResponsavelIdCpRE { get; set; }
     [JsonIgnore]
     public List<CuidadorPaciente> PacienteInIdCpRE { get; set; }
+    [JsonIgnore]
+    public List<PrescricaoPaciente> PrescricaoPacientesDesc { get; set; }
+    [JsonIgnore]
+    public EnderecoPessoa EnderecoPessoa { get; set; }
 }
