@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[6.4.4, )"
             },
+            "Microsoft.AspNet.WebApi.OData": {
+              "target": "Package",
+              "version": "[5.7.0, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.1, )"

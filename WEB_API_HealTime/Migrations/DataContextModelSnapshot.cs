@@ -63,6 +63,15 @@ namespace WEBAPIHealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CPFCuidador")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CPFPacienteIncapaz")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CPFResponsavel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CriadoEm")
                         .HasColumnType("smalldatetime");
 
@@ -77,6 +86,15 @@ namespace WEBAPIHealTime.Migrations
 
                     b.Property<string>("IdResponsavelPessoaId")
                         .HasColumnType("varchar(40)");
+
+                    b.Property<string>("NomeCuidador")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomePacienteIncapaz")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomeResponsavel")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PacienteIncapazId")
                         .HasColumnType("varchar(40)");
@@ -130,10 +148,10 @@ namespace WEBAPIHealTime.Migrations
                         .HasColumnType("char(11)");
 
                     b.Property<DateTime>("DtNascimentoPesssoa")
-                        .HasColumnType("date");
+                        .HasColumnType("smalldatetime");
 
                     b.Property<DateTime>("DtUltimoAcesso")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("EnderecoPessoa")
                         .HasColumnType("varchar(45)");

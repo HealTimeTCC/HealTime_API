@@ -3,6 +3,12 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.Enuns;
+using Microsoft.EntityFrameworkCore;
+using System.Web.Http.OData;
+using System.Reflection.Metadata.Ecma335;
+using System.Data.Entity;
+using WEBAPIHealTime.Migrations;
+
 namespace WEB_API_HealTime.Controllers;
 
 [ApiController]
@@ -55,11 +61,29 @@ public class AssociarPessoasController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet("id:string",Name ="PesquisaIdPaciente") ]
-    public async Task<IActionResult> Teste()
+
+    [HttpPost("Pessoa")]
+    public async Task<IActionResult> BuscaPessoa(string cpfPessoa)
     {
-        return Ok();
+        try
+        {
+            VerificarInfoPessoa verificarInfo = new();
+            if (!verificarInfo.VerificadorCpfPessoa(cpfPessoa))
+                throw new Exception("CPF invalido");
+
+            List<CuidadorPaciente> cuidadorPacientes = await _context.CuidadorPacientes
+                .Where(cp => cp.CPFPacienteIncapaz == cpfPessoa || cp.CPFCuidador == cpfPessoa || cp.CPFResponsavel == cpfPessoa)
+                .ToListAsync();
+            if (cuidadorPacientes is null)
+                return NotFound("Nada encontrado");
+            return Ok(cuidadorPacientes);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
+
 }
 
 public class Registrar
@@ -68,3 +92,4 @@ public class Registrar
     public string CPFResponsavel { get; set; }
     public string CPFPacienteIn { get; set; }
 }
+

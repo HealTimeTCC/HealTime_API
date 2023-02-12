@@ -29,10 +29,11 @@ public class Pessoa
     public string CpfPessoa { get; set; }
     //Exceto Paciente Incapaz
     [Display(Name = "Ultimo Acesso")]
+    [Column(TypeName = "datetime")]
     public DateTime DtUltimoAcesso { get; set; }
 
     //[Required(ErrorMessage = "Data nascimento é obrigatório")]
-    [Column(TypeName = "date")]
+    [Column(TypeName = "smalldatetime")]
     public DateTime DtNascimentoPesssoa { get; set; }
     public Generos GeneroPessoa { get; set; }
 
