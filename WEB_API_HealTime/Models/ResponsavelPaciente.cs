@@ -1,21 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WEB_API_HealTime.Models;
 public class ResponsavelPaciente
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int ResponsavelPacienteId { get; set; }
-
-    //Tem que testar esse relacionamento para ver se vai dar certo, tenho minhas dúvidas ksks
-    [ForeignKey("Pessoas")]
-    public string PacienteInId { get; set; }
+    public string ResponsavelPacienteId { get; set; }
+    public int? PacienteInId { get; set; }
     public Pessoa PacienteId { get; set; }
-
-    [ForeignKey("Pessoas")]
-    public string ResponsavelId { get; set; }
+    public int? ResponsavelId { get; set; }
     public Pessoa IdResponsavel { get; set; }
-
-    public int GrauParentescoId { get; set; }
+    public DateTime CriadoEm { get; set; }
+    public int? GrauParentescoId { get; set; }
+    [JsonIgnore]
     public GrauParentesco GrauParentesco { get; set; }
 }

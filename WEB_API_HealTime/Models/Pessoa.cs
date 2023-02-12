@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -6,65 +7,40 @@ namespace WEB_API_HealTime.Models;
 
 public class Pessoa
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-    [Column(TypeName ="varchar(40)")]
-    public string PessoaId { get; set; }
+    public int PessoaId { get; set; }
+    public TipoPessoa? TipoPessoa { get; set; }
 
-    [Required(ErrorMessage ="Tipo de pessoa é obrigatório")]
-    public TipoPessoa TipoPessoa { get; set; }
-
-    //[Required(ErrorMessage ="Nome é obrigatório")]
-    [Column(TypeName = "varchar(25)")]
     [Display(Name ="Nome")]
     public string NomePessoa { get; set; }
 
-    //[Required(ErrorMessage = "Sobrenome é obrigatório")]
-    [Column(TypeName = "varchar(40)")]
     [Display(Name ="Sobre nome")]
     public string SobrenomePessoa { get; set; }
 
-    //[Required(ErrorMessage ="O CPF é obrigatório!")]
-    [Column(TypeName ="char(11)")]
     [Display(Name ="CPF")]
     public string CpfPessoa { get; set; }
-    //Exceto Paciente Incapaz
+
     [Display(Name = "Ultimo Acesso")]
-    [Column(TypeName = "datetime")]
-    public DateTime DtUltimoAcesso { get; set; }
+    public DateTime? DtUltimoAcesso { get; set; }
 
-    //[Required(ErrorMessage = "Data nascimento é obrigatório")]
-    [Column(TypeName = "smalldatetime")]
-    public DateTime DtNascimentoPesssoa { get; set; }
-    public Generos GeneroPessoa { get; set; }
+    public DateTime? DtNascimentoPessoa { get; set; }
 
-    [Column(TypeName = "varchar(350)")]
+    public Generos? GeneroPessoa { get; set; }
+
     public string ObsPacienteIncapaz { get; set; }
-
-    //[Required]
-    [Column(TypeName = "varchar(45)")]
-    public string EnderecoPessoa { get; set; }
-
-    //[Required]
-    [Column(TypeName = "varchar(30)")]
-    public string BairroEnderecoPessoa { get; set; }
-
-    //[Required]
-    [Column(TypeName = "varchar(20)")]
-    public string CidadeEnderecoPessoa { get; set; }
-
-    [Column(TypeName = "varchar(45)")]
-    public string ComplementoPessoa { get; set; }
-
-    //[Required]
-    [Column(TypeName = "char(8)")]
-    public string CepEndereco { get; set; }
-
-    //[Required]
-    public UFs UfEndereco { get; set; }
-
-    [NotMapped]
-    public List<ContatoPessoa> ContatosPessoa { get; set; }
-
-    //public List<ResponsavelPaciente> Pacientes { get; set; }
-    //public List<ResponsavelPaciente> Responsaveis { get; set; }
+    [JsonIgnore]
+    public List<ContatoPessoa> ContatosPessoas { get; set; }
+    [JsonIgnore]
+    public List<ResponsavelPaciente> PacienteIdInRe { get; set; }
+    [JsonIgnore]
+    public List<ResponsavelPaciente> ResponsavelIdRe { get; set; }
+    [JsonIgnore]
+    public List<CuidadorPaciente> CuidadorIdCpRE { get; set; }
+    [JsonIgnore]
+    public List<CuidadorPaciente> ResponsavelIdCpRE { get; set; }
+    [JsonIgnore]
+    public List<CuidadorPaciente> PacienteInIdCpRE { get; set; }
+    [JsonIgnore]
+    public List<PrescricaoPaciente> PrescricaoPacientesDesc { get; set; }
+    [JsonIgnore]
+    public EnderecoPessoa EnderecoPessoa { get; set; }
 }
