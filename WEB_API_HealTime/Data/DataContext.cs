@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -265,11 +264,11 @@ public class DataContext : DbContext
 
         /* - -------- Relação: PRESCRICAOMEDICAMENTOS-MEDICACAO -> 1-N -------- -*/
 
-        modelBuilder.Entity<Medicacao>()
-            .HasOne<PrescricaoMedicamento>(one => one.PrescricaoMedicamento)
-            .WithMany(many => many.Medicacoes)
-                .HasForeignKey(fk => fk.MedicacaoId)
-                .HasConstraintName("FK_Medicacoes_PrescricaoMedicamento_MedicamentoId");
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasOne<Medicacao>(one => one.Medicacao)
+            .WithOne(many => many.PrescricaoMedicamento)
+                .HasForeignKey<PrescricaoMedicamento>(fk => fk.MedicacaoId)
+                .HasConstraintName("FK_PrescricaoMedicamento_Medicacoes__MedicamentoId");
 
         /*- -------- MEDICACAO -------- -*/
 
@@ -292,12 +291,31 @@ public class DataContext : DbContext
             .Property(p => p.StatusMedicacao)
             .HasDefaultValue(true);
         modelBuilder.Entity<Medicacao>()
-            .Property(p => p.TipoMedicacao)
-            .HasDefaultValue(TipoMedicacao.Pilula)
-            .IsRequired();
-        modelBuilder.Entity<Medicacao>()
             .Property(qtd => qtd.QtdMedicacao)
             .IsRequired();
+        
+        /*- -------- Relação: TipoMedicamento -------- -*/
+
+        modelBuilder.Entity<Medicacao>()
+            .HasOne<TipoMedicacao>(pk => pk.TipoMedicacao)
+            .WithOne(pk => pk.Medicacao)
+                .HasForeignKey<Medicacao>(fk => fk.TipoMedicacaoId)
+                .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
+
+        /*- -------- TIPOMEDICAMENTO -------- -*/
+
+        modelBuilder.Entity<TipoMedicacao>()
+            .HasKey(pk => pk.TipoMedicacaoId)
+            .HasName("PK_TipoMedicamentoId");
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(p => p.DescMedicacao)
+            .HasColumnType("VARCHAR(50)");
+
+        /*- -------- ESTOQUE -------- -*/
+
+        modelBuilder.Entity<Estoque>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_Estoque_MedicacaoId");
 
     }
 }
