@@ -7,7 +7,9 @@ public class Medicacao
 {
     public int MedicacaoId { get; set; }
     public string Nome { get; set; }
-    public TipoMedicacao? TipoMedicacao { get; set; }
+    public int TipoMedicacaoId { get; set; }
+    [JsonIgnore]
+    public TipoMedicacao TipoMedicacao { get; set; }
     public bool? StatusMedicacao { get; set; }   
     public string Fabricante { get; set; } 
     public DateTime? DtValidade { get; set; }
