@@ -45,6 +45,19 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TipoMedicacao",
+                columns: table => new
+                {
+                    TipoMedicacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DescMedicacao = table.Column<string>(type: "VARCHAR(50)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoMedicamentoId", x => x.TipoMedicacaoId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ContatoPessoas",
                 columns: table => new
                 {
@@ -173,6 +186,30 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Medicacoes",
+                columns: table => new
+                {
+                    MedicacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    TipoMedicacaoId = table.Column<int>(type: "int", nullable: false),
+                    StatusMedicacao = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    Fabricante = table.Column<string>(type: "VARCHAR(300)", nullable: false),
+                    DtValidade = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
+                    QtdMedicacao = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicacaoId", x => x.MedicacaoId);
+                    table.ForeignKey(
+                        name: "FK_Medicacoes_TipoMedicacao_TipoMedicacaoId",
+                        column: x => x.TipoMedicacaoId,
+                        principalTable: "TipoMedicacao",
+                        principalColumn: "TipoMedicacaoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PrescricaoMedicamento",
                 columns: table => new
                 {
@@ -189,33 +226,16 @@ namespace WEBAPIHealTime.Migrations
                 {
                     table.PrimaryKey("PK_PrescricaoMedicamentoId", x => x.PrescricaoMedicamentoId);
                     table.ForeignKey(
+                        name: "FK_PrescricaoMedicamento_Medicacoes__MedicamentoId",
+                        column: x => x.MedicacaoId,
+                        principalTable: "Medicacoes",
+                        principalColumn: "MedicacaoId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_PrescricaoPacienteId",
                         column: x => x.PrescricaoPacienteId,
                         principalTable: "PrescricaoPacientes",
                         principalColumn: "PrescricaoPacienteId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Medicacoes",
-                columns: table => new
-                {
-                    MedicacaoId = table.Column<int>(type: "int", nullable: false),
-                    Nome = table.Column<string>(type: "VARCHAR(30)", nullable: false),
-                    TipoMedicacao = table.Column<int>(type: "int", nullable: false, defaultValue: 1),
-                    StatusMedicacao = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
-                    Fabricante = table.Column<string>(type: "VARCHAR(300)", nullable: false),
-                    DtValidade = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
-                    QtdMedicacao = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MedicacaoId", x => x.MedicacaoId);
-                    table.ForeignKey(
-                        name: "FK_Medicacoes_PrescricaoMedicamento_MedicamentoId",
-                        column: x => x.MedicacaoId,
-                        principalTable: "PrescricaoMedicamento",
-                        principalColumn: "PrescricaoMedicamentoId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,6 +257,17 @@ namespace WEBAPIHealTime.Migrations
                 name: "IX_CuidadorPacientes_ResponsavelId",
                 table: "CuidadorPacientes",
                 column: "ResponsavelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Medicacoes_TipoMedicacaoId",
+                table: "Medicacoes",
+                column: "TipoMedicacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrescricaoMedicamento_MedicacaoId",
+                table: "PrescricaoMedicamento",
+                column: "MedicacaoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrescricaoMedicamento_PrescricaoPacienteId",
@@ -279,19 +310,22 @@ namespace WEBAPIHealTime.Migrations
                 name: "EnderecoPessoas");
 
             migrationBuilder.DropTable(
-                name: "Medicacoes");
+                name: "PrescricaoMedicamento");
 
             migrationBuilder.DropTable(
                 name: "ResponsaveisPacientes");
 
             migrationBuilder.DropTable(
-                name: "PrescricaoMedicamento");
+                name: "Medicacoes");
+
+            migrationBuilder.DropTable(
+                name: "PrescricaoPacientes");
 
             migrationBuilder.DropTable(
                 name: "GrausParentesco");
 
             migrationBuilder.DropTable(
-                name: "PrescricaoPacientes");
+                name: "TipoMedicacao");
 
             migrationBuilder.DropTable(
                 name: "Pessoas");
