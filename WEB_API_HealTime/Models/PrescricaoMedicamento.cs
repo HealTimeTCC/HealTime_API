@@ -18,5 +18,5 @@ public class PrescricaoMedicamento
     public bool CheckSituacao { get; set; }
     public int MedicacaoId { get; set; }
     [JsonIgnore]
-    public ICollection<Medicacao> Medicacoes { get; set; }
+    public Medicacao Medicacao { get; set; }
 }
