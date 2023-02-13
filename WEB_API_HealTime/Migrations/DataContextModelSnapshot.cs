@@ -120,7 +120,7 @@ namespace WEBAPIHealTime.Migrations
                     b.HasKey("PessoaId")
                         .HasName("PK_EnderecoPessoa");
 
-                    b.ToTable("EnderecoPessoa");
+                    b.ToTable("EnderecoPessoas");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
@@ -138,6 +138,43 @@ namespace WEBAPIHealTime.Migrations
                         .HasName("PK_GrauParentescoId");
 
                     b.ToTable("GrausParentesco");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
+                {
+                    b.Property<int>("MedicacaoId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DtValidade")
+                        .IsRequired()
+                        .HasColumnType("SMALLDATETIME");
+
+                    b.Property<string>("Fabricante")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(300)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(30)");
+
+                    b.Property<int?>("QtdMedicacao")
+                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("StatusMedicacao")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<int>("TipoMedicacao")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("MedicacaoId")
+                        .HasName("PK_MedicacaoId");
+
+                    b.ToTable("Medicacoes");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
@@ -202,6 +239,9 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<DateTime?>("HrDtMedicacao")
                         .IsRequired()
                         .HasColumnType("SMALLDATETIME");
+
+                    b.Property<int>("MedicacaoId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("PrescricaoPacienteId")
                         .HasColumnType("int");
@@ -324,6 +364,18 @@ namespace WEBAPIHealTime.Migrations
                     b.Navigation("Pessoa");
                 });
 
+            modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.PrescricaoMedicamento", "PrescricaoMedicamento")
+                        .WithMany("Medicacoes")
+                        .HasForeignKey("MedicacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Medicacoes_PrescricaoMedicamento_MedicamentoId");
+
+                    b.Navigation("PrescricaoMedicamento");
+                });
+
             modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoMedicamento", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.PrescricaoPaciente", "PrescricaoPaciente")
@@ -390,6 +442,11 @@ namespace WEBAPIHealTime.Migrations
                     b.Navigation("ResponsavelIdCpRE");
 
                     b.Navigation("ResponsavelIdRe");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoMedicamento", b =>
+                {
+                    b.Navigation("Medicacoes");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoPaciente", b =>
