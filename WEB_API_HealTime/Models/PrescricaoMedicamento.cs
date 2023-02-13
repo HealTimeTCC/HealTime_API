@@ -12,12 +12,11 @@ public class PrescricaoMedicamento
     /*public int AndamentoMedicacaoId { get; set; }
     [JsonIgnore]
     public AndamentoMedicacao AndamentoMedicacao { get; set; }*/
-    /*public int MedicacaoId { get; set; }
-    [JsonIgnore]
-    public Medicacao Medicacao { get; set; }*/
     public DateTime? HrDtMedicacao { get; set; }
     public DateTime? DtTerminoTratamento { get; set; }
     public int? QtdDiariaMedia { get; set; }
     public bool CheckSituacao { get; set; }
-
+    public int MedicacaoId { get; set; }
+    [JsonIgnore]
+    public ICollection<Medicacao> Medicacoes { get; set; }
 }

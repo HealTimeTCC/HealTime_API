@@ -16,6 +16,7 @@ public class DataContext : DbContext
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
+    public DbSet<Medicacao> Medicacoes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
@@ -262,7 +263,41 @@ public class DataContext : DbContext
             .Property(p => p.CheckSituacao)
             .HasDefaultValue(true);
 
+        /* - -------- Relação: PRESCRICAOMEDICAMENTOS-MEDICACAO -> 1-N -------- -*/
 
-        
+        modelBuilder.Entity<Medicacao>()
+            .HasOne<PrescricaoMedicamento>(one => one.PrescricaoMedicamento)
+            .WithMany(many => many.Medicacoes)
+                .HasForeignKey(fk => fk.MedicacaoId)
+                .HasConstraintName("FK_Medicacoes_PrescricaoMedicamento_MedicamentoId");
+
+        /*- -------- MEDICACAO -------- -*/
+
+        modelBuilder.Entity<Medicacao>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_MedicacaoId");
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.DtValidade)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.Fabricante)
+            .HasColumnType("VARCHAR(300)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.Nome)
+            .HasColumnType("VARCHAR(30)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.StatusMedicacao)
+            .HasDefaultValue(true);
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.TipoMedicacao)
+            .HasDefaultValue(TipoMedicacao.Pilula)
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(qtd => qtd.QtdMedicacao)
+            .IsRequired();
+
     }
 }
