@@ -15,7 +15,7 @@ public class PrescricaoMedicamento
     public DateTime? HrDtMedicacao { get; set; }
     public DateTime? DtTerminoTratamento { get; set; }
     public int? QtdDiariaMedia { get; set; }
-    public bool CheckSituacao { get; set; }
+    public bool? CheckSituacao { get; set; }
     public int MedicacaoId { get; set; }
     [JsonIgnore]
     public Medicacao Medicacao { get; set; }

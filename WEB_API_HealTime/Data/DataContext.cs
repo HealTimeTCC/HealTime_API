@@ -311,11 +311,37 @@ public class DataContext : DbContext
             .Property(p => p.DescMedicacao)
             .HasColumnType("VARCHAR(50)");
 
+        /*- -------- Relaçao: ESTOQUE-Medicacao -------- -*/
+
+        modelBuilder.Entity<Estoque>()
+            .HasOne<Medicacao>(fk => fk.Medicacao)
+            .WithOne(fk => fk.Estoque)
+                .HasForeignKey<Estoque>(fk => fk.MedicacaoId)
+                .HasConstraintName("FK_Estoque_Medicacoes");
+
         /*- -------- ESTOQUE -------- -*/
 
         modelBuilder.Entity<Estoque>()
             .HasKey(pk => pk.MedicacaoId)
             .HasName("PK_Estoque_MedicacaoId");
+        
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.AtualizadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();//Adicionar manualmente esse valor devido a ser adicionado uma vez e testar
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.Desc)
+            .HasColumnType("VARCHAR(200)")
+            .IsRequired();
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.Nome)
+            .IsRequired()
+            .HasColumnType("VARCHAR(40)");
+
 
     }
 }

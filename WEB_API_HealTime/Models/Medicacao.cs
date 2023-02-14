@@ -16,4 +16,6 @@ public class Medicacao
     public int? QtdMedicacao { get; set; }
     [JsonIgnore]
     public PrescricaoMedicamento PrescricaoMedicamento { get; set; }
+    [JsonIgnore]
+    public Estoque Estoque { get; set; }
 }   
