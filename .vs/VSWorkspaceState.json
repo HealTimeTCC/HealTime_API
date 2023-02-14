@@ -2,8 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\WEB_API_HealTime",
-    "\\WEB_API_HealTime\\Controllers"
+    "\\WEB_API_HealTime\\Controllers",
+    "\\WEB_API_HealTime\\Data",
+    "\\WEB_API_HealTime\\Dto",
+    "\\WEB_API_HealTime\\Migrations",
+    "\\WEB_API_HealTime\\Models\\Enuns"
   ],
-  "SelectedNode": "\\WEB_API_HealTime\\Program.cs",
+  "SelectedNode": "\\WEB_API_HealTime\\Migrations\\20230214221820_ScriptSql.cs",
   "PreviewInSolutionExplorer": false
 }

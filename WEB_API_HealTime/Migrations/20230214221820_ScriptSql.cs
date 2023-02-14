@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEBAPIHealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class AdendoContatoPessoa : Migration
+    public partial class ScriptSql : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,6 +72,40 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CuidadorPacientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CuidadorId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    IdCuidadorPessoaId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    PacienteIncapazId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    IdPacienteIncapazPessoaId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    ResponsavelId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    IdResponsavelPessoaId = table.Column<string>(type: "varchar(40)", nullable: true),
+                    CriadoEm = table.Column<DateTime>(type: "smalldatetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CuidadorPacientes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CuidadorPacientes_Pessoas_IdCuidadorPessoaId",
+                        column: x => x.IdCuidadorPessoaId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId");
+                    table.ForeignKey(
+                        name: "FK_CuidadorPacientes_Pessoas_IdPacienteIncapazPessoaId",
+                        column: x => x.IdPacienteIncapazPessoaId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId");
+                    table.ForeignKey(
+                        name: "FK_CuidadorPacientes_Pessoas_IdResponsavelPessoaId",
+                        column: x => x.IdResponsavelPessoaId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ResponsaveisPaciente",
                 columns: table => new
                 {
@@ -109,6 +143,21 @@ namespace WEBAPIHealTime.Migrations
                 column: "PessoaId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CuidadorPacientes_IdCuidadorPessoaId",
+                table: "CuidadorPacientes",
+                column: "IdCuidadorPessoaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CuidadorPacientes_IdPacienteIncapazPessoaId",
+                table: "CuidadorPacientes",
+                column: "IdPacienteIncapazPessoaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CuidadorPacientes_IdResponsavelPessoaId",
+                table: "CuidadorPacientes",
+                column: "IdResponsavelPessoaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ResponsaveisPaciente_GrauParentescoId",
                 table: "ResponsaveisPaciente",
                 column: "GrauParentescoId");
@@ -129,6 +178,9 @@ namespace WEBAPIHealTime.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ContatoPessoas");
+
+            migrationBuilder.DropTable(
+                name: "CuidadorPacientes");
 
             migrationBuilder.DropTable(
                 name: "ResponsaveisPaciente");
