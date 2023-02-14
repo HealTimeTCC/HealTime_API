@@ -18,12 +18,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoLocal"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("rrsoft"));
 });
 var app = builder.Build();
-
-
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
