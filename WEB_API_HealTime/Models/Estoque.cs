@@ -13,4 +13,6 @@ public class Estoque
     public string Desc { get; set; }
     public DateTime? AtualizadoEm { get; set; }
     public DateTime? CriadoEm { get; set; }
+    [JsonIgnore]
+    public ICollection<BaixaHistoricoEstoque> BaixaHistoricoEstoques { get; set; }
 }
