@@ -15,6 +15,9 @@ public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
     public PessoasController(DataContext context){ _context = context; }
+
+    
+
     /*
     [HttpPost("Cadastro")]
     public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
