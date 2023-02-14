@@ -19,4 +19,5 @@ public class PrescricaoMedicamento
     public int MedicacaoId { get; set; }
     [JsonIgnore]
     public Medicacao Medicacao { get; set; }
+    public ICollection<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
 }
