@@ -342,6 +342,40 @@ public class DataContext : DbContext
             .IsRequired()
             .HasColumnType("VARCHAR(40)");
 
+        /*- -------- Relaçao: ANDAMENTOMEDICACAO-PRESCRICAOMEDICAMENTO -------- -*/
 
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasMany<AndamentoMedicacao>( n => n.AndamentoMedicacoes)
+            .WithOne(i => i.PrescricaoMedicamento)
+                .HasForeignKey(fk => fk.PrescricaoMedicamentoId)
+                .HasConstraintName("FK_PrescricaoMedicamentoId");
+
+        /*- -------- ANDAMENTOMEDICACAO -------- -*/
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .HasKey(pk => pk.AndamentoMedicacaoId)
+            .HasName("PK_AndamentoMedicacaoId");
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired();
+
+        ///*- -------- Relação: BAIXAHISTORICOESTOQUE - ESTOQUE - 1 - N -------- -*/
+
+        modelBuilder.Entity<BaixaHistoricoEstoque>()
+            .HasOne<Estoque>(p => p.Estoque)
+            .WithMany(p => p.BaixaHistoricoEstoques)
+                .HasForeignKey(fk => fk.EstoqueId)
+                .HasConstraintName("FK_Estoque_BaixaHistoricoEstoques");
+
+        /*- -------- BAIXAHISTORICOESTOQUE -------- -*/
+
+        modelBuilder.Entity<BaixaHistoricoEstoque>()
+            .HasKey(pk => pk.BaixaHistoricoEstoqueId)
+            .HasName("PK_BaixaHistoricoEstoqueId");
+        
+
+    
     }
 }
