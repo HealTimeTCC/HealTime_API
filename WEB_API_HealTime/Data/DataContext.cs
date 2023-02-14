@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -16,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
+    public DbSet<Medicacao> Medicacoes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
@@ -262,7 +262,120 @@ public class DataContext : DbContext
             .Property(p => p.CheckSituacao)
             .HasDefaultValue(true);
 
+        /* - -------- Relação: PRESCRICAOMEDICAMENTOS-MEDICACAO -> 1-N -------- -*/
 
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasOne<Medicacao>(one => one.Medicacao)
+            .WithOne(many => many.PrescricaoMedicamento)
+                .HasForeignKey<PrescricaoMedicamento>(fk => fk.MedicacaoId)
+                .HasConstraintName("FK_PrescricaoMedicamento_Medicacoes__MedicamentoId");
+
+        /*- -------- MEDICACAO -------- -*/
+
+        modelBuilder.Entity<Medicacao>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_MedicacaoId");
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.DtValidade)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.Fabricante)
+            .HasColumnType("VARCHAR(300)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.Nome)
+            .HasColumnType("VARCHAR(30)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(p => p.StatusMedicacao)
+            .HasDefaultValue(true);
+        modelBuilder.Entity<Medicacao>()
+            .Property(qtd => qtd.QtdMedicacao)
+            .IsRequired();
         
+        /*- -------- Relação: TipoMedicamento -------- -*/
+
+        modelBuilder.Entity<Medicacao>()
+            .HasOne<TipoMedicacao>(pk => pk.TipoMedicacao)
+            .WithOne(pk => pk.Medicacao)
+                .HasForeignKey<Medicacao>(fk => fk.TipoMedicacaoId)
+                .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
+
+        /*- -------- TIPOMEDICAMENTO -------- -*/
+
+        modelBuilder.Entity<TipoMedicacao>()
+            .HasKey(pk => pk.TipoMedicacaoId)
+            .HasName("PK_TipoMedicamentoId");
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(p => p.DescMedicacao)
+            .HasColumnType("VARCHAR(50)");
+
+        /*- -------- Relaçao: ESTOQUE-Medicacao -------- -*/
+
+        modelBuilder.Entity<Estoque>()
+            .HasOne<Medicacao>(fk => fk.Medicacao)
+            .WithOne(fk => fk.Estoque)
+                .HasForeignKey<Estoque>(fk => fk.MedicacaoId)
+                .HasConstraintName("FK_Estoque_Medicacoes");
+
+        /*- -------- ESTOQUE -------- -*/
+
+        modelBuilder.Entity<Estoque>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_Estoque_MedicacaoId");
+        
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.AtualizadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .IsRequired();//Adicionar manualmente esse valor devido a ser adicionado uma vez e testar
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.Desc)
+            .HasColumnType("VARCHAR(200)")
+            .IsRequired();
+        modelBuilder.Entity<Estoque>()
+            .Property(p => p.Nome)
+            .IsRequired()
+            .HasColumnType("VARCHAR(40)");
+
+        /*- -------- Relaçao: ANDAMENTOMEDICACAO-PRESCRICAOMEDICAMENTO -------- -*/
+
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .HasMany<AndamentoMedicacao>( n => n.AndamentoMedicacoes)
+            .WithOne(i => i.PrescricaoMedicamento)
+                .HasForeignKey(fk => fk.PrescricaoMedicamentoId)
+                .HasConstraintName("FK_PrescricaoMedicamentoId");
+
+        /*- -------- ANDAMENTOMEDICACAO -------- -*/
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .HasKey(pk => pk.AndamentoMedicacaoId)
+            .HasName("PK_AndamentoMedicacaoId");
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired();
+
+        ///*- -------- Relação: BAIXAHISTORICOESTOQUE - ESTOQUE - 1 - N -------- -*/
+
+        modelBuilder.Entity<BaixaHistoricoEstoque>()
+            .HasOne<Estoque>(p => p.Estoque)
+            .WithMany(p => p.BaixaHistoricoEstoques)
+                .HasForeignKey(fk => fk.EstoqueId)
+                .HasConstraintName("FK_Estoque_BaixaHistoricoEstoques");
+
+        /*- -------- BAIXAHISTORICOESTOQUE -------- -*/
+
+        modelBuilder.Entity<BaixaHistoricoEstoque>()
+            .HasKey(pk => pk.BaixaHistoricoEstoqueId)
+            .HasName("PK_BaixaHistoricoEstoqueId");
+        
+
+    
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API_HealTime.Data;
 
@@ -11,9 +12,11 @@ using WEB_API_HealTime.Data;
 namespace WEBAPIHealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230213134444_Table_Medicacoes_Fk_added")]
+    partial class TableMedicacoesFkadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,61 +24,6 @@ namespace WEBAPIHealTime.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.AndamentoMedicacao", b =>
-                {
-                    b.Property<int>("AndamentoMedicacaoId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AndamentoMedicacaoId"));
-
-                    b.Property<DateTime>("CriadoEm")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("SMALLDATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<int>("PrescricaoMedicamentoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QtdAtual")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QtdInicial")
-                        .HasColumnType("int");
-
-                    b.HasKey("AndamentoMedicacaoId")
-                        .HasName("PK_AndamentoMedicacaoId");
-
-                    b.HasIndex("PrescricaoMedicamentoId");
-
-                    b.ToTable("AndamentoMedicacao");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.BaixaHistoricoEstoque", b =>
-                {
-                    b.Property<int>("BaixaHistoricoEstoqueId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BaixaHistoricoEstoqueId"));
-
-                    b.Property<DateTime?>("BaixaEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DescBaixa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("EstoqueId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BaixaHistoricoEstoqueId")
-                        .HasName("PK_BaixaHistoricoEstoqueId");
-
-                    b.HasIndex("EstoqueId");
-
-                    b.ToTable("BaixaHistoricoEstoque");
-                });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
                 {
@@ -178,37 +126,6 @@ namespace WEBAPIHealTime.Migrations
                     b.ToTable("EnderecoPessoas");
                 });
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.Estoque", b =>
-                {
-                    b.Property<int>("MedicacaoId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("AtualizadoEm")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("SMALLDATETIME")
-                        .HasDefaultValueSql("GETDATE()");
-
-                    b.Property<DateTime?>("CriadoEm")
-                        .IsRequired()
-                        .HasColumnType("SMALLDATETIME");
-
-                    b.Property<string>("Desc")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(200)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(40)");
-
-                    b.Property<int>("QtdEstoque")
-                        .HasColumnType("int");
-
-                    b.HasKey("MedicacaoId")
-                        .HasName("PK_Estoque_MedicacaoId");
-
-                    b.ToTable("Estoque");
-                });
-
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
                 {
                     b.Property<int>("GrauParentescoId")
@@ -261,8 +178,7 @@ namespace WEBAPIHealTime.Migrations
                     b.HasKey("MedicacaoId")
                         .HasName("PK_MedicacaoId");
 
-                    b.HasIndex("TipoMedicacaoId")
-                        .IsUnique();
+                    b.HasIndex("TipoMedicacaoId");
 
                     b.ToTable("Medicacoes");
                 });
@@ -318,7 +234,7 @@ namespace WEBAPIHealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrescricaoMedicamentoId"));
 
-                    b.Property<bool?>("CheckSituacao")
+                    b.Property<bool>("CheckSituacao")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
@@ -426,30 +342,6 @@ namespace WEBAPIHealTime.Migrations
                     b.ToTable("TipoMedicacao");
                 });
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.AndamentoMedicacao", b =>
-                {
-                    b.HasOne("WEB_API_HealTime.Models.PrescricaoMedicamento", "PrescricaoMedicamento")
-                        .WithMany("AndamentoMedicacoes")
-                        .HasForeignKey("PrescricaoMedicamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_PrescricaoMedicamentoId");
-
-                    b.Navigation("PrescricaoMedicamento");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.BaixaHistoricoEstoque", b =>
-                {
-                    b.HasOne("WEB_API_HealTime.Models.Estoque", "Estoque")
-                        .WithMany("BaixaHistoricoEstoques")
-                        .HasForeignKey("EstoqueId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Estoque_BaixaHistoricoEstoques");
-
-                    b.Navigation("Estoque");
-                });
-
             modelBuilder.Entity("WEB_API_HealTime.Models.ContatoPessoa", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.Pessoa", "Pessoa")
@@ -498,26 +390,13 @@ namespace WEBAPIHealTime.Migrations
                     b.Navigation("Pessoa");
                 });
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.Estoque", b =>
-                {
-                    b.HasOne("WEB_API_HealTime.Models.Medicacao", "Medicacao")
-                        .WithOne("Estoque")
-                        .HasForeignKey("WEB_API_HealTime.Models.Estoque", "MedicacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Estoque_Medicacoes");
-
-                    b.Navigation("Medicacao");
-                });
-
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.TipoMedicacao", "TipoMedicacao")
-                        .WithOne("Medicacao")
-                        .HasForeignKey("WEB_API_HealTime.Models.Medicacao", "TipoMedicacaoId")
+                        .WithMany()
+                        .HasForeignKey("TipoMedicacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
+                        .IsRequired();
 
                     b.Navigation("TipoMedicacao");
                 });
@@ -575,11 +454,6 @@ namespace WEBAPIHealTime.Migrations
                     b.Navigation("PacienteId");
                 });
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.Estoque", b =>
-                {
-                    b.Navigation("BaixaHistoricoEstoques");
-                });
-
             modelBuilder.Entity("WEB_API_HealTime.Models.GrauParentesco", b =>
                 {
                     b.Navigation("ResponsavelPacientes");
@@ -587,8 +461,6 @@ namespace WEBAPIHealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
                 {
-                    b.Navigation("Estoque");
-
                     b.Navigation("PrescricaoMedicamento");
                 });
 
@@ -611,19 +483,9 @@ namespace WEBAPIHealTime.Migrations
                     b.Navigation("ResponsavelIdRe");
                 });
 
-            modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoMedicamento", b =>
-                {
-                    b.Navigation("AndamentoMedicacoes");
-                });
-
             modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoPaciente", b =>
                 {
                     b.Navigation("PrescricaoMedicamentos");
-                });
-
-            modelBuilder.Entity("WEB_API_HealTime.Models.TipoMedicacao", b =>
-                {
-                    b.Navigation("Medicacao");
                 });
 #pragma warning restore 612, 618
         }

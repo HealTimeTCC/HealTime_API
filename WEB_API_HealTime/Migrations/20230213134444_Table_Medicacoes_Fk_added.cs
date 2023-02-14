@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEBAPIHealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class NovaTabela : Migration
+    public partial class TableMedicacoesFkadded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -42,6 +42,19 @@ namespace WEBAPIHealTime.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pessoas", x => x.PessoaId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TipoMedicacao",
+                columns: table => new
+                {
+                    TipoMedicacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DescMedicacao = table.Column<string>(type: "VARCHAR(50)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TipoMedicamentoId", x => x.TipoMedicacaoId);
                 });
 
             migrationBuilder.CreateTable(
@@ -100,7 +113,7 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EnderecoPessoa",
+                name: "EnderecoPessoas",
                 columns: table => new
                 {
                     PessoaId = table.Column<int>(type: "int", nullable: false),
@@ -173,6 +186,30 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Medicacoes",
+                columns: table => new
+                {
+                    MedicacaoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nome = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    TipoMedicacaoId = table.Column<int>(type: "int", nullable: false),
+                    StatusMedicacao = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
+                    Fabricante = table.Column<string>(type: "VARCHAR(300)", nullable: false),
+                    DtValidade = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
+                    QtdMedicacao = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicacaoId", x => x.MedicacaoId);
+                    table.ForeignKey(
+                        name: "FK_Medicacoes_TipoMedicacao_TipoMedicacaoId",
+                        column: x => x.TipoMedicacaoId,
+                        principalTable: "TipoMedicacao",
+                        principalColumn: "TipoMedicacaoId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PrescricaoMedicamento",
                 columns: table => new
                 {
@@ -182,11 +219,18 @@ namespace WEBAPIHealTime.Migrations
                     HrDtMedicacao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
                     DtTerminoTratamento = table.Column<DateTime>(type: "SMALLDATETIME", nullable: true),
                     QtdDiariaMedia = table.Column<int>(type: "int", nullable: false),
-                    CheckSituacao = table.Column<bool>(type: "bit", nullable: false, defaultValue: true)
+                    CheckSituacao = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
+                    MedicacaoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PrescricaoMedicamentoId", x => x.PrescricaoMedicamentoId);
+                    table.ForeignKey(
+                        name: "FK_PrescricaoMedicamento_Medicacoes__MedicamentoId",
+                        column: x => x.MedicacaoId,
+                        principalTable: "Medicacoes",
+                        principalColumn: "MedicacaoId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PrescricaoPacienteId",
                         column: x => x.PrescricaoPacienteId,
@@ -213,6 +257,17 @@ namespace WEBAPIHealTime.Migrations
                 name: "IX_CuidadorPacientes_ResponsavelId",
                 table: "CuidadorPacientes",
                 column: "ResponsavelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Medicacoes_TipoMedicacaoId",
+                table: "Medicacoes",
+                column: "TipoMedicacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PrescricaoMedicamento_MedicacaoId",
+                table: "PrescricaoMedicamento",
+                column: "MedicacaoId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrescricaoMedicamento_PrescricaoPacienteId",
@@ -252,7 +307,7 @@ namespace WEBAPIHealTime.Migrations
                 name: "CuidadorPacientes");
 
             migrationBuilder.DropTable(
-                name: "EnderecoPessoa");
+                name: "EnderecoPessoas");
 
             migrationBuilder.DropTable(
                 name: "PrescricaoMedicamento");
@@ -261,10 +316,16 @@ namespace WEBAPIHealTime.Migrations
                 name: "ResponsaveisPacientes");
 
             migrationBuilder.DropTable(
+                name: "Medicacoes");
+
+            migrationBuilder.DropTable(
                 name: "PrescricaoPacientes");
 
             migrationBuilder.DropTable(
                 name: "GrausParentesco");
+
+            migrationBuilder.DropTable(
+                name: "TipoMedicacao");
 
             migrationBuilder.DropTable(
                 name: "Pessoas");
