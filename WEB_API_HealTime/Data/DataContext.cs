@@ -16,15 +16,14 @@ public class DataContext : DbContext
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
     public DbSet<Medicacao> Medicacoes { get; set; }
+    public DbSet<PrescricaoMedicamento> PrescricaoMedicamentos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
         modelBuilder.Entity<Pessoa>()
             .HasKey(key => key.PessoaId)
             .HasName("PK_Pessoas");
-        //modelBuilder.Entity<Pessoa>()
-          //  .Property(key => key.PessoaId)
-            //.HasColumnType("VARCHAR(50)");
+
         modelBuilder.Entity<Pessoa>()
             .Property(tp => tp.TipoPessoa)
             .HasDefaultValue(TipoPessoa.Paciente_Capaz);
@@ -188,9 +187,13 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoPaciente>()
         .HasKey(pk => pk.PrescricaoPacienteId)
             .HasName("PK_PrescricaoPacienteId");
-        
+
         modelBuilder.Entity<PrescricaoPaciente>()
-        .Property(dt => dt.Emissao)
+            .Property(dt => dt.DataCadastroSistemaPrescricao)
+            .HasColumnType("SMALLDATETIME")
+            .HasDefaultValueSql("GETDATE()");
+        modelBuilder.Entity<PrescricaoPaciente>()
+        .Property(dt => dt.EmissaoPrescricao)
         .HasColumnType("SMALLDATETIME")
         .IsRequired();
         
@@ -249,7 +252,7 @@ public class DataContext : DbContext
             .HasName("PK_PrescricaoMedicamentoId");
         
         modelBuilder.Entity<PrescricaoMedicamento>()
-            .Property(p => p.HrDtMedicacao)
+            .Property(p => p.HrInicioDtMedicacao)
             .HasColumnType("SMALLDATETIME")
             .IsRequired();
         modelBuilder.Entity<PrescricaoMedicamento>()
@@ -261,7 +264,10 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoMedicamento>()
             .Property(p => p.CheckSituacao)
             .HasDefaultValue(true);
-
+        modelBuilder.Entity<PrescricaoMedicamento>()
+            .Property(p => p.NomeMedicamento)
+            .IsRequired()
+            .HasColumnType("VARCHAR(30)");
         /* - -------- Relação: PRESCRICAOMEDICAMENTOS-MEDICACAO -> 1-N -------- -*/
 
         modelBuilder.Entity<PrescricaoMedicamento>()

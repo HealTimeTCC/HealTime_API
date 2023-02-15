@@ -9,22 +9,21 @@ public class Pessoa
 {
     public int PessoaId { get; set; }
     public TipoPessoa? TipoPessoa { get; set; }
-
     [Display(Name ="Nome")]
     public string NomePessoa { get; set; }
-
     [Display(Name ="Sobre nome")]
     public string SobrenomePessoa { get; set; }
-
     [Display(Name ="CPF")]
     public string CpfPessoa { get; set; }
-
     [Display(Name = "Ultimo Acesso")]
     public DateTime? DtUltimoAcesso { get; set; }
-
     public DateTime? DtNascimentoPessoa { get; set; }
-
     public Generos? GeneroPessoa { get; set; }
+
+    public byte[] PasswordHash { get; set; }
+    public byte[] PasswordSalt { get; set; }
+    [NotMapped]
+    public string PasswordString { get; set; }
 
     public string ObsPacienteIncapaz { get; set; }
     [JsonIgnore]
