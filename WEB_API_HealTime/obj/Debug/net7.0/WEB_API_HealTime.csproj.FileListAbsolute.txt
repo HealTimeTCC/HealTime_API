@@ -1,447 +1,3 @@
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.deps.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.runtimeconfig.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.pdb
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.OpenApi.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.WEB_API_HealTime.Microsoft.AspNetCore.StaticWebAssets.props
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.build.WEB_API_HealTime.props
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WEB_API_HealTime.props
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WEB_API_HealTime.props
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.pack.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.build.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.development.json
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\scopedcss\bundle\WEB_API_HealTime.styles.css
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CopyComplete
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Core.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Identity.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Newtonsoft.Json.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.CodeDom.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Drawing.Common.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Memory.Data.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\Aulas externas\CSharp\Udemy\LanchesMac\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.deps.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.runtimeconfig.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Azure.Core.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Azure.Identity.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.OpenApi.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Mono.TextTemplating.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Newtonsoft.Json.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.CodeDom.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Memory.Data.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.WEB_API_HealTime.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.build.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.pack.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.build.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.development.json
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\scopedcss\bundle\WEB_API_HealTime.styles.css
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CopyComplete
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
-C:\Users\Suporte4\Desktop\Projetos\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.deps.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.runtimeconfig.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.pdb
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Core.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Identity.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.OpenApi.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Mono.TextTemplating.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Newtonsoft.Json.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.CodeDom.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Drawing.Common.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Memory.Data.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.WEB_API_HealTime.Microsoft.AspNetCore.StaticWebAssets.props
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.build.WEB_API_HealTime.props
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WEB_API_HealTime.props
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WEB_API_HealTime.props
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.pack.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.build.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.development.json
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\scopedcss\bundle\WEB_API_HealTime.styles.css
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CopyComplete
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.deps.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.runtimeconfig.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Core.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Azure.Identity.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.OpenApi.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Mono.TextTemplating.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Newtonsoft.Json.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.CodeDom.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Drawing.Common.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Memory.Data.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.WEB_API_HealTime.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.build.WEB_API_HealTime.props
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WEB_API_HealTime.props
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WEB_API_HealTime.props
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.pack.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.build.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.development.json
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\scopedcss\bundle\WEB_API_HealTime.styles.css
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CopyComplete
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.SqlServer.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Data.SqlClient.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\sni.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\sni.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\sni.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Thiago da S. Roque\Desktop\Sparow\API\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.SqlServer.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\sni.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\sni.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\sni.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.deps.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.runtimeconfig.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Azure.Core.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Azure.Identity.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.SqlServer.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.OpenApi.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Mono.TextTemplating.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Newtonsoft.Json.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.CodeDom.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Configuration.ConfigurationManager.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Memory.Data.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm64\native\sni.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x64\native\sni.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-x86\native\sni.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.WEB_API_HealTime.Microsoft.AspNetCore.StaticWebAssets.props
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.build.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets\msbuild.buildTransitive.WEB_API_HealTime.props
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.pack.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.build.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\staticwebassets.development.json
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\scopedcss\bundle\WEB_API_HealTime.styles.css
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CopyComplete
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
-C:\Users\Suporte4\Desktop\Projetos Pessoais\Heal_Time\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
-<<<<<<< HEAD
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Net.Http.Formatting.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Web.Http.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Web.Http.OData.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.Edm.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.OData.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\System.Spatial.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\de\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\es\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\fr\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\it\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ja\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ko\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ru\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\Microsoft.Data.Edm.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\de\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\es\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\fr\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\it\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ja\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ko\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ru\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\Microsoft.Data.OData.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\de\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\es\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\fr\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\it\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ja\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ko\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\ru\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\System.Spatial.resources.dll
-D:\ETEC\etec3\D-TCC\WEB_API_HealTime\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\System.Spatial.resources.dll
-=======
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
@@ -454,8 +10,13 @@ D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Azure.Ide
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.SqlServer.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\EntityFramework.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Humanizer.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Net.Http.Formatting.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Web.Http.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Web.Http.OData.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.Edm.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.OData.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
@@ -488,7 +49,35 @@ D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Me
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Runtime.Caching.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Cryptography.ProtectedData.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Security.Permissions.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Spatial.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\System.Windows.Extensions.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\de\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\es\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\fr\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\it\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ja\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ko\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ru\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\Microsoft.Data.Edm.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\de\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\es\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\fr\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\it\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ja\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ko\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ru\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\Microsoft.Data.OData.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\de\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\es\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\fr\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\it\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ja\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ko\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ru\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\System.Spatial.resources.dll
+D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\System.Spatial.resources.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
@@ -527,6 +116,7 @@ D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\refint\WE
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.genruntimeconfig.cache
 D:\Thiago_3DS\TCCII\API\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\ref\WEB_API_HealTime.dll
+<<<<<<< HEAD
 D:\3ds_Dan_Marzo\DTCC\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.Development.json
 D:\3ds_Dan_Marzo\DTCC\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\appsettings.json
 D:\3ds_Dan_Marzo\DTCC\WEB-API-HealTime\WEB_API_HealTime\bin\Debug\net7.0\WEB_API_HealTime.exe
@@ -850,3 +440,5 @@ D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ko\System.S
 D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\ru\System.Spatial.resources.dll
 D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\System.Spatial.resources.dll
 D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\System.Spatial.resources.dll
+=======
+>>>>>>> ELABORACAO_CONTROLLERS

@@ -60,7 +60,11 @@ public class VerificarInfoPessoa
             return (false);
     }
 
+<<<<<<< HEAD
     public static int DigitoVerificador(int valoresSomados)
+=======
+    static private int DigitoVerificador(int valoresSomados)
+>>>>>>> ELABORACAO_CONTROLLERS
     {
         int resulId = 11 - (valoresSomados % 11);
 
@@ -100,7 +104,6 @@ public class VerificarInfoPessoa
             if(!dddVerdadeiro)
                 return false;
             dddNove = telefone.Substring(2,1);
-            bool nove = VerificaIniCelular(dddNove);
             if (!dddVerdadeiro)
                 return false;
             return true;
@@ -125,7 +128,6 @@ public class VerificarInfoPessoa
             if (!inicioTelFixo)
                 return false;
             dddIniTelFixo = telefone.Substring(2, 1);
-            bool nove = VerificaIniFixo(dddIniTelFixo);
             if (!inicioTelFixo)
                 return false;
             return true;
@@ -141,7 +143,7 @@ public class VerificarInfoPessoa
         return false;
     }
 
-    private bool VerificaIniFixo(string iniTelFixo)
+    static private bool VerificaIniFixo(string iniTelFixo)
     {
         if (int.Parse(iniTelFixo) >= 2 && int.Parse(iniTelFixo) <= 5)
             return true;

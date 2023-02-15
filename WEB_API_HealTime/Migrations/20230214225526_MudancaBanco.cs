@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEBAPIHealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class Table : Migration
+    public partial class MudancaBanco : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

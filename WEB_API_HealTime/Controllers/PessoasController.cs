@@ -15,10 +15,14 @@ public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
     public PessoasController(DataContext context){ _context = context; }
+<<<<<<< HEAD
 
     
 
     /*
+=======
+    
+>>>>>>> ELABORACAO_CONTROLLERS
     [HttpPost("Cadastro")]
     public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
     {
@@ -36,25 +40,10 @@ public class PessoasController : ControllerBase
                 throw new Exception($"Cpf '{pessoa.CpfPessoa}' está inválido.");
             if(!verificarInfoPessoa.VerificarNomePessoa(pessoa.NomePessoa, pessoa.SobrenomePessoa))
                 throw new Exception($"O nome está inválido.");
-            if(!verificarInfoPessoa.VerificarDtNascimentoPessoa(pessoa.DtNascimentoPesssoa, pessoa.TipoPessoa))
+            if(!verificarInfoPessoa.VerificarDtNascimentoPessoa((DateTime)pessoa.DtNascimentoPessoa, (TipoPessoa)pessoa.TipoPessoa))
                 throw new Exception($"Data de nascimento está inválido.");
 
-            Guid idGuid;
-            while (true)
-            {
-                idGuid = Guid.NewGuid();
-
-                Pessoa pessoaGuid = await _context.Pessoas.FirstOrDefaultAsync(pId => pId.PessoaId == idGuid.ToString());
-
-                if (pessoaGuid != null)
-                    continue;
-                else
-                    break;
-            }
-            pessoa.PessoaId = idGuid.ToString();
-
             //Uso de variavel Global para criação de contato
-          
             await _context.Pessoas.AddAsync(pessoa);
             await _context.SaveChangesAsync();
             return Ok($"{pessoa.NomePessoa} salvo!");
@@ -75,19 +64,17 @@ public class PessoasController : ControllerBase
             {
                 if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularObri))
                     throw new Exception("Telefone Celular invalido");
-                if (ctt.TelefoneCelularOpcional != null)
+                if (ctt.TelefoneCelularOpcional != null && !verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularOpcional))
                 {
-                    if (!verificarInfoPessoa.VerificarTelefoneCelular(ctt.TelefoneCelularOpcional))
-                        throw new Exception("Telefone Celular invalido");
+                    throw new Exception("Telefone Celular invalido");
                 }
             }
             else
                 throw new Exception("O telefone é obrigatório!");
 
-            if (ctt.TelefoneFixo != null)
+            if (ctt.TelefoneFixo != null && !verificarInfoPessoa.VerificarTelefoneFixo(ctt.TelefoneFixo))
             {
-                if (!verificarInfoPessoa.VerificarTelefoneFixo(ctt.TelefoneFixo))
-                    throw new Exception("Telefone Fixo Invalido");
+                throw new Exception("Telefone Fixo Invalido");
             }
 
             await _context.ContatoPessoas.AddAsync(ctt);
@@ -129,27 +116,7 @@ public class PessoasController : ControllerBase
             await _context.SaveChangesAsync();
 
 
-            return Ok("");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpPut("AtualizarEndereco")]//Parado 
-    public async Task<IActionResult> AtualizarEnderecoAsync(Pessoa enderecoPessoa)
-    {
-        try
-        {
-            //Dados obrigatorios -> CPF 
-            //Dados que podem ser atualizados -> CEP - RUA - UF - NRO
-
-            Pessoa pBusca = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == enderecoPessoa.CpfPessoa);
-            if (pBusca == null)
-                throw new Exception("CPF não existe");
-
-            return Ok(enderecoPessoa);
+            return Ok();
         }
         catch (Exception ex)
         {
@@ -158,8 +125,8 @@ public class PessoasController : ControllerBase
     }
 
     //Verificar o relacionamento no model *THIAGO ANOTAÇÕES :)*
-    [HttpPost("IncluirGrauParentesco/{idPaciente}")]
-    public async Task<IActionResult> IncluirParentescoAsync(string idResponsavel, int grauParentesco, string idPaciente)
+    [HttpPost("AssociarGrauParentesco/{idPaciente:int}")]
+    public async Task<IActionResult> IncluirParentescoAsync(int idResponsavel, int grauParentesco,[FromRoute] int idPaciente)
     {
         ResponsavelPaciente responsavelPaciente = new ResponsavelPaciente();
 
@@ -186,17 +153,15 @@ public class PessoasController : ControllerBase
                                             (grau => grau.GrauParentescoId == grauParentesco);
 
             if (parentesco is null)
-            return NotFound("Grau de parentesco não cadastrado.");
-
-            //Temporario apenas para realizar testes com essa função
-            int qtdeResponsavelPaciente = _context.ResponsaveisPaciente.Count();
-            responsavelPaciente.ResponsavelPacienteId = qtdeResponsavelPaciente;
+            {
+                return NotFound("Grau de parentesco não cadastrado.");
+            }
 
             responsavelPaciente.GrauParentescoId = parentesco.GrauParentescoId;
             responsavelPaciente.ResponsavelId = idResponsavel;
             responsavelPaciente.PacienteInId = idPaciente;
 
-            await _context.ResponsaveisPaciente.AddAsync(responsavelPaciente);
+            await _context.ResponsaveisPacientes.AddAsync(responsavelPaciente);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -230,13 +195,13 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpGet("GetInfoContato/{idPessoa}")]
-    public async Task<IActionResult> GetInfoContatosAsync(string idPessoa)
+    [HttpGet("GetInfoContato/{idPessoa:int}")]
+    public async Task<IActionResult> GetInfoContatosAsync(int idPessoa)
     {
         try
         {
             Pessoa pessoaContatos = await _context.Pessoas
-                                    .Include(contato => contato.ContatosPessoa)
+                                    .Include(contato => contato.ContatosPessoas)
                                     .AsNoTracking()
                                     .FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPessoa);
 
@@ -274,8 +239,8 @@ public class PessoasController : ControllerBase
         }
     }
 
-    [HttpGet("VerificarResponsavelPaciente/{idResponsavel}")]
-    public async Task<IActionResult> VerificarResponsavelPacienteAsync([FromQuery] string idResponsavel)
+    [HttpGet("VerificarResponsavelPaciente/{idResponsavel:int}")]
+    public async Task<IActionResult> VerificarResponsavelPacienteAsync([FromQuery] int idResponsavel)
     {
         try
         {
@@ -289,7 +254,7 @@ public class PessoasController : ControllerBase
             if (responsavel.TipoPessoa != Models.Enuns.TipoPessoa.Responsavel)
                 throw new Exception($"{responsavel.NomePessoa} não está cadastrado como responsavel.");
 
-            responsavelPacientes = _context.ResponsaveisPaciente
+            responsavelPacientes = _context.ResponsaveisPacientes
                     .Where(re => re.ResponsavelId == idResponsavel)
                     .Include(pa => pa.PacienteId).ToList();
 
@@ -311,11 +276,11 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("ObsPaciente")]
-    public async Task<IActionResult> IncluirObservacoesPacienteAsync([FromQuery] string idPaciente, [FromQuery] int tipo)
+    public async Task<IActionResult> IncluirObservacoesPacienteAsync([FromQuery] int idPaciente, [FromQuery] int tipo)
     {
         try
         {
-            Pessoa pessoa = await _context.Pessoas.FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPaciente && (Int32)TipoPessoa.Paciente_Incapaz == tipo);
+            Pessoa pessoa = await _context.Pessoas.FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPaciente && (int)TipoPessoa.Paciente_Incapaz == tipo);
 
             return Ok();
         }catch (Exception ex)
@@ -323,5 +288,4 @@ public class PessoasController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    }*/
 }
