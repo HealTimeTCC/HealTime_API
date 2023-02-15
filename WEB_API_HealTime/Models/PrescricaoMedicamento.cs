@@ -9,9 +9,6 @@ public class PrescricaoMedicamento
     public int? PrescricaoPacienteId { get; set; }
     [JsonIgnore]
     public PrescricaoPaciente PrescricaoPaciente { get; set; }
-    /*public int AndamentoMedicacaoId { get; set; }
-    [JsonIgnore]
-    public AndamentoMedicacao AndamentoMedicacao { get; set; }*/
     public DateTime? HrDtMedicacao { get; set; }
     public DateTime? DtTerminoTratamento { get; set; }
     public int? QtdDiariaMedia { get; set; }

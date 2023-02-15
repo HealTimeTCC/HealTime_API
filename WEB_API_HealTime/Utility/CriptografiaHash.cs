@@ -2,7 +2,7 @@
 
 namespace WEB_API_HealTime.Utility;
 
-public class CriptografiaHash
+static public class CriptografiaHash
 {
     public static void CriptografiaSenhaHash(string senha, out byte[] hash, out byte[] salt)
     {
