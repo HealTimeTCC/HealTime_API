@@ -60,7 +60,7 @@ public class VerificarInfoPessoa
             return (false);
     }
 
-    private int DigitoVerificador(int valoresSomados)
+    public static int DigitoVerificador(int valoresSomados)
     {
         int resulId = 11 - (valoresSomados % 11);
 

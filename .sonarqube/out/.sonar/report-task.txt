@@ -1,0 +1,6 @@
+projectKey=WEB_API_HealTime
+serverUrl=http://localhost:9000
+serverVersion=9.9.0.65466
+dashboardUrl=http://localhost:9000/dashboard?id=WEB_API_HealTime
+ceTaskId=AYZSru_CiAeGZAE2FeEM
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYZSru_CiAeGZAE2FeEM
