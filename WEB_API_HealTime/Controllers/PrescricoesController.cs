@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
-using WEB_API_HealTime.Models.Enuns;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class PrescricoesController : ControllerBase
 {
@@ -22,15 +20,22 @@ public class PrescricoesController : ControllerBase
 		try
 		{
             Pessoa paciente = prescricaoPaciente.EmissaoPrescricao is null ?
-				throw new Exception("É obrigatorio a data de emissao da prescricao")
-				: await _context.Pessoas
+                throw new Exception("É obrigatorio a data de emissao da prescricao")
+                : await _context.Pessoas
                 .FirstOrDefaultAsync(p => p.PessoaId == prescricaoPaciente.PacienteId);
 
 			if (paciente != null)
 			{
-                await _context.PrescricaoPacientes.AddAsync(prescricaoPaciente);
-				await _context.SaveChangesAsync();
-                return Ok("Nova prescrição adicionada");
+                switch ((int)paciente.TipoPessoa)
+                {
+                    case 3: throw new Exception("O perfil Responsavel não pode receber Prescrições, atualize seu cadastro");
+                    case 4: throw new Exception("O perfil Cuidador não pode receber Prescrições, atualize seu cadastro");
+					default:
+                        await _context.PrescricaoPacientes.AddAsync(prescricaoPaciente);
+                        await _context.SaveChangesAsync();
+                        return Ok("Nova prescrição adicionada");
+                }
+                
             }
 			return NotFound("Paciente não encontrado");
             
@@ -86,5 +91,10 @@ public class PrescricoesController : ControllerBase
 		{
 			return BadRequest(ex.Message);
 		}
+	}
+	[HttpPost("Estoque")]
+	public async Task<IActionResult> NovaMedicacao()
+	{
+		return Ok();
 	}
 } 

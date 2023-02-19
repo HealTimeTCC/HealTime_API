@@ -60,11 +60,7 @@ public class VerificarInfoPessoa
             return (false);
     }
 
-<<<<<<< HEAD
     public static int DigitoVerificador(int valoresSomados)
-=======
-    static private int DigitoVerificador(int valoresSomados)
->>>>>>> ELABORACAO_CONTROLLERS
     {
         int resulId = 11 - (valoresSomados % 11);
 
