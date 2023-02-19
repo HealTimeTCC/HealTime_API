@@ -442,3 +442,13 @@ D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hans\Sys
 D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\bin\Debug\net7.0\zh-Hant\System.Spatial.resources.dll
 =======
 >>>>>>> ELABORACAO_CONTROLLERS
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.AssemblyReference.cache
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.GeneratedMSBuildEditorConfig.editorconfig
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfoInputs.cache
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.AssemblyInfo.cs
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.csproj.CoreCompileInputs.cache
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cs
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.MvcApplicationPartsAssemblyInfo.cache
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.dll
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\refint\WEB_API_HealTime.dll
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\obj\Debug\net7.0\WEB_API_HealTime.pdb
