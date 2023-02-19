@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WEBAPIHealTime.Migrations
+namespace WEB_API_HealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class MudancaBanco : Migration
+    public partial class Initi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -37,6 +37,8 @@ namespace WEBAPIHealTime.Migrations
                     DtUltimoAcesso = table.Column<DateTime>(type: "SMALLDATETIME", nullable: true, defaultValueSql: "GETDATE()"),
                     DtNascimentoPessoa = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
                     GeneroPessoa = table.Column<int>(type: "int", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     ObsPacienteIncapaz = table.Column<string>(type: "VARCHAR(350)", nullable: true)
                 },
                 constraints: table =>
@@ -143,7 +145,8 @@ namespace WEBAPIHealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PacienteId = table.Column<int>(type: "int", nullable: true),
                     DescFichaPessoa = table.Column<string>(type: "VARCHAR(300)", nullable: true),
-                    Emissao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false)
+                    DataCadastroSistemaPrescricao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: true, defaultValueSql: "GETDATE()"),
+                    EmissaoPrescricao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,14 +235,16 @@ namespace WEBAPIHealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PrescricaoMedicamento",
+                name: "PrescricaoMedicamentos",
                 columns: table => new
                 {
                     PrescricaoMedicamentoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PrescricaoPacienteId = table.Column<int>(type: "int", nullable: true),
-                    HrDtMedicacao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
+                    NomeMedicamento = table.Column<string>(type: "VARCHAR(30)", nullable: false),
+                    HrInicioDtMedicacao = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
                     DtTerminoTratamento = table.Column<DateTime>(type: "SMALLDATETIME", nullable: true),
+                    IntervaloMedicacao = table.Column<int>(type: "int", nullable: true),
                     QtdDiariaMedia = table.Column<int>(type: "int", nullable: false),
                     CheckSituacao = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
                     MedicacaoId = table.Column<int>(type: "int", nullable: false)
@@ -298,7 +303,7 @@ namespace WEBAPIHealTime.Migrations
                     table.ForeignKey(
                         name: "FK_PrescricaoMedicamentoId",
                         column: x => x.PrescricaoMedicamentoId,
-                        principalTable: "PrescricaoMedicamento",
+                        principalTable: "PrescricaoMedicamentos",
                         principalColumn: "PrescricaoMedicamentoId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -340,14 +345,14 @@ namespace WEBAPIHealTime.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrescricaoMedicamento_MedicacaoId",
-                table: "PrescricaoMedicamento",
+                name: "IX_PrescricaoMedicamentos_MedicacaoId",
+                table: "PrescricaoMedicamentos",
                 column: "MedicacaoId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PrescricaoMedicamento_PrescricaoPacienteId",
-                table: "PrescricaoMedicamento",
+                name: "IX_PrescricaoMedicamentos_PrescricaoPacienteId",
+                table: "PrescricaoMedicamentos",
                 column: "PrescricaoPacienteId");
 
             migrationBuilder.CreateIndex(
@@ -395,7 +400,7 @@ namespace WEBAPIHealTime.Migrations
                 name: "ResponsaveisPacientes");
 
             migrationBuilder.DropTable(
-                name: "PrescricaoMedicamento");
+                name: "PrescricaoMedicamentos");
 
             migrationBuilder.DropTable(
                 name: "Estoque");

@@ -9,18 +9,18 @@ using WEB_API_HealTime.Data;
 
 #nullable disable
 
-namespace WEBAPIHealTime.Migrations
+namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230214225526_MudancaBanco")]
-    partial class MudancaBanco
+    [Migration("20230219210718_Initi")]
+    partial class Initi
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.1")
+                .HasAnnotation("ProductVersion", "7.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -299,6 +299,12 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<string>("ObsPacienteIncapaz")
                         .HasColumnType("VARCHAR(350)");
 
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("SobrenomePessoa")
                         .HasColumnType("VARCHAR(50)");
 
@@ -329,12 +335,19 @@ namespace WEBAPIHealTime.Migrations
                     b.Property<DateTime?>("DtTerminoTratamento")
                         .HasColumnType("SMALLDATETIME");
 
-                    b.Property<DateTime?>("HrDtMedicacao")
+                    b.Property<DateTime?>("HrInicioDtMedicacao")
                         .IsRequired()
                         .HasColumnType("SMALLDATETIME");
 
+                    b.Property<int?>("IntervaloMedicacao")
+                        .HasColumnType("int");
+
                     b.Property<int>("MedicacaoId")
                         .HasColumnType("int");
+
+                    b.Property<string>("NomeMedicamento")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(30)");
 
                     b.Property<int?>("PrescricaoPacienteId")
                         .HasColumnType("int");
@@ -351,7 +364,7 @@ namespace WEBAPIHealTime.Migrations
 
                     b.HasIndex("PrescricaoPacienteId");
 
-                    b.ToTable("PrescricaoMedicamento");
+                    b.ToTable("PrescricaoMedicamentos");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.PrescricaoPaciente", b =>
@@ -362,10 +375,16 @@ namespace WEBAPIHealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrescricaoPacienteId"));
 
+                    b.Property<DateTime?>("DataCadastroSistemaPrescricao")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("SMALLDATETIME")
+                        .HasDefaultValueSql("GETDATE()");
+
                     b.Property<string>("DescFichaPessoa")
                         .HasColumnType("VARCHAR(300)");
 
-                    b.Property<DateTime>("Emissao")
+                    b.Property<DateTime?>("EmissaoPrescricao")
+                        .IsRequired()
                         .HasColumnType("SMALLDATETIME");
 
                     b.Property<int?>("PacienteId")
