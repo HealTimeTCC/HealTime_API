@@ -15,7 +15,7 @@ public class Medicacao
     public DateTime? DtValidade { get; set; }
     public int? QtdMedicacao { get; set; }
     [JsonIgnore]
-    public PrescricaoMedicamento PrescricaoMedicamento { get; set; }
+    public PrescricaoMedicamento? PrescricaoMedicamento { get; set; }
     [JsonIgnore]
     public Estoque Estoque { get; set; }
 }   
