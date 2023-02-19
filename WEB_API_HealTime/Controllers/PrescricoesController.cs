@@ -88,6 +88,7 @@ public class PrescricoesController : ControllerBase
 		}
 		catch (Exception ex)
 		{
+
 			return BadRequest(ex.Message);
 		}
 	}
