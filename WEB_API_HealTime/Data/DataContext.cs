@@ -23,10 +23,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Pessoa>()
             .HasKey(key => key.PessoaId)
             .HasName("PK_Pessoas");
-<<<<<<< HEAD
 
-=======
->>>>>>> ELABORACAO_CONTROLLERS
         modelBuilder.Entity<Pessoa>()
             .Property(tp => tp.TipoPessoa)
             .HasDefaultValue(TipoPessoa.Paciente_Capaz);

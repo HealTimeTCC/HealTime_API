@@ -4,9 +4,7 @@ using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.Enuns;
 using Microsoft.EntityFrameworkCore;
-using System.Web.Http.OData;
 using System.Reflection.Metadata.Ecma335;
-using System.Data.Entity;
 
 
 namespace WEB_API_HealTime.Controllers;

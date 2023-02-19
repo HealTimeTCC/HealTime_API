@@ -15,21 +15,15 @@ public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
     public PessoasController(DataContext context){ _context = context; }
-<<<<<<< HEAD
-
     
 
-    /*
-=======
-    
->>>>>>> ELABORACAO_CONTROLLERS
+
     [HttpPost("Cadastro")]
     public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
     {
 		try
 		{
             VerificarInfoPessoa verificarInfoPessoa = new VerificarInfoPessoa();
-
 
             Pessoa buscaP = await _context.Pessoas.FirstOrDefaultAsync(x => x.CpfPessoa == pessoa.CpfPessoa);
             if (buscaP != null)

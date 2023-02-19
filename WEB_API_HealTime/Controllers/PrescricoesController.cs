@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
@@ -18,13 +17,18 @@ public class PrescricoesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> IncluirPrescricoes(PrescricaoPaciente prescricaoPaciente)
     {
-		
+		//Ter no minimo 1 paciente e 1 responsavel cadastrado
 		try
 		{
             Pessoa paciente = prescricaoPaciente.EmissaoPrescricao is null ?
-				throw new Exception("É obrigatorio a data de emissao da prescricao")
+				throw new ArgumentNullException("É obrigatorio a data de emissao da prescricao")
 				: await _context.Pessoas
                 .FirstOrDefaultAsync(p => p.PessoaId == prescricaoPaciente.PacienteId);
+
+            if (paciente.TipoPessoa == TipoPessoa.Paciente_Incapaz)
+			{
+
+			}
 
 			if (paciente != null)
 			{
@@ -67,10 +71,10 @@ public class PrescricoesController : ControllerBase
 		try
 		{
 			if (prescricaoMedicamento.PrescricaoPacienteId is null) 
-				throw new Exception("Id Prescricao é obrigatorio : erro interno");
+				throw new ArgumentNullException("Id Prescricao é obrigatorio : erro interno");
 
 			if (prescricaoMedicamento.IntervaloMedicacao is null) 
-				throw new Exception("Intervalo obrigatorio : erro externo");
+				throw new ArgumentNullException("Intervalo obrigatorio : erro externo");
 			if(prescricaoMedicamento.IntervaloMedicacao >= 1 && prescricaoMedicamento.IntervaloMedicacao <= 24)
 			{
 				await _context.PrescricaoMedicamentos.AddAsync(prescricaoMedicamento);

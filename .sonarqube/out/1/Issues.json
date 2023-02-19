@@ -1,0 +1,223 @@
+{
+  "$schema": "http://json.schemastore.org/sarif-1.0.0",
+  "version": "1.0.0",
+  "runs": [
+    {
+      "tool": {
+        "name": "Compilador do Microsoft (R) Visual C#",
+        "version": "4.4.0.0",
+        "fileVersion": "4.4.0-6.23068.5 (0760f14e)",
+        "semanticVersion": "4.4.0",
+        "language": "pt-BR"
+      },
+      "results": [
+        {
+          "ruleId": "CS1513",
+          "level": "error",
+          "message": "} esperada",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Controllers/PessoasController.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 73,
+                  "endLine": 17,
+                  "endColumn": 73
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Controllers/PessoasController.cs",
+                "region": {
+                  "startLine": 18,
+                  "startColumn": 1,
+                  "endLine": 18,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS1035",
+          "level": "error",
+          "message": "Final do arquivo encontrado. '*/' esperado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Controllers/PessoasController.cs",
+                "region": {
+                  "startLine": 22,
+                  "startColumn": 5,
+                  "endLine": 22,
+                  "endColumn": 5
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Models/PrescricaoMedicamento.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 1,
+                  "endLine": 12,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Models/PrescricaoMedicamento.cs",
+                "region": {
+                  "startLine": 15,
+                  "startColumn": 1,
+                  "endLine": 15,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Models/PrescricaoMedicamento.cs",
+                "region": {
+                  "startLine": 17,
+                  "startColumn": 1,
+                  "endLine": 17,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Data/DataContext.cs",
+                "region": {
+                  "startLine": 26,
+                  "startColumn": 1,
+                  "endLine": 26,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Data/DataContext.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 1,
+                  "endLine": 28,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CS8300",
+          "level": "error",
+          "message": "Marcador de conflito de mesclagem encontrado",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///D:/ETEC/etec3/D-TCC/HealTime_API/WEB_API_HealTime/Data/DataContext.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 1,
+                  "endLine": 29,
+                  "endColumn": 8
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "rules": {
+        "CS1035": {
+          "id": "CS1035",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1035)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS1513": {
+          "id": "CS1513",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS1513)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        },
+        "CS8300": {
+          "id": "CS8300",
+          "defaultLevel": "error",
+          "helpUri": "https://msdn.microsoft.com/query/roslyn.query?appId=roslyn&k=k(CS8300)",
+          "properties": {
+            "category": "Compiler",
+            "isEnabledByDefault": true,
+            "tags": [
+              "Compiler",
+              "Telemetry",
+              "NotConfigurable"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

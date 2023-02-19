@@ -24,7 +24,7 @@ public class VerificarInfoPessoa
             return false;
     }
 
-    private bool VerificarPriDigito(char[] cpf)
+    private static bool VerificarPriDigito(char[] cpf)
     {
         var tools = new VerificarInfoPessoa();
 
@@ -42,7 +42,7 @@ public class VerificarInfoPessoa
             return (false);
     }
 
-    private bool VerificarSegDigito(char[] cpf)
+    private static bool VerificarSegDigito(char[] cpf)
     {
         var tools = new VerificarInfoPessoa();
 
@@ -60,11 +60,8 @@ public class VerificarInfoPessoa
             return (false);
     }
 
-<<<<<<< HEAD
-    public static int DigitoVerificador(int valoresSomados)
-=======
+
     static private int DigitoVerificador(int valoresSomados)
->>>>>>> ELABORACAO_CONTROLLERS
     {
         int resulId = 11 - (valoresSomados % 11);
 

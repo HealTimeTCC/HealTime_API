@@ -1,37 +1,23 @@
 {
   "format": 1,
   "restore": {
-<<<<<<< HEAD
-    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {}
+    "D:\\ETEC\\etec3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {}
   },
   "projects": {
-    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {
+    "D:\\ETEC\\etec3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+        "projectUniqueName": "D:\\ETEC\\etec3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
         "projectName": "WEB_API_HealTime",
-        "projectPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
-        "packagesPath": "C:\\Users\\etechas\\.nuget\\packages\\",
-        "outputPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\obj\\",
-=======
-    "D:\\Thiago_3DS\\TCCII\\API\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {}
-  },
-  "projects": {
-    "D:\\Thiago_3DS\\TCCII\\API\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {
-      "version": "1.0.0",
-      "restore": {
-        "projectUniqueName": "D:\\Thiago_3DS\\TCCII\\API\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
-        "projectName": "WEB_API_HealTime",
-        "projectPath": "D:\\Thiago_3DS\\TCCII\\API\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
-        "packagesPath": "C:\\Users\\etechas\\.nuget\\packages\\",
-        "outputPath": "D:\\Thiago_3DS\\TCCII\\API\\HealTime_API\\WEB_API_HealTime\\obj\\",
->>>>>>> ELABORACAO_CONTROLLERS
+        "projectPath": "D:\\ETEC\\etec3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj",
+        "packagesPath": "C:\\Users\\marzo\\.nuget\\packages\\",
+        "outputPath": "D:\\ETEC\\etec3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\etechas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\marzo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -59,37 +45,25 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "EntityFramework": {
-              "target": "Package",
-              "version": "[6.4.4, )"
-            },
-            "Microsoft.AspNet.WebApi.OData": {
-              "target": "Package",
-              "version": "[5.7.0, )"
-            },
-            "Microsoft.AspNetCore.OpenApi": {
-              "target": "Package",
-              "version": "[7.0.1, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.3, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.3, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -119,7 +93,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

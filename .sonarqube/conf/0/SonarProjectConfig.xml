@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <SonarProjectConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.sonarsource.com/msbuild/analyzer/2021/1">
-  <AnalysisConfigPath>D:\3ds_Dan_Marzo\DTCC\HealTime_API\.sonarqube\conf\SonarQubeAnalysisConfig.xml</AnalysisConfigPath>
-  <ProjectPath>D:\3ds_Dan_Marzo\DTCC\HealTime_API\WEB_API_HealTime\WEB_API_HealTime.csproj</ProjectPath>
-  <FilesToAnalyzePath>D:\3ds_Dan_Marzo\DTCC\HealTime_API\.sonarqube\conf\0\FilesToAnalyze.txt</FilesToAnalyzePath>
-  <OutPath>D:\3ds_Dan_Marzo\DTCC\HealTime_API\.sonarqube\out\0</OutPath>
+  <AnalysisConfigPath>D:\ETEC\etec3\D-TCC\HealTime_API\.sonarqube\conf\SonarQubeAnalysisConfig.xml</AnalysisConfigPath>
+  <ProjectPath>D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\WEB_API_HealTime.csproj</ProjectPath>
+  <FilesToAnalyzePath>D:\ETEC\etec3\D-TCC\HealTime_API\.sonarqube\conf\0\FilesToAnalyze.txt</FilesToAnalyzePath>
+  <OutPath>D:\ETEC\etec3\D-TCC\HealTime_API\.sonarqube\out\0</OutPath>
   <ProjectType>Product</ProjectType>
   <TargetFramework>net7.0</TargetFramework>
 </SonarProjectConfig>

@@ -1,1 +1,1 @@
-D:\3ds_Dan_Marzo\DTCC\HealTime_API\.sonarqube\out\0
+D:\ETEC\etec3\D-TCC\HealTime_API\.sonarqube\out\0
