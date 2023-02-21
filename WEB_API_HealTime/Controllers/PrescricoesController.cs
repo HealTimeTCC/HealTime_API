@@ -99,39 +99,6 @@ public class PrescricoesController : ControllerBase
 			return BadRequest(ex.Message);
 		}
 	}
-	[HttpPost("Estoque")]
-	public async Task<IActionResult> NovaMedicacao(Medicacao novaMedicacao)
-	{
-		try
-		{
 
-			Medicacao medicacao = novaMedicacao.Nome is null?
-				throw new ArgumentNullException("Nome não pode ser nulo")
-				: await _context.Medicacoes.
-                FirstOrDefaultAsync(m => m.Nome.ToLower() == novaMedicacao.Nome.ToLower());
-
-			TipoMedicacao tipo = novaMedicacao.TipoMedicacao is null ?
-				throw new ArgumentNullException("O tipo da medicação deve ser especificado")
-				: await _context.TipoMedicacoes.FirstOrDefaultAsync(tp => tp.TipoMedicacaoId == novaMedicacao.TipoMedicacaoId);
-			if (novaMedicacao.QtdMedicacao is null)
-				throw new ArgumentNullException("Informe a quantidade");
-			
-			if (tipo is null)
-				throw new Exception("Direcionar Inclusão");
-
-            if (medicacao is null)
-			{
-				//Poder ser colocado aqui outra função, tipo Update cadastro
-				throw new Exception("Erro por enquanto, se achar igual");
-			}
-
-			await _context.Medicacoes.AddAsync(novaMedicacao);
-			await _context.SaveChangesAsync();
-			return Ok(novaMedicacao);
-		}
-		catch (Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
+	
 } 
