@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230219210718_Initi")]
-    partial class Initi
+    [Migration("20230221194327_IncluindoTitulo_TipoMedicamento")]
+    partial class IncluindoTitulo_TipoMedicamento
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,7 +151,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.EnderecoPessoa", b =>
                 {
-                    b.Property<int>("PessoaId")
+                    b.Property<int?>("PessoaId")
                         .HasColumnType("int");
 
                     b.Property<string>("BairroEndereco")
@@ -272,11 +272,11 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoa", b =>
                 {
-                    b.Property<int>("PessoaId")
+                    b.Property<int?>("PessoaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PessoaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("PessoaId"));
 
                     b.Property<string>("CpfPessoa")
                         .HasColumnType("CHAR(11)");
@@ -439,13 +439,87 @@ namespace WEB_API_HealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TipoMedicacaoId"));
 
+                    b.Property<int>("ClasseAplicacao")
+                        .HasColumnType("int");
+
                     b.Property<string>("DescMedicacao")
+                        .HasColumnType("VARCHAR(300)");
+
+                    b.Property<string>("TituloTipoMedicacao")
                         .HasColumnType("VARCHAR(50)");
 
                     b.HasKey("TipoMedicacaoId")
                         .HasName("PK_TipoMedicamentoId");
 
-                    b.ToTable("TipoMedicacao");
+                    b.ToTable("TipoMedicacoes");
+
+                    b.HasData(
+                        new
+                        {
+                            TipoMedicacaoId = 1,
+                            ClasseAplicacao = 1,
+                            TituloTipoMedicacao = "Via oral (boca)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 2,
+                            ClasseAplicacao = 1,
+                            TituloTipoMedicacao = "Sublingual (embaixo da língua)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 3,
+                            ClasseAplicacao = 1,
+                            TituloTipoMedicacao = "Supositorios (Retal)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 4,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Intravenosa (Direta no sangue)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 5,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Intramuscular (Direta no músculo)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 6,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Subcutânea (Debaixo da pele)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 7,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Respiratória"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 8,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Via tópica (Pomadas)"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 9,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Via Ocular"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 10,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Via Nasal"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 11,
+                            ClasseAplicacao = 2,
+                            TituloTipoMedicacao = "Via Auricular"
+                        });
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.AndamentoMedicacao", b =>

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace WEB_API_HealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class Initi : Migration
+    public partial class IncluindoTitulo_TipoMedicamento : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -47,12 +49,14 @@ namespace WEB_API_HealTime.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TipoMedicacao",
+                name: "TipoMedicacoes",
                 columns: table => new
                 {
                     TipoMedicacaoId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DescMedicacao = table.Column<string>(type: "VARCHAR(50)", nullable: true)
+                    TituloTipoMedicacao = table.Column<string>(type: "VARCHAR(50)", nullable: true),
+                    ClasseAplicacao = table.Column<int>(type: "int", nullable: false),
+                    DescMedicacao = table.Column<string>(type: "VARCHAR(300)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -207,7 +211,7 @@ namespace WEB_API_HealTime.Migrations
                     table.ForeignKey(
                         name: "FK_Medicacao_TipoMedicacao_TipoMedicacaoId",
                         column: x => x.TipoMedicacaoId,
-                        principalTable: "TipoMedicacao",
+                        principalTable: "TipoMedicacoes",
                         principalColumn: "TipoMedicacaoId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -306,6 +310,24 @@ namespace WEB_API_HealTime.Migrations
                         principalTable: "PrescricaoMedicamentos",
                         principalColumn: "PrescricaoMedicamentoId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "TipoMedicacoes",
+                columns: new[] { "TipoMedicacaoId", "ClasseAplicacao", "DescMedicacao", "TituloTipoMedicacao" },
+                values: new object[,]
+                {
+                    { 1, 1, null, "Via oral (boca)" },
+                    { 2, 1, null, "Sublingual (embaixo da língua)" },
+                    { 3, 1, null, "Supositorios (Retal)" },
+                    { 4, 2, null, "Intravenosa (Direta no sangue)" },
+                    { 5, 2, null, "Intramuscular (Direta no músculo)" },
+                    { 6, 2, null, "Subcutânea (Debaixo da pele)" },
+                    { 7, 2, null, "Respiratória" },
+                    { 8, 2, null, "Via tópica (Pomadas)" },
+                    { 9, 2, null, "Via Ocular" },
+                    { 10, 2, null, "Via Nasal" },
+                    { 11, 2, null, "Via Auricular" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -418,7 +440,7 @@ namespace WEB_API_HealTime.Migrations
                 name: "Pessoas");
 
             migrationBuilder.DropTable(
-                name: "TipoMedicacao");
+                name: "TipoMedicacoes");
         }
     }
 }
