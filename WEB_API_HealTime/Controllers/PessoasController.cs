@@ -15,16 +15,6 @@ public class PessoasController : ControllerBase
 {
     private readonly DataContext _context;
     public PessoasController(DataContext context){ _context = context; }
-<<<<<<< HEAD
-    
-
-
-=======
-
-    
-
-    /*
->>>>>>> main
     [HttpPost("Cadastro")]
     public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
     {
@@ -289,5 +279,4 @@ public class PessoasController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-*/
 }
