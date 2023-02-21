@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -283,8 +284,9 @@ public class DataContext : DbContext
             .HasKey(pk => pk.MedicacaoId)
             .HasName("PK_MedicacaoId");
         modelBuilder.Entity<Medicacao>()
-            .Property(p => p.DtValidade)
+            .Property(p => p.AtualizadoEm)
             .HasColumnType("SMALLDATETIME")
+            .HasDefaultValue("GETDATE()")
             .IsRequired();
         modelBuilder.Entity<Medicacao>()
             .Property(p => p.Fabricante)
@@ -300,6 +302,9 @@ public class DataContext : DbContext
         modelBuilder.Entity<Medicacao>()
             .Property(qtd => qtd.QtdMedicacao)
             .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property (qtd => qtd.Composicao)
+            .IsRequired();
         
         /*- -------- Relação: TipoMedicamento -------- -*/
 
@@ -309,15 +314,40 @@ public class DataContext : DbContext
                 .HasForeignKey<Medicacao>(fk => fk.TipoMedicacaoId)
                 .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
 
-        /*- -------- TIPOMEDICAMENTO -------- -*/
+        /*- -------- TIPOMEDICACAO -------- -*/
 
         modelBuilder.Entity<TipoMedicacao>()
             .HasKey(pk => pk.TipoMedicacaoId)
             .HasName("PK_TipoMedicamentoId");
+
         modelBuilder.Entity<TipoMedicacao>()
             .Property(p => p.DescMedicacao)
+            .HasColumnType("VARCHAR(300)");
+        
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(p => p.TituloTipoMedicacao)
             .HasColumnType("VARCHAR(50)");
 
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(p => p.ClasseAplicacao)
+            .IsRequired();
+        /* INCLUSAO DE DADOS */
+        modelBuilder.Entity<TipoMedicacao>()
+            .HasData(
+                /*Tipo ENTERAL*/
+                new TipoMedicacao() { TipoMedicacaoId = 1, DescMedicacao = "Aplicação pela boca" , TituloTipoMedicacao = "Via oral", ClasseAplicacao = ClasseAplicacao.Enteral },
+                new TipoMedicacao() { TipoMedicacaoId = 2, DescMedicacao = "Aplicação por debaixo da lingua" ,TituloTipoMedicacao = "Sublingual", ClasseAplicacao = ClasseAplicacao.Enteral },
+                new TipoMedicacao() { TipoMedicacaoId = 3, DescMedicacao = "Aplicação retal", TituloTipoMedicacao = "Supositorios", ClasseAplicacao = ClasseAplicacao.Enteral },
+                /*Tipo PARENTERAL*/
+                new TipoMedicacao() { TipoMedicacaoId = 4, DescMedicacao = "Direta no sangue", TituloTipoMedicacao = "Intravenosa", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 5, DescMedicacao = "Direta no músculo", TituloTipoMedicacao = "Intramuscular", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 6, DescMedicacao = "Debaixo da pele", TituloTipoMedicacao = "Subcutânea", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 7, DescMedicacao = "Via que se estende desde a mucosa nasal até os pulmões", TituloTipoMedicacao = "Respiratória", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 8, DescMedicacao = "Aplicação na pele (Pomadas)", TituloTipoMedicacao = "Via tópica", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 9, DescMedicacao = "Aplicação direta no olho" ,TituloTipoMedicacao = "Via Ocular", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 10, DescMedicacao = "Aplicação pelo nariz", TituloTipoMedicacao = "Via Nasal", ClasseAplicacao = ClasseAplicacao.Parenteral },
+                new TipoMedicacao() { TipoMedicacaoId = 11, DescMedicacao = "Aplicação no ouvido", TituloTipoMedicacao = "Via Auricular", ClasseAplicacao = ClasseAplicacao.Parenteral }
+            );
         /*- -------- Relaçao: ESTOQUE-Medicacao -------- -*/
 
         modelBuilder.Entity<Estoque>()
