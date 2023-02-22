@@ -19,6 +19,7 @@ public class DataContext : DbContext
     public DbSet<Medicacao> Medicacoes { get; set; }
     public DbSet<PrescricaoMedicamento> PrescricaoMedicamentos { get; set; }
     public DbSet<TipoMedicacao> TipoMedicacoes { get; set; }
+    public DbSet<Estoque> Estoque { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* - -------- PESSOAS -------- -*/
@@ -283,15 +284,11 @@ public class DataContext : DbContext
         modelBuilder.Entity<Medicacao>()
             .HasKey(pk => pk.MedicacaoId)
             .HasName("PK_MedicacaoId");
+
         modelBuilder.Entity<Medicacao>()
-            .Property(p => p.AtualizadoEm)
-            .HasColumnType("SMALLDATETIME")
-            .HasDefaultValue("GETDATE()")
-            .IsRequired();
-        modelBuilder.Entity<Medicacao>()
-            .Property(p => p.Fabricante)
-            .HasColumnType("VARCHAR(300)")
-            .IsRequired();
+            .Property(pk => pk.MedicacaoId)
+            .UseIdentityColumn();
+            
         modelBuilder.Entity<Medicacao>()
             .Property(p => p.Nome)
             .HasColumnType("VARCHAR(30)")
@@ -310,8 +307,8 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<Medicacao>()
             .HasOne<TipoMedicacao>(pk => pk.TipoMedicacao)
-            .WithOne(pk => pk.Medicacao)
-                .HasForeignKey<Medicacao>(fk => fk.TipoMedicacaoId)
+            .WithMany(pk => pk.Medicacoes)
+                .HasForeignKey(fk => fk.TipoMedicacaoId)
                 .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
 
         /*- -------- TIPOMEDICACAO -------- -*/
@@ -360,8 +357,11 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<Estoque>()
             .HasKey(pk => pk.MedicacaoId)
-            .HasName("PK_Estoque_MedicacaoId");
-        
+            .HasName("PK_Estoque_EstoqueId");
+        modelBuilder.Entity<Estoque>()
+            .Property(fk => fk.MedicacaoId)
+            .ValueGeneratedNever();
+
         modelBuilder.Entity<Estoque>()
             .Property(p => p.AtualizadoEm)
             .HasColumnType("SMALLDATETIME")
