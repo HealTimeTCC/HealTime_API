@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using WEB_API_HealTime.Models.Enuns;
 
 namespace WEB_API_HealTime.Models;
@@ -11,9 +12,11 @@ public class Medicacao
     [JsonIgnore]
     public TipoMedicacao TipoMedicacao { get; set; }
     public ComposicoesEnum? Composicao { get; set; }
-    public bool? StatusMedicacao { get; set; }   
-    public string Fabricante { get; set; } 
-    public DateTime? AtualizadoEm { get; set; }
+    public bool? StatusMedicacao { get; set; }
+    [NotMapped]
+    public string Fabricante { get; set; }
+    [NotMapped]
+    public string Desc { get; set; }
     public int? QtdMedicacao { get; set; }
     [JsonIgnore]
     public PrescricaoMedicamento? PrescricaoMedicamento { get; set; }
