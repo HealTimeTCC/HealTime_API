@@ -1,5 +1,6 @@
 ~/HealTime_API/WEB_API_HealTime/obj/*
 *.txt
 *.dll
+*.sql
 ~/HealTime_API/.vs/
 ~/WEB_API_HealTime/bin
