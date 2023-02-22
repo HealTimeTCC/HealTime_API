@@ -11,5 +11,5 @@ public class TipoMedicacao
     public ClasseAplicacao ClasseAplicacao { get; set; }
     public string DescMedicacao { get; set; }
     [JsonIgnore]
-    public Medicacao Medicacao { get; set; }
+    public List<Medicacao> Medicacoes { get; set; }
 }
