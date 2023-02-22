@@ -5,4 +5,5 @@
 *.vs
 *.vscode
 *.sonarqube
-D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\bin\
+WEB_API_HealTime/obj/
+WEB_API_HealTime/bin/
