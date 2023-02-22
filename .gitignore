@@ -1,0 +1,9 @@
+
+*.txt
+*.dll
+*.sql
+*.vs
+*.vscode
+*.sonarqube
+WEB_API_HealTime/obj/
+WEB_API_HealTime/bin/

@@ -7,7 +7,7 @@ namespace WEB_API_HealTime.Models;
 
 public class Pessoa
 {
-    public int PessoaId { get; set; }
+    public int? PessoaId { get; set; }
     public TipoPessoa? TipoPessoa { get; set; }
     [Display(Name ="Nome")]
     public string NomePessoa { get; set; }
@@ -20,10 +20,10 @@ public class Pessoa
     public DateTime? DtNascimentoPessoa { get; set; }
     public Generos? GeneroPessoa { get; set; }
 
-    public byte[] PasswordHash { get; set; }
-    public byte[] PasswordSalt { get; set; }
+    public byte[]? PasswordHash { get; set; }
+    public byte[]? PasswordSalt { get; set; }
     [NotMapped]
-    public string PasswordString { get; set; }
+    public string? PasswordString { get; set; }
 
     public string ObsPacienteIncapaz { get; set; }
     [JsonIgnore]
@@ -41,5 +41,5 @@ public class Pessoa
     [JsonIgnore]
     public List<PrescricaoPaciente> PrescricaoPacientesDesc { get; set; }
     [JsonIgnore]
-    public EnderecoPessoa EnderecoPessoa { get; set; }
+    public EnderecoPessoa? EnderecoPessoa { get; set; }
 }
