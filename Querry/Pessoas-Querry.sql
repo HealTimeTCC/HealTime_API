@@ -30,4 +30,4 @@ UPDATE P SET P.dtUltimoAcesso= GETDATE() FROM Pessoas P
 INSERT INTO Pessoas VALUES ('4c6f9a05-f3ee-447f-be11-21e00ad0177e', 1, 'Dan', 'Marzo', '56053311839', '2023-01-8', '2004-02-15', 1,	'Nenhuma', 'R Santo Anacleto', 'CangaCity', 'São Paulo', 'Nenhuma ué', '03720110', 11)
 
 
-
+SELECT * FROM TipoMedicacoes
