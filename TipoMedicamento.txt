@@ -1,0 +1,14 @@
+Tipo Enteral
+- Via oral (boca)
+- Sublingual (embaixo da língua)
+- Supositorios (Retal)
+
+Parenteral
+- Intravenosa (Direta no sangue)
+- Intramuscular (Direta no músculo)
+- Subcutânea (Debaixo da pele)
+- Respiratória 
+- Via tópica (Pomadas)
+- Via Ocular 
+- Via Nasal
+- Via Auricular
