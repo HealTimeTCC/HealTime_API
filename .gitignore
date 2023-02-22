@@ -1,5 +1,8 @@
-~/HealTime_API/WEB_API_HealTime/obj/*
+
 *.txt
 *.dll
 *.sql
-~/.vs
+*.vs
+*.vscode
+*.sonarqube
+D:\ETEC\etec3\D-TCC\HealTime_API\WEB_API_HealTime\bin\
