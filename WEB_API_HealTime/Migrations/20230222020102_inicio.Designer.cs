@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230221194327_IncluindoTitulo_TipoMedicamento")]
-    partial class IncluindoTitulo_TipoMedicamento
+    [Migration("20230222020102_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -207,7 +207,7 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MedicacaoId")
-                        .HasName("PK_Estoque_MedicacaoId");
+                        .HasName("PK_Estoque_EstoqueId");
 
                     b.ToTable("Estoque");
                 });
@@ -237,13 +237,8 @@ namespace WEB_API_HealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicacaoId"));
 
-                    b.Property<DateTime?>("DtValidade")
-                        .IsRequired()
-                        .HasColumnType("SMALLDATETIME");
-
-                    b.Property<string>("Fabricante")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(300)");
+                    b.Property<int>("Composicao")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -264,8 +259,7 @@ namespace WEB_API_HealTime.Migrations
                     b.HasKey("MedicacaoId")
                         .HasName("PK_MedicacaoId");
 
-                    b.HasIndex("TipoMedicacaoId")
-                        .IsUnique();
+                    b.HasIndex("TipoMedicacaoId");
 
                     b.ToTable("Medicacoes");
                 });
@@ -458,66 +452,77 @@ namespace WEB_API_HealTime.Migrations
                         {
                             TipoMedicacaoId = 1,
                             ClasseAplicacao = 1,
-                            TituloTipoMedicacao = "Via oral (boca)"
+                            DescMedicacao = "Aplicação pela boca",
+                            TituloTipoMedicacao = "Via oral"
                         },
                         new
                         {
                             TipoMedicacaoId = 2,
                             ClasseAplicacao = 1,
-                            TituloTipoMedicacao = "Sublingual (embaixo da língua)"
+                            DescMedicacao = "Aplicação por debaixo da lingua",
+                            TituloTipoMedicacao = "Sublingual"
                         },
                         new
                         {
                             TipoMedicacaoId = 3,
                             ClasseAplicacao = 1,
-                            TituloTipoMedicacao = "Supositorios (Retal)"
+                            DescMedicacao = "Aplicação retal",
+                            TituloTipoMedicacao = "Supositorios"
                         },
                         new
                         {
                             TipoMedicacaoId = 4,
                             ClasseAplicacao = 2,
-                            TituloTipoMedicacao = "Intravenosa (Direta no sangue)"
+                            DescMedicacao = "Direta no sangue",
+                            TituloTipoMedicacao = "Intravenosa"
                         },
                         new
                         {
                             TipoMedicacaoId = 5,
                             ClasseAplicacao = 2,
-                            TituloTipoMedicacao = "Intramuscular (Direta no músculo)"
+                            DescMedicacao = "Direta no músculo",
+                            TituloTipoMedicacao = "Intramuscular"
                         },
                         new
                         {
                             TipoMedicacaoId = 6,
                             ClasseAplicacao = 2,
-                            TituloTipoMedicacao = "Subcutânea (Debaixo da pele)"
+                            DescMedicacao = "Debaixo da pele",
+                            TituloTipoMedicacao = "Subcutânea"
                         },
                         new
                         {
                             TipoMedicacaoId = 7,
                             ClasseAplicacao = 2,
+                            DescMedicacao = "Via que se estende desde a mucosa nasal até os pulmões",
                             TituloTipoMedicacao = "Respiratória"
                         },
                         new
                         {
                             TipoMedicacaoId = 8,
                             ClasseAplicacao = 2,
-                            TituloTipoMedicacao = "Via tópica (Pomadas)"
+                            DescMedicacao = "Aplicação na pele (Pomadas)",
+                            TituloTipoMedicacao = "Via tópica"
                         },
                         new
                         {
                             TipoMedicacaoId = 9,
                             ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicação direta no olho",
                             TituloTipoMedicacao = "Via Ocular"
                         },
                         new
                         {
                             TipoMedicacaoId = 10,
                             ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicação pelo nariz",
                             TituloTipoMedicacao = "Via Nasal"
                         },
                         new
                         {
                             TipoMedicacaoId = 11,
                             ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicação no ouvido",
                             TituloTipoMedicacao = "Via Auricular"
                         });
                 });
@@ -609,8 +614,8 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.TipoMedicacao", "TipoMedicacao")
-                        .WithOne("Medicacao")
-                        .HasForeignKey("WEB_API_HealTime.Models.Medicacao", "TipoMedicacaoId")
+                        .WithMany("Medicacoes")
+                        .HasForeignKey("TipoMedicacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
@@ -719,7 +724,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.TipoMedicacao", b =>
                 {
-                    b.Navigation("Medicacao");
+                    b.Navigation("Medicacoes");
                 });
 #pragma warning restore 612, 618
         }

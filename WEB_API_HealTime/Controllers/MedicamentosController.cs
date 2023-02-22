@@ -18,7 +18,7 @@ public class MedicamentosController : ControllerBase
     {
         try
         {
-
+            
             Medicacao medicacao = novaMedicacao.Nome is null ?
                 throw new ArgumentNullException("O campo Nome é obrigatório")
                 : await _context.Medicacoes.
@@ -29,20 +29,29 @@ public class MedicamentosController : ControllerBase
                 throw new Exception("Já existe um medicamento com esse nome, tente atualizar o cadastro dele");
             }
 
-            TipoMedicacao tipo = novaMedicacao.TipoMedicacao is null ?
-                throw new ArgumentNullException("O tipo da medicação deve ser especificado")
-                : await _context.TipoMedicacoes.FirstOrDefaultAsync(tp => tp.TipoMedicacaoId == novaMedicacao.TipoMedicacaoId);
+            TipoMedicacao tipo = await _context.TipoMedicacoes.FirstOrDefaultAsync(tp => tp.TipoMedicacaoId == novaMedicacao.TipoMedicacaoId);
            
             if (tipo is null) 
             {
                 throw new Exception("Verifique a entrada, tipo não registrado");
             }
-            
+
             if (novaMedicacao.QtdMedicacao is null)
                 throw new ArgumentNullException("Informe a quantidade");
+            
+            Estoque estoqueNovo = new Estoque();
+            estoqueNovo.QtdEstoque = novaMedicacao.QtdMedicacao ?? 0;
+            estoqueNovo.Desc = novaMedicacao.Desc ?? "";
+            estoqueNovo.Nome = novaMedicacao.Nome;
+            estoqueNovo.CriadoEm = DateTime.Now;
 
-            await _context.Medicacoes.AddAsync(novaMedicacao);
+            await _context.Medicacoes.AddRangeAsync(novaMedicacao);
             await _context.SaveChangesAsync();
+
+            estoqueNovo.MedicacaoId = novaMedicacao.MedicacaoId;
+            await _context.AddAsync(estoqueNovo);
+            await _context.SaveChangesAsync();
+
             return Ok(novaMedicacao);
         }
         catch (Exception ex)

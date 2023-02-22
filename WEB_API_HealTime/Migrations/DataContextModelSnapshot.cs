@@ -204,7 +204,7 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("MedicacaoId")
-                        .HasName("PK_Estoque_MedicacaoId");
+                        .HasName("PK_Estoque_EstoqueId");
 
                     b.ToTable("Estoque");
                 });
@@ -234,13 +234,8 @@ namespace WEB_API_HealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicacaoId"));
 
-                    b.Property<DateTime?>("DtValidade")
-                        .IsRequired()
-                        .HasColumnType("SMALLDATETIME");
-
-                    b.Property<string>("Fabricante")
-                        .IsRequired()
-                        .HasColumnType("VARCHAR(300)");
+                    b.Property<int>("Composicao")
+                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -261,8 +256,7 @@ namespace WEB_API_HealTime.Migrations
                     b.HasKey("MedicacaoId")
                         .HasName("PK_MedicacaoId");
 
-                    b.HasIndex("TipoMedicacaoId")
-                        .IsUnique();
+                    b.HasIndex("TipoMedicacaoId");
 
                     b.ToTable("Medicacoes");
                 });
@@ -617,8 +611,8 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacao", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.TipoMedicacao", "TipoMedicacao")
-                        .WithOne("Medicacao")
-                        .HasForeignKey("WEB_API_HealTime.Models.Medicacao", "TipoMedicacaoId")
+                        .WithMany("Medicacoes")
+                        .HasForeignKey("TipoMedicacaoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Medicacao_TipoMedicacao_TipoMedicacaoId");
@@ -727,7 +721,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.TipoMedicacao", b =>
                 {
-                    b.Navigation("Medicacao");
+                    b.Navigation("Medicacoes");
                 });
 #pragma warning restore 612, 618
         }

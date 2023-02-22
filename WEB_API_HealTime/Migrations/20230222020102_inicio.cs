@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEB_API_HealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class IncluindoTitulo_TipoMedicamento : Migration
+    public partial class inicio : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,9 +200,8 @@ namespace WEB_API_HealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Nome = table.Column<string>(type: "VARCHAR(30)", nullable: false),
                     TipoMedicacaoId = table.Column<int>(type: "int", nullable: false),
+                    Composicao = table.Column<int>(type: "int", nullable: false),
                     StatusMedicacao = table.Column<bool>(type: "bit", nullable: true, defaultValue: true),
-                    Fabricante = table.Column<string>(type: "VARCHAR(300)", nullable: false),
-                    DtValidade = table.Column<DateTime>(type: "SMALLDATETIME", nullable: false),
                     QtdMedicacao = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -229,7 +228,7 @@ namespace WEB_API_HealTime.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Estoque_MedicacaoId", x => x.MedicacaoId);
+                    table.PrimaryKey("PK_Estoque_EstoqueId", x => x.MedicacaoId);
                     table.ForeignKey(
                         name: "FK_Estoque_Medicacoes",
                         column: x => x.MedicacaoId,
@@ -317,17 +316,17 @@ namespace WEB_API_HealTime.Migrations
                 columns: new[] { "TipoMedicacaoId", "ClasseAplicacao", "DescMedicacao", "TituloTipoMedicacao" },
                 values: new object[,]
                 {
-                    { 1, 1, null, "Via oral (boca)" },
-                    { 2, 1, null, "Sublingual (embaixo da língua)" },
-                    { 3, 1, null, "Supositorios (Retal)" },
-                    { 4, 2, null, "Intravenosa (Direta no sangue)" },
-                    { 5, 2, null, "Intramuscular (Direta no músculo)" },
-                    { 6, 2, null, "Subcutânea (Debaixo da pele)" },
-                    { 7, 2, null, "Respiratória" },
-                    { 8, 2, null, "Via tópica (Pomadas)" },
-                    { 9, 2, null, "Via Ocular" },
-                    { 10, 2, null, "Via Nasal" },
-                    { 11, 2, null, "Via Auricular" }
+                    { 1, 1, "Aplicação pela boca", "Via oral" },
+                    { 2, 1, "Aplicação por debaixo da lingua", "Sublingual" },
+                    { 3, 1, "Aplicação retal", "Supositorios" },
+                    { 4, 2, "Direta no sangue", "Intravenosa" },
+                    { 5, 2, "Direta no músculo", "Intramuscular" },
+                    { 6, 2, "Debaixo da pele", "Subcutânea" },
+                    { 7, 2, "Via que se estende desde a mucosa nasal até os pulmões", "Respiratória" },
+                    { 8, 2, "Aplicação na pele (Pomadas)", "Via tópica" },
+                    { 9, 2, "Aplicação direta no olho", "Via Ocular" },
+                    { 10, 2, "Aplicação pelo nariz", "Via Nasal" },
+                    { 11, 2, "Aplicação no ouvido", "Via Auricular" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -363,8 +362,7 @@ namespace WEB_API_HealTime.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Medicacoes_TipoMedicacaoId",
                 table: "Medicacoes",
-                column: "TipoMedicacaoId",
-                unique: true);
+                column: "TipoMedicacaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PrescricaoMedicamentos_MedicacaoId",
