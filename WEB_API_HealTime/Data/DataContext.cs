@@ -192,7 +192,7 @@ public class DataContext : DbContext
             .HasName("PK_PrescricaoPacienteId");
 
         modelBuilder.Entity<PrescricaoPaciente>()
-            .Property(dt => dt.DataCadastroSistemaPrescricao)
+            .Property(dt => dt.DataCadastroSistema)
             .HasColumnType("SMALLDATETIME")
             .HasDefaultValueSql("GETDATE()");
         modelBuilder.Entity<PrescricaoPaciente>()

@@ -17,6 +17,7 @@ public class Medicacao
     public string Fabricante { get; set; }
     [NotMapped]
     public string Desc { get; set; }
+    [NotMapped]
     public int? QtdMedicacao { get; set; }
     [JsonIgnore]
     public PrescricaoMedicamento? PrescricaoMedicamento { get; set; }
