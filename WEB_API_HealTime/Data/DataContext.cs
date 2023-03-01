@@ -398,19 +398,19 @@ public class DataContext : DbContext
             .HasDefaultValueSql("GETDATE()")
             .IsRequired();
 
-        ///*- -------- Relação: BAIXAHISTORICOESTOQUE - ESTOQUE - 1 - N -------- -*/
+         ///*- -------- Relação: BAIXAHISTORICOESTOQUE - ESTOQUE - 1 - N -------- -*/
 
-        modelBuilder.Entity<BaixaHistoricoEstoque>()
+        /*modelBuilder.Entity<BaixaHistoricoEstoque>()
             .HasOne<Estoque>(p => p.Estoque)
             .WithMany(p => p.BaixaHistoricoEstoques)
                 .HasForeignKey(fk => fk.EstoqueId)
-                .HasConstraintName("FK_Estoque_BaixaHistoricoEstoques");
+                .HasConstraintName("FK_Estoque_BaixaHistoricoEstoques");*/
 
         /*- -------- BAIXAHISTORICOESTOQUE -------- -*/
 
-        modelBuilder.Entity<BaixaHistoricoEstoque>()
+       /* modelBuilder.Entity<BaixaHistoricoEstoque>()
             .HasKey(pk => pk.BaixaHistoricoEstoqueId)
-            .HasName("PK_BaixaHistoricoEstoqueId");
+            .HasName("PK_BaixaHistoricoEstoqueId");*/
         
 
     
