@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.PortableExecutable;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 
@@ -16,8 +15,8 @@ public class EnderecoController : ControllerBase
         _context = context;
     }
 
-    [HttpPost("Inserir")]
-    public async Task<IActionResult> AdicionarEnderecoAsync([FromBody] EnderecoPessoa endereco)
+    [HttpPost("Incluir")]
+    public async Task<IActionResult> IncluirAsync([FromBody] EnderecoPessoa endereco)
     {
         try
         {
@@ -41,8 +40,8 @@ public class EnderecoController : ControllerBase
         }
     }
 
-    [HttpPut("Atualizar")]
-    public async Task<IActionResult> AtualizarEnderecoAsync(EnderecoPessoa enderecoPessoa)
+    [HttpPut("Alterar")]
+    public async Task<IActionResult> AlterarAsync(EnderecoPessoa enderecoPessoa)
     {
         try
         {
