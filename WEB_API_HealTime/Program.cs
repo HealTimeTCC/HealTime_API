@@ -18,7 +18,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("etecIII"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString(""));
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
