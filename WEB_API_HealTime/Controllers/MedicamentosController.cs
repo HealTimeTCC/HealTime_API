@@ -59,4 +59,22 @@ public class MedicamentosController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpPost("PesquisaMed")]
+    public async Task<IActionResult> PesquisaMedicacao(string nomeMedicacao)
+    {
+        try
+        {
+            List<Medicacao> resultado = nomeMedicacao is null || nomeMedicacao == "" ?
+                throw new Exception("Insira o nome para busca")
+                : await _context.Medicacoes.Where(nome => nome.Nome.ToLower() == nomeMedicacao.ToLower()).ToListAsync();
+
+            if (resultado.Count == 0) return NotFound("Nada encontrado, inclua o medicamento");
+
+            return Ok(resultado);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

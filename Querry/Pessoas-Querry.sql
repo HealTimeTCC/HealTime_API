@@ -22,12 +22,24 @@ UPDATE P SET P.ObsPacienteIncapaz = 'Alérgico a leite' FROM Pessoas P
 
 --DELETE P FROM Pessoas P WHERE TipoPessoa = 1
 
-UPDATE P SET P.dtNascimentoPesssoa = '2004-02-15' FROM Pessoas P
+UPDATE P SET P.DtNascimentoPessoa = form FROM Pessoas P
 
 UPDATE P SET P.dtUltimoAcesso= GETDATE() FROM Pessoas P
 
---Valor default caso necessario
-INSERT INTO Pessoas VALUES ('4c6f9a05-f3ee-447f-be11-21e00ad0177e', 1, 'Dan', 'Marzo', '56053311839', '2023-01-8', '2004-02-15', 1,	'Nenhuma', 'R Santo Anacleto', 'CangaCity', 'São Paulo', 'Nenhuma ué', '03720110', 11)
+select * from PrescricaoPacientes
 
+--Valor default caso necessario delete from pessoas
+INSERT INTO Pessoas(TipoPessoa, NomePessoa,SobrenomePessoa,CpfPessoa,DtUltimoAcesso, DtNascimentoPessoa, GeneroPessoa,ObsPacienteIncapaz) VALUES(3,'Dan','Marzo','56053311839',GETDATE(),2004-02-15,1,'sdfsadfasfd')
+INSERT INTO Pessoas(TipoPessoa, NomePessoa,SobrenomePessoa,CpfPessoa,DtUltimoAcesso, DtNascimentoPessoa, GeneroPessoa,ObsPacienteIncapaz) VALUES(2,'thiago','sla','12345678909',GETDATE(),2004-02-15,1,'sdfsadfasfd')
+INSERT INTO Pessoas(TipoPessoa, NomePessoa,SobrenomePessoa,CpfPessoa,DtUltimoAcesso, DtNascimentoPessoa, GeneroPessoa,ObsPacienteIncapaz) VALUES(4,'mayara','sla','56053294802',GETDATE(),2004-02-15,1,'sdfsadfasfd')
+
+INSERT INTO Medicacoes(Nome, QtdMedicacao, StatusMedicacao, TipoMedicacaoId, Composicao) VALUES('Dipirona', 10, 1, 2,1)
+
+INSERT INTO PrescricaoPacientes(PacienteId, EmissaoPrescricao, DataCadastroSistema, DescFichaPessoa) VALUES (1, GETDATE(), GETDATE(), 'Efetuando teste')
+
+
+SELECT * FROM PrescricaoMedicamentos
+
+--Pessoas DAN
 
 SELECT * FROM TipoMedicacoes

@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.VisualBasic;
+using System.Xml;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -8,7 +10,6 @@ namespace WEB_API_HealTime.Data;
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
     public DbSet<Pessoa> Pessoas { get; set; }
     public DbSet<ContatoPessoa> ContatoPessoas { get; set; }
     public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
@@ -22,6 +23,10 @@ public class DataContext : DbContext
     public DbSet<Estoque> Estoque { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        
+
+
         /* - -------- PESSOAS -------- -*/
         modelBuilder.Entity<Pessoa>()
             .HasKey(key => key.PessoaId)
@@ -47,6 +52,7 @@ public class DataContext : DbContext
             .Property(dtn => dtn.DtNascimentoPessoa)
             .HasColumnType("SMALLDATETIME")
             .IsRequired();
+        
         modelBuilder.Entity<Pessoa>()
             .Property(gen => gen.GeneroPessoa)
             .IsRequired();
@@ -253,16 +259,15 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoMedicamento>()
             .HasKey(pk => pk.PrescricaoMedicamentoId)
             .HasName("PK_PrescricaoMedicamentoId");
-        
+
         modelBuilder.Entity<PrescricaoMedicamento>()
             .Property(p => p.HrInicioDtMedicacao)
-            .HasColumnType("SMALLDATETIME")
-            .IsRequired();
+            .HasColumnType("SMALLDATETIME");
         modelBuilder.Entity<PrescricaoMedicamento>()
             .Property(p => p.DtTerminoTratamento)
             .HasColumnType("SMALLDATETIME");
         modelBuilder.Entity<PrescricaoMedicamento>()
-            .Property(p => p.QtdDiariaMedia)
+            .Property(p => p.TotalDeDosesNecessaria)
             .IsRequired();
         modelBuilder.Entity<PrescricaoMedicamento>()
             .Property(p => p.CheckSituacao)
