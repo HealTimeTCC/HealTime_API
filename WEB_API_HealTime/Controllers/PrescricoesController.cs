@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data.Entity;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("api/[controller]")]
+[Route("[controller]")]
 [ApiController]
 public class PrescricoesController : ControllerBase
 {
     private readonly DataContext _context;
     public PrescricoesController (DataContext dataContext){_context = dataContext;}
 
-	//PENDENTE DE TESTE
+	/*INCLUIR MEDICAÇÕES*/
     [HttpPost]
     public async Task<IActionResult> IncluirPrescricoes(PrescricaoPaciente prescricaoPaciente)
     {
