@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.PortableExecutable;
 using WEB_API_HealTime.Data;
+using WEB_API_HealTime.Dto;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 using WEB_API_HealTime.Utility;
@@ -16,7 +18,7 @@ public class PessoasController : ControllerBase
 
     /*Cadastrar a pessoa no sistema*/
     [HttpPost("Cadastro")]
-    public async Task<IActionResult> CadastroAsync([FromBody] Pessoa pessoa)
+    public async Task<IActionResult> CadastroAsync([FromBody] DtoPessoas pessoa)
     {
 		try
 		{
@@ -29,13 +31,24 @@ public class PessoasController : ControllerBase
 
             if (!verificarInfoPessoa.VerificadorCpfPessoa(pessoa.CpfPessoa))
                 throw new Exception($"Cpf '{pessoa.CpfPessoa}' está inválido.");
-            if(!verificarInfoPessoa.VerificarNomePessoa(pessoa.NomePessoa, pessoa.SobrenomePessoa))
+            if(!verificarInfoPessoa.VerificarNomePessoa(pessoa.NomePessoa, pessoa.SobrenomePessoas))
                 throw new Exception($"O nome está inválido.");
             if(!verificarInfoPessoa.VerificarDtNascimentoPessoa((DateTime)pessoa.DtNascimentoPessoa, (TipoPessoa)pessoa.TipoPessoa))
                 throw new Exception($"Data de nascimento está inválido.");
 
             //Uso de variavel Global para criação de contato
-            await _context.Pessoas.AddAsync(pessoa);
+
+            Pessoa pessoaData = new Pessoa();
+            pessoaData.NomePessoa = pessoa.NomePessoa;
+            pessoaData.SobrenomePessoa = pessoa.SobrenomePessoas;
+            pessoaData.CpfPessoa = pessoa.CpfPessoa;
+            pessoaData.TipoPessoa = pessoa.TipoPessoa;
+            pessoaData.DtNascimentoPessoa = pessoa.DtNascimentoPessoa;
+            pessoaData.DtUltimoAcesso = DateTime.Now;
+            pessoaData.ObsPacienteIncapaz = pessoa.ObsPacienteIncapaz;
+            pessoaData.GeneroPessoa = pessoa.Genero;
+
+            await _context.Pessoas.AddAsync(pessoaData);
             await _context.SaveChangesAsync();
             return Ok($"{pessoa.NomePessoa} salvo!");
         }
@@ -188,13 +201,31 @@ public class PessoasController : ControllerBase
     }
 
     [HttpPost("IncluirObservacoes")]
-    public async Task<IActionResult> IncluirObservacoesAsync([FromQuery] int idPaciente, [FromQuery] int tipo)
+    public async Task<IActionResult> IncluirObservacoesAsync([FromBody] DtoPessoas dtoPessoa)
     {
         try
         {
-            Pessoa pessoa = await _context.Pessoas.FirstOrDefaultAsync(pessoa => pessoa.PessoaId == idPaciente && (int)TipoPessoa.Paciente_Incapaz == tipo);
+            Pessoa pessoa = await _context.Pessoas.AsNoTracking().FirstOrDefaultAsync(pessoa => pessoa.PessoaId == dtoPessoa.PessoaId);
 
-            return Ok();
+            if (pessoa == null)
+                return NotFound("Não foi possível encontrar a pessoa especificada.");
+
+            if (dtoPessoa.ObsPacienteIncapaz.Length >= 350 || dtoPessoa.ObsPacienteIncapaz is null || dtoPessoa.ObsPacienteIncapaz == string.Empty)
+                throw new Exception("Tamanho da observação inválida.");
+
+            pessoa.ObsPacienteIncapaz = dtoPessoa.ObsPacienteIncapaz;
+            _context.Pessoas.Update(pessoa);
+            await _context.SaveChangesAsync();
+
+            dtoPessoa.PessoaId = (int)pessoa.PessoaId;
+            dtoPessoa.CpfPessoa = pessoa.CpfPessoa;
+            dtoPessoa.NomePessoa = pessoa.NomePessoa;
+            dtoPessoa.SobrenomePessoas = pessoa.SobrenomePessoa;
+            dtoPessoa.DtNascimentoPessoa = pessoa.DtNascimentoPessoa;
+
+
+            return Ok(dtoPessoa);
+
         }catch (Exception ex)
         {
             return BadRequest(ex.Message);

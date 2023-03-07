@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230225002005_MudandoNome")]
-    partial class MudandoNome
+    [Migration("20230305235024_inicio")]
+    partial class inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -330,13 +330,12 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("SMALLDATETIME");
 
                     b.Property<DateTime?>("HrInicioDtMedicacao")
-                        .IsRequired()
                         .HasColumnType("SMALLDATETIME");
 
                     b.Property<int?>("IntervaloMedicacao")
                         .HasColumnType("int");
 
-                    b.Property<int>("MedicacaoId")
+                    b.Property<int?>("MedicacaoId")
                         .HasColumnType("int");
 
                     b.Property<string>("NomeMedicamento")
@@ -346,7 +345,7 @@ namespace WEB_API_HealTime.Migrations
                     b.Property<int?>("PrescricaoPacienteId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QtdDiariaMedia")
+                    b.Property<int?>("TotalDeDosesNecessaria")
                         .IsRequired()
                         .HasColumnType("int");
 
@@ -354,7 +353,8 @@ namespace WEB_API_HealTime.Migrations
                         .HasName("PK_PrescricaoMedicamentoId");
 
                     b.HasIndex("MedicacaoId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[MedicacaoId] IS NOT NULL");
 
                     b.HasIndex("PrescricaoPacienteId");
 
@@ -381,7 +381,7 @@ namespace WEB_API_HealTime.Migrations
                         .IsRequired()
                         .HasColumnType("SMALLDATETIME");
 
-                    b.Property<int?>("PacienteId")
+                    b.Property<int>("PacienteId")
                         .HasColumnType("int");
 
                     b.HasKey("PrescricaoPacienteId")
@@ -628,8 +628,6 @@ namespace WEB_API_HealTime.Migrations
                     b.HasOne("WEB_API_HealTime.Models.Medicacao", "Medicacao")
                         .WithOne("PrescricaoMedicamento")
                         .HasForeignKey("WEB_API_HealTime.Models.PrescricaoMedicamento", "MedicacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
                         .HasConstraintName("FK_PrescricaoMedicamento_Medicacoes__MedicamentoId");
 
                     b.HasOne("WEB_API_HealTime.Models.PrescricaoPaciente", "PrescricaoPaciente")
@@ -647,6 +645,8 @@ namespace WEB_API_HealTime.Migrations
                     b.HasOne("WEB_API_HealTime.Models.Pessoa", "PacienteRePresc")
                         .WithMany("PrescricaoPacientesDesc")
                         .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_PESSOAS_PRESCRICAOPACIENTE_PacienteId");
 
                     b.Navigation("PacienteRePresc");

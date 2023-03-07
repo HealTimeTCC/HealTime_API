@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
+using WEB_API_HealTime.Dto;
 using WEB_API_HealTime.Models;
 using WEB_API_HealTime.Models.Enuns;
 
@@ -15,36 +16,35 @@ public class PrescricoesController : ControllerBase
 
 	//PENDENTE DE TESTE
     [HttpPost]
-    public async Task<IActionResult> IncluirPrescricoes(PrescricaoPaciente prescricaoPaciente)
+    public async Task<IActionResult> IncluirPrescricoes(DtoPrescricoes dtoPrescricaoPaciente)
     {
 		//Ter no minimo 1 paciente e 1 responsavel cadastrado
 		try
 		{
-            Pessoa paciente = prescricaoPaciente.EmissaoPrescricao is null ?
+            Pessoa paciente = dtoPrescricaoPaciente.EmissaoPrescricao is null ?
 				throw new Exception("É obrigatorio a data de emissao da prescricao")
 				: await _context.Pessoas
-                .FirstOrDefaultAsync(p => p.PessoaId == prescricaoPaciente.PacienteId);
+                .FirstOrDefaultAsync(p => p.PessoaId == dtoPrescricaoPaciente.PacienteId);
 
-            if (paciente.TipoPessoa == TipoPessoa.Paciente_Incapaz)
-			{
-
-			}
-
-			if (paciente != null)
-			{
+            if (paciente != null)
+            {
                 switch ((int)paciente.TipoPessoa)
                 {
                     case 3: throw new Exception("O perfil Responsavel não pode receber Prescrições, atualize seu cadastro");
                     case 4: throw new Exception("O perfil Cuidador não pode receber Prescrições, atualize seu cadastro");
-					default:
+                    default:
+						PrescricaoPaciente prescricaoPaciente = new();
+						prescricaoPaciente.PacienteId = dtoPrescricaoPaciente.PacienteId;
+						prescricaoPaciente.EmissaoPrescricao = dtoPrescricaoPaciente.EmissaoPrescricao;
+						prescricaoPaciente.DescFichaPessoa = dtoPrescricaoPaciente.DescFichaPessoa;
+						prescricaoPaciente.DataCadastroSistema = DateTime.Now;
+
                         await _context.PrescricaoPacientes.AddAsync(prescricaoPaciente);
                         await _context.SaveChangesAsync();
                         return Ok("Nova prescrição adicionada");
                 }
-                
             }
 			return NotFound("Paciente não encontrado");
-            
 		}
 		catch (Exception ex)
 		{
@@ -52,31 +52,13 @@ public class PrescricoesController : ControllerBase
 		}
     }
 
-	[HttpPost("PesquisaMed")]
-	public async Task<IActionResult> PesquisaMedicacao(string nomeMedicacao)
-	{
-		try
-		{
-			List<Medicacao> resultado = nomeMedicacao is null || nomeMedicacao == "" ? 
-				throw new Exception("Insira o nome para busca")
-				: await _context.Medicacoes.Where(nome => nome.Nome.ToLower() == nomeMedicacao.ToLower()).ToListAsync();
-			
-			if (resultado.Count == 0) return NotFound("Nada encontrado, inclua o medicamento");
-
-			return Ok(resultado);
-		}
-		catch (Exception ex)
-		{
-			return BadRequest(ex.Message);
-		}
-	}
-
 	//Controller abaixo somente para uso no BACK, não disponivel para uso final
 	[HttpPost("PrescricaoMedicamento")]
 	public async Task<IActionResult> IncluirMedicamentos(PrescricaoMedicamento prescricaoMedicamento)
 	{
 		try
 		{
+			//a propria api fornecerá o id do paciente
 			if (prescricaoMedicamento.PrescricaoPacienteId is null) 
 				throw new ArgumentNullException("Id Prescricao é obrigatorio : erro interno");
 
@@ -88,8 +70,7 @@ public class PrescricoesController : ControllerBase
 				await _context.SaveChangesAsync();
 				return Ok("Bom :)");
 			}
-
-			throw new Exception("O intervalo deve ser de 1h a no maximo 24");
+			throw new Exception("O intervalo deve ser de 1h a no maximo 24h");
 			//O nome do medicamento é incluido atraves do resultado de outra controller
 
 		}
@@ -99,6 +80,27 @@ public class PrescricoesController : ControllerBase
 			return BadRequest(ex.Message);
 		}
 	}
+	public async Task<IActionResult> CalculaHorarioMedicacao(DateTime horaInicio, int prescricaoMedicamentoId)
+	{
+		try
+		{
+			PrescricaoMedicamento remedio = await _context.PrescricaoMedicamentos
+				.FirstOrDefaultAsync(x => x.PrescricaoMedicamentoId == prescricaoMedicamentoId);
+			AndamentoMedicacao andamento = new();
+			andamento.CriadoEm = DateTime.Now;
+			for (int i = 0; i < remedio.TotalDeDosesNecessaria; i++)
+			{
+				AndamentoMedicacao registroPendentes = new();
+				registroPendentes.
+			}
 
+            //Por enquanto ele retorna uma array com as horas
+            return Ok();
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(ex.Message);
+		}
+	}
 	
 } 

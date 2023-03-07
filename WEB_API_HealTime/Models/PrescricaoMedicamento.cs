@@ -13,9 +13,9 @@ public class PrescricaoMedicamento
     public DateTime? HrInicioDtMedicacao { get; set; }
     public DateTime? DtTerminoTratamento { get; set; }
     public int? IntervaloMedicacao { get; set; } 
-    public int? QtdDiariaMedia { get; set; }
+    public int? TotalDeDosesNecessaria { get; set; }
     public bool? CheckSituacao { get; set; }
-    public int MedicacaoId { get; set; }
+    public int? MedicacaoId { get; set; }
     [JsonIgnore]
     public Medicacao Medicacao { get; set; }
     public ICollection<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
