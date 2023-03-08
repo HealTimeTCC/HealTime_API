@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Newtonsoft.Json;
 using WEB_API_HealTime.Models;
-using WEB_API_HealTime.Models.Enuns;
-
 namespace WEB_API_HealTime.Utility;
 
 public class VerificarInfoPessoa
@@ -81,7 +79,7 @@ public class VerificarInfoPessoa
             return false;
     }
 
-    public bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, TipoPessoa tipoPessoa)
+   /* public bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, TipoPessoa tipoPessoa)
     {
         var idadePessoa = DateTime.Now.Year - dtNascimentoPessoa.Year;
 
@@ -90,7 +88,7 @@ public class VerificarInfoPessoa
         if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
             return false;
         return true;
-    }
+    }*/
     
     public bool VerificarTelefoneCelular(string telefone)
     {
