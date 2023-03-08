@@ -58,9 +58,23 @@ public class DataContext : DbContext
             .Property(crmuf => crmuf.UfCrmMedico)
             .HasColumnType("CHAR(2)")
             .IsRequired();
-        
+
 
         /* -> THEN MEDICO */
-
+        modelBuilder.Entity<Medico>().HasData(
+            new Medico
+            {
+                MedicoId=1,
+                CrmMedico=12345,
+                NmMedico="Dr Val",
+                UfCrmMedico="SP"
+            },
+            new Medico
+            {
+                MedicoId=2,
+                CrmMedico=12345,
+                NmMedico="Dr Teste",
+                UfCrmMedico="RJ"
+            });
     }
 }
