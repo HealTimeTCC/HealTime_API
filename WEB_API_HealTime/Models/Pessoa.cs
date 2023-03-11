@@ -1,6 +1,6 @@
 ﻿namespace WEB_API_HealTime.Models;
 
-public class Pessoas
+public class Pessoa
 {
     public int PessoaId { get; set; }
     public int TipoPessoaId { get; set; }
