@@ -8,6 +8,7 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
+    public DbSet<Pessoa> Pessoas { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -15,7 +16,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoPaciente>()
             .HasKey(pk => pk.PrescricaoPacienteId)
             .HasName("PK_PrescricaoPacienteId");
-        /* -> BEGIN: Esses dois abaixo são relacionamento <- */
+            /* -> BEGIN: Esses dois abaixo são relacionamento <- */
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(p => p.MedicoId);
         modelBuilder.Entity<PrescricaoPaciente>()
@@ -25,7 +26,7 @@ public class DataContext : DbContext
                 .HasConstraintName("FK_PrescricaoPaciente_Medico");
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(p => p.PacienteId);
-        /* -> THEN <- */
+            /* -> END <- */
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(dt => dt.CriadoEm)
             .HasColumnType("DATETIME")
@@ -41,7 +42,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(desc => desc.DescFichaPessoa)
             .HasColumnType("VARCHAR(350)");
-        /* -> THEN  PRESCRICAOPACIENTES */
+        /* -> END  PRESCRICAOPACIENTES */
 
         /* -> BEGIN MEDICO */
         modelBuilder.Entity<Medico>()
@@ -60,7 +61,7 @@ public class DataContext : DbContext
             .IsRequired();
 
 
-        /* -> THEN MEDICO */
+        /* -> END MEDICO */
         modelBuilder.Entity<Medico>().HasData(
             new Medico
             {
@@ -76,5 +77,33 @@ public class DataContext : DbContext
                 NmMedico="Dr Teste",
                 UfCrmMedico="RJ"
             });
+
+        /* -> BEGIN PESSOAS */
+
+        modelBuilder.Entity<Pessoa>()
+            .HasKey(pk => pk.PessoaId)
+            .HasName("PK_PessoaId");
+        modelBuilder.Entity<Pessoa>()
+            .Property(tp => tp.TipoPessoaId)
+            .HasColumnType("INT")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(cpf => cpf.CpfPessoa)
+            .HasColumnType("CHAR(11)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(nm => nm.NomePessoa)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(sm => sm.SobreNomePessoa)
+            .HasColumnType("VARCHAR(30)")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(dt =>dt.DtNascPessoa)
+            .HasColumnType("DATE")
+            .IsRequired();
+
+        /* -> END PESSOAS */
     }
 }
