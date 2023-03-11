@@ -1,7 +1,7 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
+using System.Collections.Generic;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto;
 using WEB_API_HealTime.Models;
@@ -10,12 +10,17 @@ namespace WEB_API_HealTime.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class PrescricaoPacienteController : ControllerBase
+public class MedicacoesController : ControllerBase
 {
     private readonly DataContext _context;
-    public PrescricaoPacienteController(DataContext context) { _context = context; }
+    public MedicacoesController(DataContext context) { _context = context; }
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        return Ok(await _context.Medicos.ToListAsync());
+    }
 
-    [HttpPost]
+    [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] DtoPrescricaoPaciente prescricaoPaciente)
     {
         try
@@ -42,9 +47,4 @@ public class PrescricaoPacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    //[HttpGet("LeituraDescricao")]
-    //public async Task<IActionResult> LeituraDescricaoAsync()
-    //{
-
-    //}
 }
