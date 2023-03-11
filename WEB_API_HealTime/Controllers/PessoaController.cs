@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using RpgApi.Utils;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -39,22 +41,26 @@ public class PessoaController : ControllerBase
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddHours(1),
+            Expires = DateTime.Now.AddDays(1),
             SigningCredentials = credentials
         };
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
         SecurityToken token = tokenHandler.CreateToken (tokenDescriptor);
         return tokenHandler.WriteToken (token);
     }
-
+    [AllowAnonymous]
     [HttpPost("Registro")]
-    public async Task<IActionResult> RegistraPessoa(Pessoa pessoa)
+    public async Task<IActionResult> RegistraPessoaAsync(Pessoa pessoa)
     {
         try
         {
-
-            _context.Pessoas.Add (pessoa);
-            _context.SaveChanges();
+            Criptografia
+                .CriarPasswordHash(pessoa.PasswordString, out byte[] hash, out byte[] salt);
+            pessoa.PasswordString = string.Empty;
+            pessoa.PasswordHash = hash;
+            pessoa.PasswordSalt = salt;
+            await _context.Pessoas.AddAsync(pessoa);
+            await _context.SaveChangesAsync();
             return Ok();
         }
         catch (Exception ex)
@@ -62,4 +68,36 @@ public class PessoaController : ControllerBase
             return BadRequest(ex.Message);  
         }
     }
+    [AllowAnonymous]
+    [HttpPost("Autenticar")]
+    public async Task<IActionResult> AutenticarAsync(Pessoa pessoa)
+    {
+        try
+        {
+            Pessoa pessoaPesquisa = await _context.Pessoas
+                .FirstOrDefaultAsync(user => user.NomePessoa.ToUpper() == pessoa.NomePessoa.ToUpper());
+            if (pessoaPesquisa is null)
+                throw new Exception("User nulo");
+            else if (!Criptografia.VerificarPasswordHash(pessoa.PasswordString, pessoaPesquisa.PasswordHash, pessoaPesquisa.PasswordSalt))
+                throw new Exception("Senha errada");
+            else
+            {
+                pessoaPesquisa.PasswordSalt = null;
+                pessoaPesquisa.PasswordHash = null;
+                pessoaPesquisa.TokenJwt = CriarToken(pessoaPesquisa);
+                return Ok(pessoaPesquisa);
+            }
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        return Ok(await _context.Pessoas.ToListAsync());
+    } 
+    
+
 }
