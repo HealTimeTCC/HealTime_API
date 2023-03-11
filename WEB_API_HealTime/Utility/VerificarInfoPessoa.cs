@@ -1,62 +1,77 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+﻿
+using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
+using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models;
 namespace WEB_API_HealTime.Utility;
 
 public class VerificarInfoPessoa
 {
+    private readonly DataContext _context;
+    public VerificarInfoPessoa(DataContext context)
+    {
+        _context = context;
+    }
+
+
+    public static bool PessoaExiste(Pessoa pessoa)
+    {
+        return false;
+    }
+
+
     //Verificador de cpf (inicio)
     public int Soma { get; set; }
     public int ResulMulti { get; set; }
     public int ResulMod { get; set; }
-    public bool VerificadorCpfPessoa(string cpf)
-    {
-        cpf = cpf.Replace(".", "").Replace("-", "");
+    //public bool VerificadorCpfPessoa(string cpf)
+    //{
+    //    cpf = cpf.Replace(".", "").Replace("-", "");
 
-        if (cpf.Length != 11)
-            return false;
+    //    if (cpf.Length != 11)
+    //        return false;
 
-        if (VerificarPriDigito(cpf.ToCharArray()) && VerificarSegDigito(cpf.ToCharArray()))
-            return true;
-        else
-            return false;
-    }
+    //    if (VerificarPriDigito(cpf.ToCharArray()) && VerificarSegDigito(cpf.ToCharArray()))
+    //        return true;
+    //    else
+    //        return false;
+    //}
 
-    private static bool VerificarPriDigito(char[] cpf)
-    {
-        var tools = new VerificarInfoPessoa();
+    //private static bool VerificarPriDigito(char[] cpf)
+    //{
+    //    //var tools = new VerificarInfoPessoa();
 
-        int multi = 10;
-        for (int i = 0; i < 9; i++)
-        {
-            tools.ResulMulti = multi * (int)char.GetNumericValue(cpf[i]);
-            tools.Soma += tools.ResulMulti;
-            --multi;
-        }
+    //    int multi = 10;
+    //    for (int i = 0; i < 9; i++)
+    //    {
+    //        tools.ResulMulti = multi * (int)char.GetNumericValue(cpf[i]);
+    //        tools.Soma += tools.ResulMulti;
+    //        --multi;
+    //    }
 
-        if (DigitoVerificador(tools.Soma) == (int)char.GetNumericValue(cpf[9]))
-            return (true);
-        else
-            return (false);
-    }
+    //    if (DigitoVerificador(tools.Soma) == (int)char.GetNumericValue(cpf[9]))
+    //        return (true);
+    //    else
+    //        return (false);
+    //}
 
-    private static bool VerificarSegDigito(char[] cpf)
-    {
-        var tools = new VerificarInfoPessoa();
+    //private static bool VerificarSegDigito(char[] cpf)
+    //{
+    //    var tools = new VerificarInfoPessoa();
 
-        int multi = 11;
-        for (int i = 0; i < 10; i++)
-        {
-            tools.ResulMulti = multi * (int)char.GetNumericValue(cpf[i]);
-            tools.Soma += tools.ResulMulti;
-            --multi;
-        }
+    //    int multi = 11;
+    //    for (int i = 0; i < 10; i++)
+    //    {
+    //        tools.ResulMulti = multi * (int)char.GetNumericValue(cpf[i]);
+    //        tools.Soma += tools.ResulMulti;
+    //        --multi;
+    //    }
 
-        if (DigitoVerificador(tools.Soma) == (int)char.GetNumericValue(cpf[10]))
-            return (true);
-        else
-            return (false);
-    }
+    //    if (DigitoVerificador(tools.Soma) == (int)char.GetNumericValue(cpf[10]))
+    //        return (true);
+    //    else
+    //        return (false);
+    //}
 
 
     public static int DigitoVerificador(int valoresSomados)
@@ -79,26 +94,26 @@ public class VerificarInfoPessoa
             return false;
     }
 
-   /* public bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, TipoPessoa tipoPessoa)
-    {
-        var idadePessoa = DateTime.Now.Year - dtNascimentoPessoa.Year;
+    /* public bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, TipoPessoa tipoPessoa)
+     {
+         var idadePessoa = DateTime.Now.Year - dtNascimentoPessoa.Year;
 
-        if (idadePessoa < 18 && tipoPessoa != TipoPessoa.Paciente_Incapaz)
-            return false;
-        if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
-            return false;
-        return true;
-    }*/
-    
+         if (idadePessoa < 18 && tipoPessoa != TipoPessoa.Paciente_Incapaz)
+             return false;
+         if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
+             return false;
+         return true;
+     }*/
+
     public bool VerificarTelefoneCelular(string telefone)
     {
-        if(telefone.Length == 11)
+        if (telefone.Length == 11)
         {
-            string dddNove = telefone.Substring(0,2);
+            string dddNove = telefone.Substring(0, 2);
             bool dddVerdadeiro = VerificaDDD(dddNove);
-            if(!dddVerdadeiro)
+            if (!dddVerdadeiro)
                 return false;
-            dddNove = telefone.Substring(2,1);
+            dddNove = telefone.Substring(2, 1);
             if (!dddVerdadeiro)
                 return false;
             return true;
@@ -155,10 +170,10 @@ public class VerificarInfoPessoa
     }
     public bool VerificaDDD(string dddVerifica)
     {
-        int[] ddd = new int[23] { 23, 25, 26, 29,20, 30, 36, 39, 40, 50, 52, 55, 56, 57, 58, 59, 60, 70, 72, 76, 78, 80, 90};//atende False se encontrar um desses pois são ddd que nao sao utilizados
+        int[] ddd = new int[23] { 23, 25, 26, 29, 20, 30, 36, 39, 40, 50, 52, 55, 56, 57, 58, 59, 60, 70, 72, 76, 78, 80, 90 };//atende False se encontrar um desses pois são ddd que nao sao utilizados
         foreach (var item in ddd)
         {
-            if(item == int.Parse(dddVerifica)) return false;
+            if (item == int.Parse(dddVerifica)) return false;
         }
         return true;
     }
