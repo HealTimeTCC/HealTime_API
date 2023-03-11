@@ -9,7 +9,7 @@ public class DataContext : DbContext
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
-
+    public DbSet<Medicacao> Medicacoes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* -> BEGIN PRESCRICAOPACIENTES */
@@ -104,5 +104,35 @@ public class DataContext : DbContext
             .HasColumnType("DATE")
             .IsRequired();
         /* -> END PESSOAS */
+
+        /* -> BEGIN MEDICAMENTOS */
+
+        modelBuilder.Entity<Medicacao>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_MedicacaoId");
+        //modelBuilder.Entity<Medicacao>()
+        //    .HasOne(st => st.StatusMedicacaoId)
+        //    .WithMany()
+        //modelBuilder.Entity<Medicacao>()
+        //    .HasOne(st => st.TipoMedicacaoId)
+        //    .WithMany()
+        modelBuilder.Entity<Medicacao>()
+            .Property(nm => nm.NomeMedicacao)
+            .HasColumnType("VARCHAR(80)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(cam => cam.CompostoAtivoMedicacao)
+            .HasColumnType("VARCHAR(50)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(lm => lm.LaboratorioMedicaocao)
+            .HasColumnType("VARCHAR(80)")
+            .IsRequired();
+        modelBuilder.Entity<Medicacao>()
+            .Property(gen => gen.Generico)
+            .HasColumnType("CHAR(1)")
+            .IsRequired();
+        /* -> END MEDICAMENTOS */
+
     }
 }
