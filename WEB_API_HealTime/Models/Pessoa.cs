@@ -1,4 +1,6 @@
-﻿namespace WEB_API_HealTime.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WEB_API_HealTime.Models;
 
 public class Pessoa
 {
@@ -8,4 +10,6 @@ public class Pessoa
     public string NomePessoa { get; set; }
     public string SobreNomePessoa { get; set; }
     public DateTime DtNascPessoa { get; set; }
+    [NotMapped]
+    public string TokenJwt { get; set; }
 }
