@@ -103,7 +103,14 @@ public class DataContext : DbContext
             .Property(dt =>dt.DtNascPessoa)
             .HasColumnType("DATE")
             .IsRequired();
-
+        modelBuilder.Entity<Pessoa>()
+            .Property(ps => ps.PasswordHash)
+            .HasColumnType("BINARY")
+            .IsRequired();
+        modelBuilder.Entity<Pessoa>()
+            .Property(ps => ps.PasswordSalt)
+            .HasColumnType("BINARY")
+            .IsRequired();
         /* -> END PESSOAS */
     }
 }
