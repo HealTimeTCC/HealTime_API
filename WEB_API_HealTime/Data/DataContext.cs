@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Models.Medicacoes;
 
 namespace WEB_API_HealTime.Data;
 

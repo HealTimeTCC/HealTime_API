@@ -2,7 +2,8 @@
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.Medicacoes;
+
 namespace WEB_API_HealTime.Utility;
 
 public class VerificarInfoPessoa
