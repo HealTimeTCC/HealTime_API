@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
+using WEB_API_HealTime.Models.ConsultasMedicas;
 
-namespace WEB_API_HealTime.Models;
+namespace WEB_API_HealTime.Models.Medicacoes;
 
 public class PrescricaoPaciente
 {
@@ -12,7 +13,7 @@ public class PrescricaoPaciente
     public DateTime? CriadoEm { get; set; }
     public DateTime Emissao { get; set; }
     public DateTime Validade { get; set; }
-    public string DescFichaPessoa{ get; set; }
+    public string DescFichaPessoa { get; set; }
     [JsonIgnore]
     public List<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
 }

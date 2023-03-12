@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Models;
+﻿namespace WEB_API_HealTime.Models.Medicacoes;
 
 public class StatusMedicacao
 {

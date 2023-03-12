@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WEB_API_HealTime.Models;
+namespace WEB_API_HealTime.Models.Medicacoes;
 
 public class Pessoa
 {
