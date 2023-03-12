@@ -1,4 +1,6 @@
-﻿namespace WEB_API_HealTime.Models.Medicacoes;
+﻿using Newtonsoft.Json;
+
+namespace WEB_API_HealTime.Models.Medicacoes;
 
 public class TipoMedicacao
 {
@@ -6,4 +8,6 @@ public class TipoMedicacao
     public string DescMedicacao { get; set; }
     public string TituloTipoMedicacao { get; set; }
     public int ClasseAplicacao { get; set; }
+    [JsonIgnore]
+    public List<Medicacao> Medicacoes { get; set; }
 }

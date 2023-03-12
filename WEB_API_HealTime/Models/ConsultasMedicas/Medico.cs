@@ -10,5 +10,5 @@ public class Medico
     public int CrmMedico { get; set; }
     public string UfCrmMedico { get; set; }
     [JsonIgnore]
-    public PrescricaoPaciente PrescricaoPaciente { get; set; }
+    public List<PrescricaoPaciente> PrescricoesPacientes { get; set; }
 }
