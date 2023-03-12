@@ -93,6 +93,30 @@ public class PessoaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [AllowAnonymous]
+    [HttpPut("AlteraSenha")]
+    public async Task<IActionResult> AlteraSenha(Pessoa pessoa, string novasenha)
+    {
+        if (pessoa.NomePessoa is null || pessoa.PasswordString is null)
+            throw new Exception("Nome ou senha sao obrigatorios para a troca da senha");
+        Pessoa pessoaTrocaSenha = await _context.Pessoas
+            .FirstOrDefaultAsync(x => x.NomePessoa.ToUpper() == pessoa.NomePessoa.ToUpper());
+        if (!Criptografia.VerificarPasswordHash(pessoa.PasswordString, pessoaTrocaSenha.PasswordHash, pessoaTrocaSenha.PasswordSalt))
+        {
+            throw new Exception("Senha invalida, tente recupera-la, so que isso eu não vou fazer :) voce que lute lembrando");
+        }
+        else
+        {
+            Criptografia.CriarPasswordHash(novasenha, out byte[] hash, out byte[] salt);
+            pessoaTrocaSenha.PasswordSalt = salt;
+            pessoaTrocaSenha.PasswordHash = hash;
+            pessoaTrocaSenha.PasswordString = string.Empty;
+            _context.Update(pessoaTrocaSenha);
+            await _context.SaveChangesAsync();
+            return Ok("Senha alterada");
+        }
+    }
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
