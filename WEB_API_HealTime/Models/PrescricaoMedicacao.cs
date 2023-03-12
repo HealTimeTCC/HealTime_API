@@ -4,9 +4,9 @@ namespace WEB_API_HealTime.Models;
 
 public class PrescricaoMedicacao
 {
-    public int PrescricaoMedicacaoId { get; set; }
+    public int PrescricaoPacienteId { get; set; }
     [JsonIgnore]
-    public PrescricaoPaciente PrescricaoPacienteId { get; set; }
+    public PrescricaoPaciente PrescricaoPaciente { get; set; }
     public int MedicacaoId { get; set; }
     [JsonIgnore]
     public Medicacao Medicacao { get; set; }
