@@ -134,5 +134,46 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END MEDICAMENTOS */
 
+        /* -> BEGIN PRESCRICAOMEDICACAO */
+
+        modelBuilder.Entity<PrescricaoMedicacao>()
+            .HasOne<PrescricaoPaciente>(one => one.PrescricaoPaciente)
+            .WithMany(many => many.PrescricoesMedicacoes)
+                .HasForeignKey(fk => fk.PrescricaoPacienteId)
+                .HasConstraintName("PK_PrescricaoPacienteId_PrescricaoMedicao");
+        modelBuilder.Entity<PrescricaoMedicacao>()
+            .HasOne<Medicacao>(one => one.Medicacao)
+            .WithOne(many => many.PrescricaoMedicacao)
+                .HasForeignKey<PrescricaoMedicacao>(fk => fk.MedicacaoId)
+                .HasConstraintName("PK_MedicacaoId_PrescricaoMedicao");
+        modelBuilder.Entity<PrescricaoMedicacao>()
+            .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId })
+                .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
+
+        /* -> END PRESCRICAOMEDICACAO */
+        /* -> BEGIN STATUSMEDICACAO */
+
+        modelBuilder.Entity<StatusMedicacao>()
+            .HasKey(pk => pk.StatusMedicacaoId)
+                .HasName("PK_StatusMedicacaoId");
+        modelBuilder.Entity<StatusMedicacao>()
+            .Property(desc => desc.DescStatusMedicacao)
+            .HasColumnType("VARCHAR(25)");
+
+        /* -> END STATUSMEDICACAO */
+        /* -> BEGIN TIPOMEDICACAO */
+
+        modelBuilder.Entity<TipoMedicacao>()
+            .HasKey(pk => pk.TipoMedicacaoId)
+                .HasName("PK_TipoMedicacaoId");
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(desc => desc.DescMedicacao)
+            .HasColumnType("VARCHAR(100)");
+        modelBuilder.Entity<TipoMedicacao>()
+            .Property(title => title.TituloTipoMedicacao)
+            .HasColumnType("VARCHAR(100)")
+            .IsRequired();
+        /* -> END TIPOMEDICACAO */
+
     }
 }
