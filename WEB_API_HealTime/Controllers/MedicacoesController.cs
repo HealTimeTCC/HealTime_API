@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto;
+using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 
@@ -22,25 +23,28 @@ public class MedicacoesController : ControllerBase
     }
 
     [HttpPost("IncluiPrescricao")]
-    public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] DtoPrescricaoPaciente prescricaoPaciente)
+    public async Task<IActionResult> IncluiPrescricaoAsync([FromBody]PrescricaoDTO prescricaoDTO)
     {
         try
         {
-            Medico medico = prescricaoPaciente is null ?
-                throw new Exception("Objeto nulo")
-                : await _context.Medicos
-                .FirstOrDefaultAsync(x => x.MedicoId == prescricaoPaciente.MedicoId);
-            PrescricaoPaciente insertPrescricaoPaciente = new()
+            using (var context = _context)
             {
-                CriadoEm = DateTime.Now,
-                MedicoId = prescricaoPaciente.MedicoId,
-                Emissao = prescricaoPaciente.Emissao,
-                PacienteId = prescricaoPaciente.PacienteId,
-                Validade = prescricaoPaciente.Validade,
-                DescFichaPessoa = prescricaoPaciente.DescFichaPessoa
-            };
-            await _context.PrescricaoPacientes.AddAsync(insertPrescricaoPaciente);
-            await _context.SaveChangesAsync();
+                Medico medico = prescricaoDTO.PrescricaoPaciente is null ?
+                throw new Exception("Objeto nulo")
+                : await context.Medicos
+                .FirstOrDefaultAsync(x => x.MedicoId == prescricaoDTO.PrescricaoPaciente.MedicoId);
+                
+                PrescricaoPaciente insertPrescricaoPaciente = new();
+                insertPrescricaoPaciente.CriadoEm = DateTime.Now;
+                insertPrescricaoPaciente.MedicoId = prescricaoDTO.PrescricaoPaciente.MedicoId;
+                insertPrescricaoPaciente.Emissao = prescricaoDTO.PrescricaoPaciente.Emissao;
+                insertPrescricaoPaciente.PacienteId = prescricaoDTO.PrescricaoPaciente.PacienteId;
+                insertPrescricaoPaciente.Validade = prescricaoDTO.PrescricaoPaciente.Validade;
+                insertPrescricaoPaciente.DescFichaPessoa = prescricaoDTO.PrescricaoPaciente.DescFichaPessoa;
+                
+                await context.PrescricaoPacientes.AddAsync(insertPrescricaoPaciente);
+                await context.SaveChangesAsync();
+            }
             return Ok();
         }
         catch (Exception ex)
@@ -49,7 +53,7 @@ public class MedicacoesController : ControllerBase
         }
     }
     //[HttpPost]
-    //public async Task<IActionResult> IncluiMedicacao(Medi)
+    //public async Task<IActionResult> IncluiMedicacao(Medicacao medicacao, pre)
     //{
 
     //}
