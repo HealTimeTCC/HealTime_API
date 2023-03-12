@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.Medicacoes;
 
 namespace WEB_API_HealTime.Controllers;
 

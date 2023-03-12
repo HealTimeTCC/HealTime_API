@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto;
-using WEB_API_HealTime.Models;
+using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Models.Medicacoes;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -47,4 +48,9 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    //[HttpPost]
+    //public async Task<IActionResult> IncluiMedicacao(Medi)
+    //{
+
+    //}
 }
