@@ -1,6 +1,4 @@
-﻿
-
-using WEB_API_HealTime.Models;
+﻿using WEB_API_HealTime.Models.ConsultasMedicas;
 
 namespace WEB_API_HealTime.Dto;
 
