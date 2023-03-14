@@ -22,11 +22,6 @@ public class MedicacoesController : ControllerBase
         return Ok(await _context.Medicos.ToListAsync());
     }
 
-    [HttpGet("StatusMedicacao")]
-    public async Task<IActionResult> StatusMedicacao()
-    {
-        return Ok(await _context.StatusMedicacoes.ToListAsync());
-    }
 
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
