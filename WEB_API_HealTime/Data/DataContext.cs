@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RpgApi.Utils;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 
@@ -28,8 +29,12 @@ public class DataContext : DbContext
             .WithMany(one => one.PrescricoesPacientes)
                 .HasForeignKey(f => f.MedicoId)
                 .HasConstraintName("FK_PrescricaoPaciente_Medico");
+
         modelBuilder.Entity<PrescricaoPaciente>()
-            .Property(p => p.PacienteId);
+            .HasOne(p => p.Pessoa)
+            .WithMany(p => p.PrescricaoPacientes)
+                .HasForeignKey(fk => fk.PacienteId)
+                .HasConstraintName("FK_PacienteId_PrescricoesPacientes");
         /* -> END <- */
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(dt => dt.CriadoEm)
@@ -233,6 +238,23 @@ public class DataContext : DbContext
                     TituloTipoMedicacao = "PILULA",
                     ClasseAplicacao     = 2,
                     DescMedicacao       = "Experimental EXPERIMENTE CALADO"
+                }
+            );
+
+        Criptografia.CriarPasswordHash("1q2w3e4r", out byte[] hash, out byte[] salt);
+        modelBuilder.Entity<Pessoa>()
+            .HasData(
+                
+                new Pessoa
+                {
+                    PessoaId = 1,
+                    NomePessoa = "Dan",
+                    SobreNomePessoa = "Marzo",
+                    CpfPessoa = "12345678909",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    PasswordHash= hash,
+                    PasswordSalt= salt,
+                    TipoPessoaId= 1
                 }
             );
     }

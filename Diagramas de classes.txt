@@ -1,5 +1,0 @@
-PrescricaoPaciente:
--> Metodo para incluir
--> Metodo para leitura da descricao
--> Metodo para consulta Unica
--> Metodo para consulta por datas

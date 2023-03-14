@@ -1,5 +1,0 @@
-Para usar o JWT
-
--> Microsoft.AspNetCore.Authentication.JwtBearer -- PARA GERAR A AUTHENTICATION
--> Microsoft.IdentityModel.Tokens
--> System.IdentityModel.Tokens.Jwt

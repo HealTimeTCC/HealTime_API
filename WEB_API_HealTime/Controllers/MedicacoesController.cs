@@ -76,4 +76,29 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+
+    /*  RETORNA UMA LISTA, SE SOBRE TEMPO INCLUA FILTROS  */
+    [HttpGet("PrescricaoPaciente/{id:int}")]
+    public async Task<IActionResult> PrescricaoPacienteById(int id)
+    {
+        try
+        {
+            List<PrescricaoPaciente> prescricaoPacienteById = await _context.PrescricaoPacientes
+                .Include(p => p.PrescricoesMedicacoes)
+                .ThenInclude(p => p.Medicacao)
+                .Where(x => x.PacienteId == id).ToListAsync();
+            if (prescricaoPacienteById != null)
+            {
+                return Ok(prescricaoPacienteById);
+            }
+            return NotFound("Nada foi encontrado, verifique o ID");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    } 
+
+
 }

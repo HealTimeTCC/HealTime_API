@@ -20,4 +20,6 @@ public class Pessoa
     public DateTime? DtNascPessoa { get; set; }
     [NotMapped]
     public string TokenJwt { get; set; }
+    [JsonIgnore]
+    public List<PrescricaoPaciente> PrescricaoPacientes { get; set; }
 }
