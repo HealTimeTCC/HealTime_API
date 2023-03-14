@@ -1,0 +1,9 @@
+Em PrescricaoPaciente 
+Adicionar 
+-> Column Flag_Status CHAR
+
+
+
+
+Em medicacoes, vou desativada a tabela de status, agora é enum novo nome da propriedade de relacionamento
+-> De StatusMedicaoId para StatusMedicacao
