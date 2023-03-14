@@ -1,7 +1,5 @@
 
-*.txt
 *.dll
-*.sql
 *.vs
 *.vscode
 *.sonarqube

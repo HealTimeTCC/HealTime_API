@@ -1,0 +1,67 @@
+-> Em appsetings.json
+Definir : (Nome da configuração e a chave)
+"ConfigurationToken": {
+    "Key": "h3@lt1m3t0k3en"
+  },
+
+-> Packages necessarios: use o nome dele com dotnet package add [nome] [versao] - se voce estiver usando a ultima versao do dotnet não precisa dea versao 
+<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.17.0"/>
+<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.17.0"/>
+<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.15"/>
+
+-> Na classe que vai ser usada para o login definir uma propriedadae não mapeada
+
+[NotMapped]
+public string TokenJwt { get; set; }
+
+-> No construtor da classe que vamos trabalhar, gere uma uma variavel do tipo IConfiguration do tipo privado como global naquela classe somente
+e no construtor gere a injeção de dependencia
+Segue o exemplo, junto da injeção de dependencia do Database
+
+private readonly DataContext _context;
+private readonly IConfiguration _configuration;
+public PessoaController(DataContext context, IConfiguration configuration)
+{
+	_context = context;
+	_configuration = configuration;
+}
+-> Gerarando Claims
+private string CriarToken(Usuario usuario)
+{
+	List<Claim> claims = new List<Claim>
+	{
+		new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+		new Claim(ClaimTypes.Name, usuario.Username)
+	};
+	SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8
+		.GetBytes(_configuration.GetSection("ConfiguracaoToken:Chave").Value));
+	SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+	SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+	{
+		Subject = new ClaimsIdentity(claims),
+		Expires = DateTime.Now.AddDays(1),
+		SigningCredentials = creds
+	};
+	JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+	SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+	return tokenHandler.WriteToken(token);
+
+-> Na classe Program inserir
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("ConfigurationToken:Key").Value)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+-> e 
+
+app.UseAuthentication();
+-> após authorization
