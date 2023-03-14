@@ -84,7 +84,7 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            List<PrescricaoPaciente> prescricaoPacienteById = await _context.PrescricaoPacientes
+            var prescricaoPacienteById = await _context.PrescricaoPacientes
                 .Include(p => p.PrescricoesMedicacoes)
                 .ThenInclude(p => p.Medicacao)
                 .Where(x => x.PacienteId == id).ToListAsync();
