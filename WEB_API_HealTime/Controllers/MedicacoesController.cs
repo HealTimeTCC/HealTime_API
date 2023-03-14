@@ -95,5 +95,38 @@ public class MedicacoesController : ControllerBase
         }
     } 
 
+    /*
+     * Tenha a seguinte visao:
+     * A pessoa vai selecionar a Prescricao Atraves da lista fornecida de la ela tirará o ID que vai ser cancelado
+     * Detalhe, mais para frente ele vai verificar CLAIM
+     */
 
+    [HttpPatch("CancelaPrescPacienteCompleta/{id:int}")]
+    public async Task<IActionResult> CancelaPrescricaoPacienteCompleta(int id)
+    {
+        try
+        {
+            var prescricaoCancela = id < 1 ?
+                throw new Exception("Não é aceito valor menor que 1 :(")
+                : await _context.PrescricaoPacientes
+                    .Include(p => p.PrescricoesMedicacoes)
+                    .FirstOrDefaultAsync(can => can.PrescricaoPacienteId == id);
+
+            if (prescricaoCancela != null)
+            {
+                if (prescricaoCancela.FlagStatus == "N")
+                    return BadRequest("Prescrição já está Inativa");
+
+                prescricaoCancela.FlagStatus = "N";
+                _context.PrescricaoPacientes.Update(prescricaoCancela);
+                await _context.SaveChangesAsync();
+                return Ok(prescricaoCancela);
+            }
+            return NotFound("Nenhuma prescricao encontrada");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);  
+        }
+    }
 }
