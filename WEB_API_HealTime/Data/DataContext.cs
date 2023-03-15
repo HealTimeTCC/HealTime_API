@@ -156,15 +156,6 @@ public class DataContext : DbContext
 
         /* -> END PRESCRICAOMEDICACAO */
 
-
-        modelBuilder.Entity<StatusMedicacao>()
-            .HasKey(pk => pk.StatusMedicacaoId)
-                .HasName("PK_StatusMedicacaoId");
-        modelBuilder.Entity<StatusMedicacao>()
-            .Property(desc => desc.DescStatusMedicacao)
-            .HasColumnType("VARCHAR(25)");
-
-        /* -> END STATUSMEDICACAO */
         
         /* -> BEGIN TIPOMEDICACAO */
 
