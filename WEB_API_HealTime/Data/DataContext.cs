@@ -12,7 +12,6 @@ public class DataContext : DbContext
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
     public DbSet<Medicacao> Medicacoes { get; set; }
-    public DbSet<StatusMedicacao> StatusMedicacoes { get; set; }
     public DbSet<TipoMedicacao> TiposMedicacoes { get; set; }
     public DbSet<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -51,6 +50,11 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(desc => desc.DescFichaPessoa)
             .HasColumnType("VARCHAR(350)");
+        modelBuilder.Entity<PrescricaoPaciente>()
+            .Property(flag => flag.FlagStatus)
+            .HasColumnType("CHAR(1)")
+            .HasDefaultValue("S")
+            .IsRequired();
         /* -> END  PRESCRICAOPACIENTES */
 
         /* -> BEGIN MEDICO */
@@ -104,18 +108,15 @@ public class DataContext : DbContext
         modelBuilder.Entity<Medicacao>()
             .HasKey(pk => pk.MedicacaoId)
             .HasName("PK_MedicacaoId");
-        modelBuilder.Entity<Medicacao>()
-            .HasOne<StatusMedicacao>(one =>one.StatusMedicacao)
-            .WithMany(many => many.Medicacoes)
-            .HasForeignKey(fk => fk.StatusMedicacaoId)
-                .HasConstraintName("FK_Medicacao_StatusMedicacao");
 
         modelBuilder.Entity<Medicacao>()
             .HasOne<TipoMedicacao>(tp => tp.TipoMedicacao)
             .WithMany(tp => tp.Medicacoes)
                 .HasForeignKey(fk => fk.TipoMedicacaoId)
                 .HasConstraintName("FK_Medicacao_TipoMedicacao");
-
+        modelBuilder.Entity<Medicacao>()
+            .Property(st => st.StatusMedicacao)
+            .HasDefaultValue(EnumStatusMedicacao.ATIVO);
         modelBuilder.Entity<Medicacao>()
             .Property(nm => nm.NomeMedicacao)
             .HasColumnType("VARCHAR(80)")
@@ -155,7 +156,6 @@ public class DataContext : DbContext
 
         /* -> END PRESCRICAOMEDICACAO */
 
-        /* -> BEGIN STATUSMEDICACAO */
 
         modelBuilder.Entity<StatusMedicacao>()
             .HasKey(pk => pk.StatusMedicacaoId)
@@ -199,29 +199,6 @@ public class DataContext : DbContext
                 NmMedico = "Dr Teste",
                 UfCrmMedico = "RJ"
             }
-            );
-        modelBuilder.Entity<StatusMedicacao>()
-            .HasData(
-                new StatusMedicacao 
-                {
-                    StatusMedicacaoId = 1,
-                    DescStatusMedicacao = "ATIVO"
-                },
-                new StatusMedicacao 
-                {
-                    StatusMedicacaoId = 2,
-                    DescStatusMedicacao = "INATIVO"
-                },
-                new StatusMedicacao 
-                {
-                    StatusMedicacaoId = 3,
-                    DescStatusMedicacao = "EFEITO COLATERAL GRAVE"
-                },
-                new StatusMedicacao 
-                {
-                    StatusMedicacaoId = 4,
-                    DescStatusMedicacao = "REAÇÃO GRAVE"
-                }
             );
         modelBuilder.Entity<TipoMedicacao>()
             .HasData(
