@@ -93,7 +93,7 @@ public class MedicacoesController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-    } 
+    }
 
     /*
      * Tenha a seguinte visao:
