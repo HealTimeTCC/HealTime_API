@@ -1,13 +1,12 @@
 ﻿using System.Text.Json.Serialization;
+using WEB_API_HealTime.Models.Medicacoes.Enums;
 
 namespace WEB_API_HealTime.Models.Medicacoes;
 
 public class Medicacao
 {
     public int MedicacaoId { get; set; }
-    public int StatusMedicacaoId { get; set; }
-    [JsonIgnore]
-    public StatusMedicacao StatusMedicacao { get; set; }
+    public EnumStatusMedicacao StatusMedicacao { get; set; }
     public int TipoMedicacaoId { get; set; }
     [JsonIgnore]
     public TipoMedicacao TipoMedicacao { get; set; }
