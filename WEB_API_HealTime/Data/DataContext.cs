@@ -2,6 +2,7 @@
 using RpgApi.Utils;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Models.Medicacoes.Enums;
 
 namespace WEB_API_HealTime.Data;
 
