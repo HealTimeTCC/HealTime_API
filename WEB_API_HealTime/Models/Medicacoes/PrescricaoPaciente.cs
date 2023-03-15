@@ -16,6 +16,7 @@ public class PrescricaoPaciente
     public DateTime Emissao { get; set; }
     public DateTime Validade { get; set; }
     public string DescFichaPessoa { get; set; }
+    public string FlagStatus { get; set; }
     [JsonIgnore]
     public List<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
 }
