@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime.Tests\\WEB_API_HealTime.Tests.csproj": {}
+    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\HealTime\\HealTime.csproj": {}
   },
   "projects": {
-    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime.Tests\\WEB_API_HealTime.Tests.csproj": {
+    "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\HealTime\\HealTime.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime.Tests\\WEB_API_HealTime.Tests.csproj",
-        "projectName": "WEB_API_HealTime.Tests",
-        "projectPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime.Tests\\WEB_API_HealTime.Tests.csproj",
+        "projectUniqueName": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\HealTime\\HealTime.csproj",
+        "projectName": "HealTime",
+        "projectPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\HealTime\\HealTime.csproj",
         "packagesPath": "C:\\Users\\etechas\\.nuget\\packages\\",
-        "outputPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime.Tests\\obj\\",
+        "outputPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\HealTime\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -44,28 +44,6 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "dependencies": {
-            "Microsoft.NET.Test.Sdk": {
-              "target": "Package",
-              "version": "[17.3.2, )"
-            },
-            "coverlet.collector": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[3.1.2, )"
-            },
-            "xunit": {
-              "target": "Package",
-              "version": "[2.4.2, )"
-            },
-            "xunit.runner.visualstudio": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.4.5, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

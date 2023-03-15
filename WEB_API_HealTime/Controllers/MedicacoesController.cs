@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -109,13 +110,18 @@ public class MedicacoesController : ControllerBase
             var prescricaoCancela = id < 1 ?
                 throw new Exception("Não é aceito valor menor que 1 :(")
                 : await _context.PrescricaoPacientes
-                    .Include(p => p.PrescricoesMedicacoes)
                     .FirstOrDefaultAsync(can => can.PrescricaoPacienteId == id);
 
             if (prescricaoCancela != null)
             {
                 if (prescricaoCancela.FlagStatus == "N")
                     return BadRequest("Prescrição já está Inativa");
+                
+                    List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
+                        .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
+                    listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
+                    _context.UpdateRange(listOff);
+                    await _context.SaveChangesAsync();
 
                 prescricaoCancela.FlagStatus = "N";
                 _context.PrescricaoPacientes.Update(prescricaoCancela);
@@ -129,4 +135,6 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);  
         }
     }
+
+
 }

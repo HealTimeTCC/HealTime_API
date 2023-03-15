@@ -21,4 +21,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Healtime\HealTime.csproj" />
+    <ProjectReference Include="..\WEB_API_HealTime.csproj" />
+  </ItemGroup>
+
 </Project>

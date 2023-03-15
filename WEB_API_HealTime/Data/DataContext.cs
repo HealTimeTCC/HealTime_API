@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RpgApi.Utils;
+using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
@@ -152,9 +152,13 @@ public class DataContext : DbContext
             .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId })
                 .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
         modelBuilder.Entity<PrescricaoMedicacao>()
-            .HasIndex(pk => pk.PrescricaoPacienteId)
-            .IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
-
+            .HasIndex(pk => pk.PrescricaoPacienteId);
+            //.IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
+        modelBuilder.Entity<PrescricaoMedicacao>()
+            .Property(flag => flag.StatusMedicacaoFlag)
+            .HasColumnType("CHAR(1)")
+            .HasDefaultValue("S");
+        
         /* -> END PRESCRICAOMEDICACAO */
 
         

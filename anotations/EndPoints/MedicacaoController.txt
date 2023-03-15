@@ -1,0 +1,9 @@
+POST
+IncluiPrescricao -> Inclui PrescricaoPacientes, medicamentos e PrescricaoMedicamentos
+	- Adendos: 1 PrescricaoPacientes, com uma lista de medicamentos e prescricaoMedicamentos, a lista dos dois devem ser dos mesmo tamanho
+
+GET
+PrescricaoPaciente/{id:int} > Retorna uma lis com PrescricaoPacientes, medicamentos e PrescricaoMedicamentosde acordo com o ID do Paciente
+
+PATCH
+CancelaPrescPacienteCompleta/{id:int} Muda a FlagStatus da prescricaoPaciente para "N", isso ocasiona a inativação de tudo relacionado a aquela prescricaoPaciente(medicamentos), é somente inativada, não deletada

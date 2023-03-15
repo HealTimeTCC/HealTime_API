@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace RpgApi.Utils
+namespace WEB_API_HealTime.Utility
 {
     public class Criptografia
     {
