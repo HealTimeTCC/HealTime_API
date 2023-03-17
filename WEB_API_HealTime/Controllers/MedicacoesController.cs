@@ -22,8 +22,6 @@ public class MedicacoesController : ControllerBase
     {
         return Ok(await _context.Medicos.ToListAsync());
     }
-
-
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
     {
@@ -72,8 +70,6 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
-
     /*  RETORNA UMA LISTA, SE SOBRE TEMPO INCLUA FILTROS  */
     [HttpGet("PrescricaoPaciente/{id:int}")]
     public async Task<IActionResult> PrescricaoPacienteById(int id)
@@ -95,13 +91,11 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
     /*
      * Tenha a seguinte visao:
      * A pessoa vai selecionar a Prescricao Atraves da lista fornecida de la ela tirará o ID que vai ser cancelado
      * Detalhe, mais para frente ele vai verificar CLAIM
      */
-
     [HttpPatch("CancelaPrescPacienteCompleta/{id:int}")]
     public async Task<IActionResult> CancelaPrescricaoPacienteCompleta(int id)
     {
@@ -135,6 +129,16 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);  
         }
     }
+    [HttpPatch("CancelaMedicacao/{idPresc}/{idMedica}")]
+    public async Task<IActionResult> CancelaItemMedicacaoPrescricao(int idPresc, int idMedica)
+    {
+        try
+        {
 
-
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
