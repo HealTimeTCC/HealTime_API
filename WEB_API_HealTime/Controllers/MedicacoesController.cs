@@ -134,7 +134,7 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-
+            
         }
         catch (Exception ex)
         {
