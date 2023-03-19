@@ -53,10 +53,11 @@ public class MedicacoesController : ControllerBase
             int indice = 0;
             while (indice < prescricaoDTO.Medicamentos.Count)
             {
-                prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = 
-                    prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
-                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = 
-                    prescricaoDTO.Medicamentos[indice].MedicacaoId;
+                if (prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo < 1 || prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo > 24)
+                    return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
+                prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
+                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.Medicamentos[indice].MedicacaoId;
+
                 indice++;
             }
 

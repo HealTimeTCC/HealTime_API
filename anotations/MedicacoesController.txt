@@ -9,7 +9,4 @@ Todos pendentes do uso de CLAIMS
 
 -> Consulta medicacao (devera ser lido junto do consulta prescricao)
 
-
 -> CalculaIntervaloMedicacao (Consideramos usar uma procedure)
-
--> Cancela medicacao 
