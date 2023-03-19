@@ -6,6 +6,8 @@ public class ConsultaAgendada
 {
     public int ConsultasAgendadasId { get; set; }
     public int StatusConsultasId { get; set; }
+    [JsonIgnore]
+    public StatusConsulta StatusConsulta { get; set; }
     public int EspecialidadeId { get; set; }
     public int PacienteId { get; set; }
     public int MedicoId { get; set; }
