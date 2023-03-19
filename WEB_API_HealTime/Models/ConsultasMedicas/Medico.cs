@@ -12,4 +12,6 @@ public class Medico
     public string UfCrmMedico { get; set; }
     [JsonIgnore]
     public List<PrescricaoPaciente> PrescricoesPacientes { get; set; }
+    [JsonIgnore]
+    public ConsultaAgendada ConsultaAgendada { get; set; }
 }
