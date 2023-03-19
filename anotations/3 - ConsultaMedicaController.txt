@@ -1,2 +1,5 @@
 -> IncluirMedico
--> 
+- Método para listar as consulta de um determinado pcaciente (Nesse método vou enviar o id do paciente para obter as informações);
+- Método para exibir as informações detalhadas de uma consulta (Nesse método eu vou enviar o id da consulta e ele vai me retornar os dados detalhados dessa consulta);
+- Método para cadastrar uma consulta;
+- Método para excluir a consulta;
