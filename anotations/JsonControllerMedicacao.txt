@@ -1,0 +1,45 @@
+{
+  "prescricaoPaciente": {
+    "medicoId": 1,
+    "pacienteId": 1,
+    "criadoEm": "2023-03-12T17:15:02.194Z",
+    "emissao": "2023-03-12T17:15:02.194Z",
+    "validade": "2023-03-30T17:15:02.194Z",
+    "descFichaPessoa": "TESTANDO"
+  },
+  "prescricoesMedicacoes": [
+    {
+      "qtde": 10,
+      "intervalo": 10,
+      "duracao": 10
+    },
+    {
+      "qtde": 10,
+      "intervalo": 10,
+      "duracao": 10
+    }
+  ],
+  "medicamentos": [
+    {
+      "statusMedicacaoId": 1,
+      "tipoMedicacaoId": 1,
+      "nomeMedicacao": "EXPERIMENTE",
+      "compostoAtivoMedicacao": "CALADO",
+      "laboratorioMedicaocao": "OU APANHA",
+      "generico": "S"
+    },
+    {
+      "statusMedicacaoId": 1,
+      "tipoMedicacaoId": 1,
+      "nomeMedicacao": "EXPERIMENTE",
+      "compostoAtivoMedicacao": "CALADO",
+      "laboratorioMedicaocao": "OU APANHA",
+      "generico": "S"
+    }
+  ],
+  "medico":{
+      "medicoId":1
+  }
+
+
+}
