@@ -1,14 +1,15 @@
 Usar claims o unico que pode inserir prescricao sao
 Cuidador, responsavel
+Todos pendentes do uso de CLAIMS
 
--> IncluiPrescricao    - usar claims - pendentes
--> IncluiPrescricao > IncluiMedicacao  ok - pendente claims
--> ConsultarPrescricao - 
--> CancelaPrescricao
+-> Incluir prescricao > IncluiMedicacao ok
+-> ConsultarPrescricao > ok, POR ID
+-> Cancela PrescricaoMedicacao COMPLETA -> ok
+-> Cancela medicamento da prescricao > OK 
+
+-> Consulta medicacao (devera ser lido junto do consulta prescricao)
+
 
 -> CalculaIntervaloMedicacao (Consideramos usar uma procedure)
--> Incluir medicacao 
--> Incluir medicacao > Incluir StatusMedicacao
--> Incluir medicacao > PopulaTipoMedicacao
--> Consulta medicacao (devera ser lido junto do consulta prescricao)
+
 -> Cancela medicacao 
