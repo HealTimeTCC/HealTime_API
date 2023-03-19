@@ -22,7 +22,7 @@ public class ConsultaMedicaController : ControllerBase
         {
             if (medico.UfCrmMedico is null)
                 return BadRequest("Não é possivel inserir UF CRM com valor nulo");
-            if (medico.CrmMedico.ToString().Length < 6)
+            if (medico.CrmMedico.Length < 6)
                 return BadRequest("O CRM do profissional da saúde deve ter 6 digitos");
             Medico medicoExiste =
                 VerificaInfoPessoa.VerificaNome(medico.NmMedico)
@@ -44,4 +44,9 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
 
+    [HttpPost("AgendarConsulta")]
+    public async Task<IActionResult> IncluirConsulta()
+    {
+        return Ok();
+    }
 }
