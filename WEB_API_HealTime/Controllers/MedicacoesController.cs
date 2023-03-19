@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.CookiePolicy;
-using Microsoft.AspNetCore.Http;
+using WEB_API_HealTime.Models.Medicacoes.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -129,12 +129,36 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);  
         }
     }
-    [HttpPatch("CancelaMedicacao/{idPresc}/{idMedica}")]
-    public async Task<IActionResult> CancelaItemMedicacaoPrescricao(int idPresc, int idMedica)
+    [HttpPatch("CancelaMedicacao/{idPrescricao}/{idMedicacao}")]
+    public async Task<IActionResult> CancelaItemMedicacaoPrescricao(int idPrescricao, int idMedicacao)
     {
         try
         {
+            var prescricaoMedicacao = await _context.PrescricoesMedicacoes
+                .Include(x => x.Medicacao)
+                .FirstOrDefaultAsync(m => m.PrescricaoPacienteId == idPrescricao && m.MedicacaoId == idMedicacao);
+
+            if (prescricaoMedicacao is null)
+                return NotFound("O medicamento da prescrição não foi encontrado");
+
+            /*Alterando status*/
+            prescricaoMedicacao.StatusMedicacaoFlag = "N";
+            prescricaoMedicacao.Medicacao.StatusMedicacao = EnumStatusMedicacao.INATIVO;
+
+            //salvando e definindo o que foi mudado
+            var attachMedicao = _context.Attach(prescricaoMedicacao.Medicacao);
+            attachMedicao.Property(med => med.MedicacaoId).IsModified = false;
+            attachMedicao.Property(med => med.NomeMedicacao).IsModified = false;
+            attachMedicao.Property(med => med.StatusMedicacao).IsModified = true;
             
+            var attachPrescricao = _context.Attach(prescricaoMedicacao);
+            attachPrescricao.Property(pre => pre.PrescricaoPacienteId).IsModified = false;
+            attachPrescricao.Property(pre => pre.MedicacaoId).IsModified = false;
+            attachPrescricao.Property(pre => pre.StatusMedicacaoFlag).IsModified = true;
+            
+            int linhasAfetadas = await _context.SaveChangesAsync();
+
+            return Ok($"Medicamento {prescricaoMedicacao.Medicacao.NomeMedicacao}");
         }
         catch (Exception ex)
         {
