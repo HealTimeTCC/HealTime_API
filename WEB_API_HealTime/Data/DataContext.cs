@@ -15,6 +15,8 @@ public class DataContext : DbContext
     public DbSet<Medicacao> Medicacoes { get; set; }
     public DbSet<TipoMedicacao> TiposMedicacoes { get; set; }
     public DbSet<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
+    public DbSet<StatusConsulta> StatusConsultas { get; set; }
+    public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* -> BEGIN PRESCRICAOPACIENTES */
@@ -176,7 +178,34 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END TIPOMEDICACAO */
 
+        /* -> BEGIN MotivosConsulta */
 
+        modelBuilder.Entity<ConsultaAgendada>()
+            .HasKey(pk => pk.ConsultasAgendadasId)
+            .HasName("PK_ConsultaAgendadaId");
+        modelBuilder.Entity<ConsultaAgendada>()
+            .HasOne(one => one.Medico)
+            .WithOne(one => one.ConsultaAgendada)
+                .HasForeignKey<ConsultaAgendada>(fk => fk.MedicoId)
+                .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
+        modelBuilder.Entity<ConsultaAgendada>()
+            .Property(d => d.DataSolicitacaoConsulta)
+            .HasColumnType("DATE")
+            .IsRequired();
+        modelBuilder.Entity<ConsultaAgendada>()
+            .Property(d => d.DataConsulta)
+            .HasColumnType("DATE")
+            .IsRequired();
+        modelBuilder.Entity<ConsultaAgendada>()
+            .Property(d => d.MotivoConsulta)
+            .HasColumnType("VARCHAR(300)");
+        modelBuilder.Entity<ConsultaAgendada>()
+            .Property(d => d.Encaminhamento)
+            .HasColumnType("CHAR(1)")
+            .IsRequired();
+
+
+        /* -> END MotivosConsulta */
 
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
@@ -217,7 +246,6 @@ public class DataContext : DbContext
         Criptografia.CriarPasswordHash("1q2w3e4r", out byte[] hash, out byte[] salt);
         modelBuilder.Entity<Pessoa>()
             .HasData(
-                
                 new Pessoa
                 {
                     PessoaId = 1,
