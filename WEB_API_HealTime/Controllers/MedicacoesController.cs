@@ -150,7 +150,7 @@ public class MedicacoesController : ControllerBase
             attachMedicao.Property(med => med.MedicacaoId).IsModified = false;
             attachMedicao.Property(med => med.NomeMedicacao).IsModified = false;
             attachMedicao.Property(med => med.StatusMedicacao).IsModified = true;
-            
+
             var attachPrescricao = _context.Attach(prescricaoMedicacao);
             attachPrescricao.Property(pre => pre.PrescricaoPacienteId).IsModified = false;
             attachPrescricao.Property(pre => pre.MedicacaoId).IsModified = false;
