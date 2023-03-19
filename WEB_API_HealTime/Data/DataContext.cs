@@ -68,7 +68,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Medico>()
             .Property(crm => crm.CrmMedico)
-            .HasColumnType("INT");
+            .HasColumnType("CHAR(6)");
         modelBuilder.Entity<Medico>()
             .Property(crmuf => crmuf.UfCrmMedico)
             .HasColumnType("CHAR(2)")
@@ -184,14 +184,14 @@ public class DataContext : DbContext
             new Medico
             {
                 MedicoId = 1,
-                CrmMedico = 12345,
+                CrmMedico = "054321",
                 NmMedico = "Dr Val",
                 UfCrmMedico = "SP"
             },
             new Medico
             {
                 MedicoId = 2,
-                CrmMedico = 12345,
+                CrmMedico = "012345",
                 NmMedico = "Dr Teste",
                 UfCrmMedico = "RJ"
             }
