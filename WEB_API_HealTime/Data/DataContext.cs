@@ -17,6 +17,7 @@ public class DataContext : DbContext
     public DbSet<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
     public DbSet<StatusConsulta> StatusConsultas { get; set; }
     public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
+    public DbSet<ConsultaCancelada> ConsultaCanceladas { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         /* -> BEGIN PRESCRICAOPACIENTES */
@@ -155,15 +156,15 @@ public class DataContext : DbContext
                 .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
         modelBuilder.Entity<PrescricaoMedicacao>()
             .HasIndex(pk => pk.PrescricaoPacienteId);
-            //.IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
+        //.IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
         modelBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.StatusMedicacaoFlag)
             .HasColumnType("CHAR(1)")
             .HasDefaultValue("S");
-        
+
         /* -> END PRESCRICAOMEDICACAO */
 
-        
+
         /* -> BEGIN TIPOMEDICACAO */
 
         modelBuilder.Entity<TipoMedicacao>()
@@ -178,7 +179,7 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END TIPOMEDICACAO */
 
-        /* -> BEGIN MotivosConsulta */
+        /* -> BEGIN ConsultaAgendada */
 
         modelBuilder.Entity<ConsultaAgendada>()
             .HasKey(pk => pk.ConsultasAgendadasId)
@@ -204,42 +205,64 @@ public class DataContext : DbContext
             .HasColumnType("CHAR(1)")
             .IsRequired();
 
+        /* -> END ConsultaAgendada */
 
-        /* -> END MotivosConsulta */
+        /* -> BEGIN StatusConsulta */
+
+        modelBuilder.Entity<StatusConsulta>()
+            .HasKey(pk => pk.StatusConsultaId)
+            .HasName("PK_StatusConsultaId");
+        modelBuilder.Entity<StatusConsulta>()
+            .HasMany<ConsultaAgendada>(many => many.ConsultasAgendadas)
+            .WithOne(f => f.StatusConsulta)
+                .HasForeignKey(f => f.StatusConsultasId)
+                .HasConstraintName("FK_ConsultaAgendadas_StatusConsulta");
+        modelBuilder.Entity<StatusConsulta>()
+            .Property(desc => desc.DescStatusConsulta)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        
+        /* -> END StatusConsulta */
+        /* -> BEGIN ConsultaCancelada */
+
+        /* -> END ConsultaCancelada */
+        
+
+
 
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
-            .HasData(
-            new Medico
-            {
-                MedicoId = 1,
-                CrmMedico = "054321",
-                NmMedico = "Dr Val",
-                UfCrmMedico = "SP"
-            },
-            new Medico
-            {
-                MedicoId = 2,
-                CrmMedico = "012345",
-                NmMedico = "Dr Teste",
-                UfCrmMedico = "RJ"
-            }
-            );
+                .HasData(
+                new Medico
+                {
+                    MedicoId = 1,
+                    CrmMedico = "054321",
+                    NmMedico = "Dr Val",
+                    UfCrmMedico = "SP"
+                },
+                new Medico
+                {
+                    MedicoId = 2,
+                    CrmMedico = "012345",
+                    NmMedico = "Dr Teste",
+                    UfCrmMedico = "RJ"
+                }
+                );
         modelBuilder.Entity<TipoMedicacao>()
             .HasData(
                 new TipoMedicacao
                 {
-                    TipoMedicacaoId     = 1,
+                    TipoMedicacaoId = 1,
                     TituloTipoMedicacao = "NASAL",
-                    ClasseAplicacao     = 1,
-                    DescMedicacao       = "Experimental"
+                    ClasseAplicacao = 1,
+                    DescMedicacao = "Experimental"
                 },
                 new TipoMedicacao
                 {
-                    TipoMedicacaoId     = 2,
+                    TipoMedicacaoId = 2,
                     TituloTipoMedicacao = "PILULA",
-                    ClasseAplicacao     = 2,
-                    DescMedicacao       = "Experimental EXPERIMENTE CALADO"
+                    ClasseAplicacao = 2,
+                    DescMedicacao = "Experimental EXPERIMENTE CALADO"
                 }
             );
 
@@ -253,9 +276,37 @@ public class DataContext : DbContext
                     SobreNomePessoa = "Marzo",
                     CpfPessoa = "12345678909",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
-                    PasswordHash= hash,
-                    PasswordSalt= salt,
-                    TipoPessoaId= 1
+                    PasswordHash = hash,
+                    PasswordSalt = salt,
+                    TipoPessoaId = 1
+                }
+            );
+        modelBuilder.Entity<StatusConsulta>()
+            .HasData(
+                new StatusConsulta
+                {
+                    StatusConsultaId = 1,
+                    DescStatusConsulta = "Encerrada"
+                },
+                new StatusConsulta
+                {
+                    StatusConsultaId = 2,
+                    DescStatusConsulta = "Agendada"
+                },
+                new StatusConsulta
+                {
+                    StatusConsultaId = 3,
+                    DescStatusConsulta = "Cancelada"
+                },
+                new StatusConsulta
+                {
+                    StatusConsultaId = 4,
+                    DescStatusConsulta = "Remarcada"
+                },
+                new StatusConsulta
+                {
+                    StatusConsultaId = 5,
+                    DescStatusConsulta = "Fila de espera"
                 }
             );
     }
