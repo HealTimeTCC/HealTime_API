@@ -22,6 +22,7 @@ public class MedicacoesController : ControllerBase
     {
         return Ok(await _context.Medicos.ToListAsync());
     }
+    
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
     {
@@ -71,31 +72,12 @@ public class MedicacoesController : ControllerBase
         }
     }
     /*  RETORNA UMA LISTA, SE SOBRE TEMPO INCLUA FILTROS  */
-    [HttpGet("PrescricaoPaciente/{id:int}")]
-    public async Task<IActionResult> PrescricaoPacienteById(int id)
-    {
-        try
-        {
-            var prescricaoPacienteById = await _context.PrescricaoPacientes
-                .Include(p => p.PrescricoesMedicacoes)
-                .ThenInclude(p => p.Medicacao)
-                .Where(x => x.PacienteId == id).ToListAsync();
-            if (prescricaoPacienteById != null)
-            {
-                return Ok(prescricaoPacienteById);
-            }
-            return NotFound("Nada foi encontrado, verifique o ID");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
     /*
      * Tenha a seguinte visao:
      * A pessoa vai selecionar a Prescricao Atraves da lista fornecida de la ela tirará o ID que vai ser cancelado
      * Detalhe, mais para frente ele vai verificar CLAIM
      */
+    /*Cancelamento de prescricao e medicamentos*/
     [HttpPatch("CancelaPrescPacienteCompleta/{id:int}")]
     public async Task<IActionResult> CancelaPrescricaoPacienteCompleta(int id)
     {
@@ -159,6 +141,44 @@ public class MedicacoesController : ControllerBase
             int linhasAfetadas = await _context.SaveChangesAsync();
 
             return Ok($"Medicamento {prescricaoMedicacao.Medicacao.NomeMedicacao}");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+        
+    /*Consulta de prescricao e medicamentos*/
+    [HttpGet("ConsultaPrescricao/{id:int}")]
+    public async Task<IActionResult> ConsultaPrescricaoById(int id)
+    {
+        try
+        {
+            var prescricaoPacienteById = await _context.PrescricaoPacientes
+                .Include(p => p.PrescricoesMedicacoes)
+                .ThenInclude(p => p.Medicacao)
+                .Where(x => x.PacienteId == id).ToListAsync();
+            if (prescricaoPacienteById != null)
+            {
+                return Ok(prescricaoPacienteById);
+            }
+            return NotFound("Nada foi encontrado, verifique o ID");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("ConsultaMedicacaoById/{id:int}")]
+    public async Task<IActionResult> ConsultaMedicacaoById(int id)
+    {
+        try
+        {
+            Medicacao medicacao = await _context.Medicacoes
+                .FirstOrDefaultAsync(m => m.MedicacaoId == id);
+            if (medicacao is null)
+                return NotFound($"Medicamento com ID {id} não encontrado");
+            return Ok(medicacao);
         }
         catch (Exception ex)
         {
