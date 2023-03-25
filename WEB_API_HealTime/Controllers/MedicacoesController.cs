@@ -17,6 +17,25 @@ public class MedicacoesController : ControllerBase
 {
     private readonly DataContext _context;
     public MedicacoesController(DataContext context) { _context = context; }
+
+    private bool ExisteMedicacao(List<Medicacao> medicacoes, out List<Medicacao> existe)
+    {
+        existe = new List<Medicacao>();
+        bool confirmaExiste = false;
+        foreach (var item in medicacoes)
+        {
+            Medicacao existeMedi = _context.Medicacoes
+            .FirstOrDefault(x => x.NomeMedicacao.ToUpper().Trim() == item.NomeMedicacao.ToUpper().Trim());
+            if (existeMedi is not null)
+            {
+                existe.Add(existeMedi);
+                confirmaExiste = true;
+            }
+        }
+        return confirmaExiste;
+
+    }
+
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAllAsync()
     {
