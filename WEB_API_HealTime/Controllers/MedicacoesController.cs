@@ -80,10 +80,11 @@ public class MedicacoesController : ControllerBase
 
             //Using para guardar dados da PRESCRIÇÃO DO PACIENTE
 
-            Medico medico = prescricaoDTO.Medico is null ?
-            throw new Exception("Objeto nulo")
-            : await _context.Medicos
+            Medico medico = await _context.Medicos
             .FirstOrDefaultAsync(x => x.MedicoId == prescricaoDTO.PrescricaoPaciente.MedicoId);
+
+            if (medico is null)
+                return NotFound($"Medico ID {prescricaoDTO.PrescricaoPaciente.MedicoId} não encontrado");
 
             prescricaoDTO.PrescricaoPaciente.CriadoEm = DateTime.Now;
 
@@ -91,21 +92,24 @@ public class MedicacoesController : ControllerBase
             {
                 await _context.SaveChangesAsync();
             }
-            if (prescricaoDTO.Medicamentos.Count < 1)
-                throw new Exception("É necessario no minimo 1 medicamento");
 
-            await _context.AddRangeAsync(prescricaoDTO.Medicamentos);
-            await _context.SaveChangesAsync();
+            if (prescricaoDTO.MedicacoesId.Count < 1)
+                return BadRequest("É necessario no minimo 1 medicamento");
 
-            int indice = 0;
-            while (indice < prescricaoDTO.Medicamentos.Count)
+            for (int i = 0; i < prescricaoDTO.MedicacoesId.Count; i++)
+            {
+                Medicacao busca = await _context.Medicacoes
+                    .FirstOrDefaultAsync(x => x.MedicacaoId == prescricaoDTO.MedicacoesId[i]);
+                if (busca is null)
+                    return NotFound($"Medicamento de ID {prescricaoDTO.MedicacoesId[i]} não encontrado");
+            }
+
+            for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
             {
                 if (prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo < 1 || prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo > 24)
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
                 prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
-                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.Medicamentos[indice].MedicacaoId;
-
-                indice++;
+                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.MedicacoesId[indice];
             }
 
             await _context.PrescricoesMedicacoes
