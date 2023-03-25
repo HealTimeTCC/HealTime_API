@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230325164335_Create_Especialidades")]
-    partial class Create_Especialidades
+    [Migration("20230325215307_Relathion_N1")]
+    partial class Relathion_N1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,8 +63,7 @@ namespace WEB_API_HealTime.Migrations
 
                     b.HasIndex("EspecialidadeId");
 
-                    b.HasIndex("MedicoId")
-                        .IsUnique();
+                    b.HasIndex("MedicoId");
 
                     b.HasIndex("StatusConsultasId");
 
@@ -74,7 +73,10 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaCancelada", b =>
                 {
                     b.Property<int>("ConsultaCanceladaId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConsultaCanceladaId"));
 
                     b.Property<int>("ConsultaAgendadaId")
                         .HasColumnType("int");
@@ -284,8 +286,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "12345678909",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan",
-                            PasswordHash = new byte[] { 84, 196, 101, 235, 70, 42, 193, 114, 198, 213, 161, 99, 24, 228, 196, 93, 137, 128, 243, 254, 60, 34, 8, 141, 233, 204, 38, 121, 80, 75, 221, 202, 35, 80, 163, 189, 130, 123, 173, 27, 97, 41, 46, 91, 3, 90, 66, 184, 64, 96, 230, 180, 226, 8, 236, 69, 129, 110, 237, 45, 53, 41, 51, 120 },
-                            PasswordSalt = new byte[] { 49, 236, 69, 221, 124, 121, 1, 71, 217, 23, 205, 56, 22, 244, 94, 157, 74, 33, 76, 250, 74, 242, 137, 59, 152, 175, 3, 75, 161, 82, 200, 239, 177, 196, 132, 120, 216, 239, 38, 89, 96, 39, 120, 222, 112, 234, 103, 208, 99, 79, 49, 124, 217, 147, 23, 187, 206, 54, 74, 216, 83, 73, 145, 182, 73, 188, 139, 105, 207, 182, 233, 57, 18, 117, 220, 255, 233, 222, 150, 110, 114, 141, 145, 235, 60, 199, 146, 208, 109, 181, 224, 230, 198, 144, 179, 122, 233, 103, 46, 215, 64, 170, 41, 133, 234, 103, 55, 219, 72, 216, 233, 198, 105, 22, 118, 98, 18, 229, 155, 69, 138, 127, 114, 255, 140, 5, 237, 114 },
+                            PasswordHash = new byte[] { 120, 69, 244, 193, 161, 187, 9, 11, 18, 135, 203, 8, 125, 135, 175, 99, 70, 131, 224, 235, 131, 247, 68, 251, 88, 64, 101, 98, 67, 249, 0, 252, 235, 43, 94, 202, 176, 121, 217, 119, 181, 78, 50, 211, 29, 86, 114, 123, 159, 106, 54, 214, 194, 109, 73, 101, 213, 221, 33, 99, 136, 95, 189, 229 },
+                            PasswordSalt = new byte[] { 238, 148, 223, 189, 48, 22, 89, 32, 39, 64, 197, 16, 126, 140, 78, 124, 228, 139, 159, 131, 75, 201, 146, 164, 59, 67, 185, 211, 1, 21, 129, 157, 151, 93, 255, 5, 123, 111, 181, 44, 138, 120, 140, 202, 127, 70, 123, 16, 198, 238, 23, 13, 136, 81, 217, 130, 54, 36, 4, 88, 113, 93, 62, 42, 87, 25, 210, 45, 18, 109, 187, 30, 81, 199, 34, 69, 203, 129, 54, 130, 147, 112, 184, 241, 206, 79, 216, 120, 18, 98, 207, 214, 172, 252, 166, 212, 133, 109, 39, 119, 62, 240, 114, 47, 115, 38, 25, 29, 58, 149, 48, 12, 72, 74, 179, 233, 207, 101, 143, 92, 242, 44, 84, 170, 49, 29, 154, 210 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoaId = 1
                         });
@@ -480,8 +482,8 @@ namespace WEB_API_HealTime.Migrations
                         .HasConstraintName("FK_EspecialidadeId");
 
                     b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.Medico", "Medico")
-                        .WithOne("ConsultaAgendada")
-                        .HasForeignKey("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", "MedicoId")
+                        .WithMany("ConsultaAgendadas")
+                        .HasForeignKey("MedicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
@@ -578,7 +580,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Medico", b =>
                 {
-                    b.Navigation("ConsultaAgendada");
+                    b.Navigation("ConsultaAgendadas");
 
                     b.Navigation("PrescricoesPacientes");
                 });

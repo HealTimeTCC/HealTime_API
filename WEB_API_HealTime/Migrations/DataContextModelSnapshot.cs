@@ -60,8 +60,7 @@ namespace WEB_API_HealTime.Migrations
 
                     b.HasIndex("EspecialidadeId");
 
-                    b.HasIndex("MedicoId")
-                        .IsUnique();
+                    b.HasIndex("MedicoId");
 
                     b.HasIndex("StatusConsultasId");
 
@@ -71,7 +70,10 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaCancelada", b =>
                 {
                     b.Property<int>("ConsultaCanceladaId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConsultaCanceladaId"));
 
                     b.Property<int>("ConsultaAgendadaId")
                         .HasColumnType("int");
@@ -281,8 +283,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "12345678909",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan",
-                            PasswordHash = new byte[] { 103, 36, 178, 39, 68, 35, 241, 239, 253, 254, 193, 139, 104, 196, 208, 55, 0, 7, 121, 183, 172, 187, 75, 67, 99, 86, 232, 114, 43, 217, 195, 227, 232, 224, 22, 199, 170, 53, 60, 248, 49, 110, 43, 27, 171, 3, 133, 240, 200, 177, 184, 228, 92, 54, 98, 57, 116, 225, 23, 233, 234, 166, 189, 34 },
-                            PasswordSalt = new byte[] { 243, 165, 39, 132, 93, 16, 236, 54, 211, 19, 150, 185, 24, 2, 185, 12, 10, 175, 1, 14, 113, 40, 176, 49, 17, 130, 38, 165, 104, 117, 253, 207, 218, 75, 192, 180, 178, 32, 191, 191, 111, 208, 57, 34, 60, 229, 10, 175, 97, 237, 56, 174, 70, 66, 171, 165, 125, 32, 80, 157, 169, 215, 0, 235, 37, 132, 196, 99, 24, 160, 222, 214, 221, 91, 133, 153, 107, 23, 11, 226, 193, 156, 222, 165, 115, 27, 239, 166, 52, 42, 125, 56, 58, 186, 166, 165, 174, 154, 54, 218, 67, 192, 47, 117, 161, 6, 22, 164, 214, 238, 39, 25, 255, 228, 101, 131, 90, 249, 141, 224, 250, 212, 129, 39, 32, 165, 189, 61 },
+                            PasswordHash = new byte[] { 120, 69, 244, 193, 161, 187, 9, 11, 18, 135, 203, 8, 125, 135, 175, 99, 70, 131, 224, 235, 131, 247, 68, 251, 88, 64, 101, 98, 67, 249, 0, 252, 235, 43, 94, 202, 176, 121, 217, 119, 181, 78, 50, 211, 29, 86, 114, 123, 159, 106, 54, 214, 194, 109, 73, 101, 213, 221, 33, 99, 136, 95, 189, 229 },
+                            PasswordSalt = new byte[] { 238, 148, 223, 189, 48, 22, 89, 32, 39, 64, 197, 16, 126, 140, 78, 124, 228, 139, 159, 131, 75, 201, 146, 164, 59, 67, 185, 211, 1, 21, 129, 157, 151, 93, 255, 5, 123, 111, 181, 44, 138, 120, 140, 202, 127, 70, 123, 16, 198, 238, 23, 13, 136, 81, 217, 130, 54, 36, 4, 88, 113, 93, 62, 42, 87, 25, 210, 45, 18, 109, 187, 30, 81, 199, 34, 69, 203, 129, 54, 130, 147, 112, 184, 241, 206, 79, 216, 120, 18, 98, 207, 214, 172, 252, 166, 212, 133, 109, 39, 119, 62, 240, 114, 47, 115, 38, 25, 29, 58, 149, 48, 12, 72, 74, 179, 233, 207, 101, 143, 92, 242, 44, 84, 170, 49, 29, 154, 210 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoaId = 1
                         });
@@ -477,8 +479,8 @@ namespace WEB_API_HealTime.Migrations
                         .HasConstraintName("FK_EspecialidadeId");
 
                     b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.Medico", "Medico")
-                        .WithOne("ConsultaAgendada")
-                        .HasForeignKey("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", "MedicoId")
+                        .WithMany("ConsultaAgendadas")
+                        .HasForeignKey("MedicoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
@@ -575,7 +577,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Medico", b =>
                 {
-                    b.Navigation("ConsultaAgendada");
+                    b.Navigation("ConsultaAgendadas");
 
                     b.Navigation("PrescricoesPacientes");
                 });

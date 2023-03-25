@@ -50,5 +50,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/",  () => "Bem vindo");
 
 app.Run();
