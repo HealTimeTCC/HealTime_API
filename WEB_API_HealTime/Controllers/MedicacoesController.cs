@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.CookiePolicy;
-using WEB_API_HealTime.Models.Medicacoes.Enums;
+﻿using WEB_API_HealTime.Models.Medicacoes.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
@@ -39,7 +38,7 @@ public class MedicacoesController : ControllerBase
     {
         return Ok(await _context.Medicos.ToListAsync());
     }
-    
+
     [HttpPost("IncluiMedicacao")]
     public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
     {
@@ -144,12 +143,12 @@ public class MedicacoesController : ControllerBase
             {
                 if (prescricaoCancela.FlagStatus == "N")
                     return BadRequest("Prescrição já está Inativa");
-                
-                    List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
-                        .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
-                    listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
-                    _context.UpdateRange(listOff);
-                    await _context.SaveChangesAsync();
+
+                List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
+                    .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
+                listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
+                _context.UpdateRange(listOff);
+                await _context.SaveChangesAsync();
 
                 prescricaoCancela.FlagStatus = "N";
                 _context.PrescricaoPacientes.Update(prescricaoCancela);
@@ -160,7 +159,7 @@ public class MedicacoesController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);  
+            return BadRequest(ex.Message);
         }
     }
     [HttpPatch("CancelaMedicacao/{idPrescricao}/{idMedicacao}")]
@@ -189,7 +188,7 @@ public class MedicacoesController : ControllerBase
             attachPrescricao.Property(pre => pre.PrescricaoPacienteId).IsModified = false;
             attachPrescricao.Property(pre => pre.MedicacaoId).IsModified = false;
             attachPrescricao.Property(pre => pre.StatusMedicacaoFlag).IsModified = true;
-            
+
             int linhasAfetadas = await _context.SaveChangesAsync();
 
             return Ok($"Medicamento {prescricaoMedicacao.Medicacao.NomeMedicacao}");
@@ -199,7 +198,7 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-        
+
     /*Consulta de prescricao e medicamentos*/
     [HttpGet("ConsultaPrescricao/{id:int}")]
     public async Task<IActionResult> ConsultaPrescricaoById(int id)
