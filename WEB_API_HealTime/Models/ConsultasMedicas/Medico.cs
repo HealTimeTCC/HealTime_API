@@ -13,5 +13,5 @@ public class Medico
     [JsonIgnore]
     public List<PrescricaoPaciente> PrescricoesPacientes { get; set; }
     [JsonIgnore]
-    public ConsultaAgendada ConsultaAgendada { get; set; }
+    public List<ConsultaAgendada> ConsultaAgendadas { get; set; }
 }
