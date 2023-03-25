@@ -201,8 +201,8 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<ConsultaAgendada>()
             .HasOne(one => one.Medico)
-            .WithOne(one => one.ConsultaAgendada)
-                .HasForeignKey<ConsultaAgendada>(fk => fk.MedicoId)
+            .WithMany(many => many.ConsultaAgendadas)
+                .HasForeignKey(fk => fk.MedicoId)
                 .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.DataSolicitacaoConsulta)
@@ -247,6 +247,11 @@ public class DataContext : DbContext
         modelBuilder.Entity<ConsultaCancelada>()
             .HasKey(key => new { key.ConsultaCanceladaId, key.ConsultaAgendadaId })
             .HasName("PK_ConsultaCancelada_ConsultaAgendada");
+
+        modelBuilder.Entity<ConsultaCancelada>()
+            .Property(x => x.ConsultaCanceladaId)
+            .ValueGeneratedOnAdd();
+
         modelBuilder.Entity<ConsultaCancelada>()
             .HasOne<ConsultaAgendada>(x => x.ConsultaAgendada)
             .WithOne(x => x.ConsultaCancelada)
