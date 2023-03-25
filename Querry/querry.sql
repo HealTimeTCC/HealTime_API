@@ -13,6 +13,8 @@ INNER JOIN Medicacoes M ON PM.MedicacaoId = M.MedicacaoId
 
 
 
+sp_help Medicacoes
+
 SELECT * FROM Pessoas
 SELECT * FROM TiposMedicacoes
 SELECT * FROM Medicos
