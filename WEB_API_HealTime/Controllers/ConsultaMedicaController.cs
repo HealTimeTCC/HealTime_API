@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 using WEB_API_HealTime.Data;
+using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Utility;
 
@@ -62,6 +62,74 @@ public class ConsultaMedicaController : ControllerBase
             await _context.ConsultasAgendadas.AddAsync(consultaAgendada);
             await _context.SaveChangesAsync();
             return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("Especialidades")]
+    public async Task<IActionResult> GetEspecialidades()
+    {
+        try
+        {
+            return Ok(await _context.Especialidades.AsNoTracking().ToListAsync() is List<Especialidade> especialidade);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("ConsultaPorPaciente")]
+    public async Task<IActionResult> ListaAgendamentosPacientes(int id)
+    {
+        try
+        {
+            List<ConsultaAgendada> consultaAgendadas = await _context.ConsultasAgendadas
+                .AsNoTracking()
+                .Include(inc => inc.Especialidade)
+                .Where(list => list.PacienteId == id).ToListAsync();
+            if (consultaAgendadas.Count < 1)
+                return NotFound("Nada referente a esse paciente encontrado");
+            else
+                return Ok(consultaAgendadas);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);  
+        }
+    }
+    [HttpPatch("CancelarConsultaById")]
+    public async Task<IActionResult> CancelarConsultaById(CancelaConsultaDto cancelaConsultaDto)
+    {
+        try
+        {
+            if (cancelaConsultaDto.MotivoCancelamento.Length < 5 || cancelaConsultaDto.MotivoCancelamento is null)
+                return BadRequest("Insira no minimo 5 caracateres para o cancelamento");
+
+            ConsultaAgendada cancelarConsulta = await _context.ConsultasAgendadas
+                .FirstOrDefaultAsync(c => c.ConsultasAgendadasId == cancelaConsultaDto.IdConsulta);
+            if (cancelarConsulta is null)
+                return NotFound("Consulta não encontrada, se isso acontecer é um problema no desenvolvimento");
+
+            ConsultaCancelada cancelada = new ConsultaCancelada()
+            {
+                ConsultaAgendadaId = cancelaConsultaDto.IdConsulta,
+                DataCancelamento = DateTime.Now,
+                MotivoCancelamento = cancelaConsultaDto.MotivoCancelamento
+            };
+            await _context.ConsultaCanceladas.AddAsync(cancelada);
+
+            cancelarConsulta.StatusConsultasId = 3;
+            var attach = _context.ConsultasAgendadas.Attach(cancelarConsulta);
+            attach.Property(canc => canc.ConsultasAgendadasId).IsModified = false;
+            attach.Property(canc => canc.StatusConsultasId).IsModified = true;
+            attach.Property(canc => canc.PacienteId).IsModified = false;
+            await _context.SaveChangesAsync();
+
+            return Ok($"Consulta id {cancelaConsultaDto.IdConsulta} ");
+
         }
         catch (Exception ex)
         {
