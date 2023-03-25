@@ -221,12 +221,12 @@ public class DataContext : DbContext
             .Property(desc => desc.DescStatusConsulta)
             .HasColumnType("VARCHAR(25)")
             .IsRequired();
-        
+
         /* -> END StatusConsulta */
         /* -> BEGIN ConsultaCancelada */
 
         /* -> END ConsultaCancelada */
-        
+
 
 
 
@@ -248,24 +248,6 @@ public class DataContext : DbContext
                     UfCrmMedico = "RJ"
                 }
                 );
-        modelBuilder.Entity<TipoMedicacao>()
-            .HasData(
-                new TipoMedicacao
-                {
-                    TipoMedicacaoId = 1,
-                    TituloTipoMedicacao = "NASAL",
-                    ClasseAplicacao = 1,
-                    DescMedicacao = "Experimental"
-                },
-                new TipoMedicacao
-                {
-                    TipoMedicacaoId = 2,
-                    TituloTipoMedicacao = "PILULA",
-                    ClasseAplicacao = 2,
-                    DescMedicacao = "Experimental EXPERIMENTE CALADO"
-                }
-            );
-
         Criptografia.CriarPasswordHash("1q2w3e4r", out byte[] hash, out byte[] salt);
         modelBuilder.Entity<Pessoa>()
             .HasData(
@@ -308,6 +290,20 @@ public class DataContext : DbContext
                     StatusConsultaId = 5,
                     DescStatusConsulta = "Fila de espera"
                 }
+            );
+        //Tipo medicacao
+        modelBuilder.Entity<TipoMedicacao>().HasData(
+                new { TipoMedicacaoId = 1, DescMedicacao = "Aplicado pela boca", TituloTipoMedicacao = "Via oral",               ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 2, DescMedicacao = "Aplicado  por dembaixo da língua", TituloTipoMedicacao= "Sublingual",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 3, DescMedicacao = "Aplicado pelo canal retal",        TituloTipoMedicacao= "Supositorios", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 4, DescMedicacao = "Aplicada diretamente no sangue",   TituloTipoMedicacao= "Intravenosa",  ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 5, DescMedicacao = "Aplicada diretamente no músculo",  TituloTipoMedicacao= "Intramuscular",ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 6, DescMedicacao = "Aplicada debaixo da pele",         TituloTipoMedicacao= "Subcutânea",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 7, DescMedicacao = string.Empty,                       TituloTipoMedicacao= "Respiratória", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 8, DescMedicacao = "Aplicada por pomadas",             TituloTipoMedicacao= "Via tópica",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 9, DescMedicacao  = string.Empty,                      TituloTipoMedicacao= "Via Ocular",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 10, DescMedicacao = string.Empty,                      TituloTipoMedicacao= "Via Nasal",    ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
+                new { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular",ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
             );
     }
 }
