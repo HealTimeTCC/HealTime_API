@@ -21,15 +21,18 @@ insert into Medicos(CrmMedico,NmMedico, UfCrmMedico) values('123456', 'Dan Marzo
 delete FROM Medicacoes
 
 
-sp_help 
+sp_help ConsultaCanceladas
+sp_help ConsultasAgendadas
 
-drop column ConsultaCanceladas
 
-ALTER TABLE ConsultaCanceladas  DROP COLUMN ConsultaAgendadaId ;
 
+
+
+SELECT * FROM Especialidades
+INSERT INTO Especialidades(DescEspecialidade) values ( 'PEDIATRA')
 
 SELECT * FROM Medicacoes
-SELECT * FROM ConsultaCanceladas
+SELECT * FROM ConsultasAgendadas
 SELECT * FROM StatusConsultas
 SELECT * FROM PrescricaoPacientes
 SELECT * FROM PrescricoesMedicacoes
