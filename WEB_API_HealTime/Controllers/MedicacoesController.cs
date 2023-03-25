@@ -2,9 +2,7 @@
 using WEB_API_HealTime.Models.Medicacoes.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
@@ -42,6 +40,36 @@ public class MedicacoesController : ControllerBase
         return Ok(await _context.Medicos.ToListAsync());
     }
     
+    [HttpPost("IncluiMedicacao")]
+    public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
+    {
+        try
+        {
+            await _context.Medicacoes.AddRangeAsync(medicacao);
+            await _context.SaveChangesAsync();
+            //Bloco ABAIXO FAZ INCLUSAO DE LISTA, POREM VAMOS FAZER O SIMPLES PRIMEIRO
+            //string frase = string.Empty;
+            //if (medicacao is null)
+            //{
+            //    if (!ExisteMedicacao(medicacao, out List<Medicacao> listaExistente))
+            //    {
+            //        frase = $"Medicamentos existentes {listaExistente}";
+            //        List<Medicacao> medicacaoExistentes = new List<Medicacao>();
+            //        medicacaoExistentes.AddRange(listaExistente);
+            //        medicacaoExistentes.Find(x => x.)
+            //        _context.Medicacoes.AddRange(medicacao);
+            //    }
+            //    else { return BadRequest("Medicacao Existe"); }
+            //}
+
+            return Ok(medicacao);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
     {
