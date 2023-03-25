@@ -18,8 +18,16 @@ public class DataContext : DbContext
     public DbSet<StatusConsulta> StatusConsultas { get; set; }
     public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
     public DbSet<ConsultaCancelada> ConsultaCanceladas { get; set; }
+    public DbSet<Especialidade> Especialidades { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        /* -> BEGIN ESPECIALIDADES */
+        modelBuilder.Entity<Especialidade>()
+            .HasKey(pk => pk.EspecialidadeId)
+            .HasName("PK_EspecialidadeId");
+        
+        /* -> END   ESPECIALIDADES */
+
         /* -> BEGIN PRESCRICAOPACIENTES */
         modelBuilder.Entity<PrescricaoPaciente>()
             .HasKey(pk => pk.PrescricaoPacienteId)
@@ -184,6 +192,13 @@ public class DataContext : DbContext
         modelBuilder.Entity<ConsultaAgendada>()
             .HasKey(pk => pk.ConsultasAgendadasId)
             .HasName("PK_ConsultaAgendadaId");
+
+        modelBuilder.Entity<ConsultaAgendada>()
+            .HasOne<Especialidade>(m => m.Especialidade)
+            .WithMany(m => m.ConsultaAgendadas)
+                .HasForeignKey(m => m.EspecialidadeId)
+                .HasConstraintName("FK_EspecialidadeId");
+
         modelBuilder.Entity<ConsultaAgendada>()
             .HasOne(one => one.Medico)
             .WithOne(one => one.ConsultaAgendada)
@@ -225,9 +240,27 @@ public class DataContext : DbContext
         /* -> END StatusConsulta */
         /* -> BEGIN ConsultaCancelada */
 
+        //modelBuilder.Entity<ConsultaCancelada>()
+        //    .Property(i => i.ConsultaAgendadaId)
+        //    .ValueGeneratedNever();
+
+        modelBuilder.Entity<ConsultaCancelada>()
+            .HasKey(key => new { key.ConsultaCanceladaId, key.ConsultaAgendadaId })
+            .HasName("PK_ConsultaCancelada_ConsultaAgendada");
+        modelBuilder.Entity<ConsultaCancelada>()
+            .HasOne<ConsultaAgendada>(x => x.ConsultaAgendada)
+            .WithOne(x => x.ConsultaCancelada)
+                .HasForeignKey<ConsultaCancelada>(x => x.ConsultaAgendadaId)
+                .HasConstraintName("FK_ConsultaAgendadaId");
+        modelBuilder.Entity<ConsultaCancelada>()
+            .Property(desc => desc.MotivoCancelamento)
+            .HasColumnType("VARCHAR(300)")
+            .IsRequired();
+        modelBuilder.Entity<ConsultaCancelada>()
+            .Property(dt => dt.DataCancelamento)
+            .HasColumnType("DATE")
+            .IsRequired();
         /* -> END ConsultaCancelada */
-
-
 
 
         /*VALORES DEFAULT*/

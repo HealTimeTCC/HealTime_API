@@ -9,6 +9,8 @@ public class ConsultaAgendada
     [JsonIgnore]
     public StatusConsulta StatusConsulta { get; set; }
     public int EspecialidadeId { get; set; }
+    [JsonIgnore]
+    public Especialidade Especialidade { get; set; }
     public int PacienteId { get; set; }
     public int MedicoId { get; set; }
     [JsonIgnore]
@@ -17,4 +19,6 @@ public class ConsultaAgendada
     public DateTime DataConsulta { get; set; }
     public string MotivoConsulta { get; set; }
     public string Encaminhamento { get; set; }
+    [JsonIgnore]
+    public ConsultaCancelada ConsultaCancelada { get; set; }
 }

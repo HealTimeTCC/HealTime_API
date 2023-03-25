@@ -45,8 +45,27 @@ public class ConsultaMedicaController : ControllerBase
     }
 
     [HttpPost("AgendarConsulta")]
-    public async Task<IActionResult> IncluirConsulta()
+    public async Task<IActionResult> IncluirConsulta(ConsultaAgendada consultaAgendada)
     {
-        return Ok();
+        try
+        {//FALTA VERIFICAR O PACIENTE
+            StatusConsulta statusConsulta = await _context
+            .StatusConsultas.FirstOrDefaultAsync(x => x.StatusConsultaId == consultaAgendada.StatusConsultasId);
+            if (statusConsulta == null) return BadRequest("O ID do status não existe");
+            Especialidade especialidade = await _context.Especialidades
+                .FirstOrDefaultAsync(x => x.EspecialidadeId == consultaAgendada.EspecialidadeId);
+            if (especialidade == null)
+                return BadRequest("Especialidade não existe, cadastre uma nova especialidade.");
+            if (consultaAgendada.MotivoConsulta.Length < 5)
+                return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
+
+            await _context.ConsultasAgendadas.AddAsync(consultaAgendada);
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
