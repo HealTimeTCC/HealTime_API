@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230315004204_FlagPrescricaoMedicacaoAdicionada")]
-    partial class FlagPrescricaoMedicacaoAdicionada
+    [Migration("20230325164335_Create_Especialidades")]
+    partial class Create_Especialidades
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,93 @@ namespace WEB_API_HealTime.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", b =>
+                {
+                    b.Property<int>("ConsultasAgendadasId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConsultasAgendadasId"));
+
+                    b.Property<DateTime>("DataConsulta")
+                        .HasColumnType("DATE");
+
+                    b.Property<DateTime>("DataSolicitacaoConsulta")
+                        .HasColumnType("DATE");
+
+                    b.Property<string>("Encaminhamento")
+                        .IsRequired()
+                        .HasColumnType("CHAR(1)");
+
+                    b.Property<int>("EspecialidadeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MotivoConsulta")
+                        .HasColumnType("VARCHAR(300)");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusConsultasId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ConsultasAgendadasId")
+                        .HasName("PK_ConsultaAgendadaId");
+
+                    b.HasIndex("EspecialidadeId");
+
+                    b.HasIndex("MedicoId")
+                        .IsUnique();
+
+                    b.HasIndex("StatusConsultasId");
+
+                    b.ToTable("ConsultasAgendadas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaCancelada", b =>
+                {
+                    b.Property<int>("ConsultaCanceladaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ConsultaAgendadaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DataCancelamento")
+                        .HasColumnType("DATE");
+
+                    b.Property<string>("MotivoCancelamento")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(300)");
+
+                    b.HasKey("ConsultaCanceladaId", "ConsultaAgendadaId")
+                        .HasName("PK_ConsultaCancelada_ConsultaAgendada");
+
+                    b.HasIndex("ConsultaAgendadaId")
+                        .IsUnique();
+
+                    b.ToTable("ConsultaCanceladas");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Especialidade", b =>
+                {
+                    b.Property<int>("EspecialidadeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EspecialidadeId"));
+
+                    b.Property<string>("DescEspecialidade")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EspecialidadeId")
+                        .HasName("PK_EspecialidadeId");
+
+                    b.ToTable("Especialidades");
+                });
+
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Medico", b =>
                 {
                     b.Property<int>("MedicoId")
@@ -33,8 +120,8 @@ namespace WEB_API_HealTime.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicoId"));
 
-                    b.Property<int>("CrmMedico")
-                        .HasColumnType("INT");
+                    b.Property<string>("CrmMedico")
+                        .HasColumnType("CHAR(6)");
 
                     b.Property<string>("NmMedico")
                         .IsRequired()
@@ -53,16 +140,61 @@ namespace WEB_API_HealTime.Migrations
                         new
                         {
                             MedicoId = 1,
-                            CrmMedico = 12345,
+                            CrmMedico = "054321",
                             NmMedico = "Dr Val",
                             UfCrmMedico = "SP"
                         },
                         new
                         {
                             MedicoId = 2,
-                            CrmMedico = 12345,
+                            CrmMedico = "012345",
                             NmMedico = "Dr Teste",
                             UfCrmMedico = "RJ"
+                        });
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.StatusConsulta", b =>
+                {
+                    b.Property<int>("StatusConsultaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusConsultaId"));
+
+                    b.Property<string>("DescStatusConsulta")
+                        .IsRequired()
+                        .HasColumnType("VARCHAR(25)");
+
+                    b.HasKey("StatusConsultaId")
+                        .HasName("PK_StatusConsultaId");
+
+                    b.ToTable("StatusConsultas");
+
+                    b.HasData(
+                        new
+                        {
+                            StatusConsultaId = 1,
+                            DescStatusConsulta = "Encerrada"
+                        },
+                        new
+                        {
+                            StatusConsultaId = 2,
+                            DescStatusConsulta = "Agendada"
+                        },
+                        new
+                        {
+                            StatusConsultaId = 3,
+                            DescStatusConsulta = "Cancelada"
+                        },
+                        new
+                        {
+                            StatusConsultaId = 4,
+                            DescStatusConsulta = "Remarcada"
+                        },
+                        new
+                        {
+                            StatusConsultaId = 5,
+                            DescStatusConsulta = "Fila de espera"
                         });
                 });
 
@@ -152,8 +284,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "12345678909",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan",
-                            PasswordHash = new byte[] { 106, 70, 145, 238, 164, 217, 97, 65, 11, 34, 128, 140, 46, 231, 190, 84, 60, 82, 203, 149, 200, 194, 74, 125, 51, 231, 245, 1, 55, 1, 218, 127, 242, 22, 231, 168, 15, 96, 22, 119, 198, 244, 63, 206, 102, 108, 80, 56, 0, 99, 248, 164, 210, 243, 225, 8, 172, 197, 150, 18, 146, 218, 223, 102 },
-                            PasswordSalt = new byte[] { 24, 13, 161, 88, 78, 190, 33, 243, 56, 138, 98, 160, 206, 244, 111, 222, 113, 170, 48, 66, 55, 74, 199, 199, 88, 7, 108, 52, 118, 92, 189, 148, 151, 159, 70, 129, 250, 18, 88, 198, 141, 151, 70, 141, 218, 185, 89, 30, 167, 74, 61, 143, 195, 117, 82, 207, 224, 172, 135, 109, 16, 203, 107, 132, 171, 21, 164, 154, 24, 121, 200, 24, 101, 166, 116, 124, 36, 176, 34, 184, 78, 186, 102, 44, 25, 103, 66, 185, 22, 93, 112, 173, 11, 233, 2, 150, 54, 221, 65, 12, 221, 66, 197, 47, 233, 188, 74, 70, 245, 74, 141, 222, 249, 251, 155, 64, 191, 25, 51, 159, 61, 190, 165, 183, 187, 88, 49, 7 },
+                            PasswordHash = new byte[] { 84, 196, 101, 235, 70, 42, 193, 114, 198, 213, 161, 99, 24, 228, 196, 93, 137, 128, 243, 254, 60, 34, 8, 141, 233, 204, 38, 121, 80, 75, 221, 202, 35, 80, 163, 189, 130, 123, 173, 27, 97, 41, 46, 91, 3, 90, 66, 184, 64, 96, 230, 180, 226, 8, 236, 69, 129, 110, 237, 45, 53, 41, 51, 120 },
+                            PasswordSalt = new byte[] { 49, 236, 69, 221, 124, 121, 1, 71, 217, 23, 205, 56, 22, 244, 94, 157, 74, 33, 76, 250, 74, 242, 137, 59, 152, 175, 3, 75, 161, 82, 200, 239, 177, 196, 132, 120, 216, 239, 38, 89, 96, 39, 120, 222, 112, 234, 103, 208, 99, 79, 49, 124, 217, 147, 23, 187, 206, 54, 74, 216, 83, 73, 145, 182, 73, 188, 139, 105, 207, 182, 233, 57, 18, 117, 220, 255, 233, 222, 150, 110, 114, 141, 145, 235, 60, 199, 146, 208, 109, 181, 224, 230, 198, 144, 179, 122, 233, 103, 46, 215, 64, 170, 41, 133, 234, 103, 55, 219, 72, 216, 233, 198, 105, 22, 118, 98, 18, 229, 155, 69, 138, 127, 114, 255, 140, 5, 237, 114 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoaId = 1
                         });
@@ -263,16 +395,121 @@ namespace WEB_API_HealTime.Migrations
                         {
                             TipoMedicacaoId = 1,
                             ClasseAplicacao = 1,
-                            DescMedicacao = "Experimental",
-                            TituloTipoMedicacao = "NASAL"
+                            DescMedicacao = "Aplicado pela boca",
+                            TituloTipoMedicacao = "Via oral"
                         },
                         new
                         {
                             TipoMedicacaoId = 2,
+                            ClasseAplicacao = 1,
+                            DescMedicacao = "Aplicado  por dembaixo da língua",
+                            TituloTipoMedicacao = "Sublingual"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 3,
+                            ClasseAplicacao = 1,
+                            DescMedicacao = "Aplicado pelo canal retal",
+                            TituloTipoMedicacao = "Supositorios"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 4,
                             ClasseAplicacao = 2,
-                            DescMedicacao = "Experimental EXPERIMENTE CALADO",
-                            TituloTipoMedicacao = "PILULA"
+                            DescMedicacao = "Aplicada diretamente no sangue",
+                            TituloTipoMedicacao = "Intravenosa"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 5,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicada diretamente no músculo",
+                            TituloTipoMedicacao = "Intramuscular"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 6,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicada debaixo da pele",
+                            TituloTipoMedicacao = "Subcutânea"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 7,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "",
+                            TituloTipoMedicacao = "Respiratória"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 8,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "Aplicada por pomadas",
+                            TituloTipoMedicacao = "Via tópica"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 9,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "",
+                            TituloTipoMedicacao = "Via Ocular"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 10,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "",
+                            TituloTipoMedicacao = "Via Nasal"
+                        },
+                        new
+                        {
+                            TipoMedicacaoId = 11,
+                            ClasseAplicacao = 2,
+                            DescMedicacao = "",
+                            TituloTipoMedicacao = "Via Auricular"
                         });
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.Especialidade", "Especialidade")
+                        .WithMany("ConsultaAgendadas")
+                        .HasForeignKey("EspecialidadeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_EspecialidadeId");
+
+                    b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.Medico", "Medico")
+                        .WithOne("ConsultaAgendada")
+                        .HasForeignKey("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", "MedicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
+
+                    b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.StatusConsulta", "StatusConsulta")
+                        .WithMany("ConsultasAgendadas")
+                        .HasForeignKey("StatusConsultasId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ConsultaAgendadas_StatusConsulta");
+
+                    b.Navigation("Especialidade");
+
+                    b.Navigation("Medico");
+
+                    b.Navigation("StatusConsulta");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaCancelada", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", "ConsultaAgendada")
+                        .WithOne("ConsultaCancelada")
+                        .HasForeignKey("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaCancelada", "ConsultaAgendadaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_ConsultaAgendadaId");
+
+                    b.Navigation("ConsultaAgendada");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacoes.Medicacao", b =>
@@ -329,9 +566,26 @@ namespace WEB_API_HealTime.Migrations
                     b.Navigation("Pessoa");
                 });
 
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.ConsultaAgendada", b =>
+                {
+                    b.Navigation("ConsultaCancelada");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Especialidade", b =>
+                {
+                    b.Navigation("ConsultaAgendadas");
+                });
+
             modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.Medico", b =>
                 {
+                    b.Navigation("ConsultaAgendada");
+
                     b.Navigation("PrescricoesPacientes");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.ConsultasMedicas.StatusConsulta", b =>
+                {
+                    b.Navigation("ConsultasAgendadas");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacoes.Medicacao", b =>
