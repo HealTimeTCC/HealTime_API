@@ -8,8 +8,6 @@ namespace WEB_API_HealTime.Models.Pessoas;
 public class Pessoa
 {
     public int PessoaId { get; set; }
-    public int TipoPessoaId { get; set; }
-    [JsonIgnore]
     public EnumTipoPessoa TipoPessoa { get; set; }
     public string CpfPessoa { get; set; }
     public string NomePessoa { get; set; }

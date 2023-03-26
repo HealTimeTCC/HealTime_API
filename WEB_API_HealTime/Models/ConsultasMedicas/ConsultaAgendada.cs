@@ -5,7 +5,7 @@ namespace WEB_API_HealTime.Models.ConsultasMedicas;
 public class ConsultaAgendada
 {
     public int ConsultasAgendadasId { get; set; }
-    public int StatusConsultasId { get; set; }
+    public int StatusConsultaId { get; set; }
     [JsonIgnore]
     public StatusConsulta StatusConsulta { get; set; }
     public int EspecialidadeId { get; set; }

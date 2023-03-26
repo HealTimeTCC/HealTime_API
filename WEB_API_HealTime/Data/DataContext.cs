@@ -4,7 +4,7 @@ using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
 using WEB_API_HealTime.Models.Pessoas;
-
+using WEB_API_HealTime.Models.Pessoas.Enums;
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
@@ -103,8 +103,7 @@ public class DataContext : DbContext
             .HasKey(pk => pk.PessoaId)
             .HasName("PK_PessoaId");
         modelBuilder.Entity<Pessoa>()
-            .Property(tp => tp.TipoPessoaId)
-            .HasColumnType("INT")
+            .Property(tp => tp.TipoPessoa)
             .IsRequired();
         modelBuilder.Entity<Pessoa>()
             .Property(cpf => cpf.CpfPessoa)
@@ -120,7 +119,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Pessoa>()
             .Property(dt => dt.DtNascPessoa)
-            .HasColumnType("DATE")
+            .HasColumnType("DATETIME")
             .IsRequired();
         /* -> END PESSOAS */
         #endregion
@@ -218,11 +217,11 @@ public class DataContext : DbContext
                 .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.DataSolicitacaoConsulta)
-            .HasColumnType("DATE")
+            .HasColumnType("DATETIME")
             .IsRequired();
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.DataConsulta)
-            .HasColumnType("DATE")
+            .HasColumnType("DATETIME")
             .IsRequired();
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.MotivoConsulta)
@@ -243,7 +242,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<StatusConsulta>()
             .HasMany<ConsultaAgendada>(many => many.ConsultasAgendadas)
             .WithOne(f => f.StatusConsulta)
-                .HasForeignKey(f => f.StatusConsultasId)
+                .HasForeignKey(f => f.StatusConsultaId)
                 .HasConstraintName("FK_ConsultaAgendadas_StatusConsulta");
         modelBuilder.Entity<StatusConsulta>()
             .Property(desc => desc.DescStatusConsulta)
@@ -274,7 +273,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<ConsultaCancelada>()
             .Property(dt => dt.DataCancelamento)
-            .HasColumnType("DATE")
+            .HasColumnType("DATETIME")
             .IsRequired();
         /* -> END ConsultaCancelada */
         #endregion
@@ -322,7 +321,6 @@ public class DataContext : DbContext
         #endregion
 
 
-
         #region VALORES_DEFAULT
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
@@ -354,7 +352,7 @@ public class DataContext : DbContext
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
-                    TipoPessoaId = 1
+                    TipoPessoa = EnumTipoPessoa.Responsavel
                 }
             );
         modelBuilder.Entity<StatusConsulta>()
