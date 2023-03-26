@@ -25,6 +25,10 @@ public class DataContext : DbContext
         modelBuilder.Entity<Especialidade>()
             .HasKey(pk => pk.EspecialidadeId)
             .HasName("PK_EspecialidadeId");
+        modelBuilder.Entity<Especialidade>()
+            .Property(p => p.DescEspecialidade)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
         
         /* -> END   ESPECIALIDADES */
 
@@ -240,10 +244,6 @@ public class DataContext : DbContext
         /* -> END StatusConsulta */
         /* -> BEGIN ConsultaCancelada */
 
-        //modelBuilder.Entity<ConsultaCancelada>()
-        //    .Property(i => i.ConsultaAgendadaId)
-        //    .ValueGeneratedNever();
-
         modelBuilder.Entity<ConsultaCancelada>()
             .HasKey(key => new { key.ConsultaCanceladaId, key.ConsultaAgendadaId })
             .HasName("PK_ConsultaCancelada_ConsultaAgendada");
@@ -266,7 +266,6 @@ public class DataContext : DbContext
             .HasColumnType("DATE")
             .IsRequired();
         /* -> END ConsultaCancelada */
-
 
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
@@ -342,6 +341,23 @@ public class DataContext : DbContext
                 new { TipoMedicacaoId = 9, DescMedicacao  = string.Empty,                      TituloTipoMedicacao= "Via Ocular",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
                 new { TipoMedicacaoId = 10, DescMedicacao = string.Empty,                      TituloTipoMedicacao= "Via Nasal",    ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
                 new { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular",ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
+            );
+        modelBuilder.Entity<Especialidade>()
+            .HasData(
+                new Especialidade { EspecialidadeId = 1, DescEspecialidade =  "Cardiologia"},
+                new Especialidade { EspecialidadeId = 2, DescEspecialidade =  "Dermatologia"},
+                new Especialidade { EspecialidadeId = 3, DescEspecialidade =  "Ginecologia/Obstetrícia"},
+                new Especialidade { EspecialidadeId = 4, DescEspecialidade =  "Ortopedia"},
+                new Especialidade { EspecialidadeId = 5, DescEspecialidade =  "Anestesiologia"},
+                new Especialidade { EspecialidadeId = 6, DescEspecialidade =  "Pediatria"},
+                new Especialidade { EspecialidadeId = 7, DescEspecialidade =  "Oftalmologia"},
+                new Especialidade { EspecialidadeId = 8, DescEspecialidade =  "Psiquiatria"},
+                new Especialidade { EspecialidadeId = 9, DescEspecialidade =  "Urologia"},
+                new Especialidade { EspecialidadeId = 10, DescEspecialidade = "Oncologia"},
+                new Especialidade { EspecialidadeId = 11, DescEspecialidade = "Endocrinologia"},
+                new Especialidade { EspecialidadeId = 12, DescEspecialidade = "Neurologia"},
+                new Especialidade { EspecialidadeId = 13, DescEspecialidade = "Hematologia"},
+                new Especialidade { EspecialidadeId = 14, DescEspecialidade = "Cirurgia Plástica"}
             );
     }
 }
