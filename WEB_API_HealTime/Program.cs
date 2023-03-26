@@ -33,7 +33,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("somee"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
