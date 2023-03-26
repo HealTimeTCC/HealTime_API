@@ -5,6 +5,7 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Utility;
+using WEB_API_HealTime.Utility.Enums;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -81,23 +82,26 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
     [HttpGet("ConsultaPorPaciente")]
-    public async Task<IActionResult> ListaAgendamentosPacientes(int id)
+    public async Task<IActionResult> ListaAgendamentosPacientes(int id, int statusConsulta)
     {
         try
         {
             List<ConsultaAgendada> consultaAgendadas = await _context.ConsultasAgendadas
                 .AsNoTracking()
                 .Include(inc => inc.Especialidade)
-                .Where(list => list.PacienteId == id).ToListAsync();
+                    .Where(list => list.PacienteId == id
+                    && list.StatusConsultasId == statusConsulta).ToListAsync();
+
             if (consultaAgendadas.Count < 1)
-                return NotFound("Nada referente a esse paciente encontrado");
+                return NotFound("Nenhuma consulta encontrada");
             else
                 return Ok(consultaAgendadas);
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);  
+            return BadRequest(ex.Message);
         }
     }
     [HttpPatch("CancelarConsultaById")]
@@ -109,13 +113,17 @@ public class ConsultaMedicaController : ControllerBase
                 return BadRequest("Insira no minimo 5 caracateres para o cancelamento");
 
             ConsultaAgendada cancelarConsulta = await _context.ConsultasAgendadas
-                .FirstOrDefaultAsync(c => c.ConsultasAgendadasId == cancelaConsultaDto.IdConsulta);
+                .Include(c => c.StatusConsulta)
+                .FirstOrDefaultAsync(c => c.PacienteId == cancelaConsultaDto.PacienteId && c.ConsultasAgendadasId == cancelaConsultaDto.ConsultaId);
+
             if (cancelarConsulta is null)
                 return NotFound("Consulta não encontrada, se isso acontecer é um problema no desenvolvimento");
+            else if (cancelarConsulta.StatusConsultasId == 3)
+                return BadRequest("Consulta já cancelada");
 
             ConsultaCancelada cancelada = new ConsultaCancelada()
             {
-                ConsultaAgendadaId = cancelaConsultaDto.IdConsulta,
+                ConsultaAgendadaId = cancelaConsultaDto.ConsultaId,
                 DataCancelamento = DateTime.Now,
                 MotivoCancelamento = cancelaConsultaDto.MotivoCancelamento
             };
@@ -128,8 +136,27 @@ public class ConsultaMedicaController : ControllerBase
             attach.Property(canc => canc.PacienteId).IsModified = false;
             await _context.SaveChangesAsync();
 
-            return Ok($"Consulta id {cancelaConsultaDto.IdConsulta} ");
+            return Ok($"Consulta id {cancelaConsultaDto.ConsultaId} ");
 
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPost("IncluiNovaEspecialidade")]
+    public async Task<IActionResult> IncluirNovaEspecialidade(Especialidade especialidade)
+    {
+        try
+        {
+            if (!FormataDados.VerificadorCaracteresMinimos(especialidade.DescEspecialidade, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+            {
+                await _context.Especialidades.AddAsync(especialidade);
+                await _context.SaveChangesAsync();
+                return Ok($"Nova especialidade adicionada {especialidade.DescEspecialidade}");
+            }
+            else
+                return BadRequest("A descrição deve ter no minimo 10 caracteres");
         }
         catch (Exception ex)
         {
