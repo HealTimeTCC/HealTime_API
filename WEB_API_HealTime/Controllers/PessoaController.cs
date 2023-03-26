@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,7 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Controllers;
 

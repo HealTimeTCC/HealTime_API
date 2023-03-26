@@ -3,12 +3,14 @@ using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
+using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+    #region Properties
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
@@ -19,8 +21,10 @@ public class DataContext : DbContext
     public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
     public DbSet<ConsultaCancelada> ConsultaCanceladas { get; set; }
     public DbSet<Especialidade> Especialidades { get; set; }
+    #endregion
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        #region Especialidades;
         /* -> BEGIN ESPECIALIDADES */
         modelBuilder.Entity<Especialidade>()
             .HasKey(pk => pk.EspecialidadeId)
@@ -29,9 +33,9 @@ public class DataContext : DbContext
             .Property(p => p.DescEspecialidade)
             .HasColumnType("VARCHAR(25)")
             .IsRequired();
-        
         /* -> END   ESPECIALIDADES */
-
+        #endregion
+        #region PRESCRICAOPACIENTES
         /* -> BEGIN PRESCRICAOPACIENTES */
         modelBuilder.Entity<PrescricaoPaciente>()
             .HasKey(pk => pk.PrescricaoPacienteId)
@@ -72,7 +76,8 @@ public class DataContext : DbContext
             .HasDefaultValue("S")
             .IsRequired();
         /* -> END  PRESCRICAOPACIENTES */
-
+        #endregion
+        #region MEDICO
         /* -> BEGIN MEDICO */
         modelBuilder.Entity<Medico>()
             .HasKey(pk => pk.MedicoId)
@@ -91,9 +96,9 @@ public class DataContext : DbContext
 
 
         /* -> END MEDICO */
-
+        #endregion
+        #region PESSOAS
         /* -> BEGIN PESSOAS */
-
         modelBuilder.Entity<Pessoa>()
             .HasKey(pk => pk.PessoaId)
             .HasName("PK_PessoaId");
@@ -118,7 +123,8 @@ public class DataContext : DbContext
             .HasColumnType("DATE")
             .IsRequired();
         /* -> END PESSOAS */
-
+        #endregion
+        #region MEDICAMENTOS
         /* -> BEGIN MEDICAMENTOS */
 
         modelBuilder.Entity<Medicacao>()
@@ -150,7 +156,8 @@ public class DataContext : DbContext
             .HasColumnType("CHAR(1)")
             .IsRequired();
         /* -> END MEDICAMENTOS */
-
+        #endregion
+        #region PRESCRICAO
         /* -> BEGIN PRESCRICAOMEDICACAO */
 
         modelBuilder.Entity<PrescricaoMedicacao>()
@@ -175,8 +182,8 @@ public class DataContext : DbContext
             .HasDefaultValue("S");
 
         /* -> END PRESCRICAOMEDICACAO */
-
-
+        #endregion
+        #region TipoMedicacao
         /* -> BEGIN TIPOMEDICACAO */
 
         modelBuilder.Entity<TipoMedicacao>()
@@ -190,7 +197,8 @@ public class DataContext : DbContext
             .HasColumnType("VARCHAR(100)")
             .IsRequired();
         /* -> END TIPOMEDICACAO */
-
+        #endregion
+        #region ConsultaAgenda
         /* -> BEGIN ConsultaAgendada */
 
         modelBuilder.Entity<ConsultaAgendada>()
@@ -225,7 +233,8 @@ public class DataContext : DbContext
             .IsRequired();
 
         /* -> END ConsultaAgendada */
-
+        #endregion
+        #region StatusConsulta
         /* -> BEGIN StatusConsulta */
 
         modelBuilder.Entity<StatusConsulta>()
@@ -242,6 +251,8 @@ public class DataContext : DbContext
             .IsRequired();
 
         /* -> END StatusConsulta */
+        #endregion
+        #region ConsultaCancelada
         /* -> BEGIN ConsultaCancelada */
 
         modelBuilder.Entity<ConsultaCancelada>()
@@ -266,7 +277,53 @@ public class DataContext : DbContext
             .HasColumnType("DATE")
             .IsRequired();
         /* -> END ConsultaCancelada */
+        #endregion
+        #region EnderecoPessoa
+        /* -> BEGIN EnderecoPessoa */
 
+        modelBuilder.Entity<EnderecoPessoa>()
+            .HasKey(pk => pk.PessoaId)
+            .HasName("PK_FK_EnderecoPessoa");
+
+        modelBuilder.Entity<EnderecoPessoa>()
+            .HasOne(x => x.Pessoa)
+            .WithOne(p => p.EnderecoPessoa)
+                .HasForeignKey<EnderecoPessoa>(fk => fk.PessoaId)
+                .HasConstraintName("FK_PK_EnderecoPessoa");
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.Logradouro)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.NroLogradouro)
+            .HasColumnType("VARCHAR(10)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.Complemento)
+            .HasColumnType("VARCHAR(15)");
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.BairroLogradouro)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.CidadeEndereco)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.UFEndereco)
+            .HasColumnType("CHAR(2)")
+            .IsRequired();
+        modelBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.CEPEndereco)
+            .HasColumnType("CHAR(8)")
+            .IsRequired();
+
+        /* -> END EnderecoPessoa */
+        #endregion
+
+
+
+        #region VALORES_DEFAULT
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
                 .HasData(
@@ -359,5 +416,6 @@ public class DataContext : DbContext
                 new Especialidade { EspecialidadeId = 13, DescEspecialidade = "Hematologia"},
                 new Especialidade { EspecialidadeId = 14, DescEspecialidade = "Cirurgia Plástica"}
             );
+        #endregion
     }
 }
