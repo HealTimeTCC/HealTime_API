@@ -51,7 +51,7 @@ public class ConsultaMedicaController : ControllerBase
         try
         {//FALTA VERIFICAR O PACIENTE
             StatusConsulta statusConsulta = await _context
-            .StatusConsultas.FirstOrDefaultAsync(x => x.StatusConsultaId == consultaAgendada.StatusConsultasId);
+            .StatusConsultas.FirstOrDefaultAsync(x => x.StatusConsultaId == consultaAgendada.StatusConsultaId);
             if (statusConsulta == null) return BadRequest("O ID do status não existe");
             Especialidade especialidade = await _context.Especialidades
                 .FirstOrDefaultAsync(x => x.EspecialidadeId == consultaAgendada.EspecialidadeId);
@@ -92,7 +92,7 @@ public class ConsultaMedicaController : ControllerBase
                 .AsNoTracking()
                 .Include(inc => inc.Especialidade)
                     .Where(list => list.PacienteId == id
-                    && list.StatusConsultasId == statusConsulta).ToListAsync();
+                    && list.StatusConsultaId == statusConsulta).ToListAsync();
 
             if (consultaAgendadas.Count < 1)
                 return NotFound("Nenhuma consulta encontrada");
@@ -118,7 +118,7 @@ public class ConsultaMedicaController : ControllerBase
 
             if (cancelarConsulta is null)
                 return NotFound("Consulta não encontrada, se isso acontecer é um problema no desenvolvimento");
-            else if (cancelarConsulta.StatusConsultasId == 3)
+            else if (cancelarConsulta.StatusConsultaId == 3)
                 return BadRequest("Consulta já cancelada");
 
             ConsultaCancelada cancelada = new ConsultaCancelada()
@@ -129,10 +129,10 @@ public class ConsultaMedicaController : ControllerBase
             };
             await _context.ConsultaCanceladas.AddAsync(cancelada);
 
-            cancelarConsulta.StatusConsultasId = 3;
+            cancelarConsulta.StatusConsultaId = 3;
             var attach = _context.ConsultasAgendadas.Attach(cancelarConsulta);
             attach.Property(canc => canc.ConsultasAgendadasId).IsModified = false;
-            attach.Property(canc => canc.StatusConsultasId).IsModified = true;
+            attach.Property(canc => canc.StatusConsultaId).IsModified = true;
             attach.Property(canc => canc.PacienteId).IsModified = false;
             await _context.SaveChangesAsync();
 
