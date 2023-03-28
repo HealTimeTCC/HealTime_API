@@ -16,6 +16,7 @@ public class ConsultaMedicaController : ControllerBase
     private readonly DataContext _context;
     public ConsultaMedicaController(DataContext context) { _context = context; }
 
+    #region Incluir Medico
     [HttpPost("IncluiMedico")]
     public async Task<IActionResult> IncluiMedico(Medico medico)
     {
@@ -44,7 +45,9 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
 
+    #region Agendar Consulta
     [HttpPost("AgendarConsulta")]
     public async Task<IActionResult> IncluirConsulta(ConsultaAgendada consultaAgendada)
     {
@@ -69,7 +72,9 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
 
+    #region Buscar Especialidades
     [HttpGet("Especialidades")]
     public async Task<IActionResult> GetEspecialidades()
     {
@@ -82,7 +87,9 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
+    #endregion
+  
+    #region Consulta Por Paciente
     [HttpGet("ConsultaPorPaciente")]
     public async Task<IActionResult> ListaAgendamentosPacientes(int id, int statusConsulta)
     {
@@ -104,6 +111,9 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+
+    #region Cancelar Consulta por ID
     [HttpPatch("CancelarConsultaById")]
     public async Task<IActionResult> CancelarConsultaById(CancelaConsultaDto cancelaConsultaDto)
     {
@@ -144,6 +154,9 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+
+    #region Inclui Nova especialidade
     [HttpPost("IncluiNovaEspecialidade")]
     public async Task<IActionResult> IncluirNovaEspecialidade(Especialidade especialidade)
     {
@@ -163,4 +176,5 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
 }
