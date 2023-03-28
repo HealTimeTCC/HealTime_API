@@ -1,0 +1,58 @@
+uri: http://www.healtime.somee.com/healtime
+
+Controller "/Medicacoes"
+
+/IncluiMedicacao - POST
+
+No JSON, é recebido uma lista
+[
+  {
+    "medicacaoId": 0,
+    "statusMedicacao": 0,
+    "tipoMedicacaoId": 0,
+    "nomeMedicacao": "string",
+    "compostoAtivoMedicacao": "string",
+    "laboratorioMedicaocao": "string",
+    "generico": "string"
+  }
+]
+
+/ListarMedicos -  get
+Lista os medicos existentes
+
+/IncluiPrescricao - post com DTO
+
+Ex json
+
+{
+  "prescricaoPaciente": {
+    "prescricaoPacienteId": 0,
+    "pacienteId": 0,
+    "criadoEm": "2023-03-28T22:58:33.247Z",
+    "emissao": "2023-03-28T22:58:33.247Z",
+    "validade": "2023-03-28T22:58:33.247Z",
+    "descFichaPessoa": "string",
+    "flagStatus": "string",
+  },
+  "prescricoesMedicacoes": [
+    {
+      "prescricaoPacienteId": 0,
+      "medicacaoId": 0,
+      "qtde": 0,
+      "intervalo": 0,
+      "duracao": 0,
+      "statusMedicacaoFlag": "string"
+    }
+  ],
+  "medicacoesId": [
+    0
+  ]
+}
+
+
+/"CancelaMedicacao/{idPrescricao}/{idMedicacao} - PATCH
+
+
+
+
+

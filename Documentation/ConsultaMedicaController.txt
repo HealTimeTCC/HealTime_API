@@ -28,7 +28,6 @@ Modelo de JSON
 
 /Especialidades - get
 
-
 /ConsultaPorPaciente 
 
 Parametro pelo get id[int], statusConsulta[int]
