@@ -6,6 +6,5 @@ public class PrescricaoDTO
 {
     public PrescricaoPaciente PrescricaoPaciente { get; set; }
     public List<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
-    public List<Medicacao> Medicamentos { get; set; }
-    public Medico Medico { get; set; }
+    public List<int> MedicacoesId { get; set; }
 }

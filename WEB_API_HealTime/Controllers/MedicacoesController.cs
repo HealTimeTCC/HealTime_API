@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.CookiePolicy;
-using WEB_API_HealTime.Models.Medicacoes.Enums;
+﻿using WEB_API_HealTime.Models.Medicacoes.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
@@ -17,12 +14,61 @@ public class MedicacoesController : ControllerBase
 {
     private readonly DataContext _context;
     public MedicacoesController(DataContext context) { _context = context; }
+
+    private bool ExisteMedicacao(List<Medicacao> medicacoes, out List<Medicacao> existe)
+    {
+        existe = new List<Medicacao>();
+        bool confirmaExiste = false;
+        foreach (var item in medicacoes)
+        {
+            Medicacao existeMedi = _context.Medicacoes
+            .FirstOrDefault(x => x.NomeMedicacao.ToUpper().Trim() == item.NomeMedicacao.ToUpper().Trim());
+            if (existeMedi is not null)
+            {
+                existe.Add(existeMedi);
+                confirmaExiste = true;
+            }
+        }
+        return confirmaExiste;
+
+    }
+
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _context.Medicos.ToListAsync());
     }
-    
+
+    [HttpPost("IncluiMedicacao")]
+    public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
+    {
+        try
+        {
+            await _context.Medicacoes.AddRangeAsync(medicacao);
+            await _context.SaveChangesAsync();
+            //Bloco ABAIXO FAZ INCLUSAO DE LISTA, POREM VAMOS FAZER O SIMPLES PRIMEIRO
+            //string frase = string.Empty;
+            //if (medicacao is null)
+            //{
+            //    if (!ExisteMedicacao(medicacao, out List<Medicacao> listaExistente))
+            //    {
+            //        frase = $"Medicamentos existentes {listaExistente}";
+            //        List<Medicacao> medicacaoExistentes = new List<Medicacao>();
+            //        medicacaoExistentes.AddRange(listaExistente);
+            //        medicacaoExistentes.Find(x => x.)
+            //        _context.Medicacoes.AddRange(medicacao);
+            //    }
+            //    else { return BadRequest("Medicacao Existe"); }
+            //}
+
+            return Ok(medicacao);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
     {
@@ -33,10 +79,11 @@ public class MedicacoesController : ControllerBase
 
             //Using para guardar dados da PRESCRIÇÃO DO PACIENTE
 
-            Medico medico = prescricaoDTO.Medico is null ?
-            throw new Exception("Objeto nulo")
-            : await _context.Medicos
+            Medico medico = await _context.Medicos
             .FirstOrDefaultAsync(x => x.MedicoId == prescricaoDTO.PrescricaoPaciente.MedicoId);
+
+            if (medico is null)
+                return NotFound($"Medico ID {prescricaoDTO.PrescricaoPaciente.MedicoId} não encontrado");
 
             prescricaoDTO.PrescricaoPaciente.CriadoEm = DateTime.Now;
 
@@ -44,21 +91,24 @@ public class MedicacoesController : ControllerBase
             {
                 await _context.SaveChangesAsync();
             }
-            if (prescricaoDTO.Medicamentos.Count < 1)
-                throw new Exception("É necessario no minimo 1 medicamento");
 
-            await _context.AddRangeAsync(prescricaoDTO.Medicamentos);
-            await _context.SaveChangesAsync();
+            if (prescricaoDTO.MedicacoesId.Count < 1)
+                return BadRequest("É necessario no minimo 1 medicamento");
 
-            int indice = 0;
-            while (indice < prescricaoDTO.Medicamentos.Count)
+            for (int i = 0; i < prescricaoDTO.MedicacoesId.Count; i++)
+            {
+                Medicacao busca = await _context.Medicacoes
+                    .FirstOrDefaultAsync(x => x.MedicacaoId == prescricaoDTO.MedicacoesId[i]);
+                if (busca is null)
+                    return NotFound($"Medicamento de ID {prescricaoDTO.MedicacoesId[i]} não encontrado");
+            }
+
+            for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
             {
                 if (prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo < 1 || prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo > 24)
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
                 prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
-                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.Medicamentos[indice].MedicacaoId;
-
-                indice++;
+                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.MedicacoesId[indice];
             }
 
             await _context.PrescricoesMedicacoes
@@ -93,12 +143,12 @@ public class MedicacoesController : ControllerBase
             {
                 if (prescricaoCancela.FlagStatus == "N")
                     return BadRequest("Prescrição já está Inativa");
-                
-                    List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
-                        .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
-                    listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
-                    _context.UpdateRange(listOff);
-                    await _context.SaveChangesAsync();
+
+                List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
+                    .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
+                listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
+                _context.UpdateRange(listOff);
+                await _context.SaveChangesAsync();
 
                 prescricaoCancela.FlagStatus = "N";
                 _context.PrescricaoPacientes.Update(prescricaoCancela);
@@ -109,7 +159,7 @@ public class MedicacoesController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);  
+            return BadRequest(ex.Message);
         }
     }
     [HttpPatch("CancelaMedicacao/{idPrescricao}/{idMedicacao}")]
@@ -138,7 +188,7 @@ public class MedicacoesController : ControllerBase
             attachPrescricao.Property(pre => pre.PrescricaoPacienteId).IsModified = false;
             attachPrescricao.Property(pre => pre.MedicacaoId).IsModified = false;
             attachPrescricao.Property(pre => pre.StatusMedicacaoFlag).IsModified = true;
-            
+
             int linhasAfetadas = await _context.SaveChangesAsync();
 
             return Ok($"Medicamento {prescricaoMedicacao.Medicacao.NomeMedicacao}");
@@ -148,7 +198,7 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-        
+
     /*Consulta de prescricao e medicamentos*/
     [HttpGet("ConsultaPrescricao/{id:int}")]
     public async Task<IActionResult> ConsultaPrescricaoById(int id)
