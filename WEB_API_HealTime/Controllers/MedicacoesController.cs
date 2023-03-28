@@ -15,6 +15,8 @@ public class MedicacoesController : ControllerBase
     private readonly DataContext _context;
     public MedicacoesController(DataContext context) { _context = context; }
 
+    #region Existe Medicacao (Pendente)
+
     private bool ExisteMedicacao(List<Medicacao> medicacoes, out List<Medicacao> existe)
     {
         existe = new List<Medicacao>();
@@ -33,12 +35,19 @@ public class MedicacoesController : ControllerBase
 
     }
 
-    [HttpGet("GetAll")]
+    #endregion
+
+
+    #region Listar Medicos
+    [HttpGet("ListarMedicos")]
     public async Task<IActionResult> GetAllAsync()
     {
         return Ok(await _context.Medicos.ToListAsync());
     }
 
+    #endregion
+
+    #region Inclui medicacao
     [HttpPost("IncluiMedicacao")]
     public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
     {
@@ -68,6 +77,10 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    #endregion
+
+    #region Inclui prescricao
 
     [HttpPost("IncluiPrescricao")]
     public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
@@ -122,6 +135,8 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+
     /*  RETORNA UMA LISTA, SE SOBRE TEMPO INCLUA FILTROS  */
     /*
      * Tenha a seguinte visao:
@@ -129,7 +144,9 @@ public class MedicacoesController : ControllerBase
      * Detalhe, mais para frente ele vai verificar CLAIM
      */
     /*Cancelamento de prescricao e medicamentos*/
-    [HttpPatch("CancelaPrescPacienteCompleta/{id:int}")]
+    #region Cancelar Prescricao Completa por id e idPaciente
+    //arrumar essa parte para verificar por paciente
+    [HttpPatch("CancelaPrescPacienteCompleta/{id:int}/{idPaciente:int}")]
     public async Task<IActionResult> CancelaPrescricaoPacienteCompleta(int id)
     {
         try
@@ -162,6 +179,9 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion//Arrumar
+
+    #region Cancela Medicacao
     [HttpPatch("CancelaMedicacao/{idPrescricao}/{idMedicacao}")]
     public async Task<IActionResult> CancelaItemMedicacaoPrescricao(int idPrescricao, int idMedicacao)
     {
@@ -199,6 +219,9 @@ public class MedicacoesController : ControllerBase
         }
     }
 
+    #endregion
+
+    #region Consulta Prescricao
     /*Consulta de prescricao e medicamentos*/
     [HttpGet("ConsultaPrescricao/{id:int}")]
     public async Task<IActionResult> ConsultaPrescricaoById(int id)
@@ -220,6 +243,9 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+    //Arrumar a consulta prescricao
+    #region COnsulta Medicacao By Id
     [HttpGet("ConsultaMedicacaoById/{id:int}")]
     public async Task<IActionResult> ConsultaMedicacaoById(int id)
     {
@@ -236,4 +262,6 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+    //Arrumar
 }
