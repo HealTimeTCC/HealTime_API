@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Utility.Enums;
 
@@ -14,7 +15,8 @@ namespace WEB_API_HealTime.Controllers;
 public class ConsultaMedicaController : ControllerBase
 {
     private readonly DataContext _context;
-    public ConsultaMedicaController(DataContext context) { _context = context; }
+    private readonly IConsultaMedica _consultaMedica;
+    public ConsultaMedicaController(DataContext context, IConsultaMedica consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
 
     #region Incluir Medico
     [HttpPost("IncluiMedico")]
@@ -35,8 +37,7 @@ public class ConsultaMedicaController : ControllerBase
                 return BadRequest("O medico já está registrado");
             else
             {
-                await _context.Medicos.AddAsync(medico);
-                int linhas = await _context.SaveChangesAsync();
+                int linhas = await _consultaMedica.IncluiMedico(medico);
                 return Ok($"Medicos incluido {linhas}");
             }
         }
@@ -90,16 +91,13 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
   
     #region Consulta Por Paciente
-    [HttpGet("ConsultaPorPaciente")]
-    public async Task<IActionResult> ListaAgendamentosPacientes(int id, int statusConsulta)
+    [HttpPost("ConsultaPorPaciente")]
+    public async Task<IActionResult> ListaAgendamentosPacientes(ListConsultasDTO listConsultasDTO)
     {
         try
         {
-            List<ConsultaAgendada> consultaAgendadas = await _context.ConsultasAgendadas
-                .AsNoTracking()
-                .Include(inc => inc.Especialidade)
-                    .Where(list => list.PacienteId == id
-                    && list.StatusConsultaId == statusConsulta).ToListAsync();
+            List<ConsultaAgendada> consultaAgendadas = 
+                await _consultaMedica.ListAgendamentosPacientes(listConsultasDTO);
 
             if (consultaAgendadas.Count < 1)
                 return NotFound("Nenhuma consulta encontrada");
