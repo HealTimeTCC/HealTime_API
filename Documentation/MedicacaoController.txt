@@ -52,7 +52,9 @@ Ex json
 
 /"CancelaMedicacao/{idPrescricao}/{idMedicacao} - PATCH
 
+/ConsultaPorPaciente - Post
 
-
-
-
+{
+  "consultaAgendadaId": 0,
+  "statusConsultaId": 0
+}
