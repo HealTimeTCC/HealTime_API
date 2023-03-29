@@ -360,12 +360,12 @@ public class DataContext : DbContext
                 new StatusConsulta
                 {
                     StatusConsultaId = 1,
-                    DescStatusConsulta = "Encerrada"
+                    DescStatusConsulta = "Agendada"
                 },
                 new StatusConsulta
                 {
                     StatusConsultaId = 2,
-                    DescStatusConsulta = "Agendada"
+                    DescStatusConsulta = "Encerrada"
                 },
                 new StatusConsulta
                 {
