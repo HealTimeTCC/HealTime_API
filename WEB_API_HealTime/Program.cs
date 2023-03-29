@@ -5,6 +5,8 @@ using WEB_API_HealTime.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using WEB_API_HealTime.Repository.Interfaces;
+using WEB_API_HealTime.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });//Server para ignora ciclos ao usar get e include ao mesmo tempo
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddTransient<IConsultaMedica, ConsultaMedica>();
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
