@@ -79,7 +79,9 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            List<Especialidade> especialidade = await _context.Especialidades.ToListAsync();
+            List<Especialidade> especialidade = await _consultaMedica.BuscarEspecialidades();
+            if (especialidade.Count == 0)
+                return NotFound("Não há especialidades cadastradas");
             return Ok(especialidade);
         }
         catch (Exception ex)
