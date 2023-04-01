@@ -168,12 +168,6 @@ public class VerificaInfoPessoa
     //    return true;
     //}
 
-    public static bool VerificaNome(string nome)
-    {
-        if (nome.IsNullOrEmpty() || nome.Length < 3)
-            return true;
-        else
-            return false;
-    }
+
 }
 

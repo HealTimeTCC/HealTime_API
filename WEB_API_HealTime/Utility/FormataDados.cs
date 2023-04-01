@@ -1,4 +1,5 @@
-﻿using WEB_API_HealTime.Utility.Enums;
+﻿using Microsoft.IdentityModel.Tokens;
+using WEB_API_HealTime.Utility.Enums;
 
 namespace WEB_API_HealTime.Utility;
 
@@ -20,7 +21,17 @@ public static class FormataDados
                 if(compararString.Length < 10)
                     return true;
                 return false;
+            case TipoVerificadorCaracteresMinimos.UF:
+                if (compararString.Length == 2)
+                    return true;
+                return false;
+            case TipoVerificadorCaracteresMinimos.CRM:
+                if (compararString.Length == 6)
+                    return true;
+                return false;
+
             default: return false;//Não ira 
         }
     }
+
 }
