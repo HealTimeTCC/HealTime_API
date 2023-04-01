@@ -15,7 +15,7 @@ public static class FormataDados
                 return false;
             case TipoVerificadorCaracteresMinimos.Endereco:
                 if (compararString.Length < 3)
-                    return true; ;
+                    return true; 
                 return false;
             case TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta:
                 if(compararString.Length < 10)
