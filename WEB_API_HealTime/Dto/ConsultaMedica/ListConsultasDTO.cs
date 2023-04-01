@@ -6,6 +6,5 @@ public class ListConsultasDTO
 {
     [Required]
     public int PacienteId { get; set; }
-    [Required]
-    public int StatusConsultaId { get; set; }
+    public int? StatusConsultaId { get; set; }
 }
