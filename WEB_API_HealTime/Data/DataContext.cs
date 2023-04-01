@@ -14,6 +14,7 @@ public class DataContext : DbContext
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
+    public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
     public DbSet<Medicacao> Medicacoes { get; set; }
     public DbSet<TipoMedicacao> TiposMedicacoes { get; set; }
     public DbSet<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
