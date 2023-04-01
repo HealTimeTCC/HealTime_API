@@ -15,6 +15,7 @@ public class DataContext : DbContext
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
     public DbSet<EnderecoPessoa> EnderecoPessoas { get; set; }
+    public DbSet<ContatoPessoa> ContatoPessoas { get; set; }
     public DbSet<Medicacao> Medicacoes { get; set; }
     public DbSet<TipoMedicacao> TiposMedicacoes { get; set; }
     public DbSet<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
@@ -320,8 +321,38 @@ public class DataContext : DbContext
 
         /* -> END EnderecoPessoa */
         #endregion
+        #region ContatoPessoa
 
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasKey(key => key.ContatoPessoaId)
+            .HasName("PK_ContatoPessoaId");
 
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasOne<Pessoa>(one => one.Pessoa)
+            .WithOne(one => one.ContatoPessoa)
+                .HasForeignKey<ContatoPessoa>(fk => fk.PessoaId)
+                .HasConstraintName("FK_Pessoa_ContatoPessoa_PessoaId");
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Email)
+            .HasColumnType("VARCHAR(100)")
+            .IsRequired();
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("DATETIME")
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired();
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Telefone)
+            .HasColumnType("CHAR(11)")
+            .IsRequired();
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.TelefoneSecundario)
+            .HasColumnType("CHAR(11)");
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.TipoContato)
+            .HasDefaultValue(EnumTipoContato.nada);
+
+        #endregion
         #region VALORES_DEFAULT
         /*VALORES DEFAULT*/
         modelBuilder.Entity<Medico>()
