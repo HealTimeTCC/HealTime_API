@@ -162,11 +162,7 @@ public class ConsultaMedicaController : ControllerBase
         try
         {
             if (!FormataDados.VerificadorCaracteresMinimos(especialidade.DescEspecialidade, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
-            {
-                await _context.Especialidades.AddAsync(especialidade);
-                await _context.SaveChangesAsync();
-                return Ok($"Nova especialidade adicionada {especialidade.DescEspecialidade}");
-            }
+                return Ok($"Nova especialidade adicionada {await _consultaMedica.IncluiEspecialidade(especialidade)}");
             else
                 return BadRequest("A descrição deve ter no minimo 10 caracteres");
         }
