@@ -24,15 +24,17 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            if (medico.UfCrmMedico is null)
-                return BadRequest("Não é possivel inserir UF CRM com valor nulo");
-            if (medico.CrmMedico.Length < 6)
+            if (medico.UfCrmMedico is null 
+                || !FormataDados.VerificadorCaracteresMinimos(medico.UfCrmMedico, TipoVerificadorCaracteresMinimos.UF))
+                return BadRequest("UF inválido, verifique-o");
+            if (!FormataDados.VerificadorCaracteresMinimos(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
                 return BadRequest("O CRM do profissional da saúde deve ter 6 digitos");
+
             Medico medicoExiste =
-                VerificaInfoPessoa.VerificaNome(medico.NmMedico)
+                FormataDados.VerificadorCaracteresMinimos(medico.NmMedico, TipoVerificadorCaracteresMinimos.Nome)
                 ? throw new Exception("Nome demasiadamente pequeno")
-                : await _context.Medicos
-                    .FirstOrDefaultAsync(crm => crm.CrmMedico == medico.CrmMedico && crm.UfCrmMedico.ToUpper().Trim() == medico.UfCrmMedico.ToUpper().Trim());
+                : await _consultaMedica.VerificaMedico(medico.CrmMedico, medico.UfCrmMedico);
+
             if (medicoExiste is not null)
                 return BadRequest("O medico já está registrado");
             else
@@ -81,7 +83,8 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            return Ok(await _context.Especialidades.AsNoTracking().ToListAsync() is List<Especialidade> especialidade);
+            List<Especialidade> especialidade = await _context.Especialidades.ToListAsync();
+            return Ok(especialidade);
         }
         catch (Exception ex)
         {
