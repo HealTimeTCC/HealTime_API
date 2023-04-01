@@ -7,4 +7,5 @@ public interface IConsultaMedica
 {
     Task<int> IncluiMedico(Medico medico);
     Task<List<ConsultaAgendada>> ListAgendamentosPacientes(ListConsultasDTO listConsultasDTO);
+    Task<Medico> VerificaMedico(string crm, string ufCrmMedico);
 }

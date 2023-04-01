@@ -28,4 +28,12 @@ public class ConsultaMedica : IConsultaMedica
             .Where(x => x.PacienteId == listConsultasDTO.PacienteId
             && x.StatusConsultaId == listConsultasDTO.StatusConsultaId).ToListAsync();
     }
+
+    public async Task<Medico> VerificaMedico(string crmMedico, string ufCrmMedico)
+    {
+        Medico medico = await _context.Medicos
+            .FirstOrDefaultAsync(crm => crm.CrmMedico == crmMedico
+            && crm.UfCrmMedico.ToUpper().Trim() == ufCrmMedico.ToUpper().Trim());
+        return medico;
+    }
 }
