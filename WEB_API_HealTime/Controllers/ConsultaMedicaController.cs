@@ -55,19 +55,16 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {//FALTA VERIFICAR O PACIENTE
-            StatusConsulta statusConsulta = await _context
-            .StatusConsultas.FirstOrDefaultAsync(x => x.StatusConsultaId == consultaAgendada.StatusConsultaId);
-            if (statusConsulta == null) return BadRequest("O ID do status não existe");
-            Especialidade especialidade = await _context.Especialidades
-                .FirstOrDefaultAsync(x => x.EspecialidadeId == consultaAgendada.EspecialidadeId);
-            if (especialidade == null)
-                return BadRequest("Especialidade não existe, cadastre uma nova especialidade.");
-            if (consultaAgendada.MotivoConsulta.Length < 5)
+            if(await _consultaMedica.VerificaStatusConsulta(consultaAgendada.StatusConsultaId) is null)
+                return NotFound("O ID do status não existe");
+
+            if (await _consultaMedica.VerificaEspecialidade(consultaAgendada.EspecialidadeId) is null)
+                return NotFound("Especialidade não existe, cadastre uma nova especialidade.");
+            
+            if (FormataDados.VerificadorCaracteresMinimos(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
 
-            await _context.ConsultasAgendadas.AddAsync(consultaAgendada);
-            await _context.SaveChangesAsync();
-            return Ok();
+            return Ok( await _consultaMedica.IncluiConsulta(consultaAgendada));
         }
         catch (Exception ex)
         {
