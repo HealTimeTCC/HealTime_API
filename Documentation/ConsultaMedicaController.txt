@@ -47,6 +47,13 @@ ex: json
 ex json
 
 {
-  "especialidadeId": 0,
   "descEspecialidade": "string"
 }
+
+/ConsultaPorPaciente - POST
+EX: Json
+{
+    "PacienteId" : 2,
+    "StatusConsultaId" : 5
+}
+
