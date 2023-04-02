@@ -23,7 +23,7 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            if (medico.UfCrmMedico is null 
+            if (medico.UfCrmMedico is null
                 || !FormataDados.VerificadorCaracteresMinimos(medico.UfCrmMedico, TipoVerificadorCaracteresMinimos.UF))
                 return BadRequest("UF inválido, verifique-o");
             if (!FormataDados.VerificadorCaracteresMinimos(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
@@ -60,7 +60,7 @@ public class ConsultaMedicaController : ControllerBase
 
             if (await _consultaMedica.VerificaEspecialidade(consultaAgendada.EspecialidadeId) is null)
                 return NotFound("Especialidade não existe, cadastre uma nova especialidade.");
-            
+
             if (FormataDados.VerificadorCaracteresMinimos(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
 
@@ -90,14 +90,14 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
     #endregion
-  
+
     #region Consulta Por Paciente
     [HttpPost("ConsultaPorPaciente")]
     public async Task<IActionResult> ListaAgendamentosPacientes(ListConsultasDTO listConsultasDTO)
     {
         try
         {
-            List<ConsultaAgendada> consultaAgendadas = 
+            List<ConsultaAgendada> consultaAgendadas =
                 await _consultaMedica.ListAgendamentosPacientes(listConsultasDTO);
 
             if (consultaAgendadas.Count < 1)
