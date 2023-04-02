@@ -18,8 +18,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });//Server para ignora ciclos ao usar get e include ao mesmo tempo
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IPessoaRepository, PessoaRepository>();
 
-builder.Services.AddTransient<IConsultaMedica, ConsultaMedica>();
+builder.Services.AddTransient<IConsultaMedicaRepository, ConsultaMedicaRepository>();
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

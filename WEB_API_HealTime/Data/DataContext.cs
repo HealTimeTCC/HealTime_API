@@ -5,6 +5,8 @@ using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
+using WEB_API_HealTime.Models.Pacientes;
+
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
@@ -23,10 +25,16 @@ public class DataContext : DbContext
     public DbSet<ConsultaAgendada> ConsultasAgendadas { get; set; }
     public DbSet<ConsultaCancelada> ConsultaCanceladas { get; set; }
     public DbSet<Especialidade> Especialidades { get; set; }
+    public DbSet<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
+    public DbSet<ObservacaoPaciente> ObservacoesPacientes { get; set; }
+    public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
+    public DbSet<GrauParentesco> GrauParentesco { get; set; }
     #endregion
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        #region Especialidades;
+        base.OnModelCreating(modelBuilder);
+
+        #region Especialidades
         /* -> BEGIN ESPECIALIDADES */
         modelBuilder.Entity<Especialidade>()
             .HasKey(pk => pk.EspecialidadeId)
@@ -59,15 +67,15 @@ public class DataContext : DbContext
         /* -> END <- */
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(dt => dt.CriadoEm)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(dt => dt.Emissao)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(dt => dt.Validade)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         modelBuilder.Entity<PrescricaoPaciente>()
             .Property(desc => desc.DescFichaPessoa)
@@ -121,7 +129,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<Pessoa>()
             .Property(dt => dt.DtNascPessoa)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         /* -> END PESSOAS */
         #endregion
@@ -219,11 +227,11 @@ public class DataContext : DbContext
                 .HasConstraintName("FK_MedicoId_ConsultaAgendadaId");
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.DataSolicitacaoConsulta)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.DataConsulta)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         modelBuilder.Entity<ConsultaAgendada>()
             .Property(d => d.MotivoConsulta)
@@ -275,7 +283,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<ConsultaCancelada>()
             .Property(dt => dt.DataCancelamento)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .IsRequired();
         /* -> END ConsultaCancelada */
         #endregion
@@ -338,7 +346,7 @@ public class DataContext : DbContext
             .IsRequired();
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.CriadoEm)
-            .HasColumnType("DATETIME")
+            .HasColumnType("datetime2(0)")
             .HasDefaultValueSql("GETDATE()")
             .IsRequired();
         modelBuilder.Entity<ContatoPessoa>()
@@ -351,6 +359,112 @@ public class DataContext : DbContext
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.TipoContato)
             .HasDefaultValue(EnumTipoContato.nada);
+
+        #endregion
+        #region AndamentoMedicacao
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .HasKey(key => new { key.MtAndamentoMedicacao, key.PrescricaoPacienteId, key.MedicacaoId })
+            .HasName("PK_Concat_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .HasOne(p => p.PrescricaoPacientes)
+            .WithMany(p => p.AndamentoMedicacoes)
+            .HasForeignKey(p => p.PrescricaoPacienteId)
+                .HasConstraintName("FK_PrescricaoPacientes_PacienteId_AndamentoMedicacoes");
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .HasOne(p => p.PrescricaoPacientes)
+            .WithMany(p => p.AndamentoMedicacoes)
+            .HasForeignKey(p => p.MedicacaoId)
+                .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.MtAndamentoMedicacao)
+            .HasColumnType("datetime2(0)")
+            .IsRequired();
+
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.QtdeMedicao)
+            .HasColumnType("int")
+            .IsRequired();
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("datetime2(0)")
+            .IsRequired();
+        modelBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.AcaoMedicacao)
+            .HasColumnType("CHAR(1)")
+            .IsRequired();
+
+        #endregion
+        #region ObservacaoPaciente
+
+        modelBuilder.Entity<ObservacaoPaciente>()
+            .HasKey(key => key.SqObservacao)
+            .HasName("PK_SqObservacao");
+        modelBuilder.Entity<ObservacaoPaciente>()
+            .HasOne(one => one.Paciente)
+            .WithMany(many => many.ObservacoesPacientes)
+            .HasForeignKey(fk => fk.PacienteId)
+            .HasConstraintName("FK_SqObservacao_Pessoas");
+
+        modelBuilder.Entity<ObservacaoPaciente>()
+               .Property(p => p.MtObservacao)
+               .HasColumnType("datetime2(0)")
+               .IsRequired();
+        modelBuilder.Entity<ObservacaoPaciente>()
+               .Property(p => p.Observacao)
+               .HasColumnType("VARCHAR(255)")
+               .IsRequired();
+
+
+        #endregion
+        #region ResponsavelPaciente
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasKey(key => new { key.PacienteId, key.ResponsavelId })
+            .HasName("PK_PacienteId_ResponsavelId");
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.Paciente)
+            .WithMany(many => many.ResponsavelPacientes_Pacientes)
+            .HasForeignKey(fk => fk.PacienteId)
+            .HasConstraintName("FK_PacienteId_Pessoas_ResponsavelPaciente")
+            .OnDelete(DeleteBehavior.Restrict);
+        //.OnDelete(DeleteBehavior.NoAction);
+        //var foreingKey = modelBuilder.Entity<ResponsavelPaciente>()
+        //    .Metadata.FindNavigation(nameof(ResponsavelPaciente.Paciente))
+        //    .ForeignKey;
+        //foreingKey.setupdate
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.Responsavel)
+            .WithMany(many => many.ResponsavelPacientes_Responsaveis)
+                .HasForeignKey(fk => fk.ResponsavelId)
+                .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente").OnDelete(DeleteBehavior.Restrict);
+                //.OnDelete(DeleteBehavior.NoAction);
+
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.GrauParentesco)
+            .WithOne(one => one.ResponsavelPaciente)
+                .HasForeignKey<ResponsavelPaciente>(fk => fk.GrauParentescoId)
+                .HasConstraintName("FK_GrauParentescoId_GrauParentesco_ResponsavelPaciente");
+        modelBuilder.Entity<ResponsavelPaciente>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("datetime2(0)")
+            .IsRequired()
+            .HasDefaultValueSql("GETDATE()");
+
+        #endregion
+        #region GrauParentesco
+
+        modelBuilder.Entity<GrauParentesco>()
+            .HasKey(key => key.GrauParentescoId)
+            .HasName("PK_GrauParentescoId");
+
+        modelBuilder.Entity<GrauParentesco>()
+            .Property(p => p.DescGrauParentesco)
+            .HasColumnType("VARCHAR(15)")
+            .IsRequired();
 
         #endregion
         #region VALORES_DEFAULT
@@ -417,34 +531,34 @@ public class DataContext : DbContext
             );
         //Tipo medicacao
         modelBuilder.Entity<TipoMedicacao>().HasData(
-                new { TipoMedicacaoId = 1, DescMedicacao = "Aplicado pela boca", TituloTipoMedicacao = "Via oral",               ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 2, DescMedicacao = "Aplicado  por dembaixo da língua", TituloTipoMedicacao= "Sublingual",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 3, DescMedicacao = "Aplicado pelo canal retal",        TituloTipoMedicacao= "Supositorios", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 4, DescMedicacao = "Aplicada diretamente no sangue",   TituloTipoMedicacao= "Intravenosa",  ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 5, DescMedicacao = "Aplicada diretamente no músculo",  TituloTipoMedicacao= "Intramuscular",ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 6, DescMedicacao = "Aplicada debaixo da pele",         TituloTipoMedicacao= "Subcutânea",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 7, DescMedicacao = string.Empty,                       TituloTipoMedicacao= "Respiratória", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 8, DescMedicacao = "Aplicada por pomadas",             TituloTipoMedicacao= "Via tópica",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 9, DescMedicacao  = string.Empty,                      TituloTipoMedicacao= "Via Ocular",   ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 10, DescMedicacao = string.Empty,                      TituloTipoMedicacao= "Via Nasal",    ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral},
-                new { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular",ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
+                new { TipoMedicacaoId = 1, DescMedicacao = "Aplicado pela boca", TituloTipoMedicacao = "Via oral", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 2, DescMedicacao = "Aplicado  por dembaixo da língua", TituloTipoMedicacao = "Sublingual", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 3, DescMedicacao = "Aplicado pelo canal retal", TituloTipoMedicacao = "Supositorios", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new { TipoMedicacaoId = 4, DescMedicacao = "Aplicada diretamente no sangue", TituloTipoMedicacao = "Intravenosa", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 5, DescMedicacao = "Aplicada diretamente no músculo", TituloTipoMedicacao = "Intramuscular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 6, DescMedicacao = "Aplicada debaixo da pele", TituloTipoMedicacao = "Subcutânea", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 7, DescMedicacao = string.Empty, TituloTipoMedicacao = "Respiratória", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 8, DescMedicacao = "Aplicada por pomadas", TituloTipoMedicacao = "Via tópica", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 9, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Ocular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 10, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Nasal", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
             );
         modelBuilder.Entity<Especialidade>()
             .HasData(
-                new Especialidade { EspecialidadeId = 1, DescEspecialidade =  "Cardiologia"},
-                new Especialidade { EspecialidadeId = 2, DescEspecialidade =  "Dermatologia"},
-                new Especialidade { EspecialidadeId = 3, DescEspecialidade =  "Ginecologia/Obstetrícia"},
-                new Especialidade { EspecialidadeId = 4, DescEspecialidade =  "Ortopedia"},
-                new Especialidade { EspecialidadeId = 5, DescEspecialidade =  "Anestesiologia"},
-                new Especialidade { EspecialidadeId = 6, DescEspecialidade =  "Pediatria"},
-                new Especialidade { EspecialidadeId = 7, DescEspecialidade =  "Oftalmologia"},
-                new Especialidade { EspecialidadeId = 8, DescEspecialidade =  "Psiquiatria"},
-                new Especialidade { EspecialidadeId = 9, DescEspecialidade =  "Urologia"},
-                new Especialidade { EspecialidadeId = 10, DescEspecialidade = "Oncologia"},
-                new Especialidade { EspecialidadeId = 11, DescEspecialidade = "Endocrinologia"},
-                new Especialidade { EspecialidadeId = 12, DescEspecialidade = "Neurologia"},
-                new Especialidade { EspecialidadeId = 13, DescEspecialidade = "Hematologia"},
-                new Especialidade { EspecialidadeId = 14, DescEspecialidade = "Cirurgia Plástica"}
+                new Especialidade { EspecialidadeId = 1, DescEspecialidade = "Cardiologia" },
+                new Especialidade { EspecialidadeId = 2, DescEspecialidade = "Dermatologia" },
+                new Especialidade { EspecialidadeId = 3, DescEspecialidade = "Ginecologia/Obstetrícia" },
+                new Especialidade { EspecialidadeId = 4, DescEspecialidade = "Ortopedia" },
+                new Especialidade { EspecialidadeId = 5, DescEspecialidade = "Anestesiologia" },
+                new Especialidade { EspecialidadeId = 6, DescEspecialidade = "Pediatria" },
+                new Especialidade { EspecialidadeId = 7, DescEspecialidade = "Oftalmologia" },
+                new Especialidade { EspecialidadeId = 8, DescEspecialidade = "Psiquiatria" },
+                new Especialidade { EspecialidadeId = 9, DescEspecialidade = "Urologia" },
+                new Especialidade { EspecialidadeId = 10, DescEspecialidade = "Oncologia" },
+                new Especialidade { EspecialidadeId = 11, DescEspecialidade = "Endocrinologia" },
+                new Especialidade { EspecialidadeId = 12, DescEspecialidade = "Neurologia" },
+                new Especialidade { EspecialidadeId = 13, DescEspecialidade = "Hematologia" },
+                new Especialidade { EspecialidadeId = 14, DescEspecialidade = "Cirurgia Plástica" }
             );
         #endregion
     }
