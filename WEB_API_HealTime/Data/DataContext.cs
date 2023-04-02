@@ -183,8 +183,8 @@ public class DataContext : DbContext
         modelBuilder.Entity<PrescricaoMedicacao>()
             .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId })
                 .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
-        modelBuilder.Entity<PrescricaoMedicacao>()
-            .HasIndex(pk => pk.PrescricaoPacienteId);
+        //modelBuilder.Entity<PrescricaoMedicacao>()
+        //    .HasIndex(pk => pk.PrescricaoPacienteId);
         //.IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
         modelBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.StatusMedicacaoFlag)
