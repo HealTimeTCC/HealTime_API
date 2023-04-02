@@ -12,7 +12,7 @@ namespace WEB_API_HealTime.Data;
 public class DataContext : DbContext
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-    #region Properties
+    #region DBSETs
     public DbSet<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public DbSet<Medico> Medicos { get; set; }
     public DbSet<Pessoa> Pessoas { get; set; }
@@ -29,6 +29,7 @@ public class DataContext : DbContext
     public DbSet<ObservacaoPaciente> ObservacoesPacientes { get; set; }
     public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
     public DbSet<GrauParentesco> GrauParentesco { get; set; }
+    public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
     #endregion
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -365,7 +366,7 @@ public class DataContext : DbContext
 
         modelBuilder.Entity<AndamentoMedicacao>()
             .HasKey(key => new { key.MtAndamentoMedicacao, key.PrescricaoPacienteId, key.MedicacaoId })
-            .HasName("PK_Concat_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
+            .HasName("PK_AndamentoMedicacao_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
 
         modelBuilder.Entity<AndamentoMedicacao>()
             .HasOne(p => p.PrescricaoPacientes)
@@ -430,19 +431,14 @@ public class DataContext : DbContext
             .HasForeignKey(fk => fk.PacienteId)
             .HasConstraintName("FK_PacienteId_Pessoas_ResponsavelPaciente")
             .OnDelete(DeleteBehavior.Restrict);
-        //.OnDelete(DeleteBehavior.NoAction);
-        //var foreingKey = modelBuilder.Entity<ResponsavelPaciente>()
-        //    .Metadata.FindNavigation(nameof(ResponsavelPaciente.Paciente))
-        //    .ForeignKey;
-        //foreingKey.setupdate
 
         modelBuilder.Entity<ResponsavelPaciente>()
             .HasOne(one => one.Responsavel)
             .WithMany(many => many.ResponsavelPacientes_Responsaveis)
                 .HasForeignKey(fk => fk.ResponsavelId)
-                .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente").OnDelete(DeleteBehavior.Restrict);
-                //.OnDelete(DeleteBehavior.NoAction);
-
+                .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente")
+                .OnDelete(DeleteBehavior.Restrict);
+                
         modelBuilder.Entity<ResponsavelPaciente>()
             .HasOne(one => one.GrauParentesco)
             .WithOne(one => one.ResponsavelPaciente)
@@ -465,6 +461,33 @@ public class DataContext : DbContext
             .Property(p => p.DescGrauParentesco)
             .HasColumnType("VARCHAR(15)")
             .IsRequired();
+
+        #endregion
+        #region CuidadorPaciente
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasKey(key => new { key.PacienteId, key.CuidadorId })
+            .HasName("PK_CuidadorPacientes_PacienteId_CuidadorId");
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasOne(one => one.PessoaPaciente)
+            .WithMany(many => many.CuidadorPaciente_Pacientes)
+            .HasForeignKey(p => p.PacienteId)
+                .HasConstraintName("FK_Pessoa_CuidadorPaciente_PacienteId")
+                .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<CuidadorPaciente>()
+            .HasOne(one => one.PessoaCuidador)
+            .WithMany(many => many.CuidadorPaciente_Cuidador)
+            .HasForeignKey(p => p.CuidadorId)
+                .HasConstraintName("FK_Pessoa_CuidadorPaciente_CuidadorId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<CuidadorPaciente>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("DATETIME2(0)")
+            .IsRequired();
+        modelBuilder.Entity<CuidadorPaciente>()
+            .Property(p => p.FinalizadoEm)
+            .HasColumnType("DATETIME2(0)");
 
         #endregion
         #region VALORES_DEFAULT
