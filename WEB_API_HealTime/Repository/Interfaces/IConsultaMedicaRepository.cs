@@ -3,7 +3,7 @@ using WEB_API_HealTime.Models.ConsultasMedicas;
 
 namespace WEB_API_HealTime.Repository.Interfaces;
 
-public interface IConsultaMedica
+public interface IConsultaMedicaRepository
 {
     Task<int> IncluiMedico(Medico medico);
     Task<List<ConsultaAgendada>> ListAgendamentosPacientes(ListConsultasDTO listConsultasDTO);

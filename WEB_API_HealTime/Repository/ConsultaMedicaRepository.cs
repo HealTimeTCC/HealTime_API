@@ -8,10 +8,10 @@ using WEB_API_HealTime.Repository.Interfaces;
 
 namespace WEB_API_HealTime.Repository;
 
-public class ConsultaMedica : IConsultaMedica
+public class ConsultaMedicaRepository : IConsultaMedicaRepository
 {
     private readonly DataContext _context;
-    public ConsultaMedica(DataContext context)
+    public ConsultaMedicaRepository(DataContext context)
     {
         _context = context;
     }
