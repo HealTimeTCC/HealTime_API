@@ -21,13 +21,11 @@ namespace WEB_API_HealTime.Controllers;
 [ApiController]
 public class PessoaController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly IPessoaRepository _pessoasRepository;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
     public PessoaController(IPessoaRepository pessoaRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
-        _context = context;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
         _pessoasRepository = pessoaRepository;
@@ -64,8 +62,6 @@ public class PessoaController : ControllerBase
     //new Claim(ClaimTypes.Surname, pessoa.SobreNomePessoa),
     //new Claim(ClaimTypes.UserData, pessoa.TipoPessoaId.ToString())
 
-
-    //private 
     #region RegistroPessoa
     [AllowAnonymous]
     [HttpPost("Registro")]
@@ -94,9 +90,9 @@ public class PessoaController : ControllerBase
                 contatoPessoa.Email = pessoaDto.ContatoEmail.IsNullOrEmpty() ? throw new ArgumentNullException("O e-mail é obrigatório") : pessoaDto.ContatoEmail;
                 contatoPessoa.CriadoEm = DateTime.Now;
 
-            Criptografia
-                .CriarPasswordHash(pessoaDto.PasswordString, out byte[] hash, out byte[] salt);
-            pessoaDto.PasswordString = string.Empty;
+                Criptografia
+                    .CriarPasswordHash(pessoaDto.PasswordString, out byte[] hash, out byte[] salt);
+                pessoaDto.PasswordString = string.Empty;
 
                 pessoa.TipoPessoa = pessoaDto.TipoPessoa;
                 pessoa.CpfPessoa = pessoaDto.CpfPessoa; // Falta verificador
@@ -107,7 +103,7 @@ public class PessoaController : ControllerBase
                 pessoa.DtNascPessoa = pessoaDto.DtNascPessoa;
 
                 return Ok($"Usuario {await _pessoasRepository.IncluiPessoa(pessoa, contatoPessoa)} cadastrado com sucesso!");
-        }
+            }
         }
         catch (Exception ex)
         {
@@ -115,7 +111,6 @@ public class PessoaController : ControllerBase
         }
     }
     #endregion
-
     #region Autenticar
     [AllowAnonymous]
     [HttpPost("Autenticar")]
@@ -143,7 +138,6 @@ public class PessoaController : ControllerBase
         }
     }
     #endregion
-
     #region AlterarSenha
     [AllowAnonymous]
     [HttpPut("AlteraSenha")]
@@ -170,17 +164,9 @@ public class PessoaController : ControllerBase
             if (salvo is false)
                 return BadRequest("Erro interno ao salvar, contate o suporte");
             else
-            return Ok("Senha alterada");
+                return Ok("Senha alterada");
         }
     }
     #endregion
 
-    #region lista pessoas Buscar de acordo com o tipo
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        return Ok(await _context.Pessoas.ToListAsync());
-    }
-    #endregion
 }
