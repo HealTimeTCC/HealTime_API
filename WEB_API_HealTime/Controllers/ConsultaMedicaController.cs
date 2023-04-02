@@ -14,8 +14,8 @@ namespace WEB_API_HealTime.Controllers;
 public class ConsultaMedicaController : ControllerBase
 {
     private readonly DataContext _context;
-    private readonly IConsultaMedica _consultaMedica;
-    public ConsultaMedicaController(DataContext context, IConsultaMedica consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
+    private readonly IConsultaMedicaRepository _consultaMedica;
+    public ConsultaMedicaController(DataContext context, IConsultaMedicaRepository consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
 
     #region Incluir Medico
     [HttpPost("IncluiMedico")]
