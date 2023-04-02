@@ -31,10 +31,10 @@ namespace WEB_API_HealTime.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConsultasAgendadasId"));
 
                     b.Property<DateTime>("DataConsulta")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<DateTime>("DataSolicitacaoConsulta")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<string>("Encaminhamento")
                         .IsRequired()
@@ -79,7 +79,7 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataCancelamento")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<string>("MotivoCancelamento")
                         .IsRequired()
@@ -273,7 +273,7 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.Medicacoes.AndamentoMedicacao", b =>
                 {
                     b.Property<DateTime>("MtAndamentoMedicacao")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<int>("PrescricaoPacienteId")
                         .HasColumnType("int");
@@ -286,13 +286,13 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("CHAR(1)");
 
                     b.Property<DateTime>("CriadoEm")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<int>("QtdeMedicao")
                         .HasColumnType("int");
 
                     b.HasKey("MtAndamentoMedicacao", "PrescricaoPacienteId", "MedicacaoId")
-                        .HasName("PK_Concat_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
+                        .HasName("PK_AndamentoMedicacao_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
 
                     b.HasIndex("MedicacaoId");
 
@@ -382,13 +382,13 @@ namespace WEB_API_HealTime.Migrations
 
                     b.Property<DateTime?>("CriadoEm")
                         .IsRequired()
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<string>("DescFichaPessoa")
                         .HasColumnType("VARCHAR(350)");
 
                     b.Property<DateTime>("Emissao")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<string>("FlagStatus")
                         .IsRequired()
@@ -403,7 +403,7 @@ namespace WEB_API_HealTime.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Validade")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.HasKey("PrescricaoPacienteId")
                         .HasName("PK_PrescricaoPacienteId");
@@ -518,6 +518,28 @@ namespace WEB_API_HealTime.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.CuidadorPaciente", b =>
+                {
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CuidadorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CriadoEm")
+                        .HasColumnType("DATETIME2(0)");
+
+                    b.Property<DateTime>("FinalizadoEm")
+                        .HasColumnType("DATETIME2(0)");
+
+                    b.HasKey("PacienteId", "CuidadorId")
+                        .HasName("PK_CuidadorPacientes_PacienteId_CuidadorId");
+
+                    b.HasIndex("CuidadorId");
+
+                    b.ToTable("CuidadorPacientes");
+                });
+
             modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.GrauParentesco", b =>
                 {
                     b.Property<int>("GrauParentescoId")
@@ -545,7 +567,7 @@ namespace WEB_API_HealTime.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SqObservacao"));
 
                     b.Property<DateTime>("MtObservacao")
-                        .HasColumnType("DATETIME");
+                        .HasColumnType("datetime2(0)");
 
                     b.Property<string>("Observacao")
                         .IsRequired()
@@ -572,7 +594,7 @@ namespace WEB_API_HealTime.Migrations
 
                     b.Property<DateTime>("CriadoEm")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
+                        .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<int>("GrauParentescoId")
@@ -605,7 +627,7 @@ namespace WEB_API_HealTime.Migrations
 
                     b.Property<DateTime>("CriadoEm")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("DATETIME")
+                        .HasColumnType("datetime2(0)")
                         .HasDefaultValueSql("GETDATE()");
 
                     b.Property<string>("Email")
@@ -718,8 +740,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "12345678909",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan",
-                            PasswordHash = new byte[] { 154, 242, 204, 68, 79, 181, 239, 49, 20, 91, 49, 44, 91, 47, 246, 85, 59, 138, 173, 239, 181, 95, 192, 94, 160, 92, 198, 26, 146, 243, 225, 238, 220, 137, 40, 105, 254, 39, 153, 178, 75, 190, 28, 35, 109, 29, 103, 185, 209, 93, 188, 129, 9, 176, 2, 59, 29, 246, 152, 22, 55, 229, 50, 201 },
-                            PasswordSalt = new byte[] { 73, 171, 145, 16, 1, 84, 139, 190, 126, 178, 109, 106, 133, 80, 221, 138, 179, 220, 90, 9, 20, 246, 197, 49, 128, 242, 79, 108, 37, 75, 178, 132, 231, 58, 224, 45, 219, 187, 6, 246, 126, 64, 56, 204, 26, 211, 184, 138, 199, 243, 240, 199, 162, 206, 222, 74, 199, 171, 48, 233, 79, 78, 34, 208, 117, 115, 159, 72, 206, 211, 17, 121, 150, 76, 111, 87, 201, 248, 255, 217, 60, 189, 128, 51, 107, 37, 105, 88, 11, 29, 250, 147, 20, 165, 21, 51, 92, 99, 88, 175, 54, 241, 1, 216, 200, 94, 175, 93, 140, 95, 33, 194, 3, 107, 67, 149, 209, 129, 229, 177, 242, 158, 1, 241, 30, 97, 149, 158 },
+                            PasswordHash = new byte[] { 255, 202, 227, 108, 69, 125, 79, 91, 32, 213, 46, 202, 197, 10, 220, 249, 246, 21, 94, 154, 51, 88, 98, 114, 109, 40, 51, 232, 135, 246, 73, 64, 197, 230, 172, 218, 72, 235, 87, 29, 159, 129, 175, 92, 115, 48, 160, 97, 130, 204, 88, 85, 140, 142, 41, 244, 87, 136, 81, 46, 58, 214, 161, 88 },
+                            PasswordSalt = new byte[] { 6, 219, 162, 188, 27, 39, 91, 197, 60, 207, 205, 173, 169, 90, 253, 23, 183, 216, 245, 81, 95, 14, 53, 156, 62, 40, 41, 225, 239, 189, 253, 149, 20, 26, 100, 203, 146, 94, 184, 102, 243, 248, 222, 234, 137, 33, 168, 201, 184, 217, 121, 239, 210, 128, 161, 20, 199, 87, 108, 138, 44, 74, 37, 241, 5, 77, 106, 249, 35, 145, 83, 118, 27, 168, 169, 18, 28, 190, 168, 65, 69, 126, 229, 4, 243, 80, 36, 129, 88, 225, 115, 227, 124, 49, 50, 78, 237, 172, 62, 157, 67, 60, 60, 97, 227, 254, 42, 253, 93, 40, 72, 231, 55, 149, 85, 134, 198, 208, 121, 98, 100, 86, 108, 116, 140, 64, 50, 42 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoa = 3
                         });
@@ -831,6 +853,27 @@ namespace WEB_API_HealTime.Migrations
                     b.Navigation("Medico");
 
                     b.Navigation("Pessoa");
+                });
+
+            modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.CuidadorPaciente", b =>
+                {
+                    b.HasOne("WEB_API_HealTime.Models.Pessoas.Pessoa", "PessoaCuidador")
+                        .WithMany("CuidadorPaciente_Cuidador")
+                        .HasForeignKey("CuidadorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Pessoa_CuidadorPaciente_CuidadorId");
+
+                    b.HasOne("WEB_API_HealTime.Models.Pessoas.Pessoa", "PessoaPaciente")
+                        .WithMany("CuidadorPaciente_Pacientes")
+                        .HasForeignKey("PacienteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Pessoa_CuidadorPaciente_PacienteId");
+
+                    b.Navigation("PessoaCuidador");
+
+                    b.Navigation("PessoaPaciente");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.ObservacaoPaciente", b =>
@@ -946,6 +989,10 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoas.Pessoa", b =>
                 {
                     b.Navigation("ContatoPessoa");
+
+                    b.Navigation("CuidadorPaciente_Cuidador");
+
+                    b.Navigation("CuidadorPaciente_Pacientes");
 
                     b.Navigation("EnderecoPessoa");
 

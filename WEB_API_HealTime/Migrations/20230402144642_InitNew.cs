@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEB_API_HealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class novoComeço : Migration
+    public partial class InitNew : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,7 +109,7 @@ namespace WEB_API_HealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PessoaId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "VARCHAR(100)", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "GETDATE()"),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2(0)", nullable: false, defaultValueSql: "GETDATE()"),
                     AtualizadoEm = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Telefone = table.Column<string>(type: "CHAR(11)", nullable: false),
                     TelefoneSecundario = table.Column<string>(type: "CHAR(11)", nullable: true),
@@ -125,6 +125,32 @@ namespace WEB_API_HealTime.Migrations
                         principalTable: "Pessoas",
                         principalColumn: "PessoaId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CuidadorPacientes",
+                columns: table => new
+                {
+                    PacienteId = table.Column<int>(type: "int", nullable: false),
+                    CuidadorId = table.Column<int>(type: "int", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "DATETIME2(0)", nullable: false),
+                    FinalizadoEm = table.Column<DateTime>(type: "DATETIME2(0)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CuidadorPacientes_PacienteId_CuidadorId", x => new { x.PacienteId, x.CuidadorId });
+                    table.ForeignKey(
+                        name: "FK_Pessoa_CuidadorPaciente_CuidadorId",
+                        column: x => x.CuidadorId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pessoa_CuidadorPaciente_PacienteId",
+                        column: x => x.PacienteId,
+                        principalTable: "Pessoas",
+                        principalColumn: "PessoaId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,7 +184,7 @@ namespace WEB_API_HealTime.Migrations
                     SqObservacao = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PacienteId = table.Column<int>(type: "int", nullable: false),
-                    MtObservacao = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    MtObservacao = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     Observacao = table.Column<string>(type: "VARCHAR(255)", nullable: false)
                 },
                 constraints: table =>
@@ -180,9 +206,9 @@ namespace WEB_API_HealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MedicoId = table.Column<int>(type: "int", nullable: false),
                     PacienteId = table.Column<int>(type: "int", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    Emissao = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    Validade = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
+                    Emissao = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
+                    Validade = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     DescFichaPessoa = table.Column<string>(type: "VARCHAR(350)", nullable: true),
                     FlagStatus = table.Column<string>(type: "CHAR(1)", nullable: false, defaultValue: "S")
                 },
@@ -209,7 +235,7 @@ namespace WEB_API_HealTime.Migrations
                 {
                     PacienteId = table.Column<int>(type: "int", nullable: false),
                     ResponsavelId = table.Column<int>(type: "int", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "GETDATE()"),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2(0)", nullable: false, defaultValueSql: "GETDATE()"),
                     GrauParentescoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -245,8 +271,8 @@ namespace WEB_API_HealTime.Migrations
                     EspecialidadeId = table.Column<int>(type: "int", nullable: false),
                     PacienteId = table.Column<int>(type: "int", nullable: false),
                     MedicoId = table.Column<int>(type: "int", nullable: false),
-                    DataSolicitacaoConsulta = table.Column<DateTime>(type: "DATETIME", nullable: false),
-                    DataConsulta = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    DataSolicitacaoConsulta = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
+                    DataConsulta = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     MotivoConsulta = table.Column<string>(type: "VARCHAR(300)", nullable: true),
                     Encaminhamento = table.Column<string>(type: "CHAR(1)", nullable: false)
                 },
@@ -301,16 +327,16 @@ namespace WEB_API_HealTime.Migrations
                 name: "AndamentoMedicacoes",
                 columns: table => new
                 {
-                    MtAndamentoMedicacao = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    MtAndamentoMedicacao = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     PrescricaoPacienteId = table.Column<int>(type: "int", nullable: false),
                     MedicacaoId = table.Column<int>(type: "int", nullable: false),
                     QtdeMedicao = table.Column<int>(type: "int", nullable: false),
-                    CriadoEm = table.Column<DateTime>(type: "DATETIME", nullable: false),
+                    CriadoEm = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
                     AcaoMedicacao = table.Column<string>(type: "CHAR(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Concat_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId", x => new { x.MtAndamentoMedicacao, x.PrescricaoPacienteId, x.MedicacaoId });
+                    table.PrimaryKey("PK_AndamentoMedicacao_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId", x => new { x.MtAndamentoMedicacao, x.PrescricaoPacienteId, x.MedicacaoId });
                     table.ForeignKey(
                         name: "FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes",
                         column: x => x.MedicacaoId,
@@ -327,7 +353,7 @@ namespace WEB_API_HealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ConsultaAgendadaId = table.Column<int>(type: "int", nullable: false),
                     MotivoCancelamento = table.Column<string>(type: "VARCHAR(300)", nullable: false),
-                    DataCancelamento = table.Column<DateTime>(type: "DATETIME", nullable: false)
+                    DataCancelamento = table.Column<DateTime>(type: "datetime2(0)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -401,7 +427,7 @@ namespace WEB_API_HealTime.Migrations
             migrationBuilder.InsertData(
                 table: "Pessoas",
                 columns: new[] { "PessoaId", "CpfPessoa", "DtNascPessoa", "NomePessoa", "PasswordHash", "PasswordSalt", "SobreNomePessoa", "TipoPessoa" },
-                values: new object[] { 1, "12345678909", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dan", new byte[] { 154, 242, 204, 68, 79, 181, 239, 49, 20, 91, 49, 44, 91, 47, 246, 85, 59, 138, 173, 239, 181, 95, 192, 94, 160, 92, 198, 26, 146, 243, 225, 238, 220, 137, 40, 105, 254, 39, 153, 178, 75, 190, 28, 35, 109, 29, 103, 185, 209, 93, 188, 129, 9, 176, 2, 59, 29, 246, 152, 22, 55, 229, 50, 201 }, new byte[] { 73, 171, 145, 16, 1, 84, 139, 190, 126, 178, 109, 106, 133, 80, 221, 138, 179, 220, 90, 9, 20, 246, 197, 49, 128, 242, 79, 108, 37, 75, 178, 132, 231, 58, 224, 45, 219, 187, 6, 246, 126, 64, 56, 204, 26, 211, 184, 138, 199, 243, 240, 199, 162, 206, 222, 74, 199, 171, 48, 233, 79, 78, 34, 208, 117, 115, 159, 72, 206, 211, 17, 121, 150, 76, 111, 87, 201, 248, 255, 217, 60, 189, 128, 51, 107, 37, 105, 88, 11, 29, 250, 147, 20, 165, 21, 51, 92, 99, 88, 175, 54, 241, 1, 216, 200, 94, 175, 93, 140, 95, 33, 194, 3, 107, 67, 149, 209, 129, 229, 177, 242, 158, 1, 241, 30, 97, 149, 158 }, "Marzo", 3 });
+                values: new object[] { 1, "12345678909", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Dan", new byte[] { 255, 202, 227, 108, 69, 125, 79, 91, 32, 213, 46, 202, 197, 10, 220, 249, 246, 21, 94, 154, 51, 88, 98, 114, 109, 40, 51, 232, 135, 246, 73, 64, 197, 230, 172, 218, 72, 235, 87, 29, 159, 129, 175, 92, 115, 48, 160, 97, 130, 204, 88, 85, 140, 142, 41, 244, 87, 136, 81, 46, 58, 214, 161, 88 }, new byte[] { 6, 219, 162, 188, 27, 39, 91, 197, 60, 207, 205, 173, 169, 90, 253, 23, 183, 216, 245, 81, 95, 14, 53, 156, 62, 40, 41, 225, 239, 189, 253, 149, 20, 26, 100, 203, 146, 94, 184, 102, 243, 248, 222, 234, 137, 33, 168, 201, 184, 217, 121, 239, 210, 128, 161, 20, 199, 87, 108, 138, 44, 74, 37, 241, 5, 77, 106, 249, 35, 145, 83, 118, 27, 168, 169, 18, 28, 190, 168, 65, 69, 126, 229, 4, 243, 80, 36, 129, 88, 225, 115, 227, 124, 49, 50, 78, 237, 172, 62, 157, 67, 60, 60, 97, 227, 254, 42, 253, 93, 40, 72, 231, 55, 149, 85, 134, 198, 208, 121, 98, 100, 86, 108, 116, 140, 64, 50, 42 }, "Marzo", 3 });
 
             migrationBuilder.InsertData(
                 table: "StatusConsultas",
@@ -466,6 +492,11 @@ namespace WEB_API_HealTime.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CuidadorPacientes_CuidadorId",
+                table: "CuidadorPacientes",
+                column: "CuidadorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Medicacoes_TipoMedicacaoId",
                 table: "Medicacoes",
                 column: "TipoMedicacaoId");
@@ -519,6 +550,9 @@ namespace WEB_API_HealTime.Migrations
 
             migrationBuilder.DropTable(
                 name: "ContatoPessoas");
+
+            migrationBuilder.DropTable(
+                name: "CuidadorPacientes");
 
             migrationBuilder.DropTable(
                 name: "EnderecoPessoas");
