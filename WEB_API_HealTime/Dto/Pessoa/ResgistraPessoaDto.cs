@@ -7,8 +7,9 @@ using System.Text.Json.Serialization;
 
 namespace WEB_API_HealTime.Dto.Pessoa;
 
-public class ResgistraPessoDTO
+public class ResgistraPessoaDto
 {
+    [Required]
     public EnumTipoPessoa TipoPessoa { get; set; }
     [Required]
     public string CpfPessoa { get; set; }
@@ -16,7 +17,11 @@ public class ResgistraPessoDTO
     public string NomePessoa { get; set; }
     [Required]
     public string SobreNomePessoa { get; set; }
-    [Required]
     public string PasswordString { get; set; }
+    [Required]
     public DateTime DtNascPessoa { get; set; }
+    //Relativo a ContatoPessoa Inicial
+    public string ContatoCelular { get; set; }
+    public string ContatoEmail { get; set; }
+    public DateTime ContatoCriadoEm { get; set; }
 }
