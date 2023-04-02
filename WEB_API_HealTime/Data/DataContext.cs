@@ -362,12 +362,18 @@ public class DataContext : DbContext
             .Property(p => p.Celular)
             .HasColumnType("CHAR(11)")
             .IsRequired();
+
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.CelularSecundario)
+            .HasColumnType("CHAR(11)");
+
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Telefone)
+            .HasColumnType("CHAR(10)");
+
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.TelefoneSecundario)
-            .HasColumnType("CHAR(11)");
-        modelBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.TipoContato)
-            .HasDefaultValue(EnumTipoContato.nada);
+            .HasColumnType("CHAR(10)");
 
         #endregion
         #region AndamentoMedicacao
