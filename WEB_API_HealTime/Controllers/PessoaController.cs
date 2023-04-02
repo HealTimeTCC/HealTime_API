@@ -10,6 +10,9 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Repository.Interfaces;
+using WEB_API_HealTime.Models.Pessoas.Enums;
+using WEB_API_HealTime.Utility.EnumsGlobal;
+using Microsoft.AspNetCore.Identity;
 
 namespace WEB_API_HealTime.Controllers;
 
