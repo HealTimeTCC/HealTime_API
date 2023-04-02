@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
+using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Repository.Interfaces;
+using WEB_API_HealTime.Utility.EnumsGlobal;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -68,12 +70,23 @@ public class PessoaRepository : IPessoaRepository
             return pessoa.NomePessoa;
         }
         else
-    {
-        await _context.Pessoas.AddAsync(pessoa);
-        await _context.SaveChangesAsync();
+        { 
+            await _context.Pessoas.AddAsync(pessoa);
+            await _context.SaveChangesAsync();
             contatoPessoa.PessoaId = pessoa.PessoaId;
             await _context.ContatoPessoas.AddAsync(contatoPessoa);
             await _context.SaveChangesAsync();
-        return pessoa.NomePessoa; 
+            return pessoa.NomePessoa;
+        }
+    }
+
+    public async Task<bool> UpdatePessoa(Pessoa pessoa, TipoUpdatePessoa tipoUpdatePessoa)
+    {
+        //Por enquanto tem so esse, mas tem que atualizar dps
+        var attach = _context.Pessoas.Attach(pessoa);
+        attach.Property(e => e.PasswordHash).IsModified = true;
+        attach.Property(e => e.PasswordSalt).IsModified = true;
+        await _context.SaveChangesAsync();
+        return true;
     }
 }
