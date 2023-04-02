@@ -10,26 +10,20 @@ public static class FormataDados
         switch (tipoVerificadorCaracteresMinimos)
         {
             case TipoVerificadorCaracteresMinimos.Nome:
-                if (compararString.Length < 3)
-                    return true;
-                return false;
+                return compararString.Length < 3 ? true : false;
             case TipoVerificadorCaracteresMinimos.Endereco:
-                if (compararString.Length < 3)
-                    return true; 
-                return false;
+                return compararString.Length < 3 ? true : false;
             case TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta:
-                if(compararString.Length < 10)
-                    return true;
-                return false;
+                return compararString.Length < 10 ? true : false;
             case TipoVerificadorCaracteresMinimos.UF:
-                if (compararString.Length == 2)
-                    return true;
-                return false;
+                return compararString.Length == 2 ? true : false;
             case TipoVerificadorCaracteresMinimos.CRM:
-                if (compararString.Length == 6)
-                    return true;
-                return false;
-
+                return compararString.Length == 6 ? true : false;
+            case TipoVerificadorCaracteresMinimos.Telefone:
+                return compararString.Length == 10  ? true : false;
+            case TipoVerificadorCaracteresMinimos.Celular:
+                return compararString.Length == 11 || compararString.Length == 9 ? true : false;
+            
             default: return false;//Não ira 
         }
     }
