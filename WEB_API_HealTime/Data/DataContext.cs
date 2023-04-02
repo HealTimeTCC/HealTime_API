@@ -333,7 +333,7 @@ public class DataContext : DbContext
         #region ContatoPessoa
 
         modelBuilder.Entity<ContatoPessoa>()
-            .HasKey(key => key.ContatoPessoaId)
+            .HasKey(key => key.PessoaId)
             .HasName("PK_ContatoPessoaId");
 
         modelBuilder.Entity<ContatoPessoa>()
@@ -341,10 +341,15 @@ public class DataContext : DbContext
             .WithOne(one => one.ContatoPessoa)
                 .HasForeignKey<ContatoPessoa>(fk => fk.PessoaId)
                 .HasConstraintName("FK_Pessoa_ContatoPessoa_PessoaId");
+
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.Email)
             .HasColumnType("VARCHAR(100)")
             .IsRequired();
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasIndex(i => i.Email)
+            .IsUnique(true);
+        
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.CriadoEm)
             .HasColumnType("datetime2(0)")
