@@ -356,7 +356,10 @@ public class DataContext : DbContext
             .HasDefaultValueSql("GETDATE()")
             .IsRequired();
         modelBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.Telefone)
+            .HasIndex(p => p.Celular)
+            .IsUnique(false);
+        modelBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Celular)
             .HasColumnType("CHAR(11)")
             .IsRequired();
         modelBuilder.Entity<ContatoPessoa>()
