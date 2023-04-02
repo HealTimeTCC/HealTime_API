@@ -32,6 +32,7 @@ public class PessoaController : ControllerBase
         _httpContextAccessor = httpContextAccessor;
         _pessoasRepository = pessoaRepository;
     }
+    #region Criando Token
     private string CriarToken(Pessoa pessoa)
     {
         List<Claim> claims = new List<Claim>
@@ -57,6 +58,7 @@ public class PessoaController : ControllerBase
         return tokenHandler.WriteToken(token);
     }
 
+    #endregion
     //new Claim(ClaimTypes.NameIdentifier, pessoa.PessoaId.ToString()),
     //new Claim(ClaimTypes.Name, pessoa.NomePessoa),
     //new Claim(ClaimTypes.Surname, pessoa.SobreNomePessoa),
