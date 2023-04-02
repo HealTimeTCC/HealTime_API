@@ -25,7 +25,7 @@ public class PessoaController : ControllerBase
     private readonly IPessoaRepository _pessoasRepository;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public PessoaController(IPessoaRepository pessoaRepository, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+    public PessoaController(IPessoaRepository pessoaRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
         _configuration = configuration;
@@ -71,20 +71,41 @@ public class PessoaController : ControllerBase
     {
         try
         {
+            Pessoa pessoa = new Pessoa();
+            if (pessoaDto.TipoPessoa == EnumTipoPessoa.PacienteIncapaz)
+            {
+                pessoa.TipoPessoa = pessoaDto.TipoPessoa;
+                pessoa.CpfPessoa = pessoaDto.CpfPessoa;// Falta verificador
+                pessoa.NomePessoa = pessoaDto.NomePessoa;
+                pessoa.SobreNomePessoa = pessoaDto.SobreNomePessoa;
+                pessoa.PasswordHash = null;
+                pessoa.PasswordSalt = null;
+                pessoa.DtNascPessoa = pessoaDto.DtNascPessoa;
+                if (await _pessoasRepository.ConsultarPessoa(pessoaDto.CpfPessoa, TipoConsultaPessoa.cpf) is not null)
+                    return BadRequest("Paciente ja cadastrado no sistema");
+                return Ok($"Paciente {await _pessoasRepository.IncluiPessoa(pessoa)} cadastrado com sucesso!");
+            }
+            else
+            {
+                ContatoPessoa contatoPessoa = new();
+                contatoPessoa.Celular = pessoaDto.ContatoCelular.IsNullOrEmpty() ? throw new ArgumentNullException("O celular é obrigatório") : pessoaDto.ContatoCelular;
+                contatoPessoa.Email = pessoaDto.ContatoEmail.IsNullOrEmpty() ? throw new ArgumentNullException("O e-mail é obrigatório") : pessoaDto.ContatoEmail;
+                contatoPessoa.CriadoEm = DateTime.Now;
+
             Criptografia
                 .CriarPasswordHash(pessoaDto.PasswordString, out byte[] hash, out byte[] salt);
             pessoaDto.PasswordString = string.Empty;
-            Pessoa pessoa = new Pessoa()
-            {
-                TipoPessoa = pessoaDto.TipoPessoa,
-                CpfPessoa = pessoaDto.CpfPessoa, // Falta verificador
-                NomePessoa = pessoaDto.NomePessoa,
-                SobreNomePessoa = pessoaDto.SobreNomePessoa,
-                PasswordHash = hash,
-                PasswordSalt = salt,
-                DtNascPessoa = pessoaDto.DtNascPessoa,
-            };
-            return Ok($"Usuario {await _pessoasRepository.IncluiPessoa(pessoa)} cadastrado com sucesso!");
+
+                pessoa.TipoPessoa = pessoaDto.TipoPessoa;
+                pessoa.CpfPessoa = pessoaDto.CpfPessoa; // Falta verificador
+                pessoa.NomePessoa = pessoaDto.NomePessoa;
+                pessoa.SobreNomePessoa = pessoaDto.SobreNomePessoa;
+                pessoa.PasswordHash = hash;
+                pessoa.PasswordSalt = salt;
+                pessoa.DtNascPessoa = pessoaDto.DtNascPessoa;
+
+                return Ok($"Usuario {await _pessoasRepository.IncluiPessoa(pessoa, contatoPessoa)} cadastrado com sucesso!");
+        }
         }
         catch (Exception ex)
         {
