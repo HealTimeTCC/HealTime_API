@@ -370,7 +370,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.Telefone)
             .HasColumnType("CHAR(10)");
-
+            
         modelBuilder.Entity<ContatoPessoa>()
             .Property(p => p.TelefoneSecundario)
             .HasColumnType("CHAR(10)");
@@ -536,6 +536,16 @@ public class DataContext : DbContext
                     PasswordHash = hash,
                     PasswordSalt = salt,
                     TipoPessoa = EnumTipoPessoa.Responsavel
+                }
+            );
+        modelBuilder.Entity<ContatoPessoa>()
+            .HasData(
+                new ContatoPessoa 
+                { 
+                    PessoaId = 1,
+                    Email = "user@user.com",
+                    CriadoEm = DateTime.Now,
+                    Celular = "11978486810"
                 }
             );
         modelBuilder.Entity<StatusConsulta>()
