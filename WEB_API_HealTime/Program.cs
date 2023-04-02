@@ -43,7 +43,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("aspfree"));
 });
 var app = builder.Build();
 // Configure the HTTP request pipeline.
