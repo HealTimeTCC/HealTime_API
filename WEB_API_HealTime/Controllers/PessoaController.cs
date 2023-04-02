@@ -147,24 +147,29 @@ public class PessoaController : ControllerBase
     #region AlterarSenha
     [AllowAnonymous]
     [HttpPut("AlteraSenha")]
-    public async Task<IActionResult> AlteraSenha(Pessoa pessoa, string novasenha)
+    public async Task<IActionResult> AlteraSenha(ResetPasswordDto resetPasswordDto)
     {
-        if (pessoa.NomePessoa is null || pessoa.PasswordString is null)
-            throw new Exception("Nome ou senha sao obrigatorios para a troca da senha");
-        Pessoa pessoaTrocaSenha = await _context.Pessoas
-            .FirstOrDefaultAsync(x => x.NomePessoa.ToUpper() == pessoa.NomePessoa.ToUpper());
-        if (!Criptografia.VerificarPasswordHash(pessoa.PasswordString, pessoaTrocaSenha.PasswordHash, pessoaTrocaSenha.PasswordSalt))
-        {
-            throw new Exception("Senha invalida, tente recupera-la, so que isso eu não vou fazer :) voce que lute lembrando");
-        }
+        if (resetPasswordDto.Email is null && resetPasswordDto.PessoaId == null)
+            return BadRequest("E-mail ou senha sao obrigatorios para a troca da senha");
+        Pessoa pessoaTrocaSenha = new();
+        if (resetPasswordDto.Email != null && resetPasswordDto.PessoaId is null)
+            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(resetPasswordDto.Email, Utility.EnumsGlobal.TipoConsultaPessoa.email);
+        else if (resetPasswordDto.Email == null && resetPasswordDto.PessoaId != null)
+            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(resetPasswordDto.PessoaId.ToString(), Utility.EnumsGlobal.TipoConsultaPessoa.pacienteId);
+        if (pessoaTrocaSenha is null)
+            return NotFound("Usuario não encontrado");
+        else if (!Criptografia.VerificarPasswordHash(resetPasswordDto.PasswordString, pessoaTrocaSenha.PasswordHash, pessoaTrocaSenha.PasswordSalt))
+            return BadRequest("Senha invalida, tente recupera-la, so que isso eu não vou fazer :) voce que lute lembrando");
         else
         {
-            Criptografia.CriarPasswordHash(novasenha, out byte[] hash, out byte[] salt);
+            Criptografia.CriarPasswordHash(resetPasswordDto.NewPasswordString, out byte[] hash, out byte[] salt);
             pessoaTrocaSenha.PasswordSalt = salt;
             pessoaTrocaSenha.PasswordHash = hash;
             pessoaTrocaSenha.PasswordString = string.Empty;
-            _context.Update(pessoaTrocaSenha);
-            await _context.SaveChangesAsync();
+            bool salvo = await _pessoasRepository.UpdatePessoa(pessoaTrocaSenha, Utility.EnumsGlobal.TipoUpdatePessoa.ReplacePassword);
+            if (salvo is false)
+                return BadRequest("Erro interno ao salvar, contate o suporte");
+            else
             return Ok("Senha alterada");
         }
     }
