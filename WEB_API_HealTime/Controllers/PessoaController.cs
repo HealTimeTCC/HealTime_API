@@ -69,7 +69,7 @@ public class PessoaController : ControllerBase
     #region RegistroPessoa
     [AllowAnonymous]
     [HttpPost("Registro")]
-    public async Task<IActionResult> RegistraPessoaAsync(ResgistraPessoDTO pessoaDto)
+    public async Task<IActionResult> RegistraPessoaAsync([FromBody] ResgistraPessoaDto pessoaDto)
     {
         try
         {
