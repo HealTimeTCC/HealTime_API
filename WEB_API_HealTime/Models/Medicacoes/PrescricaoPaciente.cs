@@ -20,4 +20,7 @@ public class PrescricaoPaciente
     public string FlagStatus { get; set; }
     [JsonIgnore]
     public List<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
+    [JsonIgnore]
+    public List<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
+
 }
