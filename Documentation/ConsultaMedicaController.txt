@@ -28,9 +28,17 @@ Modelo de JSON
 
 /Especialidades - get
 
-/ConsultaPorPaciente 
+/ConsultaPorPaciente - GET
 
-Parametro pelo get id[int], statusConsulta[int]
+-> Traz uma lista - de acordo com o status e paciente
+{
+	"PacienteId": 1,
+	"StatusConsultaId" : 1
+}
+-> Traz uma lista completa, de acordo com o paciente
+{
+	"PacienteId": 1
+}
 
 /CancelarConsultaById - patch
 

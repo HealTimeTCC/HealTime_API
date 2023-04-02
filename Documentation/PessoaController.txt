@@ -1,0 +1,22 @@
+enderecoapi/Pessoa
+
+/Registro - post
+
+Json
+{
+  "tipoPessoa": 1,
+  "cpfPessoa": "string",
+  "nomePessoa": "string",
+  "sobreNomePessoa": "string",
+  "passwordString": "string",
+  "dtNascPessoa": "2023-04-02T19:28:52.513Z",
+  "contatoCelular": "string",
+  "contatoEmail": "string",
+  "contatoCriadoEm": "2023-04-02T19:28:52.513Z"
+}
+
+/Autenticar
+{
+	"Email": "",
+	"PasswordString":"senha"
+}
