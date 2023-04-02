@@ -9,6 +9,7 @@ using System.Text;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Dto.Pessoa;
+using WEB_API_HealTime.Repository.Interfaces;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -18,13 +19,15 @@ namespace WEB_API_HealTime.Controllers;
 public class PessoaController : ControllerBase
 {
     private readonly DataContext _context;
+    private readonly IPessoaRepository _pessoasRepository;
     private readonly IConfiguration _configuration;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public PessoaController(DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+    public PessoaController(IPessoaRepository pessoaRepository, DataContext context, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
     {
         _context = context;
         _configuration = configuration;
         _httpContextAccessor = httpContextAccessor;
+        _pessoasRepository = pessoaRepository;
     }
     private string CriarToken(Pessoa pessoa)
     {
@@ -39,7 +42,7 @@ public class PessoaController : ControllerBase
             .GetBytes(_configuration.GetSection("ConfigurationToken:Key").Value));
         SigningCredentials credentials =
             new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-        
+
         SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
@@ -47,8 +50,8 @@ public class PessoaController : ControllerBase
             SigningCredentials = credentials
         };
         JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-        SecurityToken token = tokenHandler.CreateToken (tokenDescriptor);
-        return tokenHandler.WriteToken (token);
+        SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
     //new Claim(ClaimTypes.NameIdentifier, pessoa.PessoaId.ToString()),
@@ -56,29 +59,38 @@ public class PessoaController : ControllerBase
     //new Claim(ClaimTypes.Surname, pessoa.SobreNomePessoa),
     //new Claim(ClaimTypes.UserData, pessoa.TipoPessoaId.ToString())
 
-    
-    //private 
 
+    //private 
+    #region RegistroPessoa
     [AllowAnonymous]
     [HttpPost("Registro")]
-    public async Task<IActionResult> RegistraPessoaAsync(Pessoa pessoa)
+    public async Task<IActionResult> RegistraPessoaAsync(ResgistraPessoDTO pessoaDto)
     {
         try
         {
             Criptografia
-                .CriarPasswordHash(pessoa.PasswordString, out byte[] hash, out byte[] salt);
-            pessoa.PasswordString = string.Empty;
-            pessoa.PasswordHash = hash;
-            pessoa.PasswordSalt = salt;
-            await _context.Pessoas.AddAsync(pessoa);
-            await _context.SaveChangesAsync();
-            return Ok();
+                .CriarPasswordHash(pessoaDto.PasswordString, out byte[] hash, out byte[] salt);
+            pessoaDto.PasswordString = string.Empty;
+            Pessoa pessoa = new Pessoa()
+            {
+                TipoPessoa = pessoaDto.TipoPessoa,
+                CpfPessoa = pessoaDto.CpfPessoa, // Falta verificador
+                NomePessoa = pessoaDto.NomePessoa,
+                SobreNomePessoa = pessoaDto.SobreNomePessoa,
+                PasswordHash = hash,
+                PasswordSalt = salt,
+                DtNascPessoa = pessoaDto.DtNascPessoa,
+            };
+            return Ok($"Usuario {await _pessoasRepository.IncluiPessoa(pessoa)} cadastrado com sucesso!");
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);  
+            return BadRequest(ex.Message);
         }
     }
+    #endregion
+
+    #region Autenticar
     [AllowAnonymous]
     [HttpPost("Autenticar")]
     public async Task<IActionResult> AutenticarAsync(LoginPasswordDto pessoa)
@@ -104,7 +116,9 @@ public class PessoaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
 
+    #region AlterarSenha
     [AllowAnonymous]
     [HttpPut("AlteraSenha")]
     public async Task<IActionResult> AlteraSenha(Pessoa pessoa, string novasenha)
@@ -128,11 +142,14 @@ public class PessoaController : ControllerBase
             return Ok("Senha alterada");
         }
     }
+    #endregion
+
+    #region lista pessoas Buscar de acordo com o tipo
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         return Ok(await _context.Pessoas.ToListAsync());
-    } 
-    
-
+    }
+    #endregion
 }
