@@ -121,14 +121,14 @@ public class PessoaController : ControllerBase
     {
         try
         {
-            Pessoa pessoaPesquisa = await _context.Pessoas
-                .FirstOrDefaultAsync(user => user.NomePessoa.ToUpper() == pessoa.Email.ToUpper());
+            Pessoa pessoaPesquisa = await _pessoasRepository.AutenticarPessoas(pessoa.Email);
             if (pessoaPesquisa is null)
-                throw new Exception("User nulo");
+                return NotFound("Usuário não encontrado, por cadastre-se no sistema ou chora :)");
             else if (!Criptografia.VerificarPasswordHash(pessoa.PasswordString, pessoaPesquisa.PasswordHash, pessoaPesquisa.PasswordSalt))
                 throw new Exception("Senha errada");
             else
             {
+                pessoaPesquisa.PasswordString = string.Empty;
                 pessoaPesquisa.PasswordSalt = null;
                 pessoaPesquisa.PasswordHash = null;
                 pessoaPesquisa.TokenJwt = CriarToken(pessoaPesquisa);
