@@ -55,7 +55,7 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {//FALTA VERIFICAR O PACIENTE
-            if(await _consultaMedica.VerificaStatusConsulta(consultaAgendada.StatusConsultaId) is null)
+            if (await _consultaMedica.VerificaStatusConsulta(consultaAgendada.StatusConsultaId) is null)
                 return NotFound("O ID do status não existe");
 
             if (await _consultaMedica.VerificaEspecialidade(consultaAgendada.EspecialidadeId) is null)
@@ -64,7 +64,7 @@ public class ConsultaMedicaController : ControllerBase
             if (FormataDados.VerificadorCaracteresMinimos(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
 
-            return Ok( await _consultaMedica.IncluiConsulta(consultaAgendada));
+            return Ok(await _consultaMedica.IncluiConsulta(consultaAgendada));
         }
         catch (Exception ex)
         {
