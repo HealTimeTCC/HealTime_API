@@ -24,13 +24,13 @@ public class ConsultaMedicaController : ControllerBase
         try
         {
             if (medico.UfCrmMedico is null
-                || !FormataDados.VerificadorCaracteresMinimos(medico.UfCrmMedico, TipoVerificadorCaracteresMinimos.UF))
+                || !FormataDados.StringLenght(medico.UfCrmMedico, TipoVerificadorCaracteresMinimos.UF))
                 return BadRequest("UF inválido, verifique-o");
-            if (!FormataDados.VerificadorCaracteresMinimos(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
+            if (!FormataDados.StringLenght(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
                 return BadRequest("O CRM do profissional da saúde deve ter 6 digitos");
 
             Medico medicoExiste =
-                FormataDados.VerificadorCaracteresMinimos(medico.NmMedico, TipoVerificadorCaracteresMinimos.Nome)
+                FormataDados.StringLenght(medico.NmMedico, TipoVerificadorCaracteresMinimos.Nome)
                 ? throw new Exception("Nome demasiadamente pequeno")
                 : await _consultaMedica.VerificaMedico(medico.CrmMedico, medico.UfCrmMedico);
 
@@ -61,7 +61,7 @@ public class ConsultaMedicaController : ControllerBase
             if (await _consultaMedica.VerificaEspecialidade(consultaAgendada.EspecialidadeId) is null)
                 return NotFound("Especialidade não existe, cadastre uma nova especialidade.");
 
-            if (FormataDados.VerificadorCaracteresMinimos(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+            if (FormataDados.StringLenght(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
 
             return Ok(await _consultaMedica.IncluiConsulta(consultaAgendada));
@@ -161,7 +161,7 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            if (!FormataDados.VerificadorCaracteresMinimos(especialidade.DescEspecialidade, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+            if (!FormataDados.StringLenght(especialidade.DescEspecialidade, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return Ok($"Nova especialidade adicionada {await _consultaMedica.IncluiEspecialidade(especialidade)}");
             else
                 return BadRequest("A descrição deve ter no minimo 10 caracteres");
