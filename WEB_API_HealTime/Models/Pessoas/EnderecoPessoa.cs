@@ -8,7 +8,7 @@ public class EnderecoPessoa
     [JsonIgnore]
     public Pessoa Pessoa { get; set; }
     public string Logradouro { get; set; }
-    public string NroLogradouro { get; set; }
+    public int NroLogradouro { get; set; }
     public string Complemento { get; set; }
     public string BairroLogradouro { get; set; }
     public string CidadeEndereco { get; set; }
