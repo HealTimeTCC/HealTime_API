@@ -23,10 +23,12 @@ delete FROM Medicacoes
 
 sp_help ConsultaCanceladas
 sp_help ConsultasAgendadas
-
-
-
-
+--Paciente = 1,
+--PacienteIncapaz = 2,
+--Responsavel = 3,
+--Cuidador = 4
+SELECT * FROM Pessoas
+SELECT * FROM EnderecoPessoas
 
 SELECT * FROM Especialidades
 INSERT INTO Especialidades(DescEspecialidade) values ( 'PEDIATRA')
@@ -36,7 +38,6 @@ SELECT * FROM ConsultasAgendadas
 SELECT * FROM StatusConsultas
 SELECT * FROM PrescricaoPacientes
 SELECT * FROM PrescricoesMedicacoes
-SELECT * FROM Pessoas
 SELECT * FROM TiposMedicacoes
 SELECT * FROM Medicos
 

@@ -8,5 +8,6 @@ public enum TipoVerificadorCaracteresMinimos
     UF = 4,
     CRM = 5,
     Telefone = 6,
-    Celular = 7
+    Celular = 7,
+    CEP = 8
 }

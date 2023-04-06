@@ -80,6 +80,13 @@ public class PessoaRepository : IPessoaRepository
         }
     }
 
+    public async Task<bool> RegistrarNovoEndereco(EnderecoPessoa enderecoPessoa)
+    {
+        await _context.EnderecoPessoas.AddAsync(enderecoPessoa);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<bool> UpdatePessoa(Pessoa pessoa, TipoUpdatePessoa tipoUpdatePessoa)
     {
         //Por enquanto tem so esse, mas tem que atualizar dps

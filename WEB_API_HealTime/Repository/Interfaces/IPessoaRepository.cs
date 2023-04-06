@@ -10,4 +10,5 @@ public interface IPessoaRepository
     Task<Pessoa> AutenticarPessoas(string email);
     Task<Pessoa> ConsultarPessoa(string dadoConsulta, TipoConsultaPessoa tipoConsultaPessoa);
     Task<bool> UpdatePessoa(Pessoa pessoa, TipoUpdatePessoa tipoConsultaPessoa);
+    Task<bool> RegistrarNovoEndereco(EnderecoPessoa enderecoPessoa);
 }

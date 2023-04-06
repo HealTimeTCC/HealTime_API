@@ -1,18 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WEB_API_HealTime.Utility;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
-using Microsoft.AspNetCore.Identity;
+using WEB_API_HealTime.Utility.Enums;
+using System.Numerics;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -61,7 +60,6 @@ public class PessoaController : ControllerBase
     //new Claim(ClaimTypes.Name, pessoa.NomePessoa),
     //new Claim(ClaimTypes.Surname, pessoa.SobreNomePessoa),
     //new Claim(ClaimTypes.UserData, pessoa.TipoPessoaId.ToString())
-
     #region RegistroPessoa
     [AllowAnonymous]
     [HttpPost("Registro")]
@@ -168,5 +166,48 @@ public class PessoaController : ControllerBase
         }
     }
     #endregion
+    #region Incluir Endereco
+    [HttpPost("NovoEndereco")]
+    public async Task<IActionResult> IncluirEndereco(EnderecoPessoaDto enderecoPessoaDto)
+    {
+        try
+        {
+            EnderecoPessoa enderecoPessoa = new();
 
+            enderecoPessoa.PessoaId = enderecoPessoaDto.PessoaId;
+            enderecoPessoa.CEPEndereco = FormataDados
+                .StringLenght(enderecoPessoaDto.CEPEndereco, TipoVerificadorCaracteresMinimos.CEP) ? 
+                enderecoPessoaDto.CEPEndereco : throw new Exception("Erro no cep");
+            
+            
+            enderecoPessoa.UFEndereco = FormataDados
+                .VerificarUF(enderecoPessoaDto.UFEndereco) ? 
+                Enum.GetName(typeof(CodigoIBGEEnum), enderecoPessoaDto.UFEndereco) : throw new Exception("Código do estado inválido");
+            
+            
+            enderecoPessoa.Logradouro = FormataDados.StringLenght(enderecoPessoaDto.Logradouro, TipoVerificadorCaracteresMinimos.Nome) ?
+                enderecoPessoaDto.Logradouro : throw new Exception("Nome muito pequeno");
+
+            enderecoPessoa.NroLogradouro = enderecoPessoaDto.NroLogradouro;
+            
+            enderecoPessoa.BairroLogradouro = enderecoPessoaDto.BairroLogradouro;
+            enderecoPessoa.CidadeEndereco = FormataDados.StringLenght(enderecoPessoaDto.CidadeEndereco, TipoVerificadorCaracteresMinimos.Nome) ?
+                    enderecoPessoaDto.CidadeEndereco : throw new Exception("Verique o endereco, tamanho de caracteres muito pequeno");
+
+            if (enderecoPessoaDto.Complemento == null || enderecoPessoaDto.Complemento == string.Empty)
+                enderecoPessoa.Complemento = "";
+            else
+             enderecoPessoa.Complemento = FormataDados.StringLenght(enderecoPessoaDto.Complemento, TipoVerificadorCaracteresMinimos.Nome) ?
+                enderecoPessoaDto.Complemento : throw new Exception("O preenchimento do campo é opcional, porem ao preencher deve ter um tamanho minimo de caracteres");
+            
+            if (await _pessoasRepository.RegistrarNovoEndereco(enderecoPessoa))
+                return Ok("Endereco registrado com sucesso");
+            return BadRequest("Erro interno");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    #endregion
 }

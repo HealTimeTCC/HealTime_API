@@ -1,17 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿namespace WEB_API_HealTime.Dto.Pessoa;
 
-namespace WEB_API_HealTime.Models.Pessoas;
-
-public class EnderecoPessoa
+public class EnderecoPessoaDto
 {
     public int PessoaId { get; set; }
-    [JsonIgnore]
-    public Pessoa Pessoa { get; set; }
     public string Logradouro { get; set; }
     public int NroLogradouro { get; set; }
     public string Complemento { get; set; }
     public string BairroLogradouro { get; set; }
     public string CidadeEndereco { get; set; }
-    public string UFEndereco { get; set; }
+    public int    UFEndereco { get; set; }
     public string CEPEndereco { get; set; }
 }
