@@ -2,19 +2,19 @@ enderecoapi/Pessoa
 
 /Registro - post
 
-Json
+/Registro - POST
+
 {
   "tipoPessoa": 1,
-  "cpfPessoa": "string",
-  "nomePessoa": "string",
-  "sobreNomePessoa": "string",
-  "passwordString": "string",
-  "dtNascPessoa": "2023-04-02T19:28:52.513Z",
-  "contatoCelular": "string",
-  "contatoEmail": "string",
-  "contatoCriadoEm": "2023-04-02T19:28:52.513Z"
+  "cpfPessoa": "UOU ACHOU MESMO QUE IA TER MEU CPF HEHEH",
+  "nomePessoa": "Dan",
+  "sobreNomePessoa": "Marzo",
+  "passwordString": "1q2w3e4r",
+  "dtNascPessoa": "2004-02-15",
+  "contatoCelular": "11955008212",
+  "contatoEmail": "userus@user.com",
+  "contatoCriadoEm": "2023-04-07"
 }
-
 /Autenticar
 {
 	"Email": "",
