@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
+using WEB_API_HealTime.Dto.ConsultaMedica;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
@@ -19,26 +21,34 @@ public class ConsultaMedicaController : ControllerBase
 
     #region Incluir Medico
     [HttpPost("IncluiMedico")]
-    public async Task<IActionResult> IncluiMedico(Medico medico)
+    public async Task<IActionResult> IncluiMedico(IncluiMedicoDto medico)
     {
         try
         {
-            if (medico.UfCrmMedico is null
-                || !FormataDados.StringLenght(medico.UfCrmMedico, TipoVerificadorCaracteresMinimos.UF))
-                return BadRequest("UF inválido, verifique-o");
+
+
+            string uf = FormataDados.VerificarUF(medico.CodigoIgbeUfCrmMedico, out string ufString) 
+                ? ufString 
+                : throw new ArgumentNullException("Código IBGE invalido");
+
+            //if (FormataDados.VerificarUF(medico.CodigoIgbeUfCrmMedico, out string ufString))
+            //    return BadRequest("UF inválido, verifique-o");
+
+            
             if (!FormataDados.StringLenght(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
                 return BadRequest("O CRM do profissional da saúde deve ter 6 digitos");
 
             Medico medicoExiste =
                 FormataDados.StringLenght(medico.NmMedico, TipoVerificadorCaracteresMinimos.Nome)
-                ? throw new Exception("Nome demasiadamente pequeno")
-                : await _consultaMedica.VerificaMedico(medico.CrmMedico, medico.UfCrmMedico);
+                ? await _consultaMedica.VerificaMedico(medico.CrmMedico, medico.CodigoIgbeUfCrmMedico.ToString())
+                : throw new Exception("Nome demasiadamente pequeno");
 
             if (medicoExiste is not null)
                 return BadRequest("O medico já está registrado");
             else
             {
-                int linhas = await _consultaMedica.IncluiMedico(medico);
+                 
+                int linhas = await _consultaMedica.IncluiMedico(medico, uf);
                 return Ok($"Medicos incluido {linhas}");
             }
         }
