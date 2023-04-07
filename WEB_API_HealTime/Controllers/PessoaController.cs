@@ -71,7 +71,9 @@ public class PessoaController : ControllerBase
             if (pessoaDto.TipoPessoa == EnumTipoPessoa.PacienteIncapaz)
             {
                 pessoa.TipoPessoa = pessoaDto.TipoPessoa;
-                pessoa.CpfPessoa = pessoaDto.CpfPessoa;// Falta verificador
+                pessoa.CpfPessoa = FormataDados.VerificadorCpfPessoa(pessoaDto.CpfPessoa) 
+                    ? pessoaDto.CpfPessoa 
+                    : throw new Exception("CPF com formato incorreto");
                 pessoa.NomePessoa = pessoaDto.NomePessoa;
                 pessoa.SobreNomePessoa = pessoaDto.SobreNomePessoa;
                 pessoa.PasswordHash = null;
@@ -93,8 +95,9 @@ public class PessoaController : ControllerBase
                 pessoaDto.PasswordString = string.Empty;
 
                 pessoa.TipoPessoa = pessoaDto.TipoPessoa;
-                pessoa.CpfPessoa = pessoaDto.CpfPessoa; // Falta verificador
-                pessoa.NomePessoa = pessoaDto.NomePessoa;
+                pessoa.CpfPessoa = FormataDados.VerificadorCpfPessoa(pessoaDto.CpfPessoa)
+                                    ? pessoaDto.CpfPessoa
+                                    : throw new Exception("CPF com formato incorreto"); pessoa.NomePessoa = pessoaDto.NomePessoa;
                 pessoa.SobreNomePessoa = pessoaDto.SobreNomePessoa;
                 pessoa.PasswordHash = hash;
                 pessoa.PasswordSalt = salt;
@@ -167,6 +170,7 @@ public class PessoaController : ControllerBase
     }
     #endregion
     #region Incluir Endereco
+    [AllowAnonymous]
     [HttpPost("NovoEndereco")]
     public async Task<IActionResult> IncluirEndereco(EnderecoPessoaDto enderecoPessoaDto)
     {
@@ -175,16 +179,15 @@ public class PessoaController : ControllerBase
             EnderecoPessoa enderecoPessoa = new();
 
             enderecoPessoa.PessoaId = enderecoPessoaDto.PessoaId;
+
             enderecoPessoa.CEPEndereco = FormataDados
-                .StringLenght(enderecoPessoaDto.CEPEndereco, TipoVerificadorCaracteresMinimos.CEP) ? 
-                enderecoPessoaDto.CEPEndereco : throw new Exception("Erro no cep");
-            
-            
+                .StringLenght(enderecoPessoaDto.CEPEndereco, TipoVerificadorCaracteresMinimos.CEP) ?
+                enderecoPessoaDto.CEPEndereco : throw new Exception("Erro no CEP");
+
             enderecoPessoa.UFEndereco = FormataDados
-                .VerificarUF(enderecoPessoaDto.UFEndereco) ? 
-                Enum.GetName(typeof(CodigoIBGEEnum), enderecoPessoaDto.UFEndereco) : throw new Exception("Código do estado inválido");
-            
-            
+                .VerificarUF(enderecoPessoaDto.UFEndereco, out string ufString) 
+                ? ufString : throw new Exception("Código do estado inválido");
+
             enderecoPessoa.Logradouro = FormataDados.StringLenght(enderecoPessoaDto.Logradouro, TipoVerificadorCaracteresMinimos.Nome) ?
                 enderecoPessoaDto.Logradouro : throw new Exception("Nome muito pequeno");
 
@@ -195,7 +198,7 @@ public class PessoaController : ControllerBase
                     enderecoPessoaDto.CidadeEndereco : throw new Exception("Verique o endereco, tamanho de caracteres muito pequeno");
 
             if (enderecoPessoaDto.Complemento == null || enderecoPessoaDto.Complemento == string.Empty)
-                enderecoPessoa.Complemento = "";
+                enderecoPessoa.Complemento = null;
             else
              enderecoPessoa.Complemento = FormataDados.StringLenght(enderecoPessoaDto.Complemento, TipoVerificadorCaracteresMinimos.Nome) ?
                 enderecoPessoaDto.Complemento : throw new Exception("O preenchimento do campo é opcional, porem ao preencher deve ter um tamanho minimo de caracteres");
