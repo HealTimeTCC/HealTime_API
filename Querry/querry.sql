@@ -19,7 +19,8 @@ sp_help Medicos
 insert into Medicos(CrmMedico,NmMedico, UfCrmMedico) values('123456', 'Dan Marzo', 'UF')
 
 delete FROM Medicacoes
-
+delete from Pessoas
+where PessoaId = 5
 
 sp_help ConsultaCanceladas
 sp_help ConsultasAgendadas
@@ -40,10 +41,14 @@ SELECT * FROM PrescricaoPacientes
 SELECT * FROM PrescricoesMedicacoes
 SELECT * FROM TiposMedicacoes
 SELECT * FROM Medicos
-
+SELECT * FROM ContatoPessoas
+SELECT * FROM EnderecoPessoas
 update Medicacoes set NomeMedicacao = 'Novo teste'
 where MedicacaoId = 3
+UPDATE Pessoas SET TipoPessoa = 1
+WHERE PessoaId = 1
 
+--DELETE FROM Pessoas
 
 --DELETE FROM PrescricaoPacientes
 --DELETE FROM Medicacoes
