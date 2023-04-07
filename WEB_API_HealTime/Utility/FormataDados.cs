@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using WEB_API_HealTime.Dto.Pessoa;
+using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
 
@@ -112,4 +113,91 @@ public static class FormataDados
     }
 
     #endregion
+
+    #region Temporarios
+    public bool VerificarTelefoneCelular(string telefone)
+    {
+        if (telefone.Length == 11)
+        {
+            string dddNove = telefone.Substring(0, 2);
+            bool dddVerdadeiro = VerificaDDD(dddNove);
+            if (!dddVerdadeiro)
+                return false;
+            dddNove = telefone.Substring(2, 1);
+            if (!dddVerdadeiro)
+                return false;
+            return true;
+        }
+        else if (telefone.Length == 9)
+        {
+            string dddNove = telefone.Substring(0, 1);
+            bool nove = VerificaIniCelular(dddNove);
+            if (!nove)
+                return false;
+            return true;
+        }
+        return false;
+    }
+
+    public static bool VerificarTelefoneFixo(string telefone)
+    {
+        if (telefone.Length == 10)
+        {
+            string dddIniTelFixo = telefone.Substring(0, 2);
+            bool inicioTelFixo = VerificaDDD(dddIniTelFixo);
+            if (!inicioTelFixo)
+                return false;
+            dddIniTelFixo = telefone.Substring(2, 1);
+            if (!inicioTelFixo)
+                return false;
+            return true;
+        }
+        else if (telefone.Length == 8)
+        {
+            string dddNove = telefone.Substring(0, 1);
+            bool nove = VerificaIniFixo(dddNove);
+            if (!nove)
+                return false;
+            return true;
+        }
+        return false;
+    }
+
+    static private bool VerificaIniFixo(string iniTelFixo)
+    {
+        if (int.Parse(iniTelFixo) >= 2 && int.Parse(iniTelFixo) <= 5)
+            return true;
+        else
+            return false;
+    }
+
+    public static bool VerificaIniCelular(string dddNove)
+    {
+        if (int.Parse(dddNove) != 9)
+            return false;
+        else
+            return true;
+    }
+    public static bool VerificaDDD(string dddVerifica)
+    {
+        int[] ddd = new int[23] { 23, 25, 26, 29, 20, 30, 36, 39, 40, 50, 52, 55, 56, 57, 58, 59, 60, 70, 72, 76, 78, 80, 90 };//atende False se encontrar um desses pois são ddd que nao sao utilizados
+        foreach (var item in ddd)
+        {
+            if (item == int.Parse(dddVerifica)) return false;
+        }
+        return true;
+    }
+    public static bool VerificarDtNascimentoPessoa(DateTime dtNascimentoPessoa, EnumTipoPessoa tipoPessoa)
+    {
+        var idadePessoa = DateTime.Now.Year - dtNascimentoPessoa.Year;
+
+        if (idadePessoa < 18 && tipoPessoa != EnumTipoPessoa.PacienteIncapaz)//Corrigir
+            return false;
+        if (dtNascimentoPessoa.Date >= DateTime.Now.AddYears(-3))
+            return false;
+        return true;
+    }
+
+    #endregion
+
 }
