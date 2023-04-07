@@ -120,6 +120,12 @@ public class DataContext : DbContext
             .Property(cpf => cpf.CpfPessoa)
             .HasColumnType("CHAR(11)")
             .IsRequired();
+
+        modelBuilder.Entity<Pessoa>()
+            .HasIndex(p => p.CpfPessoa)
+            .IsUnique(true)
+            .HasDatabaseName("UNIQUE_ON_CPF");
+
         modelBuilder.Entity<Pessoa>()
             .Property(nm => nm.NomePessoa)
             .HasColumnType("VARCHAR(25)")
@@ -531,7 +537,7 @@ public class DataContext : DbContext
                     PessoaId = 1,
                     NomePessoa = "Dan",
                     SobreNomePessoa = "Marzo",
-                    CpfPessoa = "12345678909",
+                    CpfPessoa = "67146867064",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
@@ -542,11 +548,11 @@ public class DataContext : DbContext
                     PessoaId = 2,
                     NomePessoa = "Dan PACIENTE INCAPAZ",
                     SobreNomePessoa = "Marzo",
-                    CpfPessoa = "12345678909",
+                    CpfPessoa = "15063626050",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
-                    TipoPessoa = EnumTipoPessoa.Responsavel
+                    TipoPessoa = EnumTipoPessoa.PacienteIncapaz
                 }
             );
         modelBuilder.Entity<ContatoPessoa>()
