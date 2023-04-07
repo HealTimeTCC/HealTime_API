@@ -3,6 +3,7 @@ using Microsoft.VisualBasic;
 using System.Resources;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
+using WEB_API_HealTime.Dto.ConsultaMedica;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Repository.Interfaces;
 
@@ -35,9 +36,16 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
         return especialidade.DescEspecialidade;
     }
 
-    public async Task<int> IncluiMedico(Medico medico)
+    public async Task<int> IncluiMedico(IncluiMedicoDto medico, string uf)
     {
-        await _context.Set<Medico>().AddAsync(medico);
+        Medico saveMedico = new()
+        {
+            CrmMedico = medico.CrmMedico,
+            NmMedico = medico.NmMedico,
+            UfCrmMedico = uf,
+        };
+
+        await _context.Set<Medico>().AddAsync(saveMedico);
         int linhas = await _context.SaveChangesAsync();
         return linhas;
     }
