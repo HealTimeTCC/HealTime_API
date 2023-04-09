@@ -5,6 +5,7 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Controllers;
 

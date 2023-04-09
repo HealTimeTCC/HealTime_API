@@ -11,7 +11,7 @@ using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
 using WEB_API_HealTime.Utility.Enums;
-using System.Numerics;
+using WEB_API_HealTime.Dto.Database;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -71,15 +71,16 @@ public class PessoaController : ControllerBase
             if (pessoaDto.TipoPessoa == EnumTipoPessoa.PacienteIncapaz)
             {
                 pessoa.TipoPessoa = pessoaDto.TipoPessoa;
-                pessoa.CpfPessoa = FormataDados.VerificadorCpfPessoa(pessoaDto.CpfPessoa) 
-                    ? pessoaDto.CpfPessoa 
+                pessoa.CpfPessoa = FormataDados.VerificadorCpfPessoa(pessoaDto.CpfPessoa)
+                    ? pessoaDto.CpfPessoa
                     : throw new Exception("CPF com formato incorreto");
                 pessoa.NomePessoa = pessoaDto.NomePessoa;
                 pessoa.SobreNomePessoa = pessoaDto.SobreNomePessoa;
                 pessoa.PasswordHash = null;
                 pessoa.PasswordSalt = null;
                 pessoa.DtNascPessoa = pessoaDto.DtNascPessoa;
-                if (await _pessoasRepository.ConsultarPessoa(pessoaDto.CpfPessoa, TipoConsultaPessoa.cpf) is not null)
+
+                if (await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.cpf, cpfConsulta: pessoaDto.CpfPessoa) is not null)
                     return BadRequest("Paciente ja cadastrado no sistema");
                 return Ok($"Paciente {await _pessoasRepository.IncluiPessoa(pessoa)} cadastrado com sucesso!");
             }
@@ -148,9 +149,9 @@ public class PessoaController : ControllerBase
             return BadRequest("E-mail ou senha sao obrigatorios para a troca da senha");
         Pessoa pessoaTrocaSenha = new();
         if (resetPasswordDto.Email != null && resetPasswordDto.PessoaId is null)
-            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(resetPasswordDto.Email, Utility.EnumsGlobal.TipoConsultaPessoa.email);
+            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(TipoConsultaPessoa.email, emailConsulta: resetPasswordDto.Email);
         else if (resetPasswordDto.Email == null && resetPasswordDto.PessoaId != null)
-            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(resetPasswordDto.PessoaId.ToString(), Utility.EnumsGlobal.TipoConsultaPessoa.pacienteId);
+            pessoaTrocaSenha = await _pessoasRepository.ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: resetPasswordDto.PessoaId.ToString());
         if (pessoaTrocaSenha is null)
             return NotFound("Usuario não encontrado");
         else if (!Criptografia.VerificarPasswordHash(resetPasswordDto.PasswordString, pessoaTrocaSenha.PasswordHash, pessoaTrocaSenha.PasswordSalt))
@@ -161,7 +162,7 @@ public class PessoaController : ControllerBase
             pessoaTrocaSenha.PasswordSalt = salt;
             pessoaTrocaSenha.PasswordHash = hash;
             pessoaTrocaSenha.PasswordString = string.Empty;
-            bool salvo = await _pessoasRepository.UpdatePessoa(pessoaTrocaSenha, Utility.EnumsGlobal.TipoUpdatePessoa.ReplacePassword);
+            bool salvo = await _pessoasRepository.UpdatePessoa(pessoaTrocaSenha, TipoUpdatePessoa.ReplacePassword);
             if (salvo is false)
                 return BadRequest("Erro interno ao salvar, contate o suporte");
             else
@@ -185,14 +186,14 @@ public class PessoaController : ControllerBase
                 enderecoPessoaDto.CEPEndereco : throw new Exception("Erro no CEP");
 
             enderecoPessoa.UFEndereco = FormataDados
-                .VerificarUF(enderecoPessoaDto.UFEndereco, out string ufString) 
+                .VerificarUF(enderecoPessoaDto.UFEndereco, out string ufString)
                 ? ufString : throw new Exception("Código do estado inválido");
 
             enderecoPessoa.Logradouro = FormataDados.StringLenght(enderecoPessoaDto.Logradouro, TipoVerificadorCaracteresMinimos.Nome) ?
                 enderecoPessoaDto.Logradouro : throw new Exception("Nome muito pequeno");
 
             enderecoPessoa.NroLogradouro = enderecoPessoaDto.NroLogradouro;
-            
+
             enderecoPessoa.BairroLogradouro = enderecoPessoaDto.BairroLogradouro;
             enderecoPessoa.CidadeEndereco = FormataDados.StringLenght(enderecoPessoaDto.CidadeEndereco, TipoVerificadorCaracteresMinimos.Nome) ?
                     enderecoPessoaDto.CidadeEndereco : throw new Exception("Verique o endereco, tamanho de caracteres muito pequeno");
@@ -200,9 +201,9 @@ public class PessoaController : ControllerBase
             if (enderecoPessoaDto.Complemento == null || enderecoPessoaDto.Complemento == string.Empty)
                 enderecoPessoa.Complemento = null;
             else
-             enderecoPessoa.Complemento = FormataDados.StringLenght(enderecoPessoaDto.Complemento, TipoVerificadorCaracteresMinimos.Nome) ?
-                enderecoPessoaDto.Complemento : throw new Exception("O preenchimento do campo é opcional, porem ao preencher deve ter um tamanho minimo de caracteres");
-            
+                enderecoPessoa.Complemento = FormataDados.StringLenght(enderecoPessoaDto.Complemento, TipoVerificadorCaracteresMinimos.Nome) ?
+                   enderecoPessoaDto.Complemento : throw new Exception("O preenchimento do campo é opcional, porem ao preencher deve ter um tamanho minimo de caracteres");
+
             if (await _pessoasRepository.RegistrarNovoEndereco(enderecoPessoa))
                 return Ok("Endereco registrado com sucesso");
             return BadRequest("Erro interno");
