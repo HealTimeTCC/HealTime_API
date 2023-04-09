@@ -24,10 +24,10 @@ public class Pessoa : IDisposable
     public EnderecoPessoa EnderecoPessoa { get; set; } 
     public ContatoPessoa ContatoPessoa { get; set; }
     public List<ObservacaoPaciente> ObservacoesPacientes { get; set; }
-    public List<ResponsavelPaciente> ResponsavelPacientes_Responsaveis { get; set; }
-    public List<ResponsavelPaciente> ResponsavelPacientes_Pacientes { get; set; }
     public List<CuidadorPaciente> CuidadorPaciente_Pacientes { get; set; }
     public List<CuidadorPaciente> CuidadorPaciente_Cuidador { get; set; }
+    public List<ResponsavelPaciente> ResponsavelPacientes_Responsavel { get; set; }
+    public List<ResponsavelPaciente> ResponsavelPacientes_Pacientes { get; set; }
 
     public void Dispose()
     {

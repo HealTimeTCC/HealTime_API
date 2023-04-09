@@ -14,6 +14,21 @@ public class PacienteRepository : IPacienteRepository
     {
         _context = context;
     }
+
+    public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente)
+    {
+        try
+        {
+            await _context.CuidadorPacientes.AddAsync(CuidadorPaciente);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
     public async Task<bool> SaveResponsavelPaciente(ResponsavelPaciente responsavelPaciente)
     {
         try
