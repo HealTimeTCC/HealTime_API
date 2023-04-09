@@ -3,6 +3,7 @@
 public enum TipoConsultaPessoa
 {
     email = 1,
-    pacienteId = 2,
-    cpf = 3
+    pessoaId = 2,
+    cpf = 3,
+    cpfEIdPessoa=4
 }

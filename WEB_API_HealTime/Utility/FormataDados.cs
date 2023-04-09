@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using WEB_API_HealTime.Dto.Pessoa;
+﻿
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
@@ -57,7 +54,6 @@ public static class FormataDados
 
     public static bool VerificadorCpfPessoa(string cpfString)
     {
-
         cpfString = cpfString.Replace(".", "").Replace("-", "");
 
         foreach (var item in cpfString)
@@ -77,7 +73,6 @@ public static class FormataDados
         if (!(VerificarSegDigito(second, cpfString.Substring(0, 10))))
             return false;
         return true;
-
     }
     private static bool VerificarPriDigito(int first, string cpfString)
     {
@@ -115,7 +110,7 @@ public static class FormataDados
     #endregion
 
     #region Temporarios
-    public bool VerificarTelefoneCelular(string telefone)
+    public static bool VerificarTelefoneCelular(string telefone)
     {
         if (telefone.Length == 11)
         {

@@ -28,12 +28,15 @@ sp_help ConsultasAgendadas
 --PacienteIncapaz = 2,
 --Responsavel = 3,
 --Cuidador = 4
+
+--delete from Pessoas
 SELECT * FROM Pessoas
 SELECT * FROM EnderecoPessoas
 
 SELECT * FROM Especialidades
 INSERT INTO Especialidades(DescEspecialidade) values ( 'PEDIATRA')
 
+SELECT * FROM GrauParentesco
 SELECT * FROM Medicacoes
 SELECT * FROM ConsultasAgendadas
 SELECT * FROM StatusConsultas

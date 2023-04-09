@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.Pessoa;
+using WEB_API_HealTime.Dto.Database;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility.EnumsGlobal;
@@ -19,7 +19,7 @@ public class PessoaRepository : IPessoaRepository
             .FirstOrDefaultAsync(p => p.ContatoPessoa.Email.ToUpper() == email.ToUpper());
     }
 
-    public async Task<Pessoa> ConsultarPessoa(string dadoConsulta, TipoConsultaPessoa tipoConsultaPessoa)
+    public async Task<Pessoa> ConsultarPessoa(TipoConsultaPessoa tipoConsultaPessoa, string cpfConsulta = "", string emailConsulta = "", string idPessoa = "")
     {
 
         switch (tipoConsultaPessoa)
@@ -28,37 +28,24 @@ public class PessoaRepository : IPessoaRepository
                 return await _context.Pessoas
                 .Include(c => c.ContatoPessoa)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.ContatoPessoa.Email.ToUpper() == dadoConsulta.ToUpper());
-            case TipoConsultaPessoa.pacienteId:
+                .FirstOrDefaultAsync(e => e.ContatoPessoa.Email.ToUpper() == emailConsulta.ToUpper());
+            case TipoConsultaPessoa.pessoaId:
                 return await _context.Pessoas
                 .Include(c => c.ContatoPessoa)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.PessoaId == int.Parse(dadoConsulta));
+                .FirstOrDefaultAsync(e => e.PessoaId == int.Parse(idPessoa));
             case TipoConsultaPessoa.cpf:
                 return await _context.Pessoas
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.CpfPessoa == dadoConsulta);
-
+                .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta);
+            case TipoConsultaPessoa.cpfEIdPessoa:
+                return await _context.Pessoas
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta && e.PessoaId == int.Parse(idPessoa));
             default:
                 return null;//nesse ele não chega
         }
-        //if (id == 0 && email != "")
-        //    return await _context.Pessoas
-        //        .Include(c => c.ContatoPessoa)
-        //        .AsNoTracking()
-        //        .FirstOrDefaultAsync(e => e.ContatoPessoa.Email.ToUpper() == email.ToUpper());
-        //else if (id != 0 && email == "")
-        //    return await _context.Pessoas
-        //        .Include(c => c.ContatoPessoa)
-        //        .AsNoTracking()
-        //        .FirstOrDefaultAsync(e => e.PessoaId == id);
-        //else if (id != 0 && email != "")
-        //    return await _context.Pessoas
-        //        .Include(c => c.ContatoPessoa)
-        //        .AsNoTracking()
-        //        .FirstOrDefaultAsync(e => e.PessoaId == id && e.ContatoPessoa.Email.ToUpper() == email.ToUpper());
-        //else
-        //    return null;
+
     }
 
     public async Task<string> IncluiPessoa(Pessoa pessoa, ContatoPessoa contatoPessoa = null)
