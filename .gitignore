@@ -5,3 +5,5 @@
 *.sonarqube
 WEB_API_HealTime/obj/
 WEB_API_HealTime/bin/
+WEB_API_HealTime_Test/bin/
+WEB_API_HealTime_Test/obj/
