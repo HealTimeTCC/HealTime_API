@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WEB_API_HealTime.Data;
 
@@ -11,9 +12,11 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230409211847_responsvaeis")]
+    partial class responsvaeis
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -618,7 +621,11 @@ namespace WEB_API_HealTime.Migrations
                     b.HasKey("PacienteId", "ResponsavelId")
                         .HasName("PK_PacienteId_ResponsavelId");
 
-                    b.HasIndex("GrauParentescoId");
+                    b.HasIndex("GrauParentescoId")
+                        .IsUnique();
+
+                    b.HasIndex("PacienteId")
+                        .IsUnique();
 
                     b.HasIndex("ResponsavelId");
 
@@ -670,7 +677,7 @@ namespace WEB_API_HealTime.Migrations
                         {
                             PessoaId = 1,
                             Celular = "11978486810",
-                            CriadoEm = new DateTime(2023, 4, 9, 18, 28, 31, 162, DateTimeKind.Local).AddTicks(9391),
+                            CriadoEm = new DateTime(2023, 4, 9, 18, 18, 47, 16, DateTimeKind.Local).AddTicks(182),
                             Email = "user@user.com"
                         });
                 });
@@ -760,8 +767,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "67146867064",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan",
-                            PasswordHash = new byte[] { 175, 12, 80, 192, 245, 161, 117, 152, 81, 21, 21, 186, 202, 240, 113, 63, 110, 252, 34, 245, 7, 66, 139, 11, 142, 193, 199, 14, 3, 83, 100, 228, 55, 211, 219, 180, 173, 245, 243, 161, 199, 29, 254, 212, 55, 7, 138, 146, 88, 221, 19, 161, 88, 184, 94, 98, 19, 47, 155, 73, 167, 166, 132, 137 },
-                            PasswordSalt = new byte[] { 102, 112, 194, 33, 71, 23, 200, 99, 233, 199, 226, 96, 10, 49, 194, 134, 84, 213, 239, 145, 246, 12, 193, 65, 197, 17, 150, 52, 164, 79, 39, 88, 195, 222, 198, 170, 235, 120, 0, 204, 174, 13, 224, 145, 155, 157, 218, 30, 158, 125, 134, 109, 88, 230, 144, 49, 120, 194, 156, 244, 180, 112, 247, 231, 236, 79, 52, 220, 205, 194, 9, 51, 178, 231, 109, 61, 145, 211, 44, 108, 210, 8, 143, 159, 248, 218, 45, 227, 3, 213, 123, 4, 245, 20, 141, 86, 120, 167, 225, 234, 182, 114, 175, 230, 3, 66, 61, 75, 68, 68, 0, 238, 58, 139, 30, 138, 72, 68, 233, 113, 155, 254, 107, 199, 48, 2, 254, 17 },
+                            PasswordHash = new byte[] { 117, 136, 208, 38, 39, 54, 162, 91, 98, 119, 242, 10, 238, 173, 145, 80, 141, 121, 24, 97, 72, 61, 27, 159, 255, 14, 151, 218, 192, 86, 109, 179, 96, 207, 145, 119, 60, 76, 254, 255, 97, 179, 137, 217, 243, 255, 187, 249, 9, 58, 200, 167, 150, 200, 190, 181, 98, 190, 211, 191, 167, 254, 255, 193 },
+                            PasswordSalt = new byte[] { 117, 75, 143, 21, 82, 76, 205, 172, 116, 239, 132, 33, 172, 173, 151, 214, 136, 57, 196, 79, 152, 27, 182, 227, 219, 148, 122, 169, 0, 14, 173, 165, 144, 230, 212, 56, 139, 201, 73, 45, 170, 155, 82, 152, 192, 231, 95, 102, 160, 159, 61, 101, 5, 149, 188, 115, 72, 178, 164, 5, 94, 30, 45, 207, 101, 121, 122, 66, 182, 205, 1, 211, 80, 60, 229, 176, 195, 233, 75, 152, 204, 100, 83, 20, 149, 31, 49, 156, 125, 26, 185, 234, 55, 151, 64, 183, 166, 230, 194, 128, 189, 173, 55, 98, 161, 238, 129, 115, 240, 248, 56, 78, 94, 56, 166, 40, 107, 208, 223, 129, 72, 100, 204, 149, 170, 204, 73, 43 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoa = 3
                         },
@@ -771,8 +778,8 @@ namespace WEB_API_HealTime.Migrations
                             CpfPessoa = "15063626050",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             NomePessoa = "Dan PACIENTE INCAPAZ",
-                            PasswordHash = new byte[] { 175, 12, 80, 192, 245, 161, 117, 152, 81, 21, 21, 186, 202, 240, 113, 63, 110, 252, 34, 245, 7, 66, 139, 11, 142, 193, 199, 14, 3, 83, 100, 228, 55, 211, 219, 180, 173, 245, 243, 161, 199, 29, 254, 212, 55, 7, 138, 146, 88, 221, 19, 161, 88, 184, 94, 98, 19, 47, 155, 73, 167, 166, 132, 137 },
-                            PasswordSalt = new byte[] { 102, 112, 194, 33, 71, 23, 200, 99, 233, 199, 226, 96, 10, 49, 194, 134, 84, 213, 239, 145, 246, 12, 193, 65, 197, 17, 150, 52, 164, 79, 39, 88, 195, 222, 198, 170, 235, 120, 0, 204, 174, 13, 224, 145, 155, 157, 218, 30, 158, 125, 134, 109, 88, 230, 144, 49, 120, 194, 156, 244, 180, 112, 247, 231, 236, 79, 52, 220, 205, 194, 9, 51, 178, 231, 109, 61, 145, 211, 44, 108, 210, 8, 143, 159, 248, 218, 45, 227, 3, 213, 123, 4, 245, 20, 141, 86, 120, 167, 225, 234, 182, 114, 175, 230, 3, 66, 61, 75, 68, 68, 0, 238, 58, 139, 30, 138, 72, 68, 233, 113, 155, 254, 107, 199, 48, 2, 254, 17 },
+                            PasswordHash = new byte[] { 117, 136, 208, 38, 39, 54, 162, 91, 98, 119, 242, 10, 238, 173, 145, 80, 141, 121, 24, 97, 72, 61, 27, 159, 255, 14, 151, 218, 192, 86, 109, 179, 96, 207, 145, 119, 60, 76, 254, 255, 97, 179, 137, 217, 243, 255, 187, 249, 9, 58, 200, 167, 150, 200, 190, 181, 98, 190, 211, 191, 167, 254, 255, 193 },
+                            PasswordSalt = new byte[] { 117, 75, 143, 21, 82, 76, 205, 172, 116, 239, 132, 33, 172, 173, 151, 214, 136, 57, 196, 79, 152, 27, 182, 227, 219, 148, 122, 169, 0, 14, 173, 165, 144, 230, 212, 56, 139, 201, 73, 45, 170, 155, 82, 152, 192, 231, 95, 102, 160, 159, 61, 101, 5, 149, 188, 115, 72, 178, 164, 5, 94, 30, 45, 207, 101, 121, 122, 66, 182, 205, 1, 211, 80, 60, 229, 176, 195, 233, 75, 152, 204, 100, 83, 20, 149, 31, 49, 156, 125, 26, 185, 234, 55, 151, 64, 183, 166, 230, 194, 128, 189, 173, 55, 98, 161, 238, 129, 115, 240, 248, 56, 78, 94, 56, 166, 40, 107, 208, 223, 129, 72, 100, 204, 149, 170, 204, 73, 43 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoa = 2
                         });
@@ -922,15 +929,15 @@ namespace WEB_API_HealTime.Migrations
             modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.ResponsavelPaciente", b =>
                 {
                     b.HasOne("WEB_API_HealTime.Models.Pacientes.GrauParentesco", "GrauParentesco")
-                        .WithMany("ResponsavelPacientes")
-                        .HasForeignKey("GrauParentescoId")
+                        .WithOne("ResponsavelPaciente")
+                        .HasForeignKey("WEB_API_HealTime.Models.Pacientes.ResponsavelPaciente", "GrauParentescoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_GrauParentescoId_GrauParentesco_ResponsavelPaciente");
 
                     b.HasOne("WEB_API_HealTime.Models.Pessoas.Pessoa", "Paciente")
-                        .WithMany("ResponsavelPacientes_Pacientes")
-                        .HasForeignKey("PacienteId")
+                        .WithOne("ResponsavelPacientes_Paciente")
+                        .HasForeignKey("WEB_API_HealTime.Models.Pacientes.ResponsavelPaciente", "PacienteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_PacienteId_Pessoas_ResponsavelPaciente");
@@ -1014,7 +1021,7 @@ namespace WEB_API_HealTime.Migrations
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.GrauParentesco", b =>
                 {
-                    b.Navigation("ResponsavelPacientes");
+                    b.Navigation("ResponsavelPaciente");
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoas.Pessoa", b =>
@@ -1031,7 +1038,7 @@ namespace WEB_API_HealTime.Migrations
 
                     b.Navigation("PrescricaoPacientes");
 
-                    b.Navigation("ResponsavelPacientes_Pacientes");
+                    b.Navigation("ResponsavelPacientes_Paciente");
 
                     b.Navigation("ResponsavelPacientes_Responsavel");
                 });

@@ -4,5 +4,5 @@ public class GrauParentesco
 {
     public int GrauParentescoId { get; set; }
     public string DescGrauParentesco { get; set; }
-    public ResponsavelPaciente ResponsavelPaciente { get; set; }
+    public List<ResponsavelPaciente> ResponsavelPacientes { get; set; }
 }

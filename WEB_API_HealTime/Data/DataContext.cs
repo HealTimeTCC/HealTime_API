@@ -456,15 +456,15 @@ public class DataContext : DbContext
 
         mdBuilder.Entity<ResponsavelPaciente>()
             .HasOne(one => one.Responsavel)
-            .WithMany(many => many.ResponsavelPacientes_Responsaveis)
+            .WithMany(many => many.ResponsavelPacientes_Responsavel)
                 .HasForeignKey(fk => fk.ResponsavelId)
                 .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente")
                 .OnDelete(DeleteBehavior.Restrict);
 
         mdBuilder.Entity<ResponsavelPaciente>()
             .HasOne(one => one.GrauParentesco)
-            .WithOne(one => one.ResponsavelPaciente)
-                .HasForeignKey<ResponsavelPaciente>(fk => fk.GrauParentescoId)
+            .WithMany(one => one.ResponsavelPacientes)
+                .HasForeignKey(fk => fk.GrauParentescoId)
                 .HasConstraintName("FK_GrauParentescoId_GrauParentesco_ResponsavelPaciente");
         mdBuilder.Entity<ResponsavelPaciente>()
             .Property(p => p.CriadoEm)
@@ -488,7 +488,7 @@ public class DataContext : DbContext
         #region CuidadorPaciente
 
         mdBuilder.Entity<CuidadorPaciente>()
-            .HasKey(key => new { key.PacienteId, key.CuidadorId })
+            .HasKey(key => new { key.PacienteId, key.CuidadorId, key.CriadoEm })
             .HasName("PK_CuidadorPacientes_PacienteId_CuidadorId");
         mdBuilder.Entity<CuidadorPaciente>()
             .HasOne(one => one.PessoaPaciente)
