@@ -5120,7 +5120,8 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\marzo\\.nuget\\packages\\": {}
+    "C:\\Users\\marzo\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
@@ -5131,8 +5132,12 @@
       "packagesPath": "C:\\Users\\marzo\\.nuget\\packages\\",
       "outputPath": "D:\\etec\\modulo3\\D-TCC\\2 - HealTime_API\\WEB_API_HealTime_Test\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
         "C:\\Users\\marzo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
