@@ -2,7 +2,7 @@
 using WEB_API_HealTime.Dto.ConsultaMedica;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 
-namespace WEB_API_HealTime.Repository.Interfaces;
+namespace WEB_API_HealTime.RepositoryTest.Interfaces;
 
 public interface IConsultaMedicaRepository
 {
