@@ -5123,23 +5123,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\etechas\\.nuget\\packages\\": {},
+    "C:\\Users\\marzo\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime_Test\\WEB_API_HealTime_Test.csproj",
+      "projectUniqueName": "D:\\etec\\modulo3\\D-TCC\\HealTime_API\\WEB_API_HealTime_Test\\WEB_API_HealTime_Test.csproj",
       "projectName": "WEB_API_HealTime_Test",
-      "projectPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime_Test\\WEB_API_HealTime_Test.csproj",
-      "packagesPath": "C:\\Users\\etechas\\.nuget\\packages\\",
-      "outputPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime_Test\\obj\\",
+      "projectPath": "D:\\etec\\modulo3\\D-TCC\\HealTime_API\\WEB_API_HealTime_Test\\WEB_API_HealTime_Test.csproj",
+      "packagesPath": "C:\\Users\\marzo\\.nuget\\packages\\",
+      "outputPath": "D:\\etec\\modulo3\\D-TCC\\HealTime_API\\WEB_API_HealTime_Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\etechas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\marzo\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5155,8 +5155,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {
-              "projectPath": "D:\\3ds_Dan_Marzo\\DTCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj"
+            "D:\\etec\\modulo3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj": {
+              "projectPath": "D:\\etec\\modulo3\\D-TCC\\HealTime_API\\WEB_API_HealTime\\WEB_API_HealTime.csproj"
             }
           }
         }
@@ -5224,7 +5224,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

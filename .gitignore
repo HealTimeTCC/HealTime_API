@@ -5,8 +5,8 @@
 *.sonarqube
 WEB_API_HealTime/obj/
 WEB_API_HealTime/bin/
-WEB_API_HealTime_Test/bin/
-WEB_API_HealTime_Test/obj/
+WEB_API_HealTime_Test/[Bb]in/
+WEB_API_HealTime_Test/[Oo]bj/
 
 # Created by https://www.toptal.com/developers/gitignore/api/csharp
 # Edit at https://www.toptal.com/developers/gitignore?templates=csharp
