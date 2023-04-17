@@ -10,7 +10,7 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class PacienteController : ControllerBase
 {
@@ -23,7 +23,8 @@ public class PacienteController : ControllerBase
     }
 
 
-    [HttpPost("AssociarResponsavel")]
+    //[HttpPost("AssociarResponsavel")]
+    [HttpPost]
     public async Task<IActionResult> AssociarResponsavel(AssociaPacienteResponsavelDto pacienteResponsavelDto)
     {
         try
@@ -116,7 +117,7 @@ public class PacienteController : ControllerBase
                 CriadoEm = DateTime.Now,
                 GrauParentescoId = pacienteResponsavelDto.GrauParentescoId
             };
-             
+
             return await _pacienteRepository.SaveResponsavelPaciente(responsavelPaciente) ? Ok("Responsável adicionado com sucesso") : BadRequest("Duplicidade invalida");
         }
         catch (Exception ex)
@@ -125,7 +126,8 @@ public class PacienteController : ControllerBase
         }
     }
 
-    [HttpPost("AssociarCuidador")]
+    [HttpPost]
+    //[HttpPost("AssociarCuidador")]
     public async Task<IActionResult> AssociarCuidador(AssociaPacienteCuidadorDto pacienteCuidadorDto)
     {
         try
@@ -225,4 +227,66 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> ListPacienteByResponsavel([FromBody] int idResponsavel)
+    {
+        try
+        {
+            var list = await _pacienteRepository.ListOfResponsavel(idResponsavel);
+            if (list is null)
+                return NotFound("Nenhum paciente encontrado");
+            else return Ok(list);
+        }
+        catch (ArgumentNullException e)
+        {
+            return NotFound("Nenhum paciente encontrado");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpPost]
+    public async Task<IActionResult> ListPacienteByCuidador([FromBody] int idCuidador)
+    {
+        try
+        {
+            var list = await _pacienteRepository.ListOfCuidador(idCuidador);
+            if (list is null)
+                return NotFound("Nenhum paciente encontrado");
+            else return Ok(list);
+        }
+        catch (ArgumentNullException e)
+        {
+            return NotFound("Nenhum paciente encontrado");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> IncluiObservacao([FromBody] IncluiObservacaoDto obs)
+    {
+        try
+        {
+            using (Pessoa pessoa = await _pessoasRepository
+                .ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: obs.PacienteId.ToString()))
+            {
+                if (pessoa == null) return NotFound("Nada encontrado");
+                if (pessoa.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) return BadRequest("Observação somente a paciente incapaz");
+            }
+            if (!FormataDados.StringLenght(obs.Observacao, Utility.Enums.TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+                return BadRequest("Quantidade minima de observacao 3 caracteres");
+            return await _pacienteRepository.IncluirObservacoes(obs) ? Ok("Incluido com sucesso") : BadRequest("Falha") ;
+
+        }
+        catch (Exception ex)
+        {
+           return BadRequest(ex.Message);
+        }
+    }
+
 }
