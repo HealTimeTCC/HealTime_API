@@ -10,7 +10,7 @@ PM.PrescricaoPacienteId
 ,M.NomeMedicacao
 FROM PrescricoesMedicacoes PM
 INNER JOIN Medicacoes M ON PM.MedicacaoId = M.MedicacaoId
-
+select * from ObservacoesPacientes
 select * from TiposMedicacoes
 
 sp_help Medicacoes
@@ -30,7 +30,16 @@ sp_help ConsultasAgendadas
 --Cuidador = 4
 
 --delete from Pessoas
+
+SELECT P.CpfPessoa, P.DtNascPessoa, RP.CriadoEm AS RESPONSAVEL, CP.CriadoEm AS CUIDADOR FROM Pessoas P 
+LEFT JOIN ResponsaveisPacientes RP ON RP.PacienteId = P.PessoaId 
+--INNER JOIN ResponsaveisPacientes RP ON RP.ResponsavelId = P.PessoaId 
+LEFT JOIN CuidadorPacientes CP ON CP.CuidadorId = P.PessoaId
+SELECT * FROM ResponsaveisPacientes
+
 SELECT * FROM Pessoas
+
+
 SELECT * FROM EnderecoPessoas
 
 SELECT * FROM Especialidades
