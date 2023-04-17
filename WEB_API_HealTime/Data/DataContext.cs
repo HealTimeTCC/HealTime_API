@@ -537,7 +537,7 @@ public class DataContext : DbContext
                 new Pessoa
                 {
                     PessoaId = 1,
-                    NomePessoa = "Dan",
+                    NomePessoa = "Responsavel",
                     SobreNomePessoa = "Marzo",
                     CpfPessoa = "67146867064",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
@@ -548,13 +548,34 @@ public class DataContext : DbContext
                 new Pessoa
                 {
                     PessoaId = 2,
-                    NomePessoa = "Dan PACIENTE INCAPAZ",
+                    NomePessoa = "PacienteIncapaz",
                     SobreNomePessoa = "Marzo",
                     CpfPessoa = "15063626050",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
                     TipoPessoa = EnumTipoPessoa.PacienteIncapaz
+                }, new Pessoa
+                {
+                    PessoaId = 3,
+                    NomePessoa = "Cuidador",
+                    SobreNomePessoa = "Marzo",
+                    CpfPessoa = "94840911053",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    PasswordHash = hash,
+                    PasswordSalt = salt,
+                    TipoPessoa = EnumTipoPessoa.Cuidador
+                },
+                new Pessoa
+                {
+                    PessoaId = 4,
+                    NomePessoa = "Paciente",
+                    SobreNomePessoa = "Marzo",
+                    CpfPessoa = "50967422027",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    PasswordHash = hash,
+                    PasswordSalt = salt,
+                    TipoPessoa = EnumTipoPessoa.Paciente
                 }
             );
         mdBuilder.Entity<ContatoPessoa>()
