@@ -173,7 +173,7 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END MEDICAMENTOS */
         #endregion
-        #region PRESCRICAO
+        #region PRESCRICAOMEDICACAO
         /* -> BEGIN PRESCRICAOMEDICACAO */
 
         mdBuilder.Entity<PrescricaoMedicacao>()
@@ -187,11 +187,14 @@ public class DataContext : DbContext
                 .HasForeignKey<PrescricaoMedicacao>(fk => fk.MedicacaoId)
                 .HasConstraintName("PK_MedicacaoId_PrescricaoMedicao");
         mdBuilder.Entity<PrescricaoMedicacao>()
-            .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId })
+            .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId, pk.PrescricaoMedicacaoId })
                 .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
-        //mdBuilder.Entity<PrescricaoMedicacao>()
-        //    .HasIndex(pk => pk.PrescricaoPacienteId);
-        //.IsUnique(false);//fazer teste com UNIQUE, fiz isso por gambis
+        mdBuilder.Entity<PrescricaoMedicacao>()
+            .Property(pk => pk.PrescricaoMedicacaoId)
+            .UseIdentityColumn();
+
+        
+
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.StatusMedicacaoFlag)
             .HasColumnType("CHAR(1)")
@@ -513,7 +516,30 @@ public class DataContext : DbContext
 
         #endregion
         #region VALORES_DEFAULT
-        /*VALORES DEFAULT*/
+        mdBuilder.Entity<Medicacao>()
+            .HasData(
+                new Medicacao
+                {
+                    MedicacaoId= 1,
+                    TipoMedicacaoId= 1,
+                    NomeMedicacao = "DIPIRONA 300ml",
+                    CompostoAtivoMedicacao = "pirazolônico não narcótico ",
+                    Generico = "S",
+                    LaboratorioMedicaocao = "Algum por ai",
+                    StatusMedicacao = EnumStatusMedicacao.ATIVO
+                },
+                new Medicacao
+                {
+                    MedicacaoId = 2,
+                    TipoMedicacaoId = 2,
+                    NomeMedicacao = "EXEMPLO",
+                    CompostoAtivoMedicacao = "EXEMPLO ",
+                    Generico = "N",
+                    LaboratorioMedicaocao = "Algum outro por ai",
+                    StatusMedicacao = EnumStatusMedicacao.ATIVO
+                }
+            );
+
         mdBuilder.Entity<Medico>()
                 .HasData(
                 new Medico

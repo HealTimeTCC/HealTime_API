@@ -9,7 +9,7 @@ using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class MedicacoesController : ControllerBase
 {
@@ -83,8 +83,7 @@ public class MedicacoesController : ControllerBase
 
     #region Inclui prescricao
 
-    [HttpPost("IncluiPrescricao")]
-    public async Task<IActionResult> IncluiPrescricaoAsync([FromBody] PrescricaoDTO prescricaoDTO)
+    public async Task<IActionResult> IncluiPrescricao([FromBody] PrescricaoDTO prescricaoDTO)
     {
         try
         {
@@ -147,7 +146,7 @@ public class MedicacoesController : ControllerBase
     /*Cancelamento de prescricao e medicamentos*/
     #region Cancelar Prescricao Completa por id e idPaciente
     //arrumar essa parte para verificar por paciente
-    [HttpPatch("CancelaPrescPacienteCompleta/{id:int}/{idPaciente:int}")]
+    [HttpPatch("{id:int}/{idPaciente:int}")]
     public async Task<IActionResult> CancelaPrescricaoPacienteCompleta(int id)
     {
         try
@@ -183,7 +182,7 @@ public class MedicacoesController : ControllerBase
     #endregion//Arrumar
 
     #region Cancela Medicacao
-    [HttpPatch("CancelaMedicacao/{idPrescricao}/{idMedicacao}")]
+    [HttpPatch("{idPrescricao}/{idMedicacao}")]
     public async Task<IActionResult> CancelaItemMedicacaoPrescricao(int idPrescricao, int idMedicacao)
     {
         try
@@ -224,7 +223,7 @@ public class MedicacoesController : ControllerBase
 
     #region Consulta Prescricao
     /*Consulta de prescricao e medicamentos*/
-    [HttpGet("ConsultaPrescricao/{id:int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> ConsultaPrescricaoById(int id)
     {
         try
@@ -247,7 +246,7 @@ public class MedicacoesController : ControllerBase
     #endregion
     //Arrumar a consulta prescricao
     #region COnsulta Medicacao By Id
-    [HttpGet("ConsultaMedicacaoById/{id:int}")]
+    [HttpGet("{id:int}")]
     public async Task<IActionResult> ConsultaMedicacaoById(int id)
     {
         try
