@@ -193,7 +193,10 @@ public class DataContext : DbContext
             .Property(pk => pk.PrescricaoMedicacaoId)
             .UseIdentityColumn();
 
-        
+        mdBuilder.Entity<PrescricaoMedicacao>()
+            .Property(flag => flag.Intervalo)
+            .HasColumnType("TIME")
+               .IsRequired();
 
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.StatusMedicacaoFlag)

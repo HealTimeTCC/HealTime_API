@@ -1,5 +1,6 @@
 sp_help ConsultaCanceladas
 sp_help ConsultasAgendadas
+sp_help PrescricoesMedicacoes
 sp_help Medicacoes
 sp_help Medicos
 
@@ -7,6 +8,11 @@ sp_help Medicos
 --PacienteIncapaz = 2,
 --Responsavel = 3,
 --Cuidador = 4
+
+SELECT * FROM PrescricoesMedicacoes
+
+DELETE FROM  PrescricoesMedicacoes
+
 
 SELECT 
 PM.PrescricaoPacienteId 

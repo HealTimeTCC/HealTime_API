@@ -12,7 +12,7 @@ public class PrescricaoMedicacao
     [JsonIgnore]
     public Medicacao Medicacao { get; set; }
     public decimal Qtde { get; set; }//perguntar como fica os liquidos
-    public decimal Intervalo { get; set; }
+    public TimeSpan Intervalo { get; set; }
     public decimal Duracao { get; set; }//Por interpretamos como duracao de dias
     public string StatusMedicacaoFlag { get; set; }
 }

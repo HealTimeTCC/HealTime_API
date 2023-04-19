@@ -9,8 +9,8 @@ using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("[controller]/[action]")]
 [ApiController]
+[Route("[controller]/[action]")]
 public class MedicacoesController : ControllerBase
 {
     private readonly DataContext _context;
@@ -118,7 +118,7 @@ public class MedicacoesController : ControllerBase
 
             for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
             {
-                if (prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo < 1 || prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo > 24)
+                if ((prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo >= TimeSpan.Parse("1") && prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo <= TimeSpan.Parse("24")))
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
                 prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
                 prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.MedicacoesId[indice];
