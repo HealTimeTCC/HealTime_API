@@ -1,28 +1,3 @@
-GO
-SELECT
-	  PP.PrescricaoPacienteId
-	, PM.PrescricaoMedicacaoId
-	, PM.MedicacaoId
-	, PM.Duracao 
-	, PM.Intervalo
-	, PM.Qtde
-FROM PrescricoesMedicacoes PM
-INNER JOIN PrescricaoPacientes PP ON PP.PrescricaoPacienteId = PM.PrescricaoPacienteId
-GO
-------------------------
-SELECT
-	 PM.Duracao 
-	, PM.Intervalo
-	, PM.Qtde
-FROM PrescricoesMedicacoes PM
-INNER JOIN PrescricaoPacientes PP ON PP.PrescricaoPacienteId = PM.PrescricaoPacienteId
-WHERE 
-	PP.PrescricaoPacienteId = 1
-	AND PM.PrescricaoMedicacaoId = 2 
-	AND PM.MedicacaoId = 2
-
-GO
-/***** PROCEDURE: CALCULO DE HORARIOS DE MEDICACOES *****/
 CREATE OR ALTER PROC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID INT
 AS
 BEGIN
@@ -32,6 +7,7 @@ BEGIN
 		 , @QTDE FLOAT 
 		 , @MOMENTOMEDICACAO DATETIME
 		 , @DATAATUAL DATETIME
+		 , @DURACAODIAS DATETIME;
 	
 	SELECT 
 		  @DURACAO = PM.Duracao -- é medido em dias
@@ -46,16 +22,14 @@ BEGIN
 		AND PM.MedicacaoId = @MEDICAMENTOID
 	SELECT @MOMENTOMEDICACAO = GETDATE();
 	SELECT @DATAATUAL = GETDATE();
-	WHILE (@DURACAO > 0)
+	SELECT @DURACAODIAS = DATEADD(DAY, @DURACAO, GETDATE());
+	WHILE (@DURACAODIAS > @MOMENTOMEDICACAO )
 	BEGIN
-		SELECT @DURACAO = @DURACAO - 1;
-		SELECT @DURACAO; 
-
 		-- Soma o tempo à data e hora atual
 		SELECT @MOMENTOMEDICACAO = DATEADD(SECOND, DATEDIFF(SECOND, '00:00:00', @INTERVALO), @MOMENTOMEDICACAO);
 		
 		-- Verifica se o resultado é do dia seguinte
-		IF CAST(@MOMENTOMEDICACAO AS DATE) > CAST(@DATAATUAL AS DATE)
+		IF CAST(@MOMENTOMEDICACAO AS DATE) < CAST(@DATAATUAL AS DATE)
 		BEGIN
 		    -- Adiciona um dia à data
 			select 'entrei nova data data atual' + @DATAATUAL 
@@ -80,5 +54,3 @@ BEGIN
 		);
 	END
 END
-
---SP_HELP AndamentoMedicacoes
