@@ -10,5 +10,6 @@ public interface IPacienteRepository
     Task<List<ResponsavelPaciente>> ListOfResponsavel(int codigoResponsavel);
     Task<List<CuidadorPaciente>> ListOfCuidador(int codigoCuidador);
     Task<bool> IncluirObservacoes(IncluiObservacaoDto observacao);
-
+    Task<bool> ExecuteProcedureDefineHorario(int prescricaoPacienteId, int prescricaoMedicamentoId, int medicamentoId);
+    Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId);
 }

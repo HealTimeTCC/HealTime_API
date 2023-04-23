@@ -3,8 +3,8 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.Paciente;
 using WEB_API_HealTime.Models.Pacientes;
 using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Models.Pessoas;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -81,6 +81,42 @@ public class PacienteRepository : IPacienteRepository
         catch (Exception)
         {
             return false;
+        }
+    }
+
+    public async Task<bool> ExecuteProcedureDefineHorario(int prescricaoPacienteId, int prescricaoMedicamentoId, int medicamentoId)
+    {
+        //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
+            new SqlParameter("@PRESCRICAOPACIENTEID", prescricaoPacienteId),
+            new SqlParameter("@PRESCRICAOMEDICAMENTOID", prescricaoMedicamentoId),
+            new SqlParameter("@MEDICAMENTOID", medicamentoId)
+           );
+            return true;    
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId)
+    {
+        try
+        {
+            bool status = await _context.PrescricoesMedicacoes
+                   .Where(x => x.PrescricaoMedicacaoId == prescricaoMedicamentoId)
+                   .Select(x => x.HorariosDefinidos)
+                   .FirstOrDefaultAsync();
+            if (!status)
+                return false;
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
         }
     }
 }
