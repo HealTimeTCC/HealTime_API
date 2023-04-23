@@ -11,7 +11,7 @@ using WEB_API_HealTime.Utility.Enums;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class ConsultaMedicaController : ControllerBase
 {
@@ -20,7 +20,6 @@ public class ConsultaMedicaController : ControllerBase
     public ConsultaMedicaController(DataContext context, IConsultaMedicaRepository consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
 
     #region Incluir Medico
-    [HttpPost("IncluiMedico")]
     public async Task<IActionResult> IncluiMedico(IncluiMedicoDto medico)
     {
         try
@@ -60,8 +59,8 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
 
     #region Agendar Consulta
-    [HttpPost("AgendarConsulta")]
-    public async Task<IActionResult> IncluirConsulta(ConsultaAgendada consultaAgendada)
+    [HttpPost]
+    public async Task<IActionResult> AgendarConsulta(ConsultaAgendada consultaAgendada)
     {
         try
         {//FALTA VERIFICAR O PACIENTE
@@ -84,7 +83,7 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
 
     #region Buscar Especialidades
-    [HttpGet("Especialidades")]
+    [HttpGet]
     public async Task<IActionResult> GetEspecialidades()
     {
         try
@@ -102,7 +101,7 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
 
     #region Consulta Por Paciente
-    [HttpPost("ConsultaPorPaciente")]
+    [HttpPost]
     public async Task<IActionResult> ListaAgendamentosPacientes(ListConsultasDTO listConsultasDTO)
     {
         try
@@ -123,7 +122,7 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
 
     #region Cancelar Consulta por ID
-    [HttpPatch("CancelarConsultaById")]
+    [HttpPatch]
     public async Task<IActionResult> CancelarConsultaById(CancelaConsultaDto cancelaConsultaDto)
     {
         try
@@ -166,7 +165,7 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
 
     #region Inclui Nova especialidade
-    [HttpPost("IncluiNovaEspecialidade")]
+    [HttpPost]
     public async Task<IActionResult> IncluirNovaEspecialidade(Especialidade especialidade)
     {
         try

@@ -5,7 +5,6 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -38,7 +37,6 @@ public class MedicacoesController : ControllerBase
 
     #endregion
 
-
     #region Listar Medicos
     [HttpGet("ListarMedicos")]
     public async Task<IActionResult> GetAllAsync()
@@ -49,7 +47,7 @@ public class MedicacoesController : ControllerBase
     #endregion
 
     #region Inclui medicacao
-    [HttpPost("IncluiMedicacao")]
+    [HttpPost]
     public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
     {
         try
@@ -82,7 +80,7 @@ public class MedicacoesController : ControllerBase
     #endregion
 
     #region Inclui prescricao
-
+    [HttpPost]
     public async Task<IActionResult> IncluiPrescricao([FromBody] PrescricaoDTO prescricaoDTO)
     {
         try

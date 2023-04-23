@@ -7,6 +7,10 @@ using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.Pacientes;
 using System.Reflection.Metadata.Ecma335;
+using WEB_API_HealTime.Models.Medicacoes;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using WEB_API_HealTime.Data;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -21,8 +25,6 @@ public class PacienteController : ControllerBase
         _pessoasRepository = pessoaRepository;
         _pacienteRepository = pacienteRepository;
     }
-
-
     //[HttpPost("AssociarResponsavel")]
     [HttpPost]
     public async Task<IActionResult> AssociarResponsavel(AssociaPacienteResponsavelDto pacienteResponsavelDto)
@@ -125,7 +127,6 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
     [HttpPost]
     //[HttpPost("AssociarCuidador")]
     public async Task<IActionResult> AssociarCuidador(AssociaPacienteCuidadorDto pacienteCuidadorDto)
@@ -227,7 +228,6 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
     [HttpPost]
     public async Task<IActionResult> ListPacienteByResponsavel([FromBody] int idResponsavel)
     {
@@ -266,7 +266,6 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
     [HttpPost]
     public async Task<IActionResult> IncluiObservacao([FromBody] IncluiObservacaoDto obs)
     {
@@ -288,5 +287,20 @@ public class PacienteController : ControllerBase
            return BadRequest(ex.Message);
         }
     }
-
+    [HttpGet("{prescricaoPacienteId}/{prescricaoMedicamentoId}/{medicamentoId}")]
+    public async Task<IActionResult> GerarHorarios(int prescricaoPacienteId, int prescricaoMedicamentoId, int medicamentoId)
+    {
+        try
+        {
+            if (await _pacienteRepository.ExecuteProcedureDefineHorario(prescricaoPacienteId: prescricaoPacienteId, prescricaoMedicamentoId: prescricaoMedicamentoId, medicamentoId: medicamentoId))
+            {
+                return Ok("Horarios definido com sucesso");                
+            }
+            return BadRequest("Erro ao definir horarios");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
