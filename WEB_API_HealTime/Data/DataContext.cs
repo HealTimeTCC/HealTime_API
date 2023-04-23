@@ -192,6 +192,17 @@ public class DataContext : DbContext
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(pk => pk.PrescricaoMedicacaoId)
             .UseIdentityColumn();
+        mdBuilder.Entity<PrescricaoMedicacao>()
+            .HasIndex(pk => pk.MedicacaoId)
+            .IsUnique(false);
+
+        mdBuilder.Entity<PrescricaoMedicacao>()
+            .HasIndex(pk => pk.MedicacaoId)
+            .IsUnique(false);
+
+        mdBuilder.Entity<PrescricaoMedicacao>()
+           .Property(flag => flag.Qtde)
+           .HasColumnType("FLOAT(10, 2)");
 
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.Intervalo)
@@ -202,6 +213,10 @@ public class DataContext : DbContext
             .Property(flag => flag.StatusMedicacaoFlag)
             .HasColumnType("CHAR(1)")
             .HasDefaultValue("S");
+
+        mdBuilder.Entity<PrescricaoMedicacao>()
+            .Property(flag => flag.HorariosDefinidos)
+            .HasDefaultValue(false);
 
         /* -> END PRESCRICAOMEDICACAO */
         #endregion
@@ -404,6 +419,12 @@ public class DataContext : DbContext
             .WithMany(p => p.AndamentoMedicacoes)
             .HasForeignKey(p => p.MedicacaoId)
                 .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasIndex(p => p.PrescricaoPacienteId)
+            .IsUnique(false);
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasIndex(p => p.PrescricaoPacienteId)
+            .IsUnique(false);
 
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.MtAndamentoMedicacao)
@@ -420,9 +441,7 @@ public class DataContext : DbContext
             .IsRequired();
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.AcaoMedicacao)
-            .HasColumnType("CHAR(1)")
-            .IsRequired();
-
+            .HasColumnType("CHAR(1)");
         #endregion
         #region ObservacaoPaciente
 
@@ -523,8 +542,8 @@ public class DataContext : DbContext
             .HasData(
                 new Medicacao
                 {
-                    MedicacaoId= 1,
-                    TipoMedicacaoId= 1,
+                    MedicacaoId = 1,
+                    TipoMedicacaoId = 1,
                     NomeMedicacao = "DIPIRONA 300ml",
                     CompostoAtivoMedicacao = "pirazolônico não narcótico ",
                     Generico = "S",
