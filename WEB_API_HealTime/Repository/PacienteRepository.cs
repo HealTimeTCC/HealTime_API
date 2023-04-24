@@ -22,7 +22,7 @@ public class PacienteRepository : IPacienteRepository
         {
             ObservacaoPaciente obs = new ObservacaoPaciente()
             {
-                MtObservacao = observacao.MtObservacao,
+                MtObservacao = DateTime.Now,
                 Observacao = observacao.Observacao,
                 PacienteId = observacao.PacienteId,
             };

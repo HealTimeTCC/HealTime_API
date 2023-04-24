@@ -1,4 +1,5 @@
 ﻿
+using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
@@ -195,4 +196,8 @@ public static class FormataDados
 
     #endregion
 
+    public static bool VerificaTempo(TimeSpan hora)
+    {
+        return hora >= TimeSpan.Parse("1") && hora <= TimeSpan.Parse("24");
+    }
 }
