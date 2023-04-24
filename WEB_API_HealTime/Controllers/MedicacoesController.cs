@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
-using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Repository.Interfaces;
+using WEB_API_HealTime.Utility;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -13,7 +14,8 @@ namespace WEB_API_HealTime.Controllers;
 public class MedicacoesController : ControllerBase
 {
     private readonly DataContext _context;
-    public MedicacoesController(DataContext context) { _context = context; }
+    private readonly IMedicacaoRepository _medicacaoRepository;
+    public MedicacoesController(DataContext context, IMedicacaoRepository medicacaoRepository) { _context = context; _medicacaoRepository = medicacaoRepository; }
 
     #region Existe Medicacao (Pendente)
 
@@ -38,10 +40,10 @@ public class MedicacoesController : ControllerBase
     #endregion
 
     #region Listar Medicos
-    [HttpGet("ListarMedicos")]
-    public async Task<IActionResult> GetAllAsync()
+    [HttpGet]
+    public async Task<IActionResult> ListarMedicos()
     {
-        return Ok(await _context.Medicos.ToListAsync());
+        return Ok(await _medicacaoRepository.ListarMedicos());
     }
 
     #endregion
@@ -88,45 +90,30 @@ public class MedicacoesController : ControllerBase
             if (prescricaoDTO is null)
                 throw new Exception("Objeto nulo");
 
-            //Using para guardar dados da PRESCRIÇÃO DO PACIENTE
-
-            Medico medico = await _context.Medicos
-            .FirstOrDefaultAsync(x => x.MedicoId == prescricaoDTO.PrescricaoPaciente.MedicoId);
-
-            if (medico is null)
+            if (!await _medicacaoRepository.MedicoExiste(prescricaoDTO.PrescricaoPaciente.MedicoId))
                 return NotFound($"Medico ID {prescricaoDTO.PrescricaoPaciente.MedicoId} não encontrado");
 
             prescricaoDTO.PrescricaoPaciente.CriadoEm = DateTime.Now;
 
-            using (_context.PrescricaoPacientes.AddRangeAsync(prescricaoDTO.PrescricaoPaciente))
-            {
-                await _context.SaveChangesAsync();
-            }
+            int prescricaoPacienteId = await _medicacaoRepository.IncluiPrescricaoPaciente(prescricaoDTO.PrescricaoPaciente);
 
             if (prescricaoDTO.MedicacoesId.Count < 1)
                 return BadRequest("É necessario no minimo 1 medicamento");
 
             for (int i = 0; i < prescricaoDTO.MedicacoesId.Count; i++)
             {
-                Medicacao busca = await _context.Medicacoes
-                    .FirstOrDefaultAsync(x => x.MedicacaoId == prescricaoDTO.MedicacoesId[i]);
-                if (busca is null)
+                if (!await _medicacaoRepository.MedicacaoExiste(prescricaoDTO.MedicacoesId[i]))
                     return NotFound($"Medicamento de ID {prescricaoDTO.MedicacoesId[i]} não encontrado");
             }
 
             for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
             {
-                if ((prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo >= TimeSpan.Parse("1") && prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo <= TimeSpan.Parse("24")))
+                if (!FormataDados.VerificaTempo(prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo))
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
-                prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoDTO.PrescricaoPaciente.PrescricaoPacienteId;
-                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoDTO.MedicacoesId[indice];
+                prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoPacienteId;
+                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoPacienteId;
             }
-
-            await _context.PrescricoesMedicacoes
-                .AddRangeAsync(prescricaoDTO.PrescricoesMedicacoes);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await _medicacaoRepository.IncluiPrescricaoMedicacao(prescricaoDTO.PrescricoesMedicacoes) ? Ok("Inclusao feita com sucesso") : BadRequest();
         }
         catch (Exception ex)
         {

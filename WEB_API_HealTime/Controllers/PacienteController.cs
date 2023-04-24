@@ -11,6 +11,7 @@ using WEB_API_HealTime.Models.Medicacoes;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
+using WEB_API_HealTime.Utility.Enums;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -277,8 +278,8 @@ public class PacienteController : ControllerBase
                 if (pessoa == null) return NotFound("Nada encontrado");
                 if (pessoa.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) return BadRequest("Observação somente a paciente incapaz");
             }
-            if (!FormataDados.StringLenght(obs.Observacao, Utility.Enums.TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
-                return BadRequest("Quantidade minima de observacao 3 caracteres");
+            if (!FormataDados.StringLenght(obs.Observacao, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+                return BadRequest("Quantidade minima de observacao 10 caracteres");
             return await _pacienteRepository.IncluirObservacoes(obs) ? Ok("Incluido com sucesso") : BadRequest("Falha") ;
 
         }

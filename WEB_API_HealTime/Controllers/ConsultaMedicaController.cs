@@ -70,7 +70,7 @@ public class ConsultaMedicaController : ControllerBase
             if (await _consultaMedica.VerificaEspecialidade(consultaAgendada.EspecialidadeId) is null)
                 return NotFound("Especialidade não existe, cadastre uma nova especialidade.");
 
-            if (FormataDados.StringLenght(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+            if (!FormataDados.StringLenght(consultaAgendada.MotivoConsulta, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Para melhor interpretação da leitura dessa consulta, insira mais detalhes do motivo");
 
             return Ok(await _consultaMedica.IncluiConsulta(consultaAgendada));

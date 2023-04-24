@@ -11,12 +11,11 @@ using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
 using WEB_API_HealTime.Utility.Enums;
-using WEB_API_HealTime.Dto.Database;
 
 namespace WEB_API_HealTime.Controllers;
 
 [Authorize]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 [ApiController]
 public class PessoaController : ControllerBase
 {
@@ -62,8 +61,8 @@ public class PessoaController : ControllerBase
     //new Claim(ClaimTypes.UserData, pessoa.TipoPessoaId.ToString())
     #region RegistroPessoa
     [AllowAnonymous]
-    [HttpPost("Registro")]
-    public async Task<IActionResult> RegistraPessoaAsync([FromBody] ResgistraPessoaDto pessoaDto)
+    [HttpPost]
+    public async Task<IActionResult> Registro([FromBody] ResgistraPessoaDto pessoaDto)
     {
         try
         {
@@ -115,8 +114,8 @@ public class PessoaController : ControllerBase
     #endregion
     #region Autenticar
     [AllowAnonymous]
-    [HttpPost("Autenticar")]
-    public async Task<IActionResult> AutenticarAsync(LoginPasswordDto pessoa)
+    [HttpPost]
+    public async Task<IActionResult> Autenticar(LoginPasswordDto pessoa)
     {
         try
         {
@@ -141,8 +140,7 @@ public class PessoaController : ControllerBase
     }
     #endregion
     #region AlterarSenha
-    [AllowAnonymous]
-    [HttpPut("AlteraSenha")]
+    [HttpPut]
     public async Task<IActionResult> AlteraSenha(ResetPasswordDto resetPasswordDto)
     {
         if (resetPasswordDto.Email is null && resetPasswordDto.PessoaId == null)
@@ -172,8 +170,8 @@ public class PessoaController : ControllerBase
     #endregion
     #region Incluir Endereco
     [AllowAnonymous]
-    [HttpPost("NovoEndereco")]
-    public async Task<IActionResult> IncluirEndereco(EnderecoPessoaDto enderecoPessoaDto)
+    [HttpPost]
+    public async Task<IActionResult> NovoEndereco(EnderecoPessoaDto enderecoPessoaDto)
     {
         try
         {
