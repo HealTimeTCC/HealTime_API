@@ -17,9 +17,67 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
         _context = context;
     }
 
+    public async Task<EnumAtualizaStatus> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza)
+    {
+        try
+        {
+            ConsultaAgendada atualizaConsulta = await _context.ConsultasAgendadas
+                .FirstOrDefaultAsync(c => c.PacienteId == atualiza.PacienteId && c.ConsultasAgendadasId == atualiza.ConsultaId);
+            if (atualizaConsulta is null)
+                return EnumAtualizaStatus.NotFound;
+            else if (atualizaConsulta.StatusConsultaId == atualiza.StatusConsultaId)
+                return EnumAtualizaStatus.NotUpdate;
+            if (atualiza.StatusConsultaId == 2)
+            {
+
+                atualizaConsulta.StatusConsultaId = 2;
+                var attach = _context.ConsultasAgendadas.Attach(atualizaConsulta);
+                attach.Property(canc => canc.ConsultasAgendadasId).IsModified = false;
+                attach.Property(canc => canc.StatusConsultaId).IsModified = true;
+                attach.Property(canc => canc.PacienteId).IsModified = false;
+                ConsultaCancelada cancelada = new()
+                {
+                    ConsultaAgendadaId = atualiza.ConsultaId,
+                    DataCancelamento = DateTime.Now,
+                    MotivoCancelamento = atualiza.MotivoAlteracao
+                };
+                await _context.ConsultaCanceladas.AddAsync(cancelada);
+                await _context.SaveChangesAsync();
+                return EnumAtualizaStatus.Close;
+            }
+            else
+            {
+                atualizaConsulta.StatusConsultaId = atualiza.StatusConsultaId;
+                var attach = _context.ConsultasAgendadas.Attach(atualizaConsulta);
+                attach.Property(up => up.ConsultasAgendadasId).IsModified = false;
+                attach.Property(up => up.StatusConsultaId).IsModified = true;
+                attach.Property(up => up.PacienteId).IsModified = false;
+                await _context.SaveChangesAsync();
+                return EnumAtualizaStatus.Update;
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
     public async Task<List<Especialidade>> BuscarEspecialidades()
     {
         return await _context.Especialidades.ToListAsync();
+    }
+
+    public async Task<ConsultaAgendada> ConsultaAgendadaByCodConsultaCodPessoa(int idpessoa, int idconsulta)
+    {
+        try
+        {
+            ConsultaAgendada consulta = await _context.ConsultasAgendadas.FirstOrDefaultAsync(x => x.ConsultasAgendadasId == idconsulta && x.PacienteId == idpessoa);
+            return consulta;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 
     public async Task<ConsultaAgendada> IncluiConsulta(ConsultaAgendada consultaAgendada)
@@ -85,4 +143,6 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
     {
         return await _context.StatusConsultas.FirstOrDefaultAsync(st => st.StatusConsultaId == statusId) as StatusConsulta;
     }
+
+
 }

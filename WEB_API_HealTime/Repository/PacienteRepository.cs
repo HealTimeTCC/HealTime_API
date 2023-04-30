@@ -5,6 +5,12 @@ using WEB_API_HealTime.Models.Pacientes;
 using WEB_API_HealTime.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
+using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Models.Pessoas;
+using WEB_API_HealTime.Models.Pessoas.Enums;
+using WEB_API_HealTime.Querry.PacienteQuerry;
+using Microsoft.Extensions.Options;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -16,11 +22,12 @@ public class PacienteRepository : IPacienteRepository
         _context = context;
     }
 
+
     public async Task<bool> IncluirObservacoes(IncluiObservacaoDto observacao)
     {
         try
         {
-            ObservacaoPaciente obs = new ObservacaoPaciente()
+            ObservacaoPaciente obs = new()
             {
                 MtObservacao = DateTime.Now,
                 Observacao = observacao.Observacao,
@@ -84,17 +91,17 @@ public class PacienteRepository : IPacienteRepository
         }
     }
 
-    public async Task<bool> ExecuteProcedureDefineHorario(int prescricaoPacienteId, int prescricaoMedicamentoId, int medicamentoId)
+    public async Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario)
     {
         //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
         try
         {
             await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
-            new SqlParameter("@PRESCRICAOPACIENTEID", prescricaoPacienteId),
-            new SqlParameter("@PRESCRICAOMEDICAMENTOID", prescricaoMedicamentoId),
-            new SqlParameter("@MEDICAMENTOID", medicamentoId)
+            new SqlParameter("@PRESCRICAOPACIENTEID", horario.PrescricaoPacienteId),
+            new SqlParameter("@PRESCRICAOMEDICAMENTOID", horario.PrescricaoMedicamentoId),
+            new SqlParameter("@MEDICAMENTOID", horario.MedicamentoId)
            );
-            return true;    
+            return true;
         }
         catch (Exception)
         {
@@ -118,5 +125,57 @@ public class PacienteRepository : IPacienteRepository
         {
             throw;
         }
+    }
+
+    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao()
+    {
+        try
+        {
+            return await _context.AndamentoMedicacoes.ToListAsync();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
+    {
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        string connectionString = configuration.GetConnectionString("dan");
+        List<Pessoa> listPacientes = new List<Pessoa>();
+        using (SqlConnection connection = new(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+                SqlCommand command = new(QuerryPaciente.SelectPacienteByCodResponsavelCuidador(codResOrCuidador, enumTipoPessoa), connection);
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (reader.Read())
+                {
+                    Pessoa paciente = new()
+                    {
+                        PessoaId = int.Parse(reader["PessoaId"].ToString()),
+                        TipoPessoa = (EnumTipoPessoa)int.Parse(reader["TipoPessoa"].ToString()),
+                        CpfPessoa = reader["CpfPessoa"].ToString(),
+                        NomePessoa = reader["NomePessoa"].ToString(),
+                        SobreNomePessoa = reader["SobreNomePessoa"].ToString(),
+                        DtNascPessoa = DateTime.Parse(reader["DtNascPessoa"].ToString())
+                    };
+                    listPacientes.Add(paciente);
+                }
+                return listPacientes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await connection.DisposeAsync();
+                await connection.CloseAsync();
+            }
+        }
+
     }
 }

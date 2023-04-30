@@ -14,4 +14,6 @@ public interface IConsultaMedicaRepository
     Task<ConsultaAgendada> IncluiConsulta(ConsultaAgendada consultaAgendada);
     Task<List<Especialidade>> BuscarEspecialidades();
     Task<string> IncluiEspecialidade(Especialidade especialidade);
+    Task<ConsultaAgendada> ConsultaAgendadaByCodConsultaCodPessoa(int idpessoa, int idconsulta);
+    Task<EnumAtualizaStatus> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza);
 }
