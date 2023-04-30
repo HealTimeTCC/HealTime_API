@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WEB_API_HealTime.Migrations
 {
     /// <inheritdoc />
-    public partial class ConstituindoHorasNoBd : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -330,7 +330,8 @@ namespace WEB_API_HealTime.Migrations
                     MedicacaoId = table.Column<int>(type: "int", nullable: false),
                     QtdeMedicao = table.Column<int>(type: "int", nullable: false),
                     CriadoEm = table.Column<DateTime>(type: "datetime2(0)", nullable: false),
-                    AcaoMedicacao = table.Column<string>(type: "CHAR(1)", nullable: false)
+                    BaixaAndamentoMedicacao = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
+                    MtBaixaMedicacao = table.Column<DateTime>(type: "datetime2(0)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -372,10 +373,11 @@ namespace WEB_API_HealTime.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PrescricaoPacienteId = table.Column<int>(type: "int", nullable: false),
                     MedicacaoId = table.Column<int>(type: "int", nullable: false),
-                    Qtde = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Qtde = table.Column<double>(type: "FLOAT(10)", nullable: false),
                     Intervalo = table.Column<TimeSpan>(type: "TIME", nullable: false),
-                    Duracao = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    StatusMedicacaoFlag = table.Column<string>(type: "CHAR(1)", nullable: true, defaultValue: "S")
+                    Duracao = table.Column<int>(type: "int", nullable: false),
+                    StatusMedicacaoFlag = table.Column<string>(type: "CHAR(1)", nullable: true, defaultValue: "S"),
+                    HorariosDefinidos = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
@@ -391,7 +393,7 @@ namespace WEB_API_HealTime.Migrations
                         column: x => x.PrescricaoPacienteId,
                         principalTable: "PrescricaoPacientes",
                         principalColumn: "PrescricaoPacienteId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -439,10 +441,10 @@ namespace WEB_API_HealTime.Migrations
                 columns: new[] { "PessoaId", "CpfPessoa", "DtNascPessoa", "NomePessoa", "PasswordHash", "PasswordSalt", "SobreNomePessoa", "TipoPessoa" },
                 values: new object[,]
                 {
-                    { 1, "67146867064", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Responsavel", new byte[] { 119, 61, 223, 74, 44, 88, 233, 131, 140, 180, 242, 167, 202, 181, 73, 172, 50, 22, 89, 250, 245, 48, 5, 28, 247, 200, 183, 190, 243, 82, 122, 131, 72, 178, 81, 201, 214, 155, 72, 109, 5, 115, 106, 177, 237, 24, 123, 112, 247, 157, 99, 185, 155, 222, 137, 61, 207, 80, 1, 255, 248, 36, 241, 92 }, new byte[] { 249, 164, 4, 52, 133, 150, 145, 49, 77, 210, 35, 220, 248, 37, 244, 61, 74, 200, 3, 153, 2, 50, 21, 227, 211, 34, 65, 39, 205, 17, 68, 33, 166, 105, 1, 254, 152, 88, 207, 62, 31, 84, 209, 247, 190, 88, 96, 217, 34, 54, 229, 113, 143, 148, 97, 126, 217, 218, 232, 209, 26, 231, 92, 7, 65, 238, 210, 112, 166, 198, 26, 114, 11, 31, 234, 131, 75, 228, 232, 226, 118, 29, 232, 42, 114, 235, 39, 222, 129, 155, 211, 79, 1, 2, 229, 149, 2, 240, 12, 32, 227, 119, 65, 84, 16, 63, 123, 167, 194, 60, 116, 33, 115, 135, 183, 145, 87, 193, 206, 70, 54, 72, 239, 91, 17, 59, 28, 113 }, "Marzo", 3 },
-                    { 2, "15063626050", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "PacienteIncapaz", new byte[] { 119, 61, 223, 74, 44, 88, 233, 131, 140, 180, 242, 167, 202, 181, 73, 172, 50, 22, 89, 250, 245, 48, 5, 28, 247, 200, 183, 190, 243, 82, 122, 131, 72, 178, 81, 201, 214, 155, 72, 109, 5, 115, 106, 177, 237, 24, 123, 112, 247, 157, 99, 185, 155, 222, 137, 61, 207, 80, 1, 255, 248, 36, 241, 92 }, new byte[] { 249, 164, 4, 52, 133, 150, 145, 49, 77, 210, 35, 220, 248, 37, 244, 61, 74, 200, 3, 153, 2, 50, 21, 227, 211, 34, 65, 39, 205, 17, 68, 33, 166, 105, 1, 254, 152, 88, 207, 62, 31, 84, 209, 247, 190, 88, 96, 217, 34, 54, 229, 113, 143, 148, 97, 126, 217, 218, 232, 209, 26, 231, 92, 7, 65, 238, 210, 112, 166, 198, 26, 114, 11, 31, 234, 131, 75, 228, 232, 226, 118, 29, 232, 42, 114, 235, 39, 222, 129, 155, 211, 79, 1, 2, 229, 149, 2, 240, 12, 32, 227, 119, 65, 84, 16, 63, 123, 167, 194, 60, 116, 33, 115, 135, 183, 145, 87, 193, 206, 70, 54, 72, 239, 91, 17, 59, 28, 113 }, "Marzo", 2 },
-                    { 3, "94840911053", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cuidador", new byte[] { 119, 61, 223, 74, 44, 88, 233, 131, 140, 180, 242, 167, 202, 181, 73, 172, 50, 22, 89, 250, 245, 48, 5, 28, 247, 200, 183, 190, 243, 82, 122, 131, 72, 178, 81, 201, 214, 155, 72, 109, 5, 115, 106, 177, 237, 24, 123, 112, 247, 157, 99, 185, 155, 222, 137, 61, 207, 80, 1, 255, 248, 36, 241, 92 }, new byte[] { 249, 164, 4, 52, 133, 150, 145, 49, 77, 210, 35, 220, 248, 37, 244, 61, 74, 200, 3, 153, 2, 50, 21, 227, 211, 34, 65, 39, 205, 17, 68, 33, 166, 105, 1, 254, 152, 88, 207, 62, 31, 84, 209, 247, 190, 88, 96, 217, 34, 54, 229, 113, 143, 148, 97, 126, 217, 218, 232, 209, 26, 231, 92, 7, 65, 238, 210, 112, 166, 198, 26, 114, 11, 31, 234, 131, 75, 228, 232, 226, 118, 29, 232, 42, 114, 235, 39, 222, 129, 155, 211, 79, 1, 2, 229, 149, 2, 240, 12, 32, 227, 119, 65, 84, 16, 63, 123, 167, 194, 60, 116, 33, 115, 135, 183, 145, 87, 193, 206, 70, 54, 72, 239, 91, 17, 59, 28, 113 }, "Marzo", 4 },
-                    { 4, "50967422027", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Paciente", new byte[] { 119, 61, 223, 74, 44, 88, 233, 131, 140, 180, 242, 167, 202, 181, 73, 172, 50, 22, 89, 250, 245, 48, 5, 28, 247, 200, 183, 190, 243, 82, 122, 131, 72, 178, 81, 201, 214, 155, 72, 109, 5, 115, 106, 177, 237, 24, 123, 112, 247, 157, 99, 185, 155, 222, 137, 61, 207, 80, 1, 255, 248, 36, 241, 92 }, new byte[] { 249, 164, 4, 52, 133, 150, 145, 49, 77, 210, 35, 220, 248, 37, 244, 61, 74, 200, 3, 153, 2, 50, 21, 227, 211, 34, 65, 39, 205, 17, 68, 33, 166, 105, 1, 254, 152, 88, 207, 62, 31, 84, 209, 247, 190, 88, 96, 217, 34, 54, 229, 113, 143, 148, 97, 126, 217, 218, 232, 209, 26, 231, 92, 7, 65, 238, 210, 112, 166, 198, 26, 114, 11, 31, 234, 131, 75, 228, 232, 226, 118, 29, 232, 42, 114, 235, 39, 222, 129, 155, 211, 79, 1, 2, 229, 149, 2, 240, 12, 32, 227, 119, 65, 84, 16, 63, 123, 167, 194, 60, 116, 33, 115, 135, 183, 145, 87, 193, 206, 70, 54, 72, 239, 91, 17, 59, 28, 113 }, "Marzo", 1 }
+                    { 1, "67146867064", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Responsavel", new byte[] { 77, 206, 135, 23, 36, 33, 228, 101, 215, 179, 120, 77, 173, 198, 51, 20, 211, 100, 19, 167, 146, 239, 249, 140, 201, 205, 218, 95, 72, 102, 187, 123, 253, 89, 113, 180, 198, 68, 117, 243, 76, 162, 162, 143, 222, 174, 110, 16, 64, 160, 231, 220, 98, 221, 0, 41, 9, 92, 151, 56, 80, 190, 143, 13 }, new byte[] { 223, 119, 219, 119, 182, 183, 147, 221, 23, 201, 130, 148, 61, 204, 68, 172, 59, 172, 142, 190, 249, 86, 132, 51, 16, 119, 244, 217, 24, 75, 144, 159, 255, 176, 241, 142, 115, 49, 108, 169, 78, 169, 0, 44, 228, 187, 90, 72, 88, 6, 92, 85, 208, 215, 28, 98, 5, 178, 233, 204, 255, 173, 155, 141, 54, 99, 145, 209, 164, 107, 215, 75, 122, 56, 136, 181, 227, 86, 143, 122, 218, 239, 212, 203, 46, 37, 226, 142, 85, 55, 254, 44, 166, 118, 142, 86, 66, 59, 179, 31, 217, 76, 10, 103, 51, 106, 132, 57, 142, 235, 230, 26, 141, 111, 80, 63, 10, 67, 13, 44, 159, 130, 65, 58, 150, 17, 216, 99 }, "Marzo", 3 },
+                    { 2, "15063626050", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "PacienteIncapaz", new byte[] { 77, 206, 135, 23, 36, 33, 228, 101, 215, 179, 120, 77, 173, 198, 51, 20, 211, 100, 19, 167, 146, 239, 249, 140, 201, 205, 218, 95, 72, 102, 187, 123, 253, 89, 113, 180, 198, 68, 117, 243, 76, 162, 162, 143, 222, 174, 110, 16, 64, 160, 231, 220, 98, 221, 0, 41, 9, 92, 151, 56, 80, 190, 143, 13 }, new byte[] { 223, 119, 219, 119, 182, 183, 147, 221, 23, 201, 130, 148, 61, 204, 68, 172, 59, 172, 142, 190, 249, 86, 132, 51, 16, 119, 244, 217, 24, 75, 144, 159, 255, 176, 241, 142, 115, 49, 108, 169, 78, 169, 0, 44, 228, 187, 90, 72, 88, 6, 92, 85, 208, 215, 28, 98, 5, 178, 233, 204, 255, 173, 155, 141, 54, 99, 145, 209, 164, 107, 215, 75, 122, 56, 136, 181, 227, 86, 143, 122, 218, 239, 212, 203, 46, 37, 226, 142, 85, 55, 254, 44, 166, 118, 142, 86, 66, 59, 179, 31, 217, 76, 10, 103, 51, 106, 132, 57, 142, 235, 230, 26, 141, 111, 80, 63, 10, 67, 13, 44, 159, 130, 65, 58, 150, 17, 216, 99 }, "Marzo", 2 },
+                    { 3, "94840911053", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cuidador", new byte[] { 77, 206, 135, 23, 36, 33, 228, 101, 215, 179, 120, 77, 173, 198, 51, 20, 211, 100, 19, 167, 146, 239, 249, 140, 201, 205, 218, 95, 72, 102, 187, 123, 253, 89, 113, 180, 198, 68, 117, 243, 76, 162, 162, 143, 222, 174, 110, 16, 64, 160, 231, 220, 98, 221, 0, 41, 9, 92, 151, 56, 80, 190, 143, 13 }, new byte[] { 223, 119, 219, 119, 182, 183, 147, 221, 23, 201, 130, 148, 61, 204, 68, 172, 59, 172, 142, 190, 249, 86, 132, 51, 16, 119, 244, 217, 24, 75, 144, 159, 255, 176, 241, 142, 115, 49, 108, 169, 78, 169, 0, 44, 228, 187, 90, 72, 88, 6, 92, 85, 208, 215, 28, 98, 5, 178, 233, 204, 255, 173, 155, 141, 54, 99, 145, 209, 164, 107, 215, 75, 122, 56, 136, 181, 227, 86, 143, 122, 218, 239, 212, 203, 46, 37, 226, 142, 85, 55, 254, 44, 166, 118, 142, 86, 66, 59, 179, 31, 217, 76, 10, 103, 51, 106, 132, 57, 142, 235, 230, 26, 141, 111, 80, 63, 10, 67, 13, 44, 159, 130, 65, 58, 150, 17, 216, 99 }, "Marzo", 4 },
+                    { 4, "50967422027", new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Paciente", new byte[] { 77, 206, 135, 23, 36, 33, 228, 101, 215, 179, 120, 77, 173, 198, 51, 20, 211, 100, 19, 167, 146, 239, 249, 140, 201, 205, 218, 95, 72, 102, 187, 123, 253, 89, 113, 180, 198, 68, 117, 243, 76, 162, 162, 143, 222, 174, 110, 16, 64, 160, 231, 220, 98, 221, 0, 41, 9, 92, 151, 56, 80, 190, 143, 13 }, new byte[] { 223, 119, 219, 119, 182, 183, 147, 221, 23, 201, 130, 148, 61, 204, 68, 172, 59, 172, 142, 190, 249, 86, 132, 51, 16, 119, 244, 217, 24, 75, 144, 159, 255, 176, 241, 142, 115, 49, 108, 169, 78, 169, 0, 44, 228, 187, 90, 72, 88, 6, 92, 85, 208, 215, 28, 98, 5, 178, 233, 204, 255, 173, 155, 141, 54, 99, 145, 209, 164, 107, 215, 75, 122, 56, 136, 181, 227, 86, 143, 122, 218, 239, 212, 203, 46, 37, 226, 142, 85, 55, 254, 44, 166, 118, 142, 86, 66, 59, 179, 31, 217, 76, 10, 103, 51, 106, 132, 57, 142, 235, 230, 26, 141, 111, 80, 63, 10, 67, 13, 44, 159, 130, 65, 58, 150, 17, 216, 99 }, "Marzo", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -478,7 +480,7 @@ namespace WEB_API_HealTime.Migrations
             migrationBuilder.InsertData(
                 table: "ContatoPessoas",
                 columns: new[] { "PessoaId", "AtualizadoEm", "Celular", "CelularSecundario", "CriadoEm", "Email", "Telefone", "TelefoneSecundario" },
-                values: new object[] { 1, null, "11978486810", null, new DateTime(2023, 4, 18, 20, 51, 19, 925, DateTimeKind.Local).AddTicks(9643), "user@user.com", null, null });
+                values: new object[] { 1, null, "11978486810", null, new DateTime(2023, 4, 30, 17, 43, 2, 912, DateTimeKind.Local).AddTicks(6913), "user@user.com", null, null });
 
             migrationBuilder.InsertData(
                 table: "Medicacoes",
@@ -493,6 +495,11 @@ namespace WEB_API_HealTime.Migrations
                 name: "IX_AndamentoMedicacoes_MedicacaoId",
                 table: "AndamentoMedicacoes",
                 column: "MedicacaoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AndamentoMedicacoes_PrescricaoPacienteId",
+                table: "AndamentoMedicacoes",
+                column: "PrescricaoPacienteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ConsultaCanceladas_ConsultaAgendadaId",
@@ -560,8 +567,7 @@ namespace WEB_API_HealTime.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_PrescricoesMedicacoes_MedicacaoId",
                 table: "PrescricoesMedicacoes",
-                column: "MedicacaoId",
-                unique: true);
+                column: "MedicacaoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ResponsaveisPacientes_GrauParentescoId",
