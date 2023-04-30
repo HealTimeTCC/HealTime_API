@@ -147,6 +147,8 @@ public class DataContext : DbContext
             .HasKey(pk => pk.MedicacaoId)
             .HasName("PK_MedicacaoId");
 
+
+
         mdBuilder.Entity<Medicacao>()
             .HasOne<TipoMedicacao>(tp => tp.TipoMedicacao)
             .WithMany(tp => tp.Medicacoes)
@@ -180,7 +182,8 @@ public class DataContext : DbContext
             .HasOne<PrescricaoPaciente>(one => one.PrescricaoPaciente)
             .WithMany(many => many.PrescricoesMedicacoes)
                 .HasForeignKey(fk => fk.PrescricaoPacienteId)
-                .HasConstraintName("PK_PrescricaoPacienteId_PrescricaoMedicao");
+                .HasConstraintName("PK_PrescricaoPacienteId_PrescricaoMedicao")
+                .OnDelete(DeleteBehavior.Restrict);
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasOne<Medicacao>(one => one.Medicacao)
             .WithOne(many => many.PrescricaoMedicacao)
@@ -440,8 +443,12 @@ public class DataContext : DbContext
             .HasColumnType("datetime2(0)")
             .IsRequired();
         mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.AcaoMedicacao)
-            .HasColumnType("CHAR(1)");
+            .Property(p => p.BaixaAndamentoMedicacao)
+            .HasDefaultValue(false);
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.MtBaixaMedicacao)
+            .HasColumnType("datetime2(0)");
         #endregion
         #region ObservacaoPaciente
 

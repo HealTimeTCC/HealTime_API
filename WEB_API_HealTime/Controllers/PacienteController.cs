@@ -6,12 +6,8 @@ using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.Pacientes;
-using System.Reflection.Metadata.Ecma335;
-using WEB_API_HealTime.Models.Medicacoes;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Utility.Enums;
+using WEB_API_HealTime.Models.Medicacoes;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -26,7 +22,6 @@ public class PacienteController : ControllerBase
         _pessoasRepository = pessoaRepository;
         _pacienteRepository = pacienteRepository;
     }
-    //[HttpPost("AssociarResponsavel")]
     [HttpPost]
     public async Task<IActionResult> AssociarResponsavel(AssociaPacienteResponsavelDto pacienteResponsavelDto)
     {
@@ -129,7 +124,6 @@ public class PacienteController : ControllerBase
         }
     }
     [HttpPost]
-    //[HttpPost("AssociarCuidador")]
     public async Task<IActionResult> AssociarCuidador(AssociaPacienteCuidadorDto pacienteCuidadorDto)
     {
         try
@@ -239,7 +233,7 @@ public class PacienteController : ControllerBase
                 return NotFound("Nenhum paciente encontrado");
             else return Ok(list);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentNullException)
         {
             return NotFound("Nenhum paciente encontrado");
         }
@@ -258,7 +252,7 @@ public class PacienteController : ControllerBase
                 return NotFound("Nenhum paciente encontrado");
             else return Ok(list);
         }
-        catch (ArgumentNullException e)
+        catch (ArgumentNullException)
         {
             return NotFound("Nenhum paciente encontrado");
         }
@@ -280,24 +274,61 @@ public class PacienteController : ControllerBase
             }
             if (!FormataDados.StringLenght(obs.Observacao, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
                 return BadRequest("Quantidade minima de observacao 10 caracteres");
-            return await _pacienteRepository.IncluirObservacoes(obs) ? Ok("Incluido com sucesso") : BadRequest("Falha") ;
+            return await _pacienteRepository.IncluirObservacoes(obs) ? Ok("Incluido com sucesso") : BadRequest("Falha");
 
         }
         catch (Exception ex)
         {
-           return BadRequest(ex.Message);
+            return BadRequest(ex.Message);
         }
     }
-    [HttpGet("{prescricaoPacienteId}/{prescricaoMedicamentoId}/{medicamentoId}")]
-    public async Task<IActionResult> GerarHorarios(int prescricaoPacienteId, int prescricaoMedicamentoId, int medicamentoId)
+    [HttpPost]
+    public async Task<IActionResult> GerarHorarios(GerarHorarioDto horario)
     {
         try
         {
-            if (await _pacienteRepository.ExecuteProcedureDefineHorario(prescricaoPacienteId: prescricaoPacienteId, prescricaoMedicamentoId: prescricaoMedicamentoId, medicamentoId: medicamentoId))
+            if (await _pacienteRepository.ExecuteProcedureDefineHorario(horario: horario))
             {
-                return Ok("Horarios definido com sucesso");                
+                return Ok("Horarios definido com sucesso");
             }
             return BadRequest("Erro ao definir horarios");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ListarAndamentosMedicacao()
+    {
+        try
+        {
+            List<AndamentoMedicacao> list = await _pacienteRepository.ListarAndamentoMedicacao();
+            return list is null ? NotFound("Nenhum Agendamento encontrado") : Ok(list);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("{codPessoa:int}")]
+    public async Task<IActionResult> PacienteByCodRespOrCuidador(int codPessoa)
+    {
+        try
+        {
+            List<Pessoa> listPacientes = new();
+            Pessoa respOuCuidador = await _pessoasRepository.ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: codPessoa.ToString());
+            if (respOuCuidador is null)
+                return NotFound("Pessoa não encontrado!");
+            if (respOuCuidador.TipoPessoa == EnumTipoPessoa.Responsavel)
+                listPacientes = await _pacienteRepository.ListPacienteByCodResposavelOrCuidador(enumTipoPessoa: EnumTipoPessoa.Responsavel, codResOrCuidador: codPessoa);
+            else if (respOuCuidador.TipoPessoa == EnumTipoPessoa.Cuidador)
+                listPacientes = await _pacienteRepository.ListPacienteByCodResposavelOrCuidador(enumTipoPessoa: EnumTipoPessoa.Cuidador, codResOrCuidador: codPessoa);
+            else
+                return BadRequest("Somente insira codigo de responsavel ou cuidador");
+            return listPacientes.Count == 0 ? NotFound("Nenhum paciente associado") : Ok(listPacientes);
         }
         catch (Exception ex)
         {
