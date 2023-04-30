@@ -13,5 +13,6 @@ public class AndamentoMedicacao
     //public PrescricaoPaciente PrescricaoPacientes_MedicacaoId { get; set; }
     public int QtdeMedicao { get; set; }
     public DateTime CriadoEm { get; set; }
-    public string AcaoMedicacao { get; set; }
+    public bool BaixaAndamentoMedicacao { get; set; }
+    public DateTime? MtBaixaMedicacao { get; set; }
 }
