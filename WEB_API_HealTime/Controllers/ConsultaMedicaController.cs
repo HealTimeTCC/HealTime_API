@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Eventing.Reader;
+using System.Reflection.Metadata.Ecma335;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
@@ -24,16 +25,10 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-
-
-            string uf = FormataDados.VerificarUF(medico.CodigoIgbeUfCrmMedico, out string ufString) 
-                ? ufString 
+            string uf = FormataDados.VerificarUF(medico.CodigoIgbeUfCrmMedico, out string ufString)
+                ? ufString
                 : throw new ArgumentNullException("Código IBGE invalido");
 
-            //if (FormataDados.VerificarUF(medico.CodigoIgbeUfCrmMedico, out string ufString))
-            //    return BadRequest("UF inválido, verifique-o");
-
-            
             if (!FormataDados.StringLenght(medico.CrmMedico, TipoVerificadorCaracteresMinimos.CRM))
                 return BadRequest("O CRM do profissional da saúde deve ter 6 digitos");
 
@@ -46,7 +41,7 @@ public class ConsultaMedicaController : ControllerBase
                 return BadRequest("O medico já está registrado");
             else
             {
-                 
+
                 int linhas = await _consultaMedica.IncluiMedico(medico, uf);
                 return Ok($"Medicos incluido {linhas}");
             }
@@ -106,8 +101,7 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            List<ConsultaAgendada> consultaAgendadas =
-                await _consultaMedica.ListAgendamentosPacientes(listConsultasDTO);
+            List<ConsultaAgendada> consultaAgendadas = await _consultaMedica.ListAgendamentosPacientes(listConsultasDTO);
 
             if (consultaAgendadas.Count < 1)
                 return NotFound("Nenhuma consulta encontrada");
@@ -123,39 +117,25 @@ public class ConsultaMedicaController : ControllerBase
 
     #region Cancelar Consulta por ID
     [HttpPatch]
-    public async Task<IActionResult> CancelarConsultaById(CancelaConsultaDto cancelaConsultaDto)
+    public async Task<IActionResult> AtualizarConsulta(AtualizaStatusConsultaDto atualizaStatusConsultaDto)
     {
         try
         {
-            if (cancelaConsultaDto.MotivoCancelamento.Length < 5 || cancelaConsultaDto.MotivoCancelamento is null)
-                return BadRequest("Insira no minimo 5 caracateres para o cancelamento");
+            if (!FormataDados.StringLenght(atualizaStatusConsultaDto.MotivoAlteracao, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+                return BadRequest("Insira no minimo 10 caracateres para a alteração");
 
-            ConsultaAgendada cancelarConsulta = await _context.ConsultasAgendadas
-                .Include(c => c.StatusConsulta)
-                .FirstOrDefaultAsync(c => c.PacienteId == cancelaConsultaDto.PacienteId && c.ConsultasAgendadasId == cancelaConsultaDto.ConsultaId);
-
-            if (cancelarConsulta is null)
-                return NotFound("Consulta não encontrada, se isso acontecer é um problema no desenvolvimento");
-            else if (cancelarConsulta.StatusConsultaId == 3)
-                return BadRequest("Consulta já cancelada");
-
-            ConsultaCancelada cancelada = new ConsultaCancelada()
+            switch (await _consultaMedica.AtualizaSituacaoConsultaAgendada(atualizaStatusConsultaDto))
             {
-                ConsultaAgendadaId = cancelaConsultaDto.ConsultaId,
-                DataCancelamento = DateTime.Now,
-                MotivoCancelamento = cancelaConsultaDto.MotivoCancelamento
-            };
-            await _context.ConsultaCanceladas.AddAsync(cancelada);
-
-            cancelarConsulta.StatusConsultaId = 3;
-            var attach = _context.ConsultasAgendadas.Attach(cancelarConsulta);
-            attach.Property(canc => canc.ConsultasAgendadasId).IsModified = false;
-            attach.Property(canc => canc.StatusConsultaId).IsModified = true;
-            attach.Property(canc => canc.PacienteId).IsModified = false;
-            await _context.SaveChangesAsync();
-
-            return Ok($"Consulta id {cancelaConsultaDto.ConsultaId} ");
-
+                case EnumAtualizaStatus.Update: 
+                    return Ok("Atualização feita com sucesso");
+                case EnumAtualizaStatus.NotUpdate: 
+                    return BadRequest("Não houve alteração verifique os dados da solicitação");
+                case EnumAtualizaStatus.NotFound: 
+                    return NotFound("Consulta não foi encontrada");
+                case EnumAtualizaStatus.Close: 
+                    return Ok("Consulta encerrada com sucesso");
+                default: return BadRequest("Erro interno, consulte o suporte");
+            }
         }
         catch (Exception ex)
         {
@@ -180,5 +160,23 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    #endregion
+
+    #region ConsultaByIdConsultaAndIdPessoa
+
+    [HttpGet("{idpessoa:int}/{idconsulta:int}")]
+    public async Task<IActionResult> ConsultaByCodPessoaCod(int idpessoa, int idconsulta)
+    {
+        try
+        {
+            ConsultaAgendada consulta = await _consultaMedica.ConsultaAgendadaByCodConsultaCodPessoa(idpessoa, idconsulta);
+            return consulta is null ? NotFound("Nenhuma consulta encontrado") : Ok(consulta);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     #endregion
 }
