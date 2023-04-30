@@ -3,10 +3,11 @@
 namespace WEB_API_HealTime.Dto.AgendaConsulta;
 
 [NotMapped]
-public class CancelaConsultaDto
+public class AtualizaStatusConsultaDto
 {
     public int ConsultaId { get; set; }
     public int PacienteId { get; set; }
-    public string MotivoCancelamento { get; set; }
-    public DateTime DataCancela { get; set; }
+    public string MotivoAlteracao { get; set; }
+    public DateTime DataAlteracao { get; set; }
+    public int StatusConsultaId { get; set; }
 }
