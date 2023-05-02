@@ -224,44 +224,6 @@ public class PacienteController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<IActionResult> ListPacienteByResponsavel([FromBody] int idResponsavel)
-    {
-        try
-        {
-            var list = await _pacienteRepository.ListOfResponsavel(idResponsavel);
-            if (list is null)
-                return NotFound("Nenhum paciente encontrado");
-            else return Ok(list);
-        }
-        catch (ArgumentNullException)
-        {
-            return NotFound("Nenhum paciente encontrado");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-    [HttpPost]
-    public async Task<IActionResult> ListPacienteByCuidador([FromBody] int idCuidador)
-    {
-        try
-        {
-            var list = await _pacienteRepository.ListOfCuidador(idCuidador);
-            if (list is null)
-                return NotFound("Nenhum paciente encontrado");
-            else return Ok(list);
-        }
-        catch (ArgumentNullException)
-        {
-            return NotFound("Nenhum paciente encontrado");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-    [HttpPost]
     public async Task<IActionResult> IncluiObservacao([FromBody] IncluiObservacaoDto obs)
     {
         try
@@ -298,21 +260,19 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-
     [HttpGet]
     public async Task<IActionResult> ListarAndamentosMedicacao()
     {
         try
         {
             List<AndamentoMedicacao> list = await _pacienteRepository.ListarAndamentoMedicacao();
-            return list is null ? NotFound("Nenhum Agendamento encontrado") : Ok(list);
+            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
         }
         catch (Exception e)
         {
             return BadRequest(e.Message);
         }
     }
-
     [HttpGet("{codPessoa:int}")]
     public async Task<IActionResult> PacienteByCodRespOrCuidador(int codPessoa)
     {
@@ -335,4 +295,19 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("{codMedicamento:int}/{codPrescicaoPacienteId:int}")]
+    public async Task<IActionResult> ListHorarioByCodRemedio(int codMedicamento, int codPrescicaoPacienteId)
+    {
+        try
+        {
+            List<AndamentoMedicacao> list = await _pacienteRepository.ListarAndamentoMedicacao(codMedicamento, codPrescicaoPacienteId);
+            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    //[HttpPatch("{idAndamentoMedicacao:int}/id")]
+    //public async Task<IActionResult> BaixaMedicacao();
 }
