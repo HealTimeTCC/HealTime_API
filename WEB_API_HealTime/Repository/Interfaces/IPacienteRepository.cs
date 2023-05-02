@@ -10,12 +10,10 @@ public interface IPacienteRepository
 {
     Task<bool> SaveResponsavelPaciente(ResponsavelPaciente responsavelPaciente);
     Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente);
-    Task<List<ResponsavelPaciente>> ListOfResponsavel(int codigoResponsavel);
-    Task<List<CuidadorPaciente>> ListOfCuidador(int codigoCuidador);
     Task<bool> IncluirObservacoes(IncluiObservacaoDto observacao);
     Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario);
     Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId);
-    Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao();
+    Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente= 0);
     Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador);
-
+    //Task<List<AndamentoMedicacao>> ListHorarioMedicamentosByCod(int codRemedio, int codPrescricaoPaciente);
 }

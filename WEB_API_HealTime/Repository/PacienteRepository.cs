@@ -22,7 +22,7 @@ public class PacienteRepository : IPacienteRepository
         _context = context;
     }
 
-
+    #region Incluir Observações
     public async Task<bool> IncluirObservacoes(IncluiObservacaoDto observacao)
     {
         try
@@ -44,25 +44,8 @@ public class PacienteRepository : IPacienteRepository
             throw ex.InnerException;
         }
     }
-
-    public async Task<List<CuidadorPaciente>> ListOfCuidador(int codigoCuidador)
-    {
-        List<CuidadorPaciente> listSobCuidado = await _context
-            .CuidadorPacientes
-            .Include(c => c.PessoaCuidador)
-            .Where(c => c.CuidadorId == codigoCuidador).ToListAsync();
-        return listSobCuidado;
-    }
-
-    public async Task<List<ResponsavelPaciente>> ListOfResponsavel(int codigoResponsavel)
-    {
-        List<ResponsavelPaciente> listSobCuidado = await _context
-            .ResponsaveisPacientes
-            .Include(c => c.Responsavel)
-            .Where(c => c.ResponsavelId == codigoResponsavel).ToListAsync();
-        return listSobCuidado;
-    }
-
+    #endregion
+    #region Inclusao de cuidador paciente
     public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente)
     {
         try
@@ -76,7 +59,8 @@ public class PacienteRepository : IPacienteRepository
             return false;
         }
     }
-
+    #endregion
+    #region Inclusao de responsavel paciente
     public async Task<bool> SaveResponsavelPaciente(ResponsavelPaciente responsavelPaciente)
     {
         try
@@ -90,7 +74,8 @@ public class PacienteRepository : IPacienteRepository
             return false;
         }
     }
-
+    #endregion
+    #region Executando procedure de gerador de horarios
     public async Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario)
     {
         //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
@@ -108,7 +93,8 @@ public class PacienteRepository : IPacienteRepository
             throw;
         }
     }
-
+    #endregion
+    #region Consulta situação horario -> Verificar pq voce fez isso
     public async Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId)
     {
         try
@@ -126,19 +112,23 @@ public class PacienteRepository : IPacienteRepository
             throw;
         }
     }
-
-    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao()
+    #endregion
+    #region Listar TODOS os andamento medicações
+    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente = 0)
     {
         try
         {
-            return await _context.AndamentoMedicacoes.ToListAsync();
+            return codRemedio == 0 && codPrescricaoPaciente == 0 
+                ? await _context.AndamentoMedicacoes.ToListAsync() 
+                : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
         }
         catch (Exception)
         {
             throw;
         }
     }
-
+    #endregion
+    #region Listar paciente by cod responsavel ou cuidador
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -176,6 +166,6 @@ public class PacienteRepository : IPacienteRepository
                 await connection.CloseAsync();
             }
         }
-
     }
+    #endregion
 }
