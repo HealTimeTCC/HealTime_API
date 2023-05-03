@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Dto.ConsultaMedica;
+﻿namespace WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 
 public enum EnumAtualizaStatus
 {
