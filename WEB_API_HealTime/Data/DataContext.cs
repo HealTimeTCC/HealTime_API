@@ -409,8 +409,8 @@ public class DataContext : DbContext
         #region AndamentoMedicacao
 
         mdBuilder.Entity<AndamentoMedicacao>()
-            .HasKey(key => new { key.MtAndamentoMedicacao, key.PrescricaoPacienteId, key.MedicacaoId })
-            .HasName("PK_AndamentoMedicacao_MtAndamentoMedicacao_PrescricaoPacienteId_MedicacaoId");
+            .HasKey(key => new { key.AndamentoMedicacaoId, key.PrescricaoPacienteId, key.MedicacaoId })
+            .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId_PrescricaoPacienteId_MedicacaoId");
 
         mdBuilder.Entity<AndamentoMedicacao>()
             .HasOne(p => p.PrescricaoPacientes)
