@@ -7,6 +7,8 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Repository;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,26 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });//Server para ignora ciclos ao usar get e include ao mesmo tempo
+
+#region Added RateLimit
+
+builder.Services.AddRateLimiter(_ => _
+    .AddFixedWindowLimiter("fixed", options =>
+    {
+        options.PermitLimit = 5;
+        options.Window = TimeSpan.FromSeconds(10);
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+    })
+    .AddSlidingWindowLimiter("sliding", options =>
+    {
+        options.PermitLimit = 5;
+        options.Window = TimeSpan.FromSeconds(10);
+        options.SegmentsPerWindow = 5;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 2;
+    }));
+#endregion
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 #region Container de Injeção de dependencia 
@@ -44,7 +66,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("etec"));
 });
 
 
