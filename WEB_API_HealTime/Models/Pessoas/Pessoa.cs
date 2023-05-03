@@ -20,6 +20,7 @@ public class Pessoa : IDisposable
     public DateTime DtNascPessoa { get; set; }
     [NotMapped]
     public string TokenJwt { get; set; }
+    public byte[] FotoUsuario { get; set; }
     public List<PrescricaoPaciente> PrescricaoPacientes { get; set; }
     public EnderecoPessoa EnderecoPessoa { get; set; } 
     public ContatoPessoa ContatoPessoa { get; set; }
