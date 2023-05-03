@@ -6,6 +6,9 @@ using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
+using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Repository;
+using WEB_API_HealTime.Models.ConsultasMedicas;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -13,9 +16,8 @@ namespace WEB_API_HealTime.Controllers;
 [Route("[controller]/[action]")]
 public class MedicacoesController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly IMedicacaoRepository _medicacaoRepository;
-    public MedicacoesController(DataContext context, IMedicacaoRepository medicacaoRepository) { _context = context; _medicacaoRepository = medicacaoRepository; }
+    public MedicacoesController( IMedicacaoRepository medicacaoRepository) {  _medicacaoRepository = medicacaoRepository; }
 
     #region Existe Medicacao (Pendente)
 
@@ -44,6 +46,20 @@ public class MedicacoesController : ControllerBase
     public async Task<IActionResult> ListarMedicos()
     {
         return Ok(await _medicacaoRepository.ListarMedicos());
+    }
+
+    #endregion
+    #region Medico By Cod
+
+    [HttpGet("{codMedico:int}")]
+    public async Task<IActionResult> MedicoByCod(int codMedico)
+    {
+        try
+        {
+            Medico medico = await _medicacaoRepository.MedicoByCod(codMedico);
+            return medico is null ? NotFound("Medico não encontrado") : Ok(medico);
+        }
+        catch (Exception ex){ return BadRequest(ex.Message);}
     }
 
     #endregion

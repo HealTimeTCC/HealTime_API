@@ -5,7 +5,9 @@ using System.Reflection.Metadata.Ecma335;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
+using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Utility.Enums;
@@ -95,6 +97,21 @@ public class ConsultaMedicaController : ControllerBase
     }
     #endregion
 
+    #region Especialidade By COd
+
+    [HttpGet("{codEspecialidade:int}")]
+    public async Task<IActionResult> MedicoByCod(int codEspecialidade)
+    {
+        try
+        {
+            Especialidade Especialidade = await _consultaMedica.EspecialidadeByCod(codEspecialidade);
+            return Especialidade is null ? NotFound("Especialidade não encontrada") : Ok(Especialidade);
+        }
+        catch (Exception ex) { return BadRequest(ex.Message); }
+    }
+
+    #endregion
+
     #region Consulta Por Paciente
     [HttpPost]
     public async Task<IActionResult> ListaAgendamentosPacientes(ListConsultasDTO listConsultasDTO)
@@ -162,10 +179,10 @@ public class ConsultaMedicaController : ControllerBase
     }
     #endregion
 
-    #region ConsultaByIdConsultaAndIdPessoa
+    #region Verificar ByIdConsultaAndIdPessoa
 
     [HttpGet("{idpessoa:int}/{idconsulta:int}")]
-    public async Task<IActionResult> ConsultaByCodPessoaCod(int idpessoa, int idconsulta)
+    public async Task<IActionResult> ConsultaAgendadaConsultaCodPessoaCod(int idpessoa, int idconsulta)
     {
         try
         {

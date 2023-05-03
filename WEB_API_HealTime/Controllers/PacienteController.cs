@@ -8,6 +8,10 @@ using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Models.Pacientes;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Dto.GlobalEnums;
+using System.Diagnostics;
+using Xunit.Sdk;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -308,6 +312,22 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    //[HttpPatch("{idAndamentoMedicacao:int}/id")]
-    //public async Task<IActionResult> BaixaMedicacao();
+    [HttpPatch]
+    public async Task<IActionResult> BaixaMedicacao(BaixaHorarioMedicacaoDto medicacao)
+    {
+        try
+        {
+            return await _pacienteRepository.BaixaAndamentoMedicacao(medicacao) switch
+            {
+                StatusCodeEnum.Success => Ok("Baixa feita com sucesso"),
+                StatusCodeEnum.NotFound => NotFound("Não foi encontrado esse andamento medicacao"),
+                StatusCodeEnum.BadRequest => BadRequest("Erro interno"),
+                _ => BadRequest("Erro interno"),
+            };
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

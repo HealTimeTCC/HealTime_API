@@ -11,6 +11,9 @@ using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
 using WEB_API_HealTime.Utility.Enums;
+using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Models.Medicacoes;
+using WEB_API_HealTime.Repository;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -210,6 +213,22 @@ public class PessoaController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+    }
+    #endregion
+    #region Incluir Foto
+    public async Task<IActionResult> IncluirFoto(IncluiFotoPessoaDto incluiFoto)
+    {
+        try
+        {
+            return await _pessoasRepository.IncluiFoto(incluiFoto) switch
+            {
+                StatusCodeEnum.Success => Ok("Inclusão de foto feita com sucesso"),
+                StatusCodeEnum.NotFound => NotFound("Não foi encontrado a pessoa cadastrada com esse ID"),
+                StatusCodeEnum.BadRequest => BadRequest("Erro interno"),
+                _ => BadRequest("Erro interno"),
+            };
+        }
+        catch (Exception ex) { return BadRequest(ex.Message); }
     }
     #endregion
 }
