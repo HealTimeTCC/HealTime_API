@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.Database;
+using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility.EnumsGlobal;
@@ -46,6 +47,27 @@ public class PessoaRepository : IPessoaRepository
                 return null;//nesse ele não chega
         }
 
+    }
+
+    public async Task<StatusCodeEnum> IncluiFoto(IncluiFotoPessoaDto incluiFoto)
+    {
+        try
+        {
+            Pessoa pessoa = await ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: incluiFoto.PessoaId.ToString());
+
+            if (pessoa == null) return StatusCodeEnum.NotFound;
+
+            pessoa.FotoUsuario = incluiFoto.FotoPessoa;
+            var attach = _context.Attach(pessoa);
+            attach.Property(x =>x.FotoUsuario).IsModified= true;
+            attach.Property(x =>x.PessoaId).IsModified= false;
+            await _context.SaveChangesAsync();
+            return StatusCodeEnum.Success;
+        }
+        catch (Exception)
+        {
+            return StatusCodeEnum.BadRequest;
+        }
     }
 
     public async Task<string> IncluiPessoa(Pessoa pessoa, ContatoPessoa contatoPessoa = null)

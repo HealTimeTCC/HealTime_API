@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.PrescricaoDTO;
+using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Repository.Interfaces;
@@ -10,7 +10,9 @@ namespace WEB_API_HealTime.Repository;
 public class MedicacaoRepository : IMedicacaoRepository
 {
 	private readonly DataContext _context;
-    public MedicacaoRepository(DataContext context){ _context = context; }
+    //private readonly IPessoaRepository _pessoaRepository;
+
+    public MedicacaoRepository(DataContext context/*, IPessoaRepository pessoaRepository*/) { _context = context; /*_pessoaRepository = pessoaRepository;*/ }
 
     public async Task<bool> IncluiPrescricaoMedicacao(List<PrescricaoMedicacao> listPrescricaoMedicacaos)
     {
@@ -27,7 +29,6 @@ public class MedicacaoRepository : IMedicacaoRepository
 			throw;
 		}
     }
-
     public async Task<int> IncluiPrescricaoPaciente(PrescricaoPaciente prescricaoPaciente)
     {
         try
@@ -41,7 +42,6 @@ public class MedicacaoRepository : IMedicacaoRepository
 			throw;
 		}
 	}
-
     public async Task<List<Medico>> ListarMedicos()
     {
 		try
@@ -53,7 +53,6 @@ public class MedicacaoRepository : IMedicacaoRepository
 			throw;
 		}
     }
-
     public async Task<bool> MedicacaoExiste(int idMedicacao)
     {
 		try
@@ -69,7 +68,14 @@ public class MedicacaoRepository : IMedicacaoRepository
 			throw;
 		}
     }
-
+    public async Task<Medico> MedicoByCod(int medicoId)
+    {
+		try
+		{
+			return await _context.Medicos.FirstOrDefaultAsync(x => x.MedicoId == medicoId);
+        }
+		catch (Exception){ throw; }
+    }
     public async Task<bool> MedicoExiste(int id)
     {
 		try

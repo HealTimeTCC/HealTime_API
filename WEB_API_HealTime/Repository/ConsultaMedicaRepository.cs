@@ -4,6 +4,7 @@ using System.Resources;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
+using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Repository.Interfaces;
 
@@ -78,6 +79,15 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
         {
             throw;
         }
+    }
+
+    public async Task<Especialidade> EspecialidadeByCod(int codEspecialidade)
+    {
+        try
+        {
+            return await _context.Especialidades.FirstOrDefaultAsync(x =>x.EspecialidadeId == codEspecialidade); 
+        }
+        catch (Exception){ throw; }
     }
 
     public async Task<ConsultaAgendada> IncluiConsulta(ConsultaAgendada consultaAgendada)

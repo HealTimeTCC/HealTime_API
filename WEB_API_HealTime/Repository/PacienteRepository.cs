@@ -11,6 +11,7 @@ using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Querry.PacienteQuerry;
 using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using WEB_API_HealTime.Dto.GlobalEnums;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -132,7 +133,7 @@ public class PacienteRepository : IPacienteRepository
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("dan");
+        string connectionString = configuration.GetConnectionString("etec");
         List<Pessoa> listPacientes = new List<Pessoa>();
         using (SqlConnection connection = new(connectionString))
         {
@@ -165,6 +166,41 @@ public class PacienteRepository : IPacienteRepository
                 await connection.DisposeAsync();
                 await connection.CloseAsync();
             }
+        }
+    }
+    #endregion
+    #region Listar andamento by cod medicacao (COMENTADO PARA ANALISE)
+    //public async Task<List<AndamentoMedicacao>> ListHorarioMedicamentosByCod(BaixaHorarioMedicacaoDto medicacao)
+    //{
+    //    throw new NotImplementedException();
+    //}
+    #endregion
+    #region Baixa de ANDAMENTO MEDICACAO
+    public async Task<StatusCodeEnum> BaixaAndamentoMedicacao(BaixaHorarioMedicacaoDto momentoBaixa)
+    {
+        try
+        {
+            AndamentoMedicacao andamentoMedicacao = await _context
+                .AndamentoMedicacoes
+                .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == momentoBaixa.AndamentoMedicacaoId 
+                && x.PrescricaoPacienteId == momentoBaixa.PrescricaoPacienteId 
+                && x.MedicacaoId == momentoBaixa.MedicamentoId);
+            if (andamentoMedicacao != null)
+                return StatusCodeEnum.NotFound;
+            andamentoMedicacao.MtBaixaMedicacao = DateTime.Now;
+            andamentoMedicacao.BaixaAndamentoMedicacao = true;
+            var attach = _context.Attach(andamentoMedicacao);
+            attach.Property(canc => canc.MedicacaoId).IsModified = false;
+            attach.Property(canc => canc.PrescricaoPacienteId).IsModified = false;
+            attach.Property(canc => canc.AndamentoMedicacaoId).IsModified = false;
+            attach.Property(up => up.MtBaixaMedicacao).IsModified = true;
+            attach.Property(up => up.BaixaAndamentoMedicacao).IsModified = true;
+            await _context.SaveChangesAsync();
+            return StatusCodeEnum.Success;
+        }
+        catch (Exception)
+        {
+            return StatusCodeEnum.BadRequest;
         }
     }
     #endregion

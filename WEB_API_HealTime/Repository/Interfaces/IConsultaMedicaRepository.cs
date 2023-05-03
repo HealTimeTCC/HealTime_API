@@ -1,5 +1,6 @@
 ﻿using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
+using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 
 namespace WEB_API_HealTime.Repository.Interfaces;
@@ -16,4 +17,5 @@ public interface IConsultaMedicaRepository
     Task<string> IncluiEspecialidade(Especialidade especialidade);
     Task<ConsultaAgendada> ConsultaAgendadaByCodConsultaCodPessoa(int idpessoa, int idconsulta);
     Task<EnumAtualizaStatus> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza);
+    Task<Especialidade> EspecialidadeByCod(int codEspecialidade);
 }
