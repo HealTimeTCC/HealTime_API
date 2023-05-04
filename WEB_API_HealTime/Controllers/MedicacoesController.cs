@@ -17,29 +17,7 @@ namespace WEB_API_HealTime.Controllers;
 public class MedicacoesController : ControllerBase
 {
     private readonly IMedicacaoRepository _medicacaoRepository;
-    public MedicacoesController( IMedicacaoRepository medicacaoRepository) {  _medicacaoRepository = medicacaoRepository; }
-
-    #region Existe Medicacao (Pendente)
-
-    private bool ExisteMedicacao(List<Medicacao> medicacoes, out List<Medicacao> existe)
-    {
-        existe = new List<Medicacao>();
-        bool confirmaExiste = false;
-        foreach (var item in medicacoes)
-        {
-            Medicacao existeMedi = _context.Medicacoes
-            .FirstOrDefault(x => x.NomeMedicacao.ToUpper().Trim() == item.NomeMedicacao.ToUpper().Trim());
-            if (existeMedi is not null)
-            {
-                existe.Add(existeMedi);
-                confirmaExiste = true;
-            }
-        }
-        return confirmaExiste;
-
-    }
-
-    #endregion
+    public MedicacoesController(IMedicacaoRepository medicacaoRepository) { _medicacaoRepository = medicacaoRepository; }
 
     #region Listar Medicos
     [HttpGet]
@@ -59,7 +37,7 @@ public class MedicacoesController : ControllerBase
             Medico medico = await _medicacaoRepository.MedicoByCod(codMedico);
             return medico is null ? NotFound("Medico não encontrado") : Ok(medico);
         }
-        catch (Exception ex){ return BadRequest(ex.Message);}
+        catch (Exception ex) { return BadRequest(ex.Message); }
     }
 
     #endregion
@@ -70,24 +48,15 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            await _context.Medicacoes.AddRangeAsync(medicacao);
-            await _context.SaveChangesAsync();
-            //Bloco ABAIXO FAZ INCLUSAO DE LISTA, POREM VAMOS FAZER O SIMPLES PRIMEIRO
-            //string frase = string.Empty;
-            //if (medicacao is null)
-            //{
-            //    if (!ExisteMedicacao(medicacao, out List<Medicacao> listaExistente))
-            //    {
-            //        frase = $"Medicamentos existentes {listaExistente}";
-            //        List<Medicacao> medicacaoExistentes = new List<Medicacao>();
-            //        medicacaoExistentes.AddRange(listaExistente);
-            //        medicacaoExistentes.Find(x => x.)
-            //        _context.Medicacoes.AddRange(medicacao);
-            //    }
-            //    else { return BadRequest("Medicacao Existe"); }
-            //}
-
-            return Ok(medicacao);
+            foreach (var item in medicacao)
+            {
+                //if (item.TipoMedicacao )
+                //{
+                //FAZER METODO PARA VERIFICAR TIPO MEDICACAO
+                //}
+            }
+            return await _medicacaoRepository.IncluiMedicacao(medicacao)
+                ? BadRequest("Erro ao inserir") : Ok(medicacao);
         }
         catch (Exception ex)
         {
@@ -152,26 +121,30 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            var prescricaoCancela = id < 1 ?
+            PrescricaoPaciente prescricaoCancela = id < 1 ?
                 throw new Exception("Não é aceito valor menor que 1 :(")
-                : await _context.PrescricaoPacientes
-                    .FirstOrDefaultAsync(can => can.PrescricaoPacienteId == id);
+                : await _medicacaoRepository.PrescricaoByCod(id);
 
             if (prescricaoCancela != null)
             {
                 if (prescricaoCancela.FlagStatus == "N")
                     return BadRequest("Prescrição já está Inativa");
 
-                List<PrescricaoMedicacao> listOff = await _context.PrescricoesMedicacoes
-                    .Where(fl => fl.PrescricaoPacienteId == prescricaoCancela.PacienteId).ToListAsync();
-                listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
-                _context.UpdateRange(listOff);
-                await _context.SaveChangesAsync();
-
-                prescricaoCancela.FlagStatus = "N";
-                _context.PrescricaoPacientes.Update(prescricaoCancela);
-                await _context.SaveChangesAsync();
-                return Ok(prescricaoCancela);
+                switch (await _medicacaoRepository.CancelaPrescricaoMedicacao(prescricaoCancela.PacienteId))
+                {
+                    case StatusCodeEnum.NotFound: return NotFound("Nenhuma medicacao relacionada a esta prescricao encontrada");
+                    case StatusCodeEnum.Success:
+                        switch (await _medicacaoRepository.CancelarPrescricaoPaciente(prescricaoCancela))
+                        {
+                            case StatusCodeEnum.Success:
+                                return Ok("Prescricacao cancelada com sucesso");
+                            case StatusCodeEnum.NotFound:
+                            case StatusCodeEnum.BadRequest: return BadRequest("Erro ao cancelar");
+                        }
+                        break;
+                    case StatusCodeEnum.BadRequest:
+                        return BadRequest("Erro Aos salvar");
+                };
             }
             return NotFound("Nenhuma prescricao encontrada");
         }
@@ -188,31 +161,13 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            var prescricaoMedicacao = await _context.PrescricoesMedicacoes
-                .Include(x => x.Medicacao)
-                .FirstOrDefaultAsync(m => m.PrescricaoPacienteId == idPrescricao && m.MedicacaoId == idMedicacao);
-
-            if (prescricaoMedicacao is null)
-                return NotFound("O medicamento da prescrição não foi encontrado");
-
-            /*Alterando status*/
-            prescricaoMedicacao.StatusMedicacaoFlag = "N";
-            prescricaoMedicacao.Medicacao.StatusMedicacao = EnumStatusMedicacao.INATIVO;
-
-            //salvando e definindo o que foi mudado
-            var attachMedicao = _context.Attach(prescricaoMedicacao.Medicacao);
-            attachMedicao.Property(med => med.MedicacaoId).IsModified = false;
-            attachMedicao.Property(med => med.NomeMedicacao).IsModified = false;
-            attachMedicao.Property(med => med.StatusMedicacao).IsModified = true;
-
-            var attachPrescricao = _context.Attach(prescricaoMedicacao);
-            attachPrescricao.Property(pre => pre.PrescricaoPacienteId).IsModified = false;
-            attachPrescricao.Property(pre => pre.MedicacaoId).IsModified = false;
-            attachPrescricao.Property(pre => pre.StatusMedicacaoFlag).IsModified = true;
-
-            int linhasAfetadas = await _context.SaveChangesAsync();
-
-            return Ok($"Medicamento {prescricaoMedicacao.Medicacao.NomeMedicacao}");
+            return await _medicacaoRepository.CancelaItemMedicacaoPrescricao(idPrescricao, idMedicacao) switch
+            {
+                StatusCodeEnum.Success => Ok("Item cancelado com sucesso"),
+                StatusCodeEnum.NotFound => NotFound("Item não encontrado"),
+                StatusCodeEnum.BadRequest => BadRequest(),
+                _ => BadRequest(),
+            };
         }
         catch (Exception ex)
         {
@@ -229,15 +184,8 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            var prescricaoPacienteById = await _context.PrescricaoPacientes
-                .Include(p => p.PrescricoesMedicacoes)
-                .ThenInclude(p => p.Medicacao)
-                .Where(x => x.PacienteId == id).ToListAsync();
-            if (prescricaoPacienteById != null)
-            {
-                return Ok(prescricaoPacienteById);
-            }
-            return NotFound("Nada foi encontrado, verifique o ID");
+            var prescricoes = await _medicacaoRepository.ListPrescricaoByCod(id);
+            return prescricoes.Count == 0 ? NotFound("Nada foi encontrado, verifique o ID") : Ok(prescricoes);
         }
         catch (Exception ex)
         {
@@ -252,11 +200,11 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            Medicacao medicacao = await _context.Medicacoes
-                .FirstOrDefaultAsync(m => m.MedicacaoId == id);
-            if (medicacao is null)
-                return NotFound($"Medicamento com ID {id} não encontrado");
-            return Ok(medicacao);
+            Medicacao medicacao = await _medicacaoRepository.MedicacaoById(id);
+
+            return medicacao is null
+                ? NotFound($"Medicamento com ID {id} não encontrado")
+                : Ok(medicacao);
         }
         catch (Exception ex)
         {

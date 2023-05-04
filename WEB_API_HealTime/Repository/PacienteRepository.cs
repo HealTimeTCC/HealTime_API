@@ -133,7 +133,7 @@ public class PacienteRepository : IPacienteRepository
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("etec");
+        string connectionString = configuration.GetConnectionString("dan");
         List<Pessoa> listPacientes = new List<Pessoa>();
         using (SqlConnection connection = new(connectionString))
         {
