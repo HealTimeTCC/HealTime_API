@@ -231,4 +231,21 @@ public class PessoaController : ControllerBase
         catch (Exception ex) { return BadRequest(ex.Message); }
     }
     #endregion
+
+    #region Pesquisar Pessoa por ID
+    [HttpGet("{codPessoa}")]
+    public async Task<IActionResult> PessoaById(int codPessoa)
+    {
+        try
+        {
+            Pessoa pessoa = await _pessoasRepository.ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: codPessoa.ToString());
+            return pessoa is null ? NotFound("Nenhum resultado") : Ok(pessoa);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    #endregion
 }
