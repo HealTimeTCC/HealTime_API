@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Eventing.Reader;
-using System.Reflection.Metadata.Ecma335;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Mvc;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
-using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Utility.Enums;
@@ -19,7 +15,9 @@ namespace WEB_API_HealTime.Controllers;
 public class ConsultaMedicaController : ControllerBase
 {
     private readonly IConsultaMedicaRepository _consultaMedica;
-    public ConsultaMedicaController(DataContext context, IConsultaMedicaRepository consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
+    private readonly IRateLimitCounterStore _counterStore;
+
+    public ConsultaMedicaController(IRateLimitCounterStore counterStore, IConsultaMedicaRepository consultaMedica) { _consultaMedica = consultaMedica; _counterStore = counterStore; }
 
     #region Incluir Medico
     public async Task<IActionResult> IncluiMedico(IncluiMedicoDto medico)
@@ -81,6 +79,17 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
+            var options = new RateLimitOptions
+            {
+                EnableRateLimiting = true,
+                Period = "10s",
+                Limit = 5
+            };
+
+            var fixedWindowPolicy = new RateLimitPolicy(options, _counterStore.GetCounter($"MyFixedWindowPolicy:{HttpContext.Connection.RemoteIpAddress}"));
+            var fixedWindowMiddleware = new RateLimitMiddleware(null, fixedWindowPolicy);
+
+            await fixedWindowMiddleware.InvokeAsync(HttpContext);
             List<Especialidade> especialidade = await _consultaMedica.BuscarEspecialidades();
             if (especialidade.Count == 0)
                 return NotFound("Não há especialidades cadastradas");

@@ -77,6 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
@@ -86,5 +87,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGet("/",  () => "Bem vindo");
+
 
 app.Run();
