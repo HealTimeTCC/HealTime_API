@@ -142,11 +142,20 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
         return await _context.Especialidades.FirstOrDefaultAsync(st => st.EspecialidadeId == especId) as Especialidade;
     }
 
-    public async Task<Medico> VerificaMedico(string crmMedico, string ufCrmMedico)
+    public async Task<Medico> VerificaMedico(string crmMedico = "", string ufCrmMedico = "", int codMedico = 0)
     {
-        return await _context.Medicos
+        if(codMedico == 0)
+        {
+            return await _context.Medicos
             .FirstOrDefaultAsync(crm => crm.CrmMedico == crmMedico
-            && crm.UfCrmMedico.ToUpper().Trim() == ufCrmMedico.ToUpper().Trim()) as Medico;
+            && crm.UfCrmMedico.ToUpper().Trim() == ufCrmMedico.ToUpper().Trim());
+        }
+        else
+        {
+            return await _context.Medicos
+            .FirstOrDefaultAsync(crm => crm.MedicoId == codMedico);
+        }
+        
     }
 
     public async Task<StatusConsulta> VerificaStatusConsulta(int statusId)

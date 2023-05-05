@@ -231,7 +231,6 @@ public class PessoaController : ControllerBase
         catch (Exception ex) { return BadRequest(ex.Message); }
     }
     #endregion
-
     #region Pesquisar Pessoa por ID
     [HttpGet("{codPessoa}")]
     public async Task<IActionResult> PessoaById(int codPessoa)
