@@ -21,22 +21,19 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 #region Added RateLimit
 
-builder.Services.AddRateLimiter(_ => _
-    .AddFixedWindowLimiter("fixed", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromSeconds(10);
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        options.QueueLimit = 2;
-    })
-    .AddSlidingWindowLimiter("sliding", options =>
-    {
-        options.PermitLimit = 5;
-        options.Window = TimeSpan.FromSeconds(10);
-        options.SegmentsPerWindow = 5;
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        options.QueueLimit = 2;
-    }));
+builder.Services.AddRateLimiter(options =>
+{
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+    RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+        factory: partition => new FixedWindowRateLimiterOptions
+        {
+            AutoReplenishment = true,
+            PermitLimit = 10,
+            QueueLimit = 0,
+            Window = TimeSpan.FromMinutes(1)
+        }));
+});
 #endregion
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -71,6 +68,12 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 var app = builder.Build();
+
+/* DEFINE O LIMTE GLOBAL DE REQUISIÇÕES*/
+
+app.UseRateLimiter();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -85,6 +88,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapGet("/",  () => "Bem vindo");
+app.MapGet("/", () => "Bem vindo");
 
 app.Run();
