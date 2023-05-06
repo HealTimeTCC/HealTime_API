@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("etec"));
 });
 
 
@@ -80,6 +80,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
@@ -89,5 +90,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGet("/", () => "Bem vindo");
+
 
 app.Run();

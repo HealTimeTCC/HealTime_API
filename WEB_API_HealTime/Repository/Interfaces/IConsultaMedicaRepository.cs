@@ -9,7 +9,7 @@ public interface IConsultaMedicaRepository
 {
     Task<int> IncluiMedico(IncluiMedicoDto medico, string uf);
     Task<List<ConsultaAgendada>> ListAgendamentosPacientes(ListConsultasDTO listConsultasDTO);
-    Task<Medico> VerificaMedico(string crm, string ufCrmMedico);
+    Task<Medico> VerificaMedico(string crmMedico = "", string ufCrmMedico = "", int codMedico = 0);
     Task<StatusConsulta> VerificaStatusConsulta(int statusId);
     Task<Especialidade> VerificaEspecialidade(int especialidadeId);
     Task<ConsultaAgendada> IncluiConsulta(ConsultaAgendada consultaAgendada);

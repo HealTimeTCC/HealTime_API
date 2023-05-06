@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Eventing.Reader;
-using System.Reflection.Metadata.Ecma335;
+﻿using AspNetCoreRateLimit;
+using Microsoft.AspNetCore.Mvc;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
-using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Utility.Enums;
@@ -18,9 +14,10 @@ namespace WEB_API_HealTime.Controllers;
 [ApiController]
 public class ConsultaMedicaController : ControllerBase
 {
-    private readonly DataContext _context;
     private readonly IConsultaMedicaRepository _consultaMedica;
-    public ConsultaMedicaController(DataContext context, IConsultaMedicaRepository consultaMedica) { _context = context; _consultaMedica = consultaMedica; }
+    private readonly IRateLimitCounterStore _counterStore;
+
+    public ConsultaMedicaController(IRateLimitCounterStore counterStore, IConsultaMedicaRepository consultaMedica) { _consultaMedica = consultaMedica; _counterStore = counterStore; }
 
     #region Incluir Medico
     public async Task<IActionResult> IncluiMedico(IncluiMedicoDto medico)
@@ -43,7 +40,6 @@ public class ConsultaMedicaController : ControllerBase
                 return BadRequest("O medico já está registrado");
             else
             {
-
                 int linhas = await _consultaMedica.IncluiMedico(medico, uf);
                 return Ok($"Medicos incluido {linhas}");
             }
@@ -54,7 +50,6 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
     #endregion
-
     #region Agendar Consulta
     [HttpPost]
     public async Task<IActionResult> AgendarConsulta(ConsultaAgendada consultaAgendada)
@@ -78,13 +73,23 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
     #endregion
-
     #region Buscar Especialidades
     [HttpGet]
     public async Task<IActionResult> GetEspecialidades()
     {
         try
         {
+            var options = new RateLimitOptions
+            {
+                EnableRateLimiting = true,
+                Period = "10s",
+                Limit = 5
+            };
+
+            var fixedWindowPolicy = new RateLimitPolicy(options, _counterStore.GetCounter($"MyFixedWindowPolicy:{HttpContext.Connection.RemoteIpAddress}"));
+            var fixedWindowMiddleware = new RateLimitMiddleware(null, fixedWindowPolicy);
+
+            await fixedWindowMiddleware.InvokeAsync(HttpContext);
             List<Especialidade> especialidade = await _consultaMedica.BuscarEspecialidades();
             if (especialidade.Count == 0)
                 return NotFound("Não há especialidades cadastradas");
@@ -96,7 +101,6 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
     #endregion
-
     #region Especialidade By COd
 
     [HttpGet("{codEspecialidade:int}")]
@@ -111,7 +115,6 @@ public class ConsultaMedicaController : ControllerBase
     }
 
     #endregion
-
     #region Consulta Por Paciente
     [HttpPost]
     public async Task<IActionResult> ListaAgendamentosPacientes(ListConsultasDTO listConsultasDTO)
@@ -130,37 +133,7 @@ public class ConsultaMedicaController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    #endregion
-
-    #region Cancelar Consulta por ID
-    [HttpPatch]
-    public async Task<IActionResult> AtualizarConsulta(AtualizaStatusConsultaDto atualizaStatusConsultaDto)
-    {
-        try
-        {
-            if (!FormataDados.StringLenght(atualizaStatusConsultaDto.MotivoAlteracao, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
-                return BadRequest("Insira no minimo 10 caracateres para a alteração");
-
-            switch (await _consultaMedica.AtualizaSituacaoConsultaAgendada(atualizaStatusConsultaDto))
-            {
-                case EnumAtualizaStatus.Update: 
-                    return Ok("Atualização feita com sucesso");
-                case EnumAtualizaStatus.NotUpdate: 
-                    return BadRequest("Não houve alteração verifique os dados da solicitação");
-                case EnumAtualizaStatus.NotFound: 
-                    return NotFound("Consulta não foi encontrada");
-                case EnumAtualizaStatus.Close: 
-                    return Ok("Consulta encerrada com sucesso");
-                default: return BadRequest("Erro interno, consulte o suporte");
-            }
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-    #endregion
-
+    #endregion    
     #region Inclui Nova especialidade
     [HttpPost]
     public async Task<IActionResult> IncluirNovaEspecialidade(Especialidade especialidade)
@@ -178,7 +151,6 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
     #endregion
-
     #region Verificar ByIdConsultaAndIdPessoa
 
     [HttpGet("{idpessoa:int}/{idconsulta:int}")]
@@ -188,6 +160,22 @@ public class ConsultaMedicaController : ControllerBase
         {
             ConsultaAgendada consulta = await _consultaMedica.ConsultaAgendadaByCodConsultaCodPessoa(idpessoa, idconsulta);
             return consulta is null ? NotFound("Nenhuma consulta encontrado") : Ok(consulta);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    #endregion
+    #region Consultar medico ById
+    [HttpGet("{codMedico:int}")]
+    public async Task<IActionResult> ConsultarMedicoBydId(int codMedico)
+    {
+        try
+        {
+            Medico medico = await _consultaMedica.VerificaMedico(codMedico: codMedico);
+            return medico is null ? NotFound($"{codMedico} não encontrado") : Ok(medico);
         }
         catch (Exception ex)
         {
