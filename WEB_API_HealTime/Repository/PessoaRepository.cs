@@ -23,30 +23,24 @@ public class PessoaRepository : IPessoaRepository
     public async Task<Pessoa> ConsultarPessoa(TipoConsultaPessoa tipoConsultaPessoa, string cpfConsulta = "", string emailConsulta = "", string idPessoa = "")
     {
 
-        switch (tipoConsultaPessoa)
+        return tipoConsultaPessoa switch
         {
-            case TipoConsultaPessoa.email:
-                return await _context.Pessoas
-                .Include(c => c.ContatoPessoa)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.ContatoPessoa.Email.ToUpper() == emailConsulta.ToUpper());
-            case TipoConsultaPessoa.pessoaId:
-                return await _context.Pessoas
-                .Include(c => c.ContatoPessoa)
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.PessoaId == int.Parse(idPessoa));
-            case TipoConsultaPessoa.cpf:
-                return await _context.Pessoas
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta);
-            case TipoConsultaPessoa.cpfEIdPessoa:
-                return await _context.Pessoas
-                .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta && e.PessoaId == int.Parse(idPessoa));
-            default:
-                return null;//nesse ele não chega
-        }
-
+            TipoConsultaPessoa.email => await _context.Pessoas
+                            .Include(c => c.ContatoPessoa)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(e => e.ContatoPessoa.Email.ToUpper() == emailConsulta.ToUpper()),
+            TipoConsultaPessoa.pessoaId => await _context.Pessoas
+                            .Include(c => c.ContatoPessoa)
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(e => e.PessoaId == int.Parse(idPessoa)),
+            TipoConsultaPessoa.cpf => await _context.Pessoas
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta),
+            TipoConsultaPessoa.cpfEIdPessoa => await _context.Pessoas
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(e => e.CpfPessoa == cpfConsulta && e.PessoaId == int.Parse(idPessoa)),
+            _ => null,//nesse ele não chega
+        };
     }
 
     public async Task<StatusCodeEnum> IncluiFoto(IncluiFotoPessoaDto incluiFoto)

@@ -23,6 +23,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddRateLimiter(options =>
 {
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
     RateLimitPartition.GetFixedWindowLimiter(
         partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
@@ -63,7 +64,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("etec"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
 });
 
 

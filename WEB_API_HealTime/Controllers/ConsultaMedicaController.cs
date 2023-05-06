@@ -79,17 +79,7 @@ public class ConsultaMedicaController : ControllerBase
     {
         try
         {
-            var options = new RateLimitOptions
-            {
-                EnableRateLimiting = true,
-                Period = "10s",
-                Limit = 5
-            };
 
-            var fixedWindowPolicy = new RateLimitPolicy(options, _counterStore.GetCounter($"MyFixedWindowPolicy:{HttpContext.Connection.RemoteIpAddress}"));
-            var fixedWindowMiddleware = new RateLimitMiddleware(null, fixedWindowPolicy);
-
-            await fixedWindowMiddleware.InvokeAsync(HttpContext);
             List<Especialidade> especialidade = await _consultaMedica.BuscarEspecialidades();
             if (especialidade.Count == 0)
                 return NotFound("Não há especialidades cadastradas");
