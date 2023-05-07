@@ -94,7 +94,7 @@ public class ConsultaMedicaController : ControllerBase
     #region Especialidade By COd
 
     [HttpGet("{codEspecialidade:int}")]
-    public async Task<IActionResult> MedicoByCod(int codEspecialidade)
+    public async Task<IActionResult> EspecialidadeByCod(int codEspecialidade)
     {
         try
         {
@@ -160,7 +160,7 @@ public class ConsultaMedicaController : ControllerBase
     #endregion
     #region Consultar medico ById
     [HttpGet("{codMedico:int}")]
-    public async Task<IActionResult> ConsultarMedicoBydId(int codMedico)
+    public async Task<IActionResult> ConsultarMedicoById(int codMedico)
     {
         try
         {
