@@ -179,7 +179,7 @@ public class ConsultaMedicaController : ControllerBase
     #region Atualiza Consulta Medica
 
     [HttpPut]
-    public async Task<IActionResult> AtualizaConsulta(AtualizaStatusConsultaDto atualizaStatusConsulta)
+    public async Task<IActionResult> AtualizarConsulta(AtualizaStatusConsultaDto atualizaStatusConsulta)
     {
         try
         {
