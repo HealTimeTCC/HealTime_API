@@ -5,6 +5,7 @@ using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
 using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
+using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Repository.Interfaces;
 
@@ -18,19 +19,20 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
         _context = context;
     }
 
-    public async Task<EnumAtualizaStatus> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza)
+    public async Task<StatusCodeEnum> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza)
     {
         try
         {
+            if (await VerificaStatusConsulta(atualiza.StatusConsultaId) is null)
+                return StatusCodeEnum.NotFound;
             ConsultaAgendada atualizaConsulta = await _context.ConsultasAgendadas
                 .FirstOrDefaultAsync(c => c.PacienteId == atualiza.PacienteId && c.ConsultasAgendadasId == atualiza.ConsultaId);
             if (atualizaConsulta is null)
-                return EnumAtualizaStatus.NotFound;
+                return StatusCodeEnum.NotFound;
             else if (atualizaConsulta.StatusConsultaId == atualiza.StatusConsultaId)
-                return EnumAtualizaStatus.NotUpdate;
+                return StatusCodeEnum.NotContent;
             if (atualiza.StatusConsultaId == 2)
             {
-
                 atualizaConsulta.StatusConsultaId = 2;
                 var attach = _context.ConsultasAgendadas.Attach(atualizaConsulta);
                 attach.Property(canc => canc.ConsultasAgendadasId).IsModified = false;
@@ -44,7 +46,7 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
                 };
                 await _context.ConsultaCanceladas.AddAsync(cancelada);
                 await _context.SaveChangesAsync();
-                return EnumAtualizaStatus.Close;
+                return StatusCodeEnum.Success;
             }
             else
             {
@@ -54,7 +56,7 @@ public class ConsultaMedicaRepository : IConsultaMedicaRepository
                 attach.Property(up => up.StatusConsultaId).IsModified = true;
                 attach.Property(up => up.PacienteId).IsModified = false;
                 await _context.SaveChangesAsync();
-                return EnumAtualizaStatus.Update;
+                return StatusCodeEnum.Update;
             }
         }
         catch (Exception)

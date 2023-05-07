@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.AgendaConsulta;
 using WEB_API_HealTime.Dto.ConsultaMedica;
+using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Utility.Enums;
+using WEB_API_HealTime.Utility.EnumsGlobal;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -15,11 +17,11 @@ namespace WEB_API_HealTime.Controllers;
 public class ConsultaMedicaController : ControllerBase
 {
     private readonly IConsultaMedicaRepository _consultaMedica;
-    private readonly IRateLimitCounterStore _counterStore;
-
-    public ConsultaMedicaController(IRateLimitCounterStore counterStore, IConsultaMedicaRepository consultaMedica) { _consultaMedica = consultaMedica; _counterStore = counterStore; }
+    private readonly IPessoaRepository _pessoaRepository;
+    public ConsultaMedicaController(IConsultaMedicaRepository consultaMedica, IPessoaRepository pessoaRepository) { _consultaMedica = consultaMedica; _pessoaRepository = pessoaRepository; }
 
     #region Incluir Medico
+    [HttpPost]
     public async Task<IActionResult> IncluiMedico(IncluiMedicoDto medico)
     {
         try
@@ -173,5 +175,33 @@ public class ConsultaMedicaController : ControllerBase
         }
     }
 
+    #endregion
+    #region Atualiza Consulta Medica
+
+    [HttpPut]
+    public async Task<IActionResult> AtualizaConsulta(AtualizaStatusConsultaDto atualizaStatusConsulta)
+    {
+        try
+        {
+            if(!FormataDados.StringLenght(atualizaStatusConsulta.MotivoAlteracao, TipoVerificadorCaracteresMinimos.MotivoCancelamentoConsulta))
+                return BadRequest("É necessário mais de 10 caracteres no motivo para alteração");
+            if (await _pessoaRepository.ConsultarPessoa(TipoConsultaPessoa.pessoaId, idPessoa: atualizaStatusConsulta.PacienteId.ToString()) is null)
+                return NotFound("Usuario não cadastrado");
+            atualizaStatusConsulta.DataAlteracao = DateTime.Now;
+            return await _consultaMedica.AtualizaSituacaoConsultaAgendada(atualizaStatusConsulta) switch
+            {
+                StatusCodeEnum.Success => Ok("Cancelamento feito com sucesso"),
+                StatusCodeEnum.NotFound => NotFound("Verifique os dados fornecidos"),
+                StatusCodeEnum.BadRequest => BadRequest("Erro ao salvar, por favor tente novamente"),
+                StatusCodeEnum.NotContent => BadRequest("Dado da atualização é o mesmo que o anterior"),
+                StatusCodeEnum.Update => Ok("Dados atualizados com sucesso"),
+                _ => BadRequest("Verifique os dados fornecidos"),
+            };
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     #endregion
 }
