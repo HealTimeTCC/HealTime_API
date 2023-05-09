@@ -1,0 +1,67 @@
+uri: http://www.healtime.somee.com/healtime
+
+Controller "/ConsultaMedica"
+
+/IncluiMedico - post
+
+Modelo de JSON 
+{
+  "medicoId": 0,
+  "nmMedico": "string",
+  "crmMedico": "string",
+  "ufCrmMedico": "string"
+}
+
+/AgendarConsulta - post
+
+{
+  "consultasAgendadasId": 0,
+  "statusConsultaId": 0,
+  "especialidadeId": 0,
+  "pacienteId": 0,
+  "medicoId": 0,
+  "dataSolicitacaoConsulta": "2023-03-28T22:27:21.838Z",
+  "dataConsulta": "2023-03-28T22:27:21.838Z",
+  "motivoConsulta": "string",
+  "encaminhamento": "string"
+}
+
+/Especialidades - get
+
+/ConsultaPorPaciente - GET
+
+-> Traz uma lista - de acordo com o status e paciente
+{
+	"PacienteId": 1,
+	"StatusConsultaId" : 1
+}
+-> Traz uma lista completa, de acordo com o paciente
+{
+	"PacienteId": 1
+}
+
+/CancelarConsultaById - patch
+
+ex: json
+{
+  "consultaId": 0,
+  "pacienteId": 0,
+  "motivoCancelamento": "string",
+  "dataCancela": "2023-03-28T22:34:11.475Z"
+}
+
+/IncluiNovaEspecialidade - post
+
+ex json
+
+{
+  "descEspecialidade": "string"
+}
+
+/ConsultaPorPaciente - POST
+EX: Json
+{
+    "PacienteId" : 2,
+    "StatusConsultaId" : 5
+}
+

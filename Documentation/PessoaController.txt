@@ -1,0 +1,22 @@
+enderecoapi/Pessoa
+
+/Registro - post
+
+/Registro - POST
+
+{
+  "tipoPessoa": 1,
+  "cpfPessoa": "UOU ACHOU MESMO QUE IA TER MEU CPF HEHEH",
+  "nomePessoa": "Dan",
+  "sobreNomePessoa": "Marzo",
+  "passwordString": "1q2w3e4r",
+  "dtNascPessoa": "2004-02-15",
+  "contatoCelular": "11955008212",
+  "contatoEmail": "userus@user.com",
+  "contatoCriadoEm": "2023-04-07"
+}
+/Autenticar
+{
+	"Email": "",
+	"PasswordString":"senha"
+}

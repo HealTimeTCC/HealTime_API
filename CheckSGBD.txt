@@ -1,0 +1,1 @@
+-> Incluir Check nas flags

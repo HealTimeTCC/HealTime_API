@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Models.Pessoas;
 
 namespace WEB_API_HealTime.Models.Medicacoes;
 
@@ -19,4 +20,7 @@ public class PrescricaoPaciente
     public string FlagStatus { get; set; }
     [JsonIgnore]
     public List<PrescricaoMedicacao> PrescricoesMedicacoes { get; set; }
+    [JsonIgnore]
+    public List<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
+
 }
