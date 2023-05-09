@@ -1,0 +1,39 @@
+--> VERDE
+GrauParentesco       [x]  BD [X]
+ObservacoesPaciente  [x]  BD [X]
+ResponsaveisPaciente [x]  BD [X]
+CuidadorPacientes    [x]  BD [X]
+
+--> AMARELO
+Pessoas  BD [X]
+  -> TipoPessoa deve NOT NULL [OK]
+  -> DtNascPessoa deve ser NOT NULL [OK]
+  -> os hash tambem [OK]
+
+ContatoPessoas BD [X]
+  -> Poblemas ao troca PK [OK]
+
+EnderecoPessoas [x] BD [X]
+
+--> VERMELHO
+
+PrescricaoPacientes [x]
+  -> Verificar o FlagStatus padrao -> PENDENTE
+PrescricaoMedicacao [x] 
+  -> verificar o unico nulo que tem, e unificar o meio como vao trabalhar se vai ser BIT ou CHAR [X]
+AndamentoMedicacao  [x]
+  -> PrescricaoPacienteId(Qualificar como PK)
+Medicacoes [] 
+  -> tirar o CHAR  e colocar BIT -- PENDENTE
+  -> Verificar o porque dos status, se possivel retirar [Pode tratar-se de um Enum]
+TipoMedicacao [x] Retirar o unico null quer tem [OK]
+--> AZUL
+Especialidades
+ConsultaAgendadas 
+  -> Verificar o unico nulo que tem
+StatusConsulta [x]
+ConsultasCanceladas
+  -> ConsultaAgendadaID não é PK
+
+--> NO MEIO
+MEDICOS [x] verificar o unico Nulo que tem

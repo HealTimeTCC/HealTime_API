@@ -35,17 +35,228 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(mdBuilder);
 
-        #region Especialidades
-        /* -> BEGIN ESPECIALIDADES */
-        mdBuilder.Entity<Especialidade>()
-            .HasKey(pk => pk.EspecialidadeId)
-            .HasName("PK_EspecialidadeId");
-        mdBuilder.Entity<Especialidade>()
-            .Property(p => p.DescEspecialidade)
+        #region --> ZN VERDE <--
+        #region GrauParentesco 
+
+        mdBuilder.Entity<GrauParentesco>()
+            .HasKey(key => key.GrauParentescoId)
+            .HasName("PK_GrauParentescoId");
+
+        mdBuilder.Entity<GrauParentesco>()
+            .Property(p => p.DescGrauParentesco)
+            .HasColumnType("VARCHAR(15)")
+            .IsRequired();
+
+        #endregion
+        #region ObservacaoPaciente
+
+        mdBuilder.Entity<ObservacaoPaciente>()
+            .HasKey(key => key.SqObservacao)
+            .HasName("PK_SqObservacao");
+        mdBuilder.Entity<ObservacaoPaciente>()
+            .HasOne(one => one.Paciente)
+            .WithMany(many => many.ObservacoesPacientes)
+            .HasForeignKey(fk => fk.PacienteId)
+            .HasConstraintName("FK_SqObservacao_Pessoas");
+
+        mdBuilder.Entity<ObservacaoPaciente>()
+               .Property(p => p.MtObservacao)
+               .HasColumnType("datetime2(0)")
+               .IsRequired();
+        mdBuilder.Entity<ObservacaoPaciente>()
+               .Property(p => p.Observacao)
+               .HasColumnType("VARCHAR(255)")
+               .IsRequired();
+        #endregion
+        #region ResponsavelPaciente
+
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .HasKey(key => new { key.PacienteId, key.ResponsavelId })
+            .HasName("PK_PacienteId_ResponsavelId");
+
+
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.Paciente)
+            .WithMany(many => many.ResponsavelPacientes_Pacientes)
+            .HasForeignKey(fk => fk.PacienteId)
+            .HasConstraintName("FK_PacienteId_Pessoas_ResponsavelPaciente")
+            .OnDelete(DeleteBehavior.Restrict);
+
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.Responsavel)
+            .WithMany(many => many.ResponsavelPacientes_Responsavel)
+                .HasForeignKey(fk => fk.ResponsavelId)
+                .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente")
+                .OnDelete(DeleteBehavior.Restrict);
+
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .HasOne(one => one.GrauParentesco)
+            .WithMany(one => one.ResponsavelPacientes)
+                .HasForeignKey(fk => fk.GrauParentescoId)
+                .HasConstraintName("FK_GrauParentescoId_GrauParentesco_ResponsavelPaciente");
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("datetime2(0)")
+            .IsRequired()
+            .HasDefaultValueSql("GETDATE()");
+
+        #endregion
+        #region CuidadorPaciente
+
+        mdBuilder.Entity<CuidadorPaciente>()
+            .HasKey(key => new { key.PacienteId, key.CuidadorId, key.CriadoEm })
+            .HasName("PK_CuidadorPacientes_PacienteId_CuidadorId");
+        mdBuilder.Entity<CuidadorPaciente>()
+            .HasOne(one => one.PessoaPaciente)
+            .WithMany(many => many.CuidadorPaciente_Pacientes)
+            .HasForeignKey(p => p.PacienteId)
+                .HasConstraintName("FK_Pessoa_CuidadorPaciente_PacienteId")
+                .OnDelete(DeleteBehavior.Restrict);
+        mdBuilder.Entity<CuidadorPaciente>()
+            .HasOne(one => one.PessoaCuidador)
+            .WithMany(many => many.CuidadorPaciente_Cuidador)
+            .HasForeignKey(p => p.CuidadorId)
+                .HasConstraintName("FK_Pessoa_CuidadorPaciente_CuidadorId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+        mdBuilder.Entity<CuidadorPaciente>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("DATETIME2(0)")
+            .IsRequired();
+        mdBuilder.Entity<CuidadorPaciente>()
+            .Property(p => p.FinalizadoEm)
+            .HasColumnType("DATETIME2(0)");
+
+        #endregion
+        #endregion
+        #region --> ZN AMARELA <--
+
+        #region PESSOAS
+        mdBuilder.Entity<Pessoa>()
+            .HasKey(pk => pk.PessoaId)
+            .HasName("PK_PessoaId");
+        mdBuilder.Entity<Pessoa>()
+            .Property(tp => tp.TipoPessoa)
+            .IsRequired();
+        mdBuilder.Entity<Pessoa>()
+            .Property(cpf => cpf.CpfPessoa)
+            .HasColumnType("CHAR(11)")
+            .IsRequired();
+        mdBuilder.Entity<Pessoa>()
+            .HasIndex(p => p.CpfPessoa)
+            .IsUnique(true)
+            .HasDatabaseName("UNIQUE_ON_CPF");
+        mdBuilder.Entity<Pessoa>()
+            .Property(nm => nm.NomePessoa)
             .HasColumnType("VARCHAR(25)")
             .IsRequired();
-        /* -> END   ESPECIALIDADES */
+        mdBuilder.Entity<Pessoa>()
+            .Property(sm => sm.SobreNomePessoa)
+            .HasColumnType("VARCHAR(30)")
+            .IsRequired();
+        mdBuilder.Entity<Pessoa>()
+            .Property(dt => dt.DtNascPessoa)
+            .HasColumnType("datetime2(0)")
+            .IsRequired();
+        #region  --> HASH and SALT <--
+        mdBuilder.Entity<Pessoa>()
+            .Property(x => x.PasswordHash)
+            .IsRequired();
+        mdBuilder.Entity<Pessoa>()
+            .Property(x => x.PasswordSalt)
+            .IsRequired();
         #endregion
+        #endregion
+        #region ContatoPessoa
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .HasKey(key => key.PessoaId)
+            .HasName("PK_ContatoPessoaId");
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .HasOne<Pessoa>(one => one.Pessoa)
+            .WithOne(one => one.ContatoPessoa)
+                .HasForeignKey<ContatoPessoa>(fk => fk.PessoaId)
+                .HasConstraintName("FK_Pessoa_ContatoPessoa_PessoaId");
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Email)
+            .HasColumnType("VARCHAR(100)")
+            .IsRequired();
+        mdBuilder.Entity<ContatoPessoa>()
+            .HasIndex(i => i.Email)
+            .IsUnique(true);
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("datetime2(0)")
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired();
+        mdBuilder.Entity<ContatoPessoa>()
+            .HasIndex(p => p.Celular)
+            .IsUnique(false);
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Celular)
+            .HasColumnType("CHAR(11)")
+            .IsRequired();
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.CelularSecundario)
+            .HasColumnType("CHAR(11)");
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.Telefone)
+            .HasColumnType("CHAR(10)");
+
+        mdBuilder.Entity<ContatoPessoa>()
+            .Property(p => p.TelefoneSecundario)
+            .HasColumnType("CHAR(10)");
+
+        #endregion
+        #region EnderecoPessoa
+
+        mdBuilder.Entity<EnderecoPessoa>()
+            .HasKey(pk => pk.PessoaId)
+            .HasName("PK_FK_EnderecoPessoa");
+
+        mdBuilder.Entity<EnderecoPessoa>()
+            .HasOne(x => x.Pessoa)
+            .WithOne(p => p.EnderecoPessoa)
+                .HasForeignKey<EnderecoPessoa>(fk => fk.PessoaId)
+                .HasConstraintName("FK_PK_EnderecoPessoa");
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.Logradouro)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.NroLogradouro)
+            .HasColumnType("INT")
+            .IsRequired();
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.Complemento)
+            .HasColumnType("VARCHAR(15)");
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.BairroLogradouro)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.CidadeEndereco)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.UFEndereco)
+            .HasColumnType("CHAR(2)")
+            .IsRequired();
+        mdBuilder.Entity<EnderecoPessoa>()
+            .Property(str => str.CEPEndereco)
+            .HasColumnType("CHAR(8)")
+            .IsRequired();
+
+        #endregion
+
+        #endregion
+        #region --> ZN VERMELHO <--
+
         #region PRESCRICAOPACIENTES
         /* -> BEGIN PRESCRICAOPACIENTES */
         mdBuilder.Entity<PrescricaoPaciente>()
@@ -88,96 +299,7 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END  PRESCRICAOPACIENTES */
         #endregion
-        #region MEDICO
-        /* -> BEGIN MEDICO */
-        mdBuilder.Entity<Medico>()
-            .HasKey(pk => pk.MedicoId)
-            .HasName("PK_MedicoId");
-        mdBuilder.Entity<Medico>()
-            .Property(nm => nm.NmMedico)
-            .HasColumnType("VARCHAR(40)")
-            .IsRequired();
-        mdBuilder.Entity<Medico>()
-            .Property(crm => crm.CrmMedico)
-            .HasColumnType("CHAR(6)");
-        mdBuilder.Entity<Medico>()
-            .Property(crmuf => crmuf.UfCrmMedico)
-            .HasColumnType("CHAR(2)")
-            .IsRequired();
-
-
-        /* -> END MEDICO */
-        #endregion
-        #region PESSOAS
-        /* -> BEGIN PESSOAS */
-        mdBuilder.Entity<Pessoa>()
-            .HasKey(pk => pk.PessoaId)
-            .HasName("PK_PessoaId");
-        mdBuilder.Entity<Pessoa>()
-            .Property(tp => tp.TipoPessoa)
-            .IsRequired();
-        mdBuilder.Entity<Pessoa>()
-            .Property(cpf => cpf.CpfPessoa)
-            .HasColumnType("CHAR(11)")
-            .IsRequired();
-
-        mdBuilder.Entity<Pessoa>()
-            .HasIndex(p => p.CpfPessoa)
-            .IsUnique(true)
-            .HasDatabaseName("UNIQUE_ON_CPF");
-
-        mdBuilder.Entity<Pessoa>()
-            .Property(nm => nm.NomePessoa)
-            .HasColumnType("VARCHAR(25)")
-            .IsRequired();
-        mdBuilder.Entity<Pessoa>()
-            .Property(sm => sm.SobreNomePessoa)
-            .HasColumnType("VARCHAR(30)")
-            .IsRequired();
-        mdBuilder.Entity<Pessoa>()
-            .Property(dt => dt.DtNascPessoa)
-            .HasColumnType("datetime2(0)")
-            .IsRequired();
-        /* -> END PESSOAS */
-        #endregion
-        #region MEDICAMENTOS
-        /* -> BEGIN MEDICAMENTOS */
-
-        mdBuilder.Entity<Medicacao>()
-            .HasKey(pk => pk.MedicacaoId)
-            .HasName("PK_MedicacaoId");
-
-
-
-        mdBuilder.Entity<Medicacao>()
-            .HasOne<TipoMedicacao>(tp => tp.TipoMedicacao)
-            .WithMany(tp => tp.Medicacoes)
-                .HasForeignKey(fk => fk.TipoMedicacaoId)
-                .HasConstraintName("FK_Medicacao_TipoMedicacao");
-        mdBuilder.Entity<Medicacao>()
-            .Property(st => st.StatusMedicacao)
-            .HasDefaultValue(EnumStatusMedicacao.ATIVO);
-        mdBuilder.Entity<Medicacao>()
-            .Property(nm => nm.NomeMedicacao)
-            .HasColumnType("VARCHAR(80)")
-            .IsRequired();
-        mdBuilder.Entity<Medicacao>()
-            .Property(cam => cam.CompostoAtivoMedicacao)
-            .HasColumnType("VARCHAR(50)")
-            .IsRequired();
-        mdBuilder.Entity<Medicacao>()
-            .Property(lm => lm.LaboratorioMedicaocao)
-            .HasColumnType("VARCHAR(80)")
-            .IsRequired();
-        mdBuilder.Entity<Medicacao>()
-            .Property(gen => gen.Generico)
-            .HasColumnType("CHAR(1)")
-            .IsRequired();
-        /* -> END MEDICAMENTOS */
-        #endregion
         #region PRESCRICAOMEDICACAO
-        /* -> BEGIN PRESCRICAOMEDICACAO */
-
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasOne<PrescricaoPaciente>(one => one.PrescricaoPaciente)
             .WithMany(many => many.PrescricoesMedicacoes)
@@ -215,14 +337,122 @@ public class DataContext : DbContext
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.StatusMedicacaoFlag)
             .HasColumnType("CHAR(1)")
-            .HasDefaultValue("S");
+            .HasDefaultValue("S")
+            .IsRequired();
 
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(flag => flag.HorariosDefinidos)
             .HasDefaultValue(false);
-
-        /* -> END PRESCRICAOMEDICACAO */
         #endregion
+        #region AndamentoMedicacao
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasKey(key => new { key.AndamentoMedicacaoId, key.PrescricaoPacienteId, key.MedicacaoId })
+            .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId_PrescricaoPacienteId_MedicacaoId");
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasOne(p => p.PrescricaoPacientes)
+            .WithMany(p => p.AndamentoMedicacoes)
+            .HasForeignKey(p => p.PrescricaoPacienteId)
+                .HasConstraintName("FK_PrescricaoPacientes_PacienteId_AndamentoMedicacoes");
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasOne(p => p.PrescricaoPacientes)
+            .WithMany(p => p.AndamentoMedicacoes)
+            .HasForeignKey(p => p.MedicacaoId)
+                .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasIndex(p => p.PrescricaoPacienteId)
+            .IsUnique(false);
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasIndex(p => p.PrescricaoPacienteId)
+            .IsUnique(false);
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.MtAndamentoMedicacao)
+            .HasColumnType("datetime2(0)")
+            .IsRequired();
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.QtdeMedicao)
+            .HasColumnType("int")
+            .IsRequired();
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.CriadoEm)
+            .HasColumnType("datetime2(0)")
+            .IsRequired();
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.BaixaAndamentoMedicacao)
+            .HasDefaultValue(false);
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.MtBaixaMedicacao)
+            .HasColumnType("datetime2(0)");
+        #endregion
+
+        #region MEDICAMENTOS
+        mdBuilder.Entity<Medicacao>()
+            .HasKey(pk => pk.MedicacaoId)
+            .HasName("PK_MedicacaoId");
+        mdBuilder.Entity<Medicacao>()
+            .HasOne<TipoMedicacao>(tp => tp.TipoMedicacao)
+            .WithMany(tp => tp.Medicacoes)
+                .HasForeignKey(fk => fk.TipoMedicacaoId)
+                .HasConstraintName("FK_Medicacao_TipoMedicacao");
+        mdBuilder.Entity<Medicacao>()
+            .Property(st => st.StatusMedicacao)
+            .HasDefaultValue(EnumStatusMedicacao.ATIVO);
+        mdBuilder.Entity<Medicacao>()
+            .Property(nm => nm.NomeMedicacao)
+            .HasColumnType("VARCHAR(80)")
+            .IsRequired();
+        mdBuilder.Entity<Medicacao>()
+            .Property(cam => cam.CompostoAtivoMedicacao)
+            .HasColumnType("VARCHAR(50)")
+            .IsRequired();
+        mdBuilder.Entity<Medicacao>()
+            .Property(lm => lm.LaboratorioMedicaocao)
+            .HasColumnType("VARCHAR(80)")
+            .IsRequired();
+        mdBuilder.Entity<Medicacao>()
+            .Property(gen => gen.Generico)
+            .HasColumnType("CHAR(1)")
+            .IsRequired();
+        #endregion
+
+        #endregion
+
+        #region Especialidades
+        /* -> BEGIN ESPECIALIDADES */
+        mdBuilder.Entity<Especialidade>()
+            .HasKey(pk => pk.EspecialidadeId)
+            .HasName("PK_EspecialidadeId");
+        mdBuilder.Entity<Especialidade>()
+            .Property(p => p.DescEspecialidade)
+            .HasColumnType("VARCHAR(25)")
+            .IsRequired();
+        /* -> END   ESPECIALIDADES */
+        #endregion
+        #region MEDICO
+        /* -> BEGIN MEDICO */
+        mdBuilder.Entity<Medico>()
+            .HasKey(pk => pk.MedicoId)
+            .HasName("PK_MedicoId");
+        mdBuilder.Entity<Medico>()
+            .Property(nm => nm.NmMedico)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        mdBuilder.Entity<Medico>()
+            .Property(crm => crm.CrmMedico)
+            .HasColumnType("CHAR(6)");
+        mdBuilder.Entity<Medico>()
+            .Property(crmuf => crmuf.UfCrmMedico)
+            .HasColumnType("CHAR(2)")
+            .IsRequired();
+
+
+        /* -> END MEDICO */
+        #endregion
+
         #region TipoMedicacao
         /* -> BEGIN TIPOMEDICACAO */
 
@@ -318,232 +548,13 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END ConsultaCancelada */
         #endregion
-        #region EnderecoPessoa
-        /* -> BEGIN EnderecoPessoa */
-
-        mdBuilder.Entity<EnderecoPessoa>()
-            .HasKey(pk => pk.PessoaId)
-            .HasName("PK_FK_EnderecoPessoa");
-
-        mdBuilder.Entity<EnderecoPessoa>()
-            .HasOne(x => x.Pessoa)
-            .WithOne(p => p.EnderecoPessoa)
-                .HasForeignKey<EnderecoPessoa>(fk => fk.PessoaId)
-                .HasConstraintName("FK_PK_EnderecoPessoa");
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.Logradouro)
-            .HasColumnType("VARCHAR(40)")
-            .IsRequired();
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.NroLogradouro)
-            .HasColumnType("INT")
-            .IsRequired();
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.Complemento)
-            .HasColumnType("VARCHAR(15)");
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.BairroLogradouro)
-            .HasColumnType("VARCHAR(25)")
-            .IsRequired();
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.CidadeEndereco)
-            .HasColumnType("VARCHAR(25)")
-            .IsRequired();
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.UFEndereco)
-            .HasColumnType("CHAR(2)")
-            .IsRequired();
-        mdBuilder.Entity<EnderecoPessoa>()
-            .Property(str => str.CEPEndereco)
-            .HasColumnType("CHAR(8)")
-            .IsRequired();
-
-        /* -> END EnderecoPessoa */
-        #endregion
-        #region ContatoPessoa
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .HasKey(key => key.PessoaId)
-            .HasName("PK_ContatoPessoaId");
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .HasOne<Pessoa>(one => one.Pessoa)
-            .WithOne(one => one.ContatoPessoa)
-                .HasForeignKey<ContatoPessoa>(fk => fk.PessoaId)
-                .HasConstraintName("FK_Pessoa_ContatoPessoa_PessoaId");
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.Email)
-            .HasColumnType("VARCHAR(100)")
-            .IsRequired();
-        mdBuilder.Entity<ContatoPessoa>()
-            .HasIndex(i => i.Email)
-            .IsUnique(true);
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.CriadoEm)
-            .HasColumnType("datetime2(0)")
-            .HasDefaultValueSql("GETDATE()")
-            .IsRequired();
-        mdBuilder.Entity<ContatoPessoa>()
-            .HasIndex(p => p.Celular)
-            .IsUnique(false);
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.Celular)
-            .HasColumnType("CHAR(11)")
-            .IsRequired();
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.CelularSecundario)
-            .HasColumnType("CHAR(11)");
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.Telefone)
-            .HasColumnType("CHAR(10)");
-
-        mdBuilder.Entity<ContatoPessoa>()
-            .Property(p => p.TelefoneSecundario)
-            .HasColumnType("CHAR(10)");
-
-        #endregion
-        #region AndamentoMedicacao
-
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasKey(key => new { key.AndamentoMedicacaoId, key.PrescricaoPacienteId, key.MedicacaoId })
-            .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId_PrescricaoPacienteId_MedicacaoId");
-
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasOne(p => p.PrescricaoPacientes)
-            .WithMany(p => p.AndamentoMedicacoes)
-            .HasForeignKey(p => p.PrescricaoPacienteId)
-                .HasConstraintName("FK_PrescricaoPacientes_PacienteId_AndamentoMedicacoes");
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasOne(p => p.PrescricaoPacientes)
-            .WithMany(p => p.AndamentoMedicacoes)
-            .HasForeignKey(p => p.MedicacaoId)
-                .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasIndex(p => p.PrescricaoPacienteId)
-            .IsUnique(false);
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasIndex(p => p.PrescricaoPacienteId)
-            .IsUnique(false);
-
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.MtAndamentoMedicacao)
-            .HasColumnType("datetime2(0)")
-            .IsRequired();
-
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.QtdeMedicao)
-            .HasColumnType("int")
-            .IsRequired();
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.CriadoEm)
-            .HasColumnType("datetime2(0)")
-            .IsRequired();
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.BaixaAndamentoMedicacao)
-            .HasDefaultValue(false);
-
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .Property(p => p.MtBaixaMedicacao)
-            .HasColumnType("datetime2(0)");
-        #endregion
-        #region ObservacaoPaciente
-
-        mdBuilder.Entity<ObservacaoPaciente>()
-            .HasKey(key => key.SqObservacao)
-            .HasName("PK_SqObservacao");
-        mdBuilder.Entity<ObservacaoPaciente>()
-            .HasOne(one => one.Paciente)
-            .WithMany(many => many.ObservacoesPacientes)
-            .HasForeignKey(fk => fk.PacienteId)
-            .HasConstraintName("FK_SqObservacao_Pessoas");
-
-        mdBuilder.Entity<ObservacaoPaciente>()
-               .Property(p => p.MtObservacao)
-               .HasColumnType("datetime2(0)")
-               .IsRequired();
-        mdBuilder.Entity<ObservacaoPaciente>()
-               .Property(p => p.Observacao)
-               .HasColumnType("VARCHAR(255)")
-               .IsRequired();
+       
+        
+        
 
 
-        #endregion
-        #region ResponsavelPaciente
-
-        mdBuilder.Entity<ResponsavelPaciente>()
-            .HasKey(key => new { key.PacienteId, key.ResponsavelId })
-            .HasName("PK_PacienteId_ResponsavelId");
 
 
-        mdBuilder.Entity<ResponsavelPaciente>()
-            .HasOne(one => one.Paciente)
-            .WithMany(many => many.ResponsavelPacientes_Pacientes)
-            .HasForeignKey(fk => fk.PacienteId)
-            .HasConstraintName("FK_PacienteId_Pessoas_ResponsavelPaciente")
-            .OnDelete(DeleteBehavior.Restrict);
-
-        mdBuilder.Entity<ResponsavelPaciente>()
-            .HasOne(one => one.Responsavel)
-            .WithMany(many => many.ResponsavelPacientes_Responsavel)
-                .HasForeignKey(fk => fk.ResponsavelId)
-                .HasConstraintName("FK_ResponsavelId_Pessoas_ResponsavelPaciente")
-                .OnDelete(DeleteBehavior.Restrict);
-
-        mdBuilder.Entity<ResponsavelPaciente>()
-            .HasOne(one => one.GrauParentesco)
-            .WithMany(one => one.ResponsavelPacientes)
-                .HasForeignKey(fk => fk.GrauParentescoId)
-                .HasConstraintName("FK_GrauParentescoId_GrauParentesco_ResponsavelPaciente");
-        mdBuilder.Entity<ResponsavelPaciente>()
-            .Property(p => p.CriadoEm)
-            .HasColumnType("datetime2(0)")
-            .IsRequired()
-            .HasDefaultValueSql("GETDATE()");
-
-        #endregion
-        #region GrauParentesco
-
-        mdBuilder.Entity<GrauParentesco>()
-            .HasKey(key => key.GrauParentescoId)
-            .HasName("PK_GrauParentescoId");
-
-        mdBuilder.Entity<GrauParentesco>()
-            .Property(p => p.DescGrauParentesco)
-            .HasColumnType("VARCHAR(15)")
-            .IsRequired();
-
-        #endregion
-        #region CuidadorPaciente
-
-        mdBuilder.Entity<CuidadorPaciente>()
-            .HasKey(key => new { key.PacienteId, key.CuidadorId, key.CriadoEm })
-            .HasName("PK_CuidadorPacientes_PacienteId_CuidadorId");
-        mdBuilder.Entity<CuidadorPaciente>()
-            .HasOne(one => one.PessoaPaciente)
-            .WithMany(many => many.CuidadorPaciente_Pacientes)
-            .HasForeignKey(p => p.PacienteId)
-                .HasConstraintName("FK_Pessoa_CuidadorPaciente_PacienteId")
-                .OnDelete(DeleteBehavior.Restrict);
-        mdBuilder.Entity<CuidadorPaciente>()
-            .HasOne(one => one.PessoaCuidador)
-            .WithMany(many => many.CuidadorPaciente_Cuidador)
-            .HasForeignKey(p => p.CuidadorId)
-                .HasConstraintName("FK_Pessoa_CuidadorPaciente_CuidadorId")
-                .OnDelete(DeleteBehavior.Restrict);
-
-        mdBuilder.Entity<CuidadorPaciente>()
-            .Property(p => p.CriadoEm)
-            .HasColumnType("DATETIME2(0)")
-            .IsRequired();
-        mdBuilder.Entity<CuidadorPaciente>()
-            .Property(p => p.FinalizadoEm)
-            .HasColumnType("DATETIME2(0)");
-
-        #endregion
         #region VALORES_DEFAULT
         mdBuilder.Entity<Medicacao>()
             .HasData(
