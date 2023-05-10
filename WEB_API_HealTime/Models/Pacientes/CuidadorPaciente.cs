@@ -9,5 +9,5 @@ public class CuidadorPaciente
     public int CuidadorId { get; set; }
     public Pessoa PessoaCuidador { get; set; }
     public DateTime CriadoEm { get; set; }
-    public DateTime FinalizadoEm { get; set; }
+    public DateTime? FinalizadoEm { get; set; }
 }

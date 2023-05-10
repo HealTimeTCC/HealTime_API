@@ -133,7 +133,7 @@ public class PacienteRepository : IPacienteRepository
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("dan");
+        string connectionString = configuration.GetConnectionString("etec");
         List<Pessoa> listPacientes = new List<Pessoa>();
         using (SqlConnection connection = new(connectionString))
         {
@@ -199,6 +199,22 @@ public class PacienteRepository : IPacienteRepository
             return StatusCodeEnum.Success;
         }
         catch (Exception)
+        {
+            return StatusCodeEnum.BadRequest;
+        }
+    }
+    #endregion
+    #region Encerrar RelacaoCuidadorPaciente
+    public async Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(int pacienteId, int cuidadorId)
+    {
+        try
+        {
+
+            CuidadorPaciente finalizadoCuidador = await _context.CuidadorPacientes.FirstOrDefaultAsync(c => c.CuidadorId == cuidadorId && c.PacienteId == pacienteId);
+            if (finalizadoCuidador != null) return StatusCodeEnum.NotFound;
+
+        }
+        catch
         {
             return StatusCodeEnum.BadRequest;
         }

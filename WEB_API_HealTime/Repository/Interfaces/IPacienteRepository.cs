@@ -18,4 +18,5 @@ public interface IPacienteRepository
     Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador);
     //Task<List<AndamentoMedicacao>> ListHorarioMedicamentosByCod(BaixaHorarioMedicacaoDto medicacao);
     Task<StatusCodeEnum> BaixaAndamentoMedicacao(BaixaHorarioMedicacaoDto medicacao);
+    Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(int pacienteId, int cuidadorId);
 }
