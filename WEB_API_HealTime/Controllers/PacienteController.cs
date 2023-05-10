@@ -9,9 +9,7 @@ using WEB_API_HealTime.Models.Pacientes;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Dto.GlobalEnums;
-using System.Diagnostics;
-using Xunit.Sdk;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using WEB_API_HealTime.Repository;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -330,5 +328,33 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+    [HttpPost]
+    public async Task<IActionResult> EncerrarCuidadorPaciente(EncerrarCuidadorPacienteDto encerrarCuidadorPaciente)
+    {
+        try
+        {
+            Pessoa cuidador = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.pessoaId, idPessoa: encerrarCuidadorPaciente.CuidadorId.ToString());
+
+            if (cuidador == null) return NotFound("Nenhum Cuidador foi encontrado");
+            if (cuidador.TipoPessoa != EnumTipoPessoa.Cuidador) return BadRequest("Codigo enviado não confere com o tipo de cadastro da pessoa");
+            
+            Pessoa paciente = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.pessoaId, idPessoa: encerrarCuidadorPaciente.PacienteId.ToString());
+
+            if (paciente == null) return NotFound("Nenhum Paciente foi encontrado");
+            if (paciente.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) return BadRequest("Codigo enviado não confere com o tipo de cadastro da pessoa");
+
+            return await _pacienteRepository.EncerrarRelacaoCuidadorPaciente(encerrarCuidadorPaciente) switch
+            {
+                StatusCodeEnum.NotFound => NotFound("Nenhum item relacionado a busca foi encontrado"),
+                StatusCodeEnum.BadRequest => BadRequest("Erro ao salvar"),
+                StatusCodeEnum.NotContent => BadRequest("Não é possivel salvar um encerramento em um item ja finalizado"),
+                StatusCodeEnum.Success or StatusCodeEnum.Update => Ok("Finalizado com sucesso"),
+                _ => BadRequest("Erro ao salvar"),
+            };
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }
