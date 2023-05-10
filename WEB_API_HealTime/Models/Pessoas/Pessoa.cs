@@ -6,7 +6,7 @@ using WEB_API_HealTime.Models.Pessoas.Enums;
 
 namespace WEB_API_HealTime.Models.Pessoas;
 
-public class Pessoa : IDisposable
+public class Pessoa
 {
     public int PessoaId { get; set; }
     public EnumTipoPessoa TipoPessoa { get; set; }
@@ -29,8 +29,4 @@ public class Pessoa : IDisposable
     public List<CuidadorPaciente> CuidadorPaciente_Cuidador { get; set; }
     public List<ResponsavelPaciente> ResponsavelPacientes_Responsavel { get; set; }
     public List<ResponsavelPaciente> ResponsavelPacientes_Pacientes { get; set; }
-
-    public void Dispose()
-    {
-    }
 }
