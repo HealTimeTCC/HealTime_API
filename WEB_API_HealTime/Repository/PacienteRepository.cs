@@ -12,6 +12,7 @@ using WEB_API_HealTime.Querry.PacienteQuerry;
 using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using WEB_API_HealTime.Dto.GlobalEnums;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -205,14 +206,25 @@ public class PacienteRepository : IPacienteRepository
     }
     #endregion
     #region Encerrar RelacaoCuidadorPaciente
-    public async Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(int pacienteId, int cuidadorId)
+    public async Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(EncerrarCuidadorPacienteDto encerrarCuidadorPaciente)
     {
         try
         {
+            CuidadorPaciente finalizadoCuidador = await _context.CuidadorPacientes
+                .FirstOrDefaultAsync(c => c.CuidadorId == encerrarCuidadorPaciente.CuidadorId && c.PacienteId == encerrarCuidadorPaciente.PacienteId);
+            
+            if (finalizadoCuidador == null) 
+                return StatusCodeEnum.NotFound;
+            else if(finalizadoCuidador.FinalizadoEm != null)
+                return StatusCodeEnum.NotContent;
 
-            CuidadorPaciente finalizadoCuidador = await _context.CuidadorPacientes.FirstOrDefaultAsync(c => c.CuidadorId == cuidadorId && c.PacienteId == pacienteId);
-            if (finalizadoCuidador != null) return StatusCodeEnum.NotFound;
-
+            finalizadoCuidador.FinalizadoEm = DateTime.Now;
+            EntityEntry<CuidadorPaciente> attach = _context.Attach(finalizadoCuidador);
+            attach.Property(x => x.FinalizadoEm).IsModified = true;
+            attach.Property(x => x.PacienteId).IsModified = false;
+            attach.Property(x => x.CuidadorId).IsModified = false;
+            await _context.SaveChangesAsync();
+            return StatusCodeEnum.Update; 
         }
         catch
         {
