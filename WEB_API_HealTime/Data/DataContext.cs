@@ -35,7 +35,7 @@ public class DataContext : DbContext
     {
         base.OnModelCreating(mdBuilder);
 
-        #region --> ZN VERDE <--
+        #region --> Pacientes <--
         #region GrauParentesco 
 
         mdBuilder.Entity<GrauParentesco>()
@@ -129,7 +129,7 @@ public class DataContext : DbContext
 
         #endregion
         #endregion
-        #region --> ZN AMARELA <--
+        #region --> Pessoa <--
 
         #region PESSOAS
         mdBuilder.Entity<Pessoa>()
@@ -255,7 +255,7 @@ public class DataContext : DbContext
         #endregion
 
         #endregion
-        #region --> ZN VERMELHO <--
+        #region --> Medicacoes <--
 
         #region PRESCRICAOPACIENTES
         /* -> BEGIN PRESCRICAOPACIENTES */
@@ -388,7 +388,18 @@ public class DataContext : DbContext
             .Property(p => p.MtBaixaMedicacao)
             .HasColumnType("datetime2(0)");
         #endregion
-
+        #region TipoMedicacao
+        mdBuilder.Entity<TipoMedicacao>()
+            .HasKey(pk => pk.TipoMedicacaoId)
+                .HasName("PK_TipoMedicacaoId");
+        mdBuilder.Entity<TipoMedicacao>()
+            .Property(desc => desc.DescMedicacao)
+            .HasColumnType("VARCHAR(100)");
+        mdBuilder.Entity<TipoMedicacao>()
+            .Property(title => title.TituloTipoMedicacao)
+            .HasColumnType("VARCHAR(100)")
+            .IsRequired();
+        #endregion
         #region MEDICAMENTOS
         mdBuilder.Entity<Medicacao>()
             .HasKey(pk => pk.MedicacaoId)
@@ -421,6 +432,7 @@ public class DataContext : DbContext
 
         #endregion
 
+        #region --> ConsultaMedicao <--
         #region Especialidades
         /* -> BEGIN ESPECIALIDADES */
         mdBuilder.Entity<Especialidade>()
@@ -431,42 +443,6 @@ public class DataContext : DbContext
             .HasColumnType("VARCHAR(25)")
             .IsRequired();
         /* -> END   ESPECIALIDADES */
-        #endregion
-        #region MEDICO
-        /* -> BEGIN MEDICO */
-        mdBuilder.Entity<Medico>()
-            .HasKey(pk => pk.MedicoId)
-            .HasName("PK_MedicoId");
-        mdBuilder.Entity<Medico>()
-            .Property(nm => nm.NmMedico)
-            .HasColumnType("VARCHAR(40)")
-            .IsRequired();
-        mdBuilder.Entity<Medico>()
-            .Property(crm => crm.CrmMedico)
-            .HasColumnType("CHAR(6)");
-        mdBuilder.Entity<Medico>()
-            .Property(crmuf => crmuf.UfCrmMedico)
-            .HasColumnType("CHAR(2)")
-            .IsRequired();
-
-
-        /* -> END MEDICO */
-        #endregion
-
-        #region TipoMedicacao
-        /* -> BEGIN TIPOMEDICACAO */
-
-        mdBuilder.Entity<TipoMedicacao>()
-            .HasKey(pk => pk.TipoMedicacaoId)
-                .HasName("PK_TipoMedicacaoId");
-        mdBuilder.Entity<TipoMedicacao>()
-            .Property(desc => desc.DescMedicacao)
-            .HasColumnType("VARCHAR(100)");
-        mdBuilder.Entity<TipoMedicacao>()
-            .Property(title => title.TituloTipoMedicacao)
-            .HasColumnType("VARCHAR(100)")
-            .IsRequired();
-        /* -> END TIPOMEDICACAO */
         #endregion
         #region ConsultaAgenda
         /* -> BEGIN ConsultaAgendada */
@@ -548,12 +524,31 @@ public class DataContext : DbContext
             .IsRequired();
         /* -> END ConsultaCancelada */
         #endregion
-       
-        
-        
+        #endregion
 
 
 
+
+        #region MEDICO
+        /* -> BEGIN MEDICO */
+        mdBuilder.Entity<Medico>()
+            .HasKey(pk => pk.MedicoId)
+            .HasName("PK_MedicoId");
+        mdBuilder.Entity<Medico>()
+            .Property(nm => nm.NmMedico)
+            .HasColumnType("VARCHAR(40)")
+            .IsRequired();
+        mdBuilder.Entity<Medico>()
+            .Property(crm => crm.CrmMedico)
+            .HasColumnType("CHAR(6)");
+        mdBuilder.Entity<Medico>()
+            .Property(crmuf => crmuf.UfCrmMedico)
+            .HasColumnType("CHAR(2)")
+            .IsRequired();
+
+
+        /* -> END MEDICO */
+        #endregion
 
         #region VALORES_DEFAULT
         mdBuilder.Entity<Medicacao>()
