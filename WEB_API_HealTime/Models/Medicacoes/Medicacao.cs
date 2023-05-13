@@ -15,6 +15,7 @@ public class Medicacao
     public string CompostoAtivoMedicacao { get; set; }
     public string LaboratorioMedicaocao { get; set; }
     public string Generico { get; set; }
+    public int CodPessoaAlter { get; set; }
     [JsonIgnore]
     public PrescricaoMedicacao PrescricaoMedicacao { get; set; }
 }

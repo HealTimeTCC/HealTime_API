@@ -19,4 +19,5 @@ public interface IPacienteRepository
     //Task<List<AndamentoMedicacao>> ListHorarioMedicamentosByCod(BaixaHorarioMedicacaoDto medicacao);
     Task<StatusCodeEnum> BaixaAndamentoMedicacao(BaixaHorarioMedicacaoDto medicacao);
     Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(EncerrarCuidadorPacienteDto encerrarCuidadorPaciente);
+    Task<DateTime?> HoraUltimaDoseAplicada(int codCuidador);
 }

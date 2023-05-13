@@ -9,6 +9,7 @@ using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Dto.IncluiMedicacaoDto;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -44,17 +45,10 @@ public class MedicacoesController : ControllerBase
 
     #region Inclui medicacao
     [HttpPost]
-    public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
+    public async Task<IActionResult> IncluirMedicacoes(IncluiMedicacaoDto medicacao)
     {
         try
         {
-            foreach (var item in medicacao)
-            {
-                //if (item.TipoMedicacao )
-                //{
-                //FAZER METODO PARA VERIFICAR TIPO MEDICACAO
-                //}
-            }
             return await _medicacaoRepository.IncluiMedicacao(medicacao)
                 ? BadRequest("Erro ao inserir") : Ok(medicacao);
         }

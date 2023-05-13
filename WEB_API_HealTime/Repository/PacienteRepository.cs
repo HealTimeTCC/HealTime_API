@@ -19,7 +19,7 @@ namespace WEB_API_HealTime.Repository;
 public class PacienteRepository : IPacienteRepository
 {
     private readonly DataContext _context;
-    public PacienteRepository(DataContext context, IPessoaRepository pessoaRepository)
+    public PacienteRepository(DataContext context)
     {
         _context = context;
     }
@@ -120,8 +120,8 @@ public class PacienteRepository : IPacienteRepository
     {
         try
         {
-            return codRemedio == 0 && codPrescricaoPaciente == 0 
-                ? await _context.AndamentoMedicacoes.ToListAsync() 
+            return codRemedio == 0 && codPrescricaoPaciente == 0
+                ? await _context.AndamentoMedicacoes.ToListAsync()
                 : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
         }
         catch (Exception)
@@ -134,7 +134,7 @@ public class PacienteRepository : IPacienteRepository
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("etec");
+        string connectionString = configuration.GetConnectionString("dan");
         List<Pessoa> listPacientes = new List<Pessoa>();
         using (SqlConnection connection = new(connectionString))
         {
@@ -182,10 +182,10 @@ public class PacienteRepository : IPacienteRepository
         try
         {
             AndamentoMedicacao andamentoMedicacao = await _context
-                .AndamentoMedicacoes
-                .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == momentoBaixa.AndamentoMedicacaoId 
-                && x.PrescricaoPacienteId == momentoBaixa.PrescricaoPacienteId 
-                && x.MedicacaoId == momentoBaixa.MedicamentoId);
+            .AndamentoMedicacoes
+            .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == momentoBaixa.AndamentoMedicacaoId
+            && x.PrescricaoPacienteId == momentoBaixa.PrescricaoPacienteId
+            && x.MedicacaoId == momentoBaixa.MedicamentoId);
             if (andamentoMedicacao != null)
                 return StatusCodeEnum.NotFound;
             andamentoMedicacao.MtBaixaMedicacao = DateTime.Now;
@@ -212,10 +212,10 @@ public class PacienteRepository : IPacienteRepository
         {
             CuidadorPaciente finalizadoCuidador = await _context.CuidadorPacientes
                 .FirstOrDefaultAsync(c => c.CuidadorId == encerrarCuidadorPaciente.CuidadorId && c.PacienteId == encerrarCuidadorPaciente.PacienteId);
-            
-            if (finalizadoCuidador == null) 
+
+            if (finalizadoCuidador == null)
                 return StatusCodeEnum.NotFound;
-            else if(finalizadoCuidador.FinalizadoEm != null)
+            else if (finalizadoCuidador.FinalizadoEm != null)
                 return StatusCodeEnum.NotContent;
 
             finalizadoCuidador.FinalizadoEm = DateTime.Now;
@@ -224,12 +224,27 @@ public class PacienteRepository : IPacienteRepository
             attach.Property(x => x.PacienteId).IsModified = false;
             attach.Property(x => x.CuidadorId).IsModified = false;
             await _context.SaveChangesAsync();
-            return StatusCodeEnum.Update; 
+            return StatusCodeEnum.Update;
         }
         catch
         {
             return StatusCodeEnum.BadRequest;
         }
+    }
+    #endregion
+
+    #region 
+    public async Task<DateTime?> HoraUltimaDoseAplicada(int codCuidador)
+    {
+        try
+        {
+            return null;//_context.AndamentoMedicacoes.
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+
     }
     #endregion
 }

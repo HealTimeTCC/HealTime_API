@@ -387,6 +387,10 @@ public class DataContext : DbContext
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.MtBaixaMedicacao)
             .HasColumnType("datetime2(0)");
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(cod => cod.CodAplicadorMedicacao)
+            .HasColumnType("INT")
+            .IsRequired();
         #endregion
         #region TipoMedicacao
         mdBuilder.Entity<TipoMedicacao>()

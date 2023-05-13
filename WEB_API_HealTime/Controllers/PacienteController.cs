@@ -10,6 +10,7 @@ using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -307,6 +308,11 @@ public class PacienteController : ControllerBase
     {
         try
         {
+            Pessoa consultaTipo = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa:TipoConsultaPessoa.pessoaId, idPessoa: medicacao.CodAplicadorMedicacao.ToString());
+            if (consultaTipo == null)
+                return NotFound("Por favor verifique o codigo do aplicador");
+            if (consultaTipo.TipoPessoa == EnumTipoPessoa.PacienteIncapaz)
+                return BadRequest("Cod Invalido");
             return await _pacienteRepository.BaixaAndamentoMedicacao(medicacao) switch
             {
                 StatusCodeEnum.Success => Ok("Baixa feita com sucesso"),
@@ -343,6 +349,19 @@ public class PacienteController : ControllerBase
                 StatusCodeEnum.Success or StatusCodeEnum.Update => Ok("Finalizado com sucesso"),
                 _ => BadRequest("Erro ao salvar"),
             };
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("{codCuidador:int}")]
+    public async Task<IActionResult> UltimaDosagem(int codCuidador)
+    {
+        try
+        {
+            return Ok(0);
         }
         catch (Exception ex)
         {

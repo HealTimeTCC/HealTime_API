@@ -64,7 +64,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("etec"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
 });
 
 
