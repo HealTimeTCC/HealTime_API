@@ -13,7 +13,7 @@ public interface IMedicacaoRepository
     Task<bool> MedicacaoExiste(int id);
     Task<bool> IncluiPrescricaoMedicacao(List<PrescricaoMedicacao> listPrescricaoMedicacaos);
     Task<Medico> MedicoByCod(int medicoId);
-    Task<bool> IncluiMedicacao(IncluiMedicacaoDto medicacaos);
+    Task<bool> IncluiMedicacao(List<Medicacao> medicacaos);
     Task<List<PrescricaoPaciente>> ListPrescricaoByCod(int cod, bool pacienteId = false);
     Task<Medicacao> MedicacaoById(int codMedicacao);
     Task<PrescricaoPaciente> PrescricaoByCod(int codPrescricacao);

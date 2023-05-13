@@ -45,7 +45,7 @@ public class MedicacoesController : ControllerBase
 
     #region Inclui medicacao
     [HttpPost]
-    public async Task<IActionResult> IncluirMedicacoes(IncluiMedicacaoDto medicacao)
+    public async Task<IActionResult> IncluirMedicacoes(List<Medicacao> medicacao)
     {
         try
         {

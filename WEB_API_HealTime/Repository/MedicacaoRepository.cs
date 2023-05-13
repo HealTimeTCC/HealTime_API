@@ -70,34 +70,17 @@ public class MedicacaoRepository : IMedicacaoRepository
         }
     }
 
-    public async Task<bool> IncluiMedicacao(IncluiMedicacaoDto medicacaos)
+    public async Task<bool> IncluiMedicacao(List<Medicacao> medicacaos)
     {
         try
         {
-            if (medicacaos.ListaMedicamentos.Count == 0)
+            if (medicacaos.Count == 0)
                 return false;
 
-            if (await _context.Pessoas.FirstOrDefaultAsync(x => x.PessoaId == medicacaos.PessoaIdInclusora && x.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) is null)
+            if (await _context.Pessoas.FirstOrDefaultAsync(x => x.PessoaId == medicacaos[0].CodPessoaAlter && x.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) is null)
                 return false;
 
-            List<Medicacao> listMedicacao = new List<Medicacao>();
-            foreach (var item in medicacaos.ListaMedicamentos)
-            {
-                Medicacao medicacao = new()
-                {
-                    CodPessoaAlter = item.CodPessoaAlter,
-                    CompostoAtivoMedicacao = item.CompostoAtivoMedicacao,
-                    Generico = item.Generico,
-                    LaboratorioMedicaocao = item.LaboratorioMedicaocao,
-                    NomeMedicacao = item.NomeMedicacao,
-                    StatusMedicacao = item.StatusMedicacao,
-                    TipoMedicacaoId = item.TipoMedicacaoId  
-                    
-                };
-                listMedicacao.Add(medicacao);
-            }
-
-            await _context.Medicacoes.AddRangeAsync(listMedicacao);
+            await _context.Medicacoes.AddRangeAsync(medicacaos);
             await _context.SaveChangesAsync();
             return true;
         }
