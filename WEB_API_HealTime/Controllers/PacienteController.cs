@@ -20,10 +20,12 @@ public class PacienteController : ControllerBase
 {
     private readonly IPacienteRepository _pacienteRepository;
     private readonly IPessoaRepository _pessoasRepository;
-    public PacienteController(IPacienteRepository pacienteRepository, IPessoaRepository pessoaRepository)
+    private readonly IMedicacaoRepository _medicacaoRepository;
+    public PacienteController(IPacienteRepository pacienteRepository, IPessoaRepository pessoaRepository, IMedicacaoRepository medicacaoRepository)
     {
         _pessoasRepository = pessoaRepository;
         _pacienteRepository = pacienteRepository;
+        _medicacaoRepository = medicacaoRepository;
     }
     [HttpPost]
     public async Task<IActionResult> AssociarResponsavel(AssociaPacienteResponsavelDto pacienteResponsavelDto)
@@ -356,12 +358,13 @@ public class PacienteController : ControllerBase
         }
     }
 
-    [HttpGet("{codCuidador:int}")]
-    public async Task<IActionResult> UltimaDosagem(int codCuidador)
+    [HttpGet("{codCuidadorResponsavel:int}")]
+    public async Task<IActionResult> UltimaDosagem(int codCuidadorResponsavel)
     {
         try
         {
-            return Ok(0);
+            DateTime? ultimaDosagem = await _pacienteRepository.HoraUltimaDoseAplicada(codCuidadorResponsavel);
+            return ultimaDosagem is null ? NotFound("Vazio") : Ok(ultimaDosagem);
         }
         catch (Exception ex)
         {

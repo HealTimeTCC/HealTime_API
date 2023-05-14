@@ -13,15 +13,19 @@ using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WEB_API_HealTime.Repository;
 
 public class PacienteRepository : IPacienteRepository
 {
     private readonly DataContext _context;
+    private string _connectionString;
     public PacienteRepository(DataContext context)
     {
         _context = context;
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        _connectionString = configuration.GetConnectionString("dan");
     }
 
     #region Incluir Observações
@@ -133,10 +137,10 @@ public class PacienteRepository : IPacienteRepository
     #region Listar paciente by cod responsavel ou cuidador
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("dan");
+        //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //string connectionString = configuration.GetConnectionString("dan");
         List<Pessoa> listPacientes = new List<Pessoa>();
-        using (SqlConnection connection = new(connectionString))
+        using (SqlConnection connection = new(_connectionString))
         {
             try
             {
@@ -234,16 +238,30 @@ public class PacienteRepository : IPacienteRepository
     #endregion
 
     #region 
-    public async Task<DateTime?> HoraUltimaDoseAplicada(int codCuidador)
+    public async Task<DateTime?> HoraUltimaDoseAplicada(int codAplicador)
     {
-        try
+        using (SqlConnection connection = new(_connectionString))
         {
-            return null;//_context.AndamentoMedicacoes.
+            try
+            {
+                await connection.OpenAsync();
+                SqlCommand command = new(QuerryPaciente.SelectUltimaDosagemMedicamento(codAplicador), connection);
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                    return reader["MtBaixaMedicacao"] is null ? null : DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+                await connection.DisposeAsync();
+            }
         }
-        catch (Exception)
-        {
-            throw;
-        }
+        return DateTime.Now;
+
 
     }
     #endregion

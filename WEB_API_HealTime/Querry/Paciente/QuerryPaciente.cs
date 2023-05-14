@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 
@@ -31,6 +32,15 @@ public class QuerryPaciente
         }
 
         return querry.ToString();
+    }
+    public static string SelectUltimaDosagemMedicamento(int codAplicador)
+    {
+        StringBuilder selectUltimaDosage = new();
+        selectUltimaDosage.AppendLine("SELECT TOP 1 MtBaixaMedicacao FROM AndamentoMedicacoes");
+        selectUltimaDosage.AppendLine($"    WHERE CodAplicadorMedicacao = {codAplicador}     ");
+        selectUltimaDosage.AppendLine("    ORDER BY MtBaixaMedicacao DESC                    ");
+        return selectUltimaDosage.ToString();
+
     }
 }
 

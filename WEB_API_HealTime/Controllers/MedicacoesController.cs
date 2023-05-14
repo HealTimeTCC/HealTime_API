@@ -9,7 +9,6 @@ using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Dto.IncluiMedicacaoDto;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -87,7 +86,7 @@ public class MedicacoesController : ControllerBase
 
             for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
             {
-                if (!FormataDados.VerificaTempo(prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo))
+                if (FormataDados.VerificaTempo(prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo))
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
                 prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoPacienteId;
                 prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoPacienteId;
@@ -187,7 +186,7 @@ public class MedicacoesController : ControllerBase
         }
     }
     #endregion
-    //Arrumar a consulta prescricao
+    
     #region COnsulta Medicacao By Id
     [HttpGet("{id:int}")]
     public async Task<IActionResult> ConsultaMedicacaoById(int id)
@@ -206,5 +205,19 @@ public class MedicacoesController : ControllerBase
         }
     }
     #endregion
-    //Arrumar
+    
+    [HttpGet("codPessoa:int")]
+    public async Task<IActionResult> ListaMedicamentos(int codPessoa)
+    {
+        try
+        {
+            List<Medicacao> listMedicacao = await _medicacaoRepository.ListarMedicacoes(codPessoa);
+
+            return listMedicacao.Count == 0 ? NotFound("Nada encontrado") : Ok(listMedicacao);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

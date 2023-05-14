@@ -1,5 +1,4 @@
 ﻿using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.IncluiMedicacaoDto;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 
@@ -22,4 +21,5 @@ public interface IMedicacaoRepository
     Task<StatusCodeEnum> CancelarPrescricaoPaciente(PrescricaoPaciente prescricaoCancela);
     Task<StatusCodeEnum> CancelaItemMedicacaoPrescricao(int codPrescricao, int codMedicacao);
     Task<PrescricaoMedicacao> ConsultaItemMedicaoPrescricao(int codPrescricao, int codMedicacao);
+    Task<List<Medicacao>> ListarMedicacoes(int codPessoa);
 }

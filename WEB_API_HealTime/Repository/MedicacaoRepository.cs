@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.IncluiMedicacaoDto;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
@@ -253,4 +252,15 @@ public class MedicacaoRepository : IMedicacaoRepository
         }
     }
     #endregion
+    public async Task<List<Medicacao>> ListarMedicacoes(int codPessoa)
+    {
+        try
+        {
+            return await _context.Medicacoes.Where(x => x.CodPessoaAlter == codPessoa).ToListAsync();
+        }
+        catch (Exception )
+        {
+            throw;
+        }
+    }
 }

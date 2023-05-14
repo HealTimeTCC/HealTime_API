@@ -15,5 +15,5 @@ public class AndamentoMedicacao
     public DateTime CriadoEm { get; set; }
     public bool BaixaAndamentoMedicacao { get; set; }
     public DateTime? MtBaixaMedicacao { get; set; }
-    public int CodAplicadorMedicacao { get; set; }
+    public int? CodAplicadorMedicacao { get; set; }
 }
