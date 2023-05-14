@@ -14,6 +14,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Http.HttpResults;
+using System.Data;
 
 namespace WEB_API_HealTime.Repository;
 
@@ -238,19 +239,23 @@ public class PacienteRepository : IPacienteRepository
     #endregion
 
     #region 
-    public async Task<DateTime?> HoraUltimaDoseAplicada(int codAplicador)
+    public async Task<UltimaDosagemDto> HoraUltimaDoseAplicada(int codAplicador)
     {
         using (SqlConnection connection = new(_connectionString))
         {
             try
             {
+                UltimaDosagemDto ultimaDosagem = new(); 
                 await connection.OpenAsync();
                 SqlCommand command = new(QuerryPaciente.SelectUltimaDosagemMedicamento(codAplicador), connection);
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.Read())
                 {
-                    var comm = DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
-                    return reader["MtBaixaMedicacao"] is null ? null : DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
+                    ultimaDosagem.NomePaciente = reader.GetString("NomePessoa");
+                    ultimaDosagem.UltimaDosage = reader["MtBaixaMedicacao"] is null ? null : DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
+                    ultimaDosagem.CodAplicador = reader.GetInt32("CodAplicadorMedicacao");
+                    ultimaDosagem.PacienteId = reader.GetInt32("PacienteId");
+                    return ultimaDosagem;
                 }
                 else
                 {

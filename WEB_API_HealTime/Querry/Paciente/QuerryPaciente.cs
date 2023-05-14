@@ -36,9 +36,13 @@ public class QuerryPaciente
     public static string SelectUltimaDosagemMedicamento(int codAplicador)
     {
         StringBuilder selectUltimaDosage = new();
-        selectUltimaDosage.AppendLine("SELECT TOP 1 MtBaixaMedicacao FROM AndamentoMedicacoes");
-        selectUltimaDosage.AppendLine($"    WHERE CodAplicadorMedicacao = {codAplicador}     ");
-        selectUltimaDosage.AppendLine("    ORDER BY MtBaixaMedicacao DESC                    ");
+
+        selectUltimaDosage.AppendLine("SELECT TOP 1 P.NomePessoa, P.PessoaId AS PacienteId, AM.MtBaixaMedicacao, AM.CodAplicadorMedicacao   ");  
+        selectUltimaDosage.AppendLine("    FROM AndamentoMedicacoes AM                                                        ");
+        selectUltimaDosage.AppendLine("INNER JOIN PrescricaoPacientes PP ON PP.PrescricaoPacienteId = AM.PrescricaoPacienteId ");
+        selectUltimaDosage.AppendLine("INNER JOIN Pessoas P ON P.PessoaId = PP.PacienteId                                     ");
+        selectUltimaDosage.AppendLine($"WHERE CodAplicadorMedicacao = {codAplicador}                                          ");
+        selectUltimaDosage.AppendLine("ORDER BY MtBaixaMedicacao DESC;                                                        ");
         string cmd = selectUltimaDosage.ToString();
         return selectUltimaDosage.ToString();
 

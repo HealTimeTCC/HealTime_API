@@ -363,8 +363,8 @@ public class PacienteController : ControllerBase
     {
         try
         {
-            DateTime? ultimaDosagem = await _pacienteRepository.HoraUltimaDoseAplicada(codCuidadorResponsavel);
-            return ultimaDosagem is null ? NotFound("Vazio") : Ok(ultimaDosagem);
+            UltimaDosagemDto ultimaDosagemDto = await _pacienteRepository.HoraUltimaDoseAplicada(codCuidadorResponsavel);
+            return ultimaDosagemDto is null ? NotFound("Vazio") : Ok(ultimaDosagemDto);
         }
         catch (Exception ex)
         {

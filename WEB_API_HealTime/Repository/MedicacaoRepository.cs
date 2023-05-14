@@ -263,4 +263,9 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
+
+    public async Task<List<TipoMedicacao>> ListarTipoMedicacao()
+    {
+        return await _context.TiposMedicacoes.ToListAsync();
+    }
 }

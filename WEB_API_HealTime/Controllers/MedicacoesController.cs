@@ -8,10 +8,12 @@ using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
-using WEB_API_HealTime.Models.ConsultasMedicas;
+using WEB_API_HealTime.Models.ConsultasMedicas
+using Microsoft.AspNetCore.Authorization;
 
 namespace WEB_API_HealTime.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]/[action]")]
 public class MedicacoesController : ControllerBase
@@ -49,7 +51,7 @@ public class MedicacoesController : ControllerBase
         try
         {
             return await _medicacaoRepository.IncluiMedicacao(medicacao)
-                ? BadRequest("Erro ao inserir") : Ok(medicacao);
+                ? Ok(medicacao) : BadRequest("Erro ao inserir");
         }
         catch (Exception ex)
         {
@@ -186,7 +188,7 @@ public class MedicacoesController : ControllerBase
         }
     }
     #endregion
-    
+
     #region COnsulta Medicacao By Id
     [HttpGet("{id:int}")]
     public async Task<IActionResult> ConsultaMedicacaoById(int id)
@@ -205,8 +207,8 @@ public class MedicacoesController : ControllerBase
         }
     }
     #endregion
-    
-    [HttpGet("codPessoa:int")]
+
+    [HttpGet("{codPessoa:int}")]
     public async Task<IActionResult> ListaMedicamentos(int codPessoa)
     {
         try
@@ -214,6 +216,20 @@ public class MedicacoesController : ControllerBase
             List<Medicacao> listMedicacao = await _medicacaoRepository.ListarMedicacoes(codPessoa);
 
             return listMedicacao.Count == 0 ? NotFound("Nada encontrado") : Ok(listMedicacao);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ListarTipoDeMedicacao()
+    {
+        try
+        {
+            List<TipoMedicacao> listTipoMedicacao = await _medicacaoRepository.ListarTipoMedicacao();
+            return listTipoMedicacao.Count == 0 ? NotFound("Nada encontrado") : Ok(listTipoMedicacao);
         }
         catch (Exception ex)
         {
