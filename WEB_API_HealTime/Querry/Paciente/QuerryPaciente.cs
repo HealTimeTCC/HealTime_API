@@ -39,6 +39,7 @@ public class QuerryPaciente
         selectUltimaDosage.AppendLine("SELECT TOP 1 MtBaixaMedicacao FROM AndamentoMedicacoes");
         selectUltimaDosage.AppendLine($"    WHERE CodAplicadorMedicacao = {codAplicador}     ");
         selectUltimaDosage.AppendLine("    ORDER BY MtBaixaMedicacao DESC                    ");
+        string cmd = selectUltimaDosage.ToString();
         return selectUltimaDosage.ToString();
 
     }

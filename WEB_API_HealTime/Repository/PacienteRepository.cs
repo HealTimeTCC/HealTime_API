@@ -248,7 +248,14 @@ public class PacienteRepository : IPacienteRepository
                 SqlCommand command = new(QuerryPaciente.SelectUltimaDosagemMedicamento(codAplicador), connection);
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (reader.Read())
+                {
+                    var comm = DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
                     return reader["MtBaixaMedicacao"] is null ? null : DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception)
             {
@@ -260,9 +267,6 @@ public class PacienteRepository : IPacienteRepository
                 await connection.DisposeAsync();
             }
         }
-        return DateTime.Now;
-
-
     }
     #endregion
 }
