@@ -4,6 +4,15 @@ USE [DB_HEAL_TIME]
 
 GO
 
+--Select * from Medicacoes
+
+--select * from PrescricoesMedicacoes
+----1 - 3GO 
+
+USE [DB-HEALTIME_II]
+
+GO
+
 CREATE OR ALTER PROC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID INT
 AS
 BEGIN
@@ -44,14 +53,17 @@ BEGIN
 		
 		INSERT 
 			INTO AndamentoMedicacoes(
-			MedicacaoId
+			 AndamentoMedicacaoId 
+			, MedicacaoId
 			, MtAndamentoMedicacao
 			, PrescricaoPacienteId
 			, CriadoEm
 			, QtdeMedicao
+
 			) 
 		VALUES (
-		@MEDICAMENTOID
+		 NEXT VALUE FOR AndamentoMedicacao_GenId
+		, @MEDICAMENTOID
 		, @MOMENTOMEDICACAO
 		, @PRESCRICAOPACIENTEID
 		, GETDATE()
@@ -59,3 +71,6 @@ BEGIN
 		);
 	END
 END
+CREATE SEQUENCE AndamentoMedicacao_GenId
+    START WITH 1
+    INCREMENT BY 1;
