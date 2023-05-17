@@ -22,7 +22,7 @@ public class MedicacaoRepository : IMedicacaoRepository
         {
             List<PrescricaoMedicacao> listOff = await ListarPrescricaoMedicacoes(codPaciente);
             if (listOff.Count == 0) return StatusCodeEnum.NotFound;
-            listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
+            listOff.ForEach(x => x.StatusMedicacaoFlag = false);
             _context.UpdateRange(listOff);
             await _context.SaveChangesAsync();
             return StatusCodeEnum.Success;
@@ -196,7 +196,7 @@ public class MedicacaoRepository : IMedicacaoRepository
     {
         try
         {
-            prescricaoCancela.FlagStatus = "N";
+            prescricaoCancela.FlagStatusAtivo = false;
             _context.PrescricaoPacientes.Update(prescricaoCancela);
             await _context.SaveChangesAsync();
             return StatusCodeEnum.Success;
@@ -216,7 +216,7 @@ public class MedicacaoRepository : IMedicacaoRepository
             if (prescricaoMedicacao is null)
                 return StatusCodeEnum.NotFound;
             /*Alterando status*/
-            prescricaoMedicacao.StatusMedicacaoFlag = "N";
+            prescricaoMedicacao.StatusMedicacaoFlag = false;
             prescricaoMedicacao.Medicacao.StatusMedicacao = EnumStatusMedicacao.INATIVO;
 
             //salvando e definindo o que foi mudado

@@ -1,14 +1,11 @@
-﻿using WEB_API_HealTime.Models.Medicacoes.Enums;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
-using WEB_API_HealTime.Models.ConsultasMedicas
+using WEB_API_HealTime.Models.ConsultasMedicas;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WEB_API_HealTime.Controllers;
@@ -122,7 +119,7 @@ public class MedicacoesController : ControllerBase
 
             if (prescricaoCancela != null)
             {
-                if (prescricaoCancela.FlagStatus == "N")
+                if (!prescricaoCancela.FlagStatusAtivo)// se false indica inativo
                     return BadRequest("Prescrição já está Inativa");
 
                 switch (await _medicacaoRepository.CancelaPrescricaoMedicacao(prescricaoCancela.PacienteId))

@@ -293,9 +293,8 @@ public class DataContext : DbContext
             .Property(desc => desc.DescFichaPessoa)
             .HasColumnType("VARCHAR(350)");
         mdBuilder.Entity<PrescricaoPaciente>()
-            .Property(flag => flag.FlagStatus)
-            .HasColumnType("CHAR(1)")
-            .HasDefaultValue("S")
+            .Property(flag => flag.FlagStatusAtivo)
+            .HasDefaultValue(true)
             .IsRequired();
         /* -> END  PRESCRICAOPACIENTES */
         #endregion
@@ -320,28 +319,27 @@ public class DataContext : DbContext
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasIndex(pk => pk.MedicacaoId)
             .IsUnique(false);
-
+        
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasIndex(pk => pk.MedicacaoId)
             .IsUnique(false);
 
         mdBuilder.Entity<PrescricaoMedicacao>()
-           .Property(flag => flag.Qtde)
+           .Property(qtd => qtd.Qtde)
            .HasColumnType("FLOAT(10, 2)");
-
+        
         mdBuilder.Entity<PrescricaoMedicacao>()
-            .Property(flag => flag.Intervalo)
+            .Property(qtd => qtd.Intervalo)
             .HasColumnType("TIME")
                .IsRequired();
 
         mdBuilder.Entity<PrescricaoMedicacao>()
-            .Property(flag => flag.StatusMedicacaoFlag)
-            .HasColumnType("CHAR(1)")
-            .HasDefaultValue("S")
+            .Property(qtd => qtd.StatusMedicacaoFlag)
+            .HasDefaultValue(true)
             .IsRequired();
 
         mdBuilder.Entity<PrescricaoMedicacao>()
-            .Property(flag => flag.HorariosDefinidos)
+            .Property(qtd => qtd.HorariosDefinidos)
             .HasDefaultValue(false);
         #endregion
         #region AndamentoMedicacao
