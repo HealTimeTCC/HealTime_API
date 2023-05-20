@@ -104,6 +104,7 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
+    
     public async Task<int> IncluiPrescricaoPaciente(PrescricaoPaciente prescricaoPaciente)
     {
         try

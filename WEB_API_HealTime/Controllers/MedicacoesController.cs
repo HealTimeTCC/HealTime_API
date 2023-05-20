@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WEB_API_HealTime.Controllers;
 
-[Authorize]
+//[Authorize]
 [ApiController]
 [Route("[controller]/[action]")]
 public class MedicacoesController : ControllerBase
@@ -67,30 +67,48 @@ public class MedicacoesController : ControllerBase
             if (prescricaoDTO is null)
                 throw new Exception("Objeto nulo");
 
-            if (!await _medicacaoRepository.MedicoExiste(prescricaoDTO.PrescricaoPaciente.MedicoId))
-                return NotFound($"Medico ID {prescricaoDTO.PrescricaoPaciente.MedicoId} não encontrado");
+            if (!await _medicacaoRepository.MedicoExiste(prescricaoDTO.MedicoId))
+                return NotFound($"Medico ID {prescricaoDTO.MedicoId} não encontrado");
 
-            prescricaoDTO.PrescricaoPaciente.CriadoEm = DateTime.Now;
+            PrescricaoPaciente prescricaoPaciente = new()
+            {
+                 CriadoEm =DateTime.Now,
+                 DescFichaPessoa = prescricaoDTO.DescFichaPessoa,
+                 Emissao = prescricaoDTO.Emissao,
+                 FlagStatusAtivo = true,
+                 MedicoId = prescricaoDTO.MedicoId,
+                 PacienteId = prescricaoDTO.PacienteId,
+                 Validade = prescricaoDTO.Validade,
+            };
 
-            int prescricaoPacienteId = await _medicacaoRepository.IncluiPrescricaoPaciente(prescricaoDTO.PrescricaoPaciente);
+            int prescricaoPacienteId = await _medicacaoRepository.IncluiPrescricaoPaciente(prescricaoPaciente);
 
-            if (prescricaoDTO.MedicacoesId.Count < 1)
+            if (prescricaoDTO.PrescricoesMedicacoesDto.Count < 1)
                 return BadRequest("É necessario no minimo 1 medicamento");
-
-            for (int i = 0; i < prescricaoDTO.MedicacoesId.Count; i++)
+            List<PrescricaoMedicacao> listPrescricaoMedicacoes = new();
+            
+            for (int i = 0; i < prescricaoDTO.PrescricoesMedicacoesDto.Count; i++)
             {
-                if (!await _medicacaoRepository.MedicacaoExiste(prescricaoDTO.MedicacoesId[i]))
-                    return NotFound($"Medicamento de ID {prescricaoDTO.MedicacoesId[i]} não encontrado");
-            }
+                if (!await _medicacaoRepository.MedicacaoExiste(prescricaoDTO.PrescricoesMedicacoesDto[i].MedicacaoId))
+                    return NotFound($"Medicamento de ID {prescricaoDTO.PrescricoesMedicacoesDto[i].MedicacaoId} não encontrado");
 
-            for (int indice = 0; indice < prescricaoDTO.MedicacoesId.Count; indice++)
-            {
-                if (FormataDados.VerificaTempo(prescricaoDTO.PrescricoesMedicacoes[indice].Intervalo))
+                if (FormataDados.VerificaTempo(prescricaoDTO.PrescricoesMedicacoesDto[i].Intervalo))
                     return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
-                prescricaoDTO.PrescricoesMedicacoes[indice].PrescricaoPacienteId = prescricaoPacienteId;
-                prescricaoDTO.PrescricoesMedicacoes[indice].MedicacaoId = prescricaoPacienteId;
+
+                PrescricaoMedicacao prescricao = new()
+                {
+                    MedicacaoId = prescricaoDTO.PrescricoesMedicacoesDto[i].MedicacaoId,
+                    Duracao = prescricaoDTO.PrescricoesMedicacoesDto[i].Duracao,
+                    HorariosDefinidos = false,
+                    Intervalo = prescricaoDTO.PrescricoesMedicacoesDto[i].Intervalo,
+                    PrescricaoPacienteId = prescricaoPacienteId,
+                    Qtde = prescricaoDTO.PrescricoesMedicacoesDto[i].Qtde,
+                    StatusMedicacaoFlag = prescricaoDTO.PrescricoesMedicacoesDto[i].StatusMedicacaoFlag,
+                };
+                
+                listPrescricaoMedicacoes.Add(prescricao);
             }
-            return await _medicacaoRepository.IncluiPrescricaoMedicacao(prescricaoDTO.PrescricoesMedicacoes) ? Ok("Inclusao feita com sucesso") : BadRequest();
+            return await _medicacaoRepository.IncluiPrescricaoMedicacao(listPrescricaoMedicacoes) ? Ok("Inclusao feita com sucesso") : BadRequest();
         }
         catch (Exception ex)
         {
