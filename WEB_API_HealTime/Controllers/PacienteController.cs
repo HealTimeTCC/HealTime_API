@@ -142,7 +142,7 @@ public class PacienteController : ControllerBase
                 Pessoa cuidador = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.cpfEIdPessoa, cpfConsulta: pacienteCuidadorDto.CuidadorCpf, idPessoa: pacienteCuidadorDto.CuidadorId.ToString());
 
                 if (cuidador is null || cuidador.TipoPessoa != EnumTipoPessoa.Cuidador)
-                    return NotFound("Responsavel com essas caracteristicas não encontrado(a)");
+                    return NotFound("Cuidador com essas caracteristicas não encontrado(a)");
                 id[0] = cuidador.PessoaId;
 
 
@@ -160,11 +160,11 @@ public class PacienteController : ControllerBase
             }
             else if (pacienteCuidadorDto.CuidadorCpf == null && pacienteCuidadorDto.CuidadorId != null)
             {
-                Pessoa responsavel = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.pessoaId, idPessoa: pacienteCuidadorDto.CuidadorId.ToString());
+                Pessoa cuidador = await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.pessoaId, idPessoa: pacienteCuidadorDto.CuidadorId.ToString());
 
-                if (responsavel is null || responsavel.TipoPessoa != EnumTipoPessoa.Cuidador)
+                if (cuidador is null || cuidador.TipoPessoa != EnumTipoPessoa.Cuidador)
                     return NotFound("Responsavel com essas caracteristicas não encontrado(a)");
-                id[0] = responsavel.PessoaId;
+                id[0] = cuidador.PessoaId;
 
             }
             else return BadRequest("Insira todos os campos necessários");

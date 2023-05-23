@@ -53,11 +53,12 @@ public class PacienteRepository : IPacienteRepository
     }
     #endregion
     #region Inclusao de cuidador paciente
-    public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente)
+    public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente cuidadorPaciente)
     {
         try
         {
-            await _context.CuidadorPacientes.AddAsync(CuidadorPaciente);
+            cuidadorPaciente.CriadoEm = DateTime.Now;
+            await _context.CuidadorPacientes.AddAsync(cuidadorPaciente);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -72,6 +73,7 @@ public class PacienteRepository : IPacienteRepository
     {
         try
         {
+            responsavelPaciente.CriadoEm = DateTime.Now;
             await _context.ResponsaveisPacientes.AddAsync(responsavelPaciente);
             await _context.SaveChangesAsync();
             return true;

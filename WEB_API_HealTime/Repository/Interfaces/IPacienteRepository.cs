@@ -10,7 +10,7 @@ namespace WEB_API_HealTime.Repository.Interfaces;
 public interface IPacienteRepository
 {
     Task<bool> SaveResponsavelPaciente(ResponsavelPaciente responsavelPaciente);
-    Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente);
+    Task<bool> SaveCuidadorPaciente(CuidadorPaciente cuidadorPaciente);
     Task<bool> IncluirObservacoes(IncluiObservacaoDto observacao);
     Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario);
     Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId);
