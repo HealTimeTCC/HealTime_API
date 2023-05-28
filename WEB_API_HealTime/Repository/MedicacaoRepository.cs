@@ -1,11 +1,10 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
+using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Repository.Interfaces;
 
 namespace WEB_API_HealTime.Repository;
@@ -23,7 +22,7 @@ public class MedicacaoRepository : IMedicacaoRepository
         {
             List<PrescricaoMedicacao> listOff = await ListarPrescricaoMedicacoes(codPaciente);
             if (listOff.Count == 0) return StatusCodeEnum.NotFound;
-            listOff.ForEach(x => x.StatusMedicacaoFlag = "N");
+            listOff.ForEach(x => x.StatusMedicacaoFlag = false);
             _context.UpdateRange(listOff);
             await _context.SaveChangesAsync();
             return StatusCodeEnum.Success;
@@ -74,6 +73,12 @@ public class MedicacaoRepository : IMedicacaoRepository
     {
         try
         {
+            if (medicacaos.Count == 0)
+                return false;
+
+            if (await _context.Pessoas.FirstOrDefaultAsync(x => x.PessoaId == medicacaos[0].CodPessoaAlter && x.TipoPessoa != EnumTipoPessoa.PacienteIncapaz) is null)
+                return false;
+
             await _context.Medicacoes.AddRangeAsync(medicacaos);
             await _context.SaveChangesAsync();
             return true;
@@ -99,6 +104,7 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
+    
     public async Task<int> IncluiPrescricaoPaciente(PrescricaoPaciente prescricaoPaciente)
     {
         try
@@ -191,7 +197,7 @@ public class MedicacaoRepository : IMedicacaoRepository
     {
         try
         {
-            prescricaoCancela.FlagStatus = "N";
+            prescricaoCancela.FlagStatusAtivo = false;
             _context.PrescricaoPacientes.Update(prescricaoCancela);
             await _context.SaveChangesAsync();
             return StatusCodeEnum.Success;
@@ -211,7 +217,7 @@ public class MedicacaoRepository : IMedicacaoRepository
             if (prescricaoMedicacao is null)
                 return StatusCodeEnum.NotFound;
             /*Alterando status*/
-            prescricaoMedicacao.StatusMedicacaoFlag = "N";
+            prescricaoMedicacao.StatusMedicacaoFlag = false;
             prescricaoMedicacao.Medicacao.StatusMedicacao = EnumStatusMedicacao.INATIVO;
 
             //salvando e definindo o que foi mudado
@@ -247,4 +253,20 @@ public class MedicacaoRepository : IMedicacaoRepository
         }
     }
     #endregion
+    public async Task<List<Medicacao>> ListarMedicacoes(int codPessoa)
+    {
+        try
+        {
+            return await _context.Medicacoes.Where(x => x.CodPessoaAlter == codPessoa).ToListAsync();
+        }
+        catch (Exception )
+        {
+            throw;
+        }
+    }
+
+    public async Task<List<TipoMedicacao>> ListarTipoMedicacao()
+    {
+        return await _context.TiposMedicacoes.ToListAsync();
+    }
 }

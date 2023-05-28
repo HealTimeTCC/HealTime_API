@@ -216,6 +216,7 @@ public class PessoaController : ControllerBase
     }
     #endregion
     #region Incluir Foto
+    [HttpPost]
     public async Task<IActionResult> IncluirFoto(IncluiFotoPessoaDto incluiFoto)
     {
         try

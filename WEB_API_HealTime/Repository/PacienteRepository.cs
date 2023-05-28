@@ -12,15 +12,21 @@ using WEB_API_HealTime.Querry.PacienteQuerry;
 using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using WEB_API_HealTime.Dto.GlobalEnums;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Data;
 
 namespace WEB_API_HealTime.Repository;
 
 public class PacienteRepository : IPacienteRepository
 {
     private readonly DataContext _context;
-    public PacienteRepository(DataContext context, IPessoaRepository pessoaRepository)
+    private string _connectionString;
+    public PacienteRepository(DataContext context)
     {
         _context = context;
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        _connectionString = configuration.GetConnectionString("dan");
     }
 
     #region Incluir Observações
@@ -47,11 +53,12 @@ public class PacienteRepository : IPacienteRepository
     }
     #endregion
     #region Inclusao de cuidador paciente
-    public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente CuidadorPaciente)
+    public async Task<bool> SaveCuidadorPaciente(CuidadorPaciente cuidadorPaciente)
     {
         try
         {
-            await _context.CuidadorPacientes.AddAsync(CuidadorPaciente);
+            cuidadorPaciente.CriadoEm = DateTime.Now;
+            await _context.CuidadorPacientes.AddAsync(cuidadorPaciente);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -66,6 +73,7 @@ public class PacienteRepository : IPacienteRepository
     {
         try
         {
+            responsavelPaciente.CriadoEm = DateTime.Now;
             await _context.ResponsaveisPacientes.AddAsync(responsavelPaciente);
             await _context.SaveChangesAsync();
             return true;
@@ -119,8 +127,8 @@ public class PacienteRepository : IPacienteRepository
     {
         try
         {
-            return codRemedio == 0 && codPrescricaoPaciente == 0 
-                ? await _context.AndamentoMedicacoes.ToListAsync() 
+            return codRemedio == 0 && codPrescricaoPaciente == 0
+                ? await _context.AndamentoMedicacoes.ToListAsync()
                 : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
         }
         catch (Exception)
@@ -132,10 +140,10 @@ public class PacienteRepository : IPacienteRepository
     #region Listar paciente by cod responsavel ou cuidador
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        string connectionString = configuration.GetConnectionString("dan");
+        //var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //string connectionString = configuration.GetConnectionString("dan");
         List<Pessoa> listPacientes = new List<Pessoa>();
-        using (SqlConnection connection = new(connectionString))
+        using (SqlConnection connection = new(_connectionString))
         {
             try
             {
@@ -181,10 +189,10 @@ public class PacienteRepository : IPacienteRepository
         try
         {
             AndamentoMedicacao andamentoMedicacao = await _context
-                .AndamentoMedicacoes
-                .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == momentoBaixa.AndamentoMedicacaoId 
-                && x.PrescricaoPacienteId == momentoBaixa.PrescricaoPacienteId 
-                && x.MedicacaoId == momentoBaixa.MedicamentoId);
+            .AndamentoMedicacoes
+            .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == momentoBaixa.AndamentoMedicacaoId
+            && x.PrescricaoPacienteId == momentoBaixa.PrescricaoPacienteId
+            && x.MedicacaoId == momentoBaixa.MedicamentoId);
             if (andamentoMedicacao != null)
                 return StatusCodeEnum.NotFound;
             andamentoMedicacao.MtBaixaMedicacao = DateTime.Now;
@@ -201,6 +209,70 @@ public class PacienteRepository : IPacienteRepository
         catch (Exception)
         {
             return StatusCodeEnum.BadRequest;
+        }
+    }
+    #endregion
+    #region Encerrar RelacaoCuidadorPaciente
+    public async Task<StatusCodeEnum> EncerrarRelacaoCuidadorPaciente(EncerrarCuidadorPacienteDto encerrarCuidadorPaciente)
+    {
+        try
+        {
+            CuidadorPaciente finalizadoCuidador = await _context.CuidadorPacientes
+                .FirstOrDefaultAsync(c => c.CuidadorId == encerrarCuidadorPaciente.CuidadorId && c.PacienteId == encerrarCuidadorPaciente.PacienteId);
+
+            if (finalizadoCuidador == null)
+                return StatusCodeEnum.NotFound;
+            else if (finalizadoCuidador.FinalizadoEm != null)
+                return StatusCodeEnum.NotContent;
+
+            finalizadoCuidador.FinalizadoEm = DateTime.Now;
+            EntityEntry<CuidadorPaciente> attach = _context.Attach(finalizadoCuidador);
+            attach.Property(x => x.FinalizadoEm).IsModified = true;
+            attach.Property(x => x.PacienteId).IsModified = false;
+            attach.Property(x => x.CuidadorId).IsModified = false;
+            await _context.SaveChangesAsync();
+            return StatusCodeEnum.Update;
+        }
+        catch
+        {
+            return StatusCodeEnum.BadRequest;
+        }
+    }
+    #endregion
+
+    #region 
+    public async Task<UltimaDosagemDto> HoraUltimaDoseAplicada(int codAplicador)
+    {
+        using (SqlConnection connection = new(_connectionString))
+        {
+            try
+            {
+                UltimaDosagemDto ultimaDosagem = new(); 
+                await connection.OpenAsync();
+                SqlCommand command = new(QuerryPaciente.SelectUltimaDosagemMedicamento(codAplicador), connection);
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (reader.Read())
+                {
+                    ultimaDosagem.NomePaciente = reader.GetString("NomePessoa");
+                    ultimaDosagem.UltimaDosage = reader["MtBaixaMedicacao"] is null ? null : DateTime.Parse(reader["MtBaixaMedicacao"].ToString());
+                    ultimaDosagem.CodAplicador = reader.GetInt32("CodAplicadorMedicacao");
+                    ultimaDosagem.PacienteId = reader.GetInt32("PacienteId");
+                    return ultimaDosagem;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+                await connection.DisposeAsync();
+            }
         }
     }
     #endregion

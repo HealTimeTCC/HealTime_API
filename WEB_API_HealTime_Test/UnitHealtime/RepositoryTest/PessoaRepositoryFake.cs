@@ -1,5 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
+using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Repository.Interfaces;
@@ -77,6 +79,11 @@ public class PessoaRepositoryFake : IPessoaRepository
     }
 
     public Task<Pessoa> ConsultarPessoa(TipoConsultaPessoa tipoConsultaPessoa, string cpfConsulta = "", string emailConsulta = "", string idPessoa = "")
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<StatusCodeEnum> IncluiFoto(IncluiFotoPessoaDto incluiFoto)
     {
         throw new NotImplementedException();
     }

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 
@@ -31,6 +32,20 @@ public class QuerryPaciente
         }
 
         return querry.ToString();
+    }
+    public static string SelectUltimaDosagemMedicamento(int codAplicador)
+    {
+        StringBuilder selectUltimaDosage = new();
+
+        selectUltimaDosage.AppendLine("SELECT TOP 1 P.NomePessoa, P.PessoaId AS PacienteId, AM.MtBaixaMedicacao, AM.CodAplicadorMedicacao   ");  
+        selectUltimaDosage.AppendLine("    FROM AndamentoMedicacoes AM                                                        ");
+        selectUltimaDosage.AppendLine("INNER JOIN PrescricaoPacientes PP ON PP.PrescricaoPacienteId = AM.PrescricaoPacienteId ");
+        selectUltimaDosage.AppendLine("INNER JOIN Pessoas P ON P.PessoaId = PP.PacienteId                                     ");
+        selectUltimaDosage.AppendLine($"WHERE CodAplicadorMedicacao = {codAplicador}                                          ");
+        selectUltimaDosage.AppendLine("ORDER BY MtBaixaMedicacao DESC;                                                        ");
+        string cmd = selectUltimaDosage.ToString();
+        return selectUltimaDosage.ToString();
+
     }
 }
 
