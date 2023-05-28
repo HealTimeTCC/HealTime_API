@@ -8,7 +8,7 @@ public class PrescricaoMedicacaoDto
     public decimal Qtde { get; set; }//perguntar como fica os liquidos
     public TimeSpan Intervalo { get; set; }
     public int Duracao { get; set; }//Por interpretamos como duracao de dias
-    public bool StatusMedicacaoFlag { get; set; }
-    public bool HorariosDefinidos { get; set; }
+    //public bool? StatusMedicacaoFlag { get; set; }
+    //public bool HorariosDefinidos { get; set; }
 
 }

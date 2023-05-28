@@ -12,6 +12,6 @@ public class PrescricaoDTO
     public DateTime Emissao { get; set; }
     public DateTime Validade { get; set; }
     public string DescFichaPessoa { get; set; }
-    public bool FlagStatusAtivo { get; set; }
+    public bool? FlagStatusAtivo { get; set; }
     public List<PrescricaoMedicacaoDto> PrescricoesMedicacoesDto { get; set; }
 }

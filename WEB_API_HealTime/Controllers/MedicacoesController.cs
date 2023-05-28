@@ -103,7 +103,7 @@ public class MedicacoesController : ControllerBase
                     Intervalo = prescricaoDTO.PrescricoesMedicacoesDto[i].Intervalo,
                     PrescricaoPacienteId = prescricaoPacienteId,
                     Qtde = prescricaoDTO.PrescricoesMedicacoesDto[i].Qtde,
-                    StatusMedicacaoFlag = prescricaoDTO.PrescricoesMedicacoesDto[i].StatusMedicacaoFlag,
+                    StatusMedicacaoFlag = true,
                 };
                 
                 listPrescricaoMedicacoes.Add(prescricao);
