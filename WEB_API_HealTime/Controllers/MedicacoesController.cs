@@ -251,4 +251,31 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+
+    [HttpGet("{codPaciente:int}")]
+    public async Task<IActionResult> ListarPrescricoesPacientes(int codPaciente)
+    {
+        try
+        {
+            List<PrescricaoPaciente> list = await _medicacaoRepository.ListarPrescricaoPacientes(codPaciente);
+            return list.Count == 0 ? NotFound("Nada encontrado") : Ok(list);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("{codPrescricaoPaciente:int}")]
+    public async Task<IActionResult> ListarPrescricaoMedicacaoByCodPrescricaoPaciente(int codPrescricaoPaciente)
+    {
+        try
+        {
+            List<PrescricaoMedicacao> list = await _medicacaoRepository.ListarPrescricaoMedicacoes(codPrescricaoPaciente);
+            return list.Count == 0 ? NotFound("Nada encontrado") : Ok(list);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 }

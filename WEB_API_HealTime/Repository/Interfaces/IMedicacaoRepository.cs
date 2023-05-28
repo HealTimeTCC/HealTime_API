@@ -17,7 +17,8 @@ public interface IMedicacaoRepository
     Task<Medicacao> MedicacaoById(int codMedicacao);
     Task<PrescricaoPaciente> PrescricaoByCod(int codPrescricacao);
     Task<StatusCodeEnum> CancelaPrescricaoMedicacao(int pacienteId);
-    Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPessoa);
+    Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPaciente);
+    Task<List<PrescricaoPaciente>> ListarPrescricaoPacientes(int codPaciente);
     Task<StatusCodeEnum> CancelarPrescricaoPaciente(PrescricaoPaciente prescricaoCancela);
     Task<StatusCodeEnum> CancelaItemMedicacaoPrescricao(int codPrescricao, int codMedicacao);
     Task<PrescricaoMedicacao> ConsultaItemMedicaoPrescricao(int codPrescricao, int codMedicacao);

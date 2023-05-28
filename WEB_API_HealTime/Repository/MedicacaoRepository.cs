@@ -15,7 +15,6 @@ public class MedicacaoRepository : IMedicacaoRepository
     //private readonly IPessoaRepository _pessoaRepository;
 
     public MedicacaoRepository(DataContext context/*, IPessoaRepository pessoaRepository*/) { _context = context; /*_pessoaRepository = pessoaRepository;*/ }
-
     public async Task<StatusCodeEnum> CancelaPrescricaoMedicacao(int codPaciente)
     {
         try
@@ -32,19 +31,18 @@ public class MedicacaoRepository : IMedicacaoRepository
             return StatusCodeEnum.BadRequest;
         }
     }
-    public async Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPessoa)
+    public async Task<List<PrescricaoPaciente>> ListarPrescricaoPacientes(int codPaciente)
     {
         try
         {
-            return await _context.PrescricoesMedicacoes
-                .Where(x => x.PrescricaoPacienteId == codPessoa).ToListAsync();
+            return await _context.PrescricaoPacientes
+                .Where(x => x.PacienteId == codPaciente).ToListAsync();
         }
         catch (Exception)
         {
             throw;
         }
     }
-
     public async Task<List<PrescricaoPaciente>> ListPrescricaoByCod(int cod, bool pacienteId = false)
     {
         try
@@ -68,7 +66,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-
     public async Task<bool> IncluiMedicacao(List<Medicacao> medicacaos)
     {
         try
@@ -88,7 +85,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-
     public async Task<bool> IncluiPrescricaoMedicacao(List<PrescricaoMedicacao> listPrescricaoMedicacaos)
     {
         try
@@ -104,7 +100,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-    
     public async Task<int> IncluiPrescricaoPaciente(PrescricaoPaciente prescricaoPaciente)
     {
         try
@@ -129,7 +124,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-
     public async Task<Medicacao> MedicacaoById(int codMedicacao)
     {
         try
@@ -141,7 +135,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-
     public async Task<bool> MedicacaoExiste(int idMedicacao)
     {
         try
@@ -207,7 +200,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             return StatusCodeEnum.BadRequest;
         }
     }
-
     #region (2 para uma função) -> Cancelar item Prescricao
     public async Task<StatusCodeEnum> CancelaItemMedicacaoPrescricao(int codPrescricao, int codMedicacao)
     {
@@ -264,9 +256,21 @@ public class MedicacaoRepository : IMedicacaoRepository
             throw;
         }
     }
-
     public async Task<List<TipoMedicacao>> ListarTipoMedicacao()
     {
         return await _context.TiposMedicacoes.ToListAsync();
+    }
+
+    public async Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPaciente)
+    {
+        try
+        {
+            return await _context.PrescricoesMedicacoes
+                .Where(x => x.PrescricaoPacienteId == codPaciente).ToListAsync();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
     }
 }
