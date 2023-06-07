@@ -84,25 +84,7 @@ public class PacienteRepository : IPacienteRepository
         }
     }
     #endregion
-    #region Executando procedure de gerador de horarios
-    public async Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario)
-    {
-        //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
-        try
-        {
-            await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
-            new SqlParameter("@PRESCRICAOPACIENTEID", horario.PrescricaoPacienteId),
-            new SqlParameter("@PRESCRICAOMEDICAMENTOID", horario.PrescricaoMedicamentoId),
-            new SqlParameter("@MEDICAMENTOID", horario.MedicamentoId)
-           );
-            return true;
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-    #endregion
+
     #region Consulta situação horario -> Verificar pq voce fez isso
     public async Task<bool> ConsultaSituacaoHorarioPrescricao(int prescricaoMedicamentoId)
     {
@@ -122,21 +104,7 @@ public class PacienteRepository : IPacienteRepository
         }
     }
     #endregion
-    #region Listar TODOS os andamento medicações
-    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente = 0)
-    {
-        try
-        {
-            return codRemedio == 0 && codPrescricaoPaciente == 0
-                ? await _context.AndamentoMedicacoes.ToListAsync()
-                : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-    #endregion
+   
     #region Listar paciente by cod responsavel ou cuidador
     public async Task<List<Pessoa>> ListPacienteByCodResposavelOrCuidador(EnumTipoPessoa enumTipoPessoa, int codResOrCuidador)
     {

@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Dto.Paciente;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
@@ -12,14 +14,12 @@ namespace WEB_API_HealTime.Repository;
 public class MedicacaoRepository : IMedicacaoRepository
 {
     private readonly DataContext _context;
-    //private readonly IPessoaRepository _pessoaRepository;
-
-    public MedicacaoRepository(DataContext context/*, IPessoaRepository pessoaRepository*/) { _context = context; /*_pessoaRepository = pessoaRepository;*/ }
+    public MedicacaoRepository(DataContext context) { _context = context; }
     public async Task<StatusCodeEnum> CancelaPrescricaoMedicacao(int codPaciente)
     {
         try
         {
-            List<PrescricaoMedicacao> listOff = await ListarPrescricaoMedicacoes(codPaciente);
+            List<PrescricaoMedicacao> listOff = await ListarPrescricaoMedicacoes(codPaciente, cancel: true);
             if (listOff.Count == 0) return StatusCodeEnum.NotFound;
             listOff.ForEach(x => x.StatusMedicacaoFlag = false);
             _context.UpdateRange(listOff);
@@ -230,7 +230,6 @@ public class MedicacaoRepository : IMedicacaoRepository
             return StatusCodeEnum.BadRequest;
         }
     }
-
     public async Task<PrescricaoMedicacao> ConsultaItemMedicaoPrescricao(int codPrescricao, int codMedicacao)
     {
         try
@@ -251,7 +250,7 @@ public class MedicacaoRepository : IMedicacaoRepository
         {
             return await _context.Medicacoes.Where(x => x.CodPessoaAlter == codPessoa).ToListAsync();
         }
-        catch (Exception )
+        catch (Exception)
         {
             throw;
         }
@@ -260,17 +259,93 @@ public class MedicacaoRepository : IMedicacaoRepository
     {
         return await _context.TiposMedicacoes.ToListAsync();
     }
-
-    public async Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPaciente)
+    public async Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPrescricao, bool cancel = false)
     {
         try
         {
-            return await _context.PrescricoesMedicacoes
-                .Where(x => x.PrescricaoPacienteId == codPaciente).ToListAsync();
+            if (cancel)
+            {
+                return await _context.PrescricoesMedicacoes
+              .Where(x => x.PrescricaoPacienteId == codPrescricao).ToListAsync();
+            }
+            else
+            {
+                var list = await _context.PrescricoesMedicacoes
+                      .Include(x => x.Medicacao)
+                  .Where(x => x.PrescricaoPacienteId == codPrescricao).ToListAsync();
+                return list;
+            }
         }
         catch (Exception)
         {
             throw;
         }
+    }
+    #region Executando procedure de gerador de horarios
+    public async Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario)
+    {
+        //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
+        try
+        {
+            await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
+            new SqlParameter("@PRESCRICAOPACIENTEID", horario.PrescricaoPacienteId),
+            new SqlParameter("@PRESCRICAOMEDICAMENTOID", horario.PrescricaoMedicamentoId),
+            new SqlParameter("@MEDICAMENTOID", horario.MedicamentoId)
+           );
+            return true;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    #endregion
+    public async Task<bool> HorariosDefinidos(int codPrescricaoMedicamento)
+    {
+        try
+        {
+            return await _context.PrescricoesMedicacoes
+                .Where(x => x.PrescricaoMedicacaoId == codPrescricaoMedicamento)
+                .Select(x => x.HorariosDefinidos)
+                .FirstOrDefaultAsync();
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    #region Listar TODOS os andamento medicações
+    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente = 0)
+    {
+        try
+        {
+            return codRemedio == 0 && codPrescricaoPaciente == 0
+                ? await _context.AndamentoMedicacoes.ToListAsync()
+                : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+    #endregion
+
+    public Task<StatusCodeEnum> EncerrarAndamentoMedicacao(int codPrescricaoPaciente, int codMedicamentoId)
+    {
+        try
+        {
+
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+
+    public Task<StatusCodeEnum> BaixaMedicacao(int codPrescricaoPaciente, int codMedicamentoId)
+    {
+        throw new NotImplementedException();
     }
 }

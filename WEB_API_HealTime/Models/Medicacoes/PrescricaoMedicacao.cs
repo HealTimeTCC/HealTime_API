@@ -9,7 +9,6 @@ public class PrescricaoMedicacao
     [JsonIgnore]
     public PrescricaoPaciente PrescricaoPaciente { get; set; }
     public int MedicacaoId { get; set; }
-    [JsonIgnore]
     public Medicacao Medicacao { get; set; }
     public decimal Qtde { get; set; }//perguntar como fica os liquidos
     public TimeSpan Intervalo { get; set; }

@@ -159,12 +159,6 @@ public class DataContext : DbContext
             .HasColumnType("datetime2(0)")
             .IsRequired();
         #region  --> HASH and SALT <--
-        mdBuilder.Entity<Pessoa>()
-            .Property(x => x.PasswordHash)
-            .IsRequired();
-        mdBuilder.Entity<Pessoa>()
-            .Property(x => x.PasswordSalt)
-            .IsRequired();
         #endregion
         #endregion
         #region ContatoPessoa
@@ -264,8 +258,6 @@ public class DataContext : DbContext
             .HasName("PK_PrescricaoPacienteId");
         /* -> BEGIN: Esses dois abaixo são relacionamento <- */
         mdBuilder.Entity<PrescricaoPaciente>()
-            .Property(p => p.MedicoId);
-        mdBuilder.Entity<PrescricaoPaciente>()
             .HasOne<Medico>(one => one.Medico)
             .WithMany(one => one.PrescricoesPacientes)
                 .HasForeignKey(f => f.MedicoId)
@@ -358,9 +350,6 @@ public class DataContext : DbContext
             .WithMany(p => p.AndamentoMedicacoes)
             .HasForeignKey(p => p.MedicacaoId)
                 .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasIndex(p => p.PrescricaoPacienteId)
-            .IsUnique(false);
         mdBuilder.Entity<AndamentoMedicacao>()
             .HasIndex(p => p.PrescricaoPacienteId)
             .IsUnique(false);

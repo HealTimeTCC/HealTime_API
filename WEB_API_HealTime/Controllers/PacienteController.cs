@@ -241,35 +241,8 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpPost]
-    public async Task<IActionResult> GerarHorarios(GerarHorarioDto horario)
-    {
-        try
-        {
-            if (await _pacienteRepository.ExecuteProcedureDefineHorario(horario: horario))
-            {
-                return Ok("Horarios definido com sucesso");
-            }
-            return BadRequest("Erro ao definir horarios");
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-    [HttpGet]
-    public async Task<IActionResult> ListarAndamentosMedicacao()
-    {
-        try
-        {
-            List<AndamentoMedicacao> list = await _pacienteRepository.ListarAndamentoMedicacao();
-            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+  
+
     [HttpGet("{codPessoa:int}")]
     public async Task<IActionResult> PacienteByCodRespOrCuidador(int codPessoa)
     {
@@ -292,19 +265,7 @@ public class PacienteController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet("{codMedicamento:int}/{codPrescicaoPacienteId:int}")]
-    public async Task<IActionResult> ListHorarioByCodRemedio(int codMedicamento, int codPrescicaoPacienteId)
-    {
-        try
-        {
-            List<AndamentoMedicacao> list = await _pacienteRepository.ListarAndamentoMedicacao(codMedicamento, codPrescicaoPacienteId);
-            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+
     [HttpPatch]
     public async Task<IActionResult> BaixaMedicacao(BaixaHorarioMedicacaoDto medicacao)
     {

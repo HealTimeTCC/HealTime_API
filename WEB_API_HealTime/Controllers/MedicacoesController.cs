@@ -7,6 +7,8 @@ using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using Microsoft.AspNetCore.Authorization;
+using WEB_API_HealTime.Dto.Paciente;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -270,7 +272,7 @@ public class MedicacoesController : ControllerBase
     {
         try
         {
-            List<PrescricaoMedicacao> list = await _medicacaoRepository.ListarPrescricaoMedicacoes(codPrescricaoPaciente);
+            var list = await _medicacaoRepository.ListarPrescricaoMedicacoes(codPrescricaoPaciente);
             return list.Count == 0 ? NotFound("Nada encontrado") : Ok(list);
         }
         catch (Exception ex)
@@ -278,4 +280,48 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpPost]
+    public async Task<IActionResult> GerarHorarios(GerarHorarioDto horario)
+    {
+        try
+        {
+
+            if (await _medicacaoRepository.HorariosDefinidos(codPrescricaoMedicamento:horario.PrescricaoMedicamentoId))
+                return BadRequest("Horários já definidos");
+            else if (await _medicacaoRepository.ExecuteProcedureDefineHorario(horario: horario))
+                return Ok("Horarios definido com sucesso");
+            return BadRequest("Erro ao definir horarios");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet("{codMedicamento:int}/{codPrescicaoPacienteId:int}")]
+    public async Task<IActionResult> ListHorarioByCodRemedio(int codMedicamento, int codPrescicaoPacienteId)
+    {
+        try
+        {
+            List<AndamentoMedicacao> list = await _medicacaoRepository.ListarAndamentoMedicacao(codMedicamento, codPrescicaoPacienteId);
+            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    [HttpGet]
+    public async Task<IActionResult> ListarAndamentosMedicacao()
+    {
+        try
+        {
+            List<AndamentoMedicacao> list = await _medicacaoRepository.ListarAndamentoMedicacao();
+            return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
 }
