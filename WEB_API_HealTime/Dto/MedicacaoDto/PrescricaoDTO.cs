@@ -2,8 +2,8 @@
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 
-namespace WEB_API_HealTime.Dto.PrescricaoDTO;
-public class PrescricaoDTO
+namespace WEB_API_HealTime.Dto.PrescricaoDto;
+public class PrescricaoDto
 {
     public int PrescricaoPacienteId { get; set; }
     public int MedicoId { get; set; }

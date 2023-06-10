@@ -1,4 +1,5 @@
 ﻿using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Dto.MedicacaoDto;
 using WEB_API_HealTime.Dto.Paciente;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
@@ -27,8 +28,8 @@ public interface IMedicacaoRepository
     Task<List<TipoMedicacao>> ListarTipoMedicacao();
     Task<bool> ExecuteProcedureDefineHorario(GerarHorarioDto horario);
     Task<bool> HorariosDefinidos(int codPrescricaoMedicamento);
-    Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente = 0);
+    Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codMedicacao, int codPrescricaoPaciente);
 
-    Task<StatusCodeEnum> EncerrarAndamentoMedicacao(int codPrescricaoPaciente, int codMedicamentoId);
-    Task<StatusCodeEnum> BaixaMedicacao(int codPrescricaoPaciente, int codMedicamentoId);
+    //Task<StatusCodeEnum> EncerrarAndamentoMedicacao(int codAndamentoMedicacao, int codAplicador);
+    Task<StatusCodeEnum> BaixaMedicacao(BaixaAndamentoMedicacaoDto baixa);
 }

@@ -1,7 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.GlobalEnums;
+using WEB_API_HealTime.Dto.MedicacaoDto;
 using WEB_API_HealTime.Dto.Paciente;
 using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
@@ -287,12 +289,33 @@ public class MedicacaoRepository : IMedicacaoRepository
         //Ordem @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID 
         try
         {
-            await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
-            new SqlParameter("@PRESCRICAOPACIENTEID", horario.PrescricaoPacienteId),
-            new SqlParameter("@PRESCRICAOMEDICAMENTOID", horario.PrescricaoMedicamentoId),
-            new SqlParameter("@MEDICAMENTOID", horario.MedicamentoId)
-           );
-            return true;
+            PrescricaoMedicacao updatePrescription = await _context
+                .PrescricoesMedicacoes
+                .FirstOrDefaultAsync(x => x.PrescricaoMedicacaoId == horario.PrescricaoMedicamentoId
+                && x.PrescricaoPacienteId == horario.PrescricaoPacienteId);
+
+            if (updatePrescription != null)
+            {
+                if (!updatePrescription.HorariosDefinidos)
+                {
+                    int linhasAfetadas = await _context.Database.ExecuteSqlRawAsync("EXEC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID, @PRESCRICAOMEDICAMENTOID, @MEDICAMENTOID ",
+                    new SqlParameter("@PRESCRICAOPACIENTEID", horario.PrescricaoPacienteId),
+                    new SqlParameter("@PRESCRICAOMEDICAMENTOID", horario.PrescricaoMedicamentoId),
+                    new SqlParameter("@MEDICAMENTOID", horario.MedicamentoId)
+                    );
+                    if (linhasAfetadas > 0)
+                    {
+                        updatePrescription.HorariosDefinidos = true;
+                        var attach = _context.Attach(updatePrescription);
+                        attach.Property(u => u.HorariosDefinidos).IsModified = true;
+                        await _context.SaveChangesAsync();
+                        return true;
+                    }
+                    else return false;
+                }
+                else return false;
+            }
+            else return false;
         }
         catch (Exception)
         {
@@ -316,13 +339,11 @@ public class MedicacaoRepository : IMedicacaoRepository
         }
     }
     #region Listar TODOS os andamento medicações
-    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codRemedio = 0, int codPrescricaoPaciente = 0)
+    public async Task<List<AndamentoMedicacao>> ListarAndamentoMedicacao(int codMedicacao, int codPrescricaoPaciente)
     {
         try
         {
-            return codRemedio == 0 && codPrescricaoPaciente == 0
-                ? await _context.AndamentoMedicacoes.ToListAsync()
-                : await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codRemedio).ToListAsync();
+            return await _context.AndamentoMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricaoPaciente && x.MedicacaoId == codMedicacao).ToListAsync();
         }
         catch (Exception)
         {
@@ -331,21 +352,71 @@ public class MedicacaoRepository : IMedicacaoRepository
     }
     #endregion
 
-    public Task<StatusCodeEnum> EncerrarAndamentoMedicacao(int codPrescricaoPaciente, int codMedicamentoId)
+    //public async Task<StatusCodeEnum> EncerrarAndamentoMedicacao(int codAndamentoMedicacao, int codAplicador)
+    //{
+    //    try
+    //    {
+    //        AndamentoMedicacao baixa = 
+    //            await _context.AndamentoMedicacoes
+    //            .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == codAndamentoMedicacao);
+
+    //        if (baixa == null)
+    //            return StatusCodeEnum.NotFound;
+    //        else if(baixa.BaixaAndamentoMedicacao && baixa.CodAplicadorMedicacao != null)
+    //            return StatusCodeEnum.NotContent;
+    //        else
+    //        {
+    //            baixa.CodAplicadorMedicacao = codAplicador;
+    //            baixa.MtBaixaMedicacao = DateTime.Now;
+    //            baixa.BaixaAndamentoMedicacao = true;
+
+    //            var attach = _context.Attach(baixa);
+    //            attach.Property(x => x.CodAplicadorMedicacao).IsModified = true;
+    //            attach.Property(x => x.MtBaixaMedicacao).IsModified = true;
+    //            attach.Property(x => x.BaixaAndamentoMedicacao).IsModified = true;
+    //            await _context.SaveChangesAsync();
+
+    //            return StatusCodeEnum.Success;
+
+    //        }
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
+
+    public async Task<StatusCodeEnum> BaixaMedicacao(BaixaAndamentoMedicacaoDto baixa)
     {
         try
         {
+            AndamentoMedicacao buscaBaixa =
+                await _context.AndamentoMedicacoes
+                .FirstOrDefaultAsync(x => x.AndamentoMedicacaoId == baixa.CodAndamentoMedicacao);
 
+            if (baixa == null)
+                return StatusCodeEnum.NotFound;
+            else if (buscaBaixa.BaixaAndamentoMedicacao && buscaBaixa.CodAplicadorMedicacao != null)
+                return StatusCodeEnum.NotContent;
+            else
+            {
+                buscaBaixa.CodAplicadorMedicacao = baixa.CodAplicador;
+                buscaBaixa.MtBaixaMedicacao = DateTime.Now;
+                buscaBaixa.BaixaAndamentoMedicacao = true;
+
+                var attach = _context.Attach(buscaBaixa);
+                attach.Property(x => x.CodAplicadorMedicacao).IsModified = true;
+                attach.Property(x => x.MtBaixaMedicacao).IsModified = true;
+                attach.Property(x => x.BaixaAndamentoMedicacao).IsModified = true;
+                await _context.SaveChangesAsync();
+
+                return StatusCodeEnum.Success;
+
+            }
         }
         catch (Exception)
         {
-
             throw;
         }
-    }
-
-    public Task<StatusCodeEnum> BaixaMedicacao(int codPrescricaoPaciente, int codMedicamentoId)
-    {
-        throw new NotImplementedException();
     }
 }

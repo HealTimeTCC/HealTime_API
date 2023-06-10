@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility;
 using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Repository;
 using WEB_API_HealTime.Models.ConsultasMedicas;
-using Microsoft.AspNetCore.Authorization;
 using WEB_API_HealTime.Dto.Paciente;
-using System.Reflection.Metadata.Ecma335;
+using WEB_API_HealTime.Dto.PrescricaoDto;
+using WEB_API_HealTime.Dto.MedicacaoDto;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WEB_API_HealTime.Controllers;
 
@@ -62,7 +61,7 @@ public class MedicacoesController : ControllerBase
 
     #region Inclui prescricao
     [HttpPost]
-    public async Task<IActionResult> IncluiPrescricao([FromBody] PrescricaoDTO prescricaoDTO)
+    public async Task<IActionResult> IncluiPrescricao([FromBody] PrescricaoDto prescricaoDTO)
     {
         try
         {
@@ -310,17 +309,37 @@ public class MedicacoesController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet]
-    public async Task<IActionResult> ListarAndamentosMedicacao()
+    [HttpGet("{codMedicacao}/{codPrescriptionPatient}")]
+    public async Task<IActionResult> ListarAndamentosMedicacao(int codMedicacao, int codPrescriptionPatient)
     {
         try
         {
-            List<AndamentoMedicacao> list = await _medicacaoRepository.ListarAndamentoMedicacao();
+            List<AndamentoMedicacao> list = await _medicacaoRepository.ListarAndamentoMedicacao(codMedicacao: codMedicacao, codPrescricaoPaciente:codPrescriptionPatient);
             return list.Count == 0 ? NotFound("Nenhum medicamento em andamento encontrado") : Ok(list);
         }
         catch (Exception e)
         {
             return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> BaixaAndamentoMedicacao([FromBody]BaixaAndamentoMedicacaoDto baixaAndamentoMedicacaoDto)
+    {
+        try
+        {
+            return await _medicacaoRepository.BaixaMedicacao(baixaAndamentoMedicacaoDto) switch
+            {
+                StatusCodeEnum.Update or StatusCodeEnum.Success => Ok("Baixa efetuada com sucesso"),
+                StatusCodeEnum.NotFound => NotFound("Andamento não encontrado"),
+                StatusCodeEnum.NotContent => BadRequest("Dado não foi atualizado"),
+                StatusCodeEnum.BadRequest => BadRequest("Erro ao encerrar andamento"),
+                _ => BadRequest(),
+            };
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 

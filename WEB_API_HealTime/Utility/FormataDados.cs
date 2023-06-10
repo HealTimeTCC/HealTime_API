@@ -1,5 +1,4 @@
 ﻿
-using WEB_API_HealTime.Dto.PrescricaoDTO;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Utility.Enums;
 using WEB_API_HealTime.Utility.EnumsGlobal;
