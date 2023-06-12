@@ -250,7 +250,7 @@ public class MedicacaoRepository : IMedicacaoRepository
     {
         try
         {
-            return await _context.Medicacoes.Where(x => x.CodPessoaAlter == codPessoa).ToListAsync();
+            return await _context.Medicacoes.Include(x => x.TipoMedicacao).Where(x => x.CodPessoaAlter == codPessoa).ToListAsync();
         }
         catch (Exception)
         {
@@ -266,17 +266,12 @@ public class MedicacaoRepository : IMedicacaoRepository
         try
         {
             if (cancel)
-            {
-                return await _context.PrescricoesMedicacoes
-              .Where(x => x.PrescricaoPacienteId == codPrescricao).ToListAsync();
-            }
+                return await _context.PrescricoesMedicacoes.Where(x => x.PrescricaoPacienteId == codPrescricao).ToListAsync();
             else
-            {
-                var list = await _context.PrescricoesMedicacoes
+                return await _context.PrescricoesMedicacoes
                       .Include(x => x.Medicacao)
+                      .ThenInclude(x => x.TipoMedicacao)
                   .Where(x => x.PrescricaoPacienteId == codPrescricao).ToListAsync();
-                return list;
-            }
         }
         catch (Exception)
         {
