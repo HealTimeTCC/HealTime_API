@@ -1,6 +1,9 @@
 -- Tabela que fara o controle de andamentos medicacoes
 -- Para que ela funcione deve ter uma trigger rodando name = 
 
+USE [DB-HEALTIME_II]
+GO
+
 IF EXISTS (SELECT 1 FROM sys.tables WHERE name = 'ControleEstadoAndamentoMedicacao')
 	DROP TABLE ControleEstadoAndamentoMedicacao
 ELSE
@@ -16,4 +19,3 @@ BEGIN
 	);
 END
 
-sp_help ControleEstadoAndamentoMedicacao
