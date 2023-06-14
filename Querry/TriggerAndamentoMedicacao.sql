@@ -41,13 +41,18 @@ BEGIN
 	BEGIN 
 		IF(EXISTS(SELECT 1 FROM inserted))
 		BEGIN
-			INSERT INTO ControleEstadoAndamentoMedicacao(
-			DataContagem
-			, QtdeHorarios
-			) VALUES(
-				CURRENT_TIMESTAMP
-				, (SELECT COUNT(*) FROM inserted)
-			);
+			DECLARE @COD_ANDAMENTO_INSERT INT;
+			SELECT @COD_ANDAMENTO_INSERT = AndamentoMedicacaoId FROM inserted
+			IF(NOT EXISTS(SELECT 1 FROM ControleEstadoAndamentoMedicacao WHERE CodAndamentoMedicacao = @COD_ANDAMENTO_INSERT))
+			BEGIN
+				INSERT INTO ControleEstadoAndamentoMedicacao(
+				DataContagem
+				, QtdeHorarios
+				) VALUES(
+					CURRENT_TIMESTAMP
+					, (SELECT COUNT(*) FROM inserted)
+				);
+			END
 		END
 	END
 END
