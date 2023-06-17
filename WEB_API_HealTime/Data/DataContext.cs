@@ -311,7 +311,7 @@ public class DataContext : DbContext
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasIndex(pk => pk.MedicacaoId)
             .IsUnique(false);
-
+        
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasIndex(pk => pk.MedicacaoId)
             .IsUnique(false);
@@ -319,7 +319,7 @@ public class DataContext : DbContext
         mdBuilder.Entity<PrescricaoMedicacao>()
            .Property(qtd => qtd.Qtde)
            .HasColumnType("FLOAT(10, 2)");
-
+        
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(qtd => qtd.Intervalo)
             .HasColumnType("TIME")
@@ -411,7 +411,7 @@ public class DataContext : DbContext
             .HasColumnType("VARCHAR(50)")
             .IsRequired();
         mdBuilder.Entity<Medicacao>()
-            .Property(lm => lm.LaboratorioMedicaocao)
+            .Property(lm => lm.LaboratorioMedicacao)
             .HasColumnType("VARCHAR(80)")
             .IsRequired();
         mdBuilder.Entity<Medicacao>()
@@ -550,7 +550,7 @@ public class DataContext : DbContext
                     NomeMedicacao = "DIPIRONA 300ml",
                     CompostoAtivoMedicacao = "pirazolônico não narcótico ",
                     Generico = "S",
-                    LaboratorioMedicaocao = "Algum por ai",
+                    LaboratorioMedicacao = "Algum por ai",
                     StatusMedicacao = EnumStatusMedicacao.ATIVO
                 },
                 new Medicacao
@@ -560,7 +560,7 @@ public class DataContext : DbContext
                     NomeMedicacao = "EXEMPLO",
                     CompostoAtivoMedicacao = "EXEMPLO ",
                     Generico = "N",
-                    LaboratorioMedicaocao = "Algum outro por ai",
+                    LaboratorioMedicacao = "Algum outro por ai",
                     StatusMedicacao = EnumStatusMedicacao.ATIVO
                 }
             );
