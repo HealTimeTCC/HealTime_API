@@ -87,7 +87,7 @@ public class MedicacoesController : ControllerBase
             if (prescricaoDTO.PrescricoesMedicacoesDto.Count < 1)
                 return BadRequest("É necessario no minimo 1 medicamento");
             List<PrescricaoMedicacao> listPrescricaoMedicacoes = new();
-            
+
             for (int i = 0; i < prescricaoDTO.PrescricoesMedicacoesDto.Count; i++)
             {
                 if (!await _medicacaoRepository.MedicacaoExiste(prescricaoDTO.PrescricoesMedicacoesDto[i].MedicacaoId))
@@ -106,9 +106,32 @@ public class MedicacoesController : ControllerBase
                     Qtde = prescricaoDTO.PrescricoesMedicacoesDto[i].Qtde,
                     StatusMedicacaoFlag = true,
                 };
-                
+
                 listPrescricaoMedicacoes.Add(prescricao);
             }
+            //for (int i = 0; i < prescricaoDTO.PrescricoesMedicacoesDto.Count; i++)
+            //foreach(var item in prescricaoDTO.PrescricoesMedicacoesDto)
+            //{
+            //    if (!await _medicacaoRepository.MedicacaoExiste(item.MedicacaoId))
+            //        return NotFound($"Medicamento de ID {item.MedicacaoId} não encontrado");
+
+            //    if (FormataDados.VerificaTempo(item.Intervalo))
+            //        return BadRequest("O intervalo das medicações deve estar entre 1h e 24h");
+
+            //    PrescricaoMedicacao prescricao = new()
+            //    {
+            //        MedicacaoId = item.MedicacaoId,
+            //        Duracao = item.Duracao,
+            //        HorariosDefinidos = false,
+            //        Intervalo = item.Intervalo,
+            //        PrescricaoPacienteId = prescricaoPacienteId,
+            //        Qtde = item.Qtde,
+            //        StatusMedicacaoFlag = true,
+            //    };
+
+            //    listPrescricaoMedicacoes.Add(prescricao);
+            //}
+
             return await _medicacaoRepository.IncluiPrescricaoMedicacao(listPrescricaoMedicacoes) ? Ok("Inclusao feita com sucesso") : BadRequest();
         }
         catch (Exception ex)
