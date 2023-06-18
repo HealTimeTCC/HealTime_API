@@ -6,7 +6,6 @@ using WEB_API_HealTime.Models.Medicacoes.Enums;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Models.Pacientes;
-
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
@@ -351,7 +350,14 @@ public class DataContext : DbContext
                 key.PrescricaoPacienteId
             } )
             .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId");
-        
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .ToTable(tb => tb.HasTrigger("ControlStatePrescriptionMedicine"));
+
+        //modelBuilder.Entity<Blog>()
+        //.ToTable(tb => tb.HasTrigger("SomeTrigger"));
+
+
         mdBuilder.Entity<AndamentoMedicacao>()
             .HasOne(p => p.PrescricaoMedicacao)
             .WithMany(p => p.AndamentoMedicacoes)
