@@ -1,6 +1,8 @@
 
 --select * from PrescricoesMedicacoes
 
+--drop trigger ControlStatePrescriptionMedicine
+
 CREATE OR ALTER TRIGGER ControlStatePrescriptionMedicine
 ON AndamentoMedicacoes 
 FOR INSERT, UPDATE
@@ -46,9 +48,11 @@ BEGIN
 			IF(NOT EXISTS(SELECT 1 FROM ControleEstadoAndamentoMedicacao WHERE CodAndamentoMedicacao = @COD_ANDAMENTO_INSERT))
 			BEGIN
 				INSERT INTO ControleEstadoAndamentoMedicacao(
+				CodAndamentoMedicacao,  
 				DataContagem
 				, QtdeHorarios
 				) VALUES(
+					
 					CURRENT_TIMESTAMP
 					, (SELECT COUNT(*) FROM inserted)
 				);

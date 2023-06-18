@@ -251,6 +251,8 @@ public class DataContext : DbContext
         #endregion
         #region --> Medicacoes <--
 
+        //-------------------------------------------------------------------
+
         #region PRESCRICAOPACIENTES
         /* -> BEGIN PRESCRICAOPACIENTES */
         mdBuilder.Entity<PrescricaoPaciente>()
@@ -288,9 +290,13 @@ public class DataContext : DbContext
             .Property(flag => flag.FlagStatusAtivo)
             .HasDefaultValue(true)
             .IsRequired();
-        /* -> END  PRESCRICAOPACIENTES */
         #endregion
+       
         #region PRESCRICAOMEDICACAO
+        mdBuilder.Entity<PrescricaoMedicacao>()
+       //.HasKey(pk => new { pk.PrescricaoMedicacaoId, pk.PrescricaoPacienteId, pk.MedicacaoId })
+       .HasKey(pk => pk.PrescricaoMedicacaoId)
+           .HasName("PK__PrescricaPacienteId");
         mdBuilder.Entity<PrescricaoMedicacao>()
             .HasOne<PrescricaoPaciente>(one => one.PrescricaoPaciente)
             .WithMany(many => many.PrescricoesMedicacoes)
@@ -302,9 +308,8 @@ public class DataContext : DbContext
             .WithOne(many => many.PrescricaoMedicacao)
                 .HasForeignKey<PrescricaoMedicacao>(fk => fk.MedicacaoId)
                 .HasConstraintName("PK_MedicacaoId_PrescricaoMedicao");
-        mdBuilder.Entity<PrescricaoMedicacao>()
-            .HasKey(pk => new { pk.PrescricaoPacienteId, pk.MedicacaoId, pk.PrescricaoMedicacaoId })
-                .HasName("PK_CONCAT_PrescricaPacienteId_MedicacaoId");
+
+   
         mdBuilder.Entity<PrescricaoMedicacao>()
             .Property(pk => pk.PrescricaoMedicacaoId)
             .UseIdentityColumn();
@@ -334,25 +339,41 @@ public class DataContext : DbContext
             .Property(qtd => qtd.HorariosDefinidos)
             .HasDefaultValue(false);
         #endregion
-        #region AndamentoMedicacao
+
+        #region ANDAMENTOMEDICACAO
 
         mdBuilder.Entity<AndamentoMedicacao>()
-            .HasKey(key => new { key.AndamentoMedicacaoId, key.PrescricaoPacienteId, key.MedicacaoId })
-            .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId_PrescricaoPacienteId_MedicacaoId");
+            .HasKey(key => new
+            {
+                key.AndamentoMedicacaoId,
+                key.PrescricaoMedicacaoId,
+                key.MedicacaoId,
+                key.PrescricaoPacienteId
+            } )
+            .HasName("PK_AndamentoMedicacao_AndamentoMedicacaoId");
+        
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .HasOne(p => p.PrescricaoMedicacao)
+            .WithMany(p => p.AndamentoMedicacoes)
+            .HasForeignKey(p => p.PrescricaoMedicacaoId)
+                .HasConstraintName("FK_AndamentoMedicacao_PrescricaoMedicacao");
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.AndamentoMedicacaoId)
+            .ValueGeneratedNever();
 
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasOne(p => p.PrescricaoPacientes)
-            .WithMany(p => p.AndamentoMedicacoes)
-            .HasForeignKey(p => p.PrescricaoPacienteId)
-                .HasConstraintName("FK_PrescricaoPacientes_PacienteId_AndamentoMedicacoes");
-        mdBuilder.Entity<AndamentoMedicacao>()
-            .HasOne(p => p.PrescricaoPacientes)
-            .WithMany(p => p.AndamentoMedicacoes)
-            .HasForeignKey(p => p.MedicacaoId)
-                .HasConstraintName("FK_PrescricaoPaciente_MedicacaoId_AndamentoMedicacoes");
+
         mdBuilder.Entity<AndamentoMedicacao>()
             .HasIndex(p => p.PrescricaoPacienteId)
             .IsUnique(false);
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+           .HasIndex(p => p.PrescricaoMedicacaoId)
+           .IsUnique(false);
+
+        mdBuilder.Entity<AndamentoMedicacao>()
+            .Property(p => p.PrescricaoMedicacaoId)
+            .HasColumnType("INT")
+            .IsRequired();
 
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.MtAndamentoMedicacao)
@@ -361,12 +382,14 @@ public class DataContext : DbContext
 
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.QtdeMedicao)
-            .HasColumnType("int")
+            .HasColumnType("INT")
             .IsRequired();
+        
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.CriadoEm)
             .HasColumnType("datetime2(0)")
             .IsRequired();
+
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.BaixaAndamentoMedicacao)
             .HasDefaultValue(false);
@@ -374,10 +397,14 @@ public class DataContext : DbContext
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(p => p.MtBaixaMedicacao)
             .HasColumnType("datetime2(0)");
+
         mdBuilder.Entity<AndamentoMedicacao>()
             .Property(cod => cod.CodAplicadorMedicacao)
             .HasColumnType("INT");
         #endregion
+
+
+        //-------------------------------------------------------------------
         #region TipoMedicacao
         mdBuilder.Entity<TipoMedicacao>()
             .HasKey(pk => pk.TipoMedicacaoId)
@@ -515,10 +542,6 @@ public class DataContext : DbContext
         /* -> END ConsultaCancelada */
         #endregion
         #endregion
-
-
-
-
         #region MEDICO
         /* -> BEGIN MEDICO */
         mdBuilder.Entity<Medico>()
@@ -539,7 +562,6 @@ public class DataContext : DbContext
 
         /* -> END MEDICO */
         #endregion
-
         #region VALORES_DEFAULT
         mdBuilder.Entity<Medicacao>()
             .HasData(

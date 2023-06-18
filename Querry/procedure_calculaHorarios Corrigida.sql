@@ -1,22 +1,16 @@
-GO 
-
-USE [DB_HEAL_TIME]
-
-GO
-
---Select * from Medicacoes
-
---select * from PrescricoesMedicacoes
-----1 - 3GO 
-
 USE [DB-HEALTIME_II]
 
 GO
+--SELECT * FROM sys.sequences WHERE name = 'nome_da_sequencia';
 
-GO
+IF(EXISTS(SELECT 1 FROM sys.sequences WHERE name = 'AndamentoMedicacao_GenId'))
+BEGIN
+	DROP SEQUENCE AndamentoMedicacao_GenId
+END
 CREATE SEQUENCE AndamentoMedicacao_GenId
     START WITH 1
     INCREMENT BY 1;
+GO
 
 CREATE OR ALTER PROC CALCULA_HORARIO_MEDICACAO @PRESCRICAOPACIENTEID INT, @PRESCRICAOMEDICAMENTOID INT, @MEDICAMENTOID INT
 AS
@@ -59,6 +53,7 @@ BEGIN
 		INSERT 
 			INTO AndamentoMedicacoes(
 			 AndamentoMedicacaoId 
+			, PrescricaoMedicacaoId 
 			, MedicacaoId
 			, MtAndamentoMedicacao
 			, PrescricaoPacienteId
@@ -68,6 +63,7 @@ BEGIN
 			) 
 		VALUES (
 		 NEXT VALUE FOR AndamentoMedicacao_GenId
+		, @PRESCRICAOMEDICAMENTOID 
 		, @MEDICAMENTOID
 		, @MOMENTOMEDICACAO
 		, @PRESCRICAOPACIENTEID

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WEB_API_HealTime.Models.Medicacoes;
 
@@ -15,4 +16,6 @@ public class PrescricaoMedicacao
     public int Duracao { get; set; }//Por interpretamos como duracao de dias
     public bool StatusMedicacaoFlag { get; set; }
     public bool HorariosDefinidos { get; set; }
+    [JsonIgnore]
+    public List<AndamentoMedicacao> AndamentoMedicacoes { get; set; }
 }
