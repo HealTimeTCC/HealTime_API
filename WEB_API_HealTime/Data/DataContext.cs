@@ -665,6 +665,13 @@ public class DataContext : DbContext
                     Email = "user@user.com",
                     CriadoEm = DateTime.Now,
                     Celular = "11978486810"
+                },
+                new ContatoPessoa
+                {
+                    PessoaId = 4,
+                    Email = "dan@dan.com",
+                    CriadoEm = DateTime.Now,
+                    Celular = "11978486810"
                 }
             );
         mdBuilder.Entity<StatusConsulta>()
