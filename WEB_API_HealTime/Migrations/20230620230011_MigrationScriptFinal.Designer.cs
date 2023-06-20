@@ -12,8 +12,8 @@ using WEB_API_HealTime.Data;
 namespace WEB_API_HealTime.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230619221957_ScriptFinalSql")]
-    partial class ScriptFinalSql
+    [Migration("20230620230011_MigrationScriptFinal")]
+    partial class MigrationScriptFinal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -216,14 +216,14 @@ namespace WEB_API_HealTime.Migrations
                         {
                             MedicoId = 1,
                             CrmMedico = "054321",
-                            NmMedico = "Dr Val",
+                            NmMedico = "Dr Guilherme Costa",
                             UfCrmMedico = "SP"
                         },
                         new
                         {
                             MedicoId = 2,
                             CrmMedico = "012345",
-                            NmMedico = "Dr Teste",
+                            NmMedico = "Dr Adriana Gomes",
                             UfCrmMedico = "RJ"
                         });
                 });
@@ -369,8 +369,8 @@ namespace WEB_API_HealTime.Migrations
                             CodPessoaAlter = 0,
                             CompostoAtivoMedicacao = "pirazolônico não narcótico ",
                             Generico = "S",
-                            LaboratorioMedicacao = "Algum por ai",
-                            NomeMedicacao = "DIPIRONA 300ml",
+                            LaboratorioMedicacao = "Sanofi-Aventis",
+                            NomeMedicacao = "DIPIRONA 80g",
                             StatusMedicacao = 1,
                             TipoMedicacaoId = 1
                         },
@@ -378,10 +378,10 @@ namespace WEB_API_HealTime.Migrations
                         {
                             MedicacaoId = 2,
                             CodPessoaAlter = 0,
-                            CompostoAtivoMedicacao = "EXEMPLO ",
-                            Generico = "N",
-                            LaboratorioMedicacao = "Algum outro por ai",
-                            NomeMedicacao = "EXEMPLO",
+                            CompostoAtivoMedicacao = "ceftriaxona",
+                            Generico = "S",
+                            LaboratorioMedicacao = "Roche",
+                            NomeMedicacao = "Rocefin",
                             StatusMedicacao = 1,
                             TipoMedicacaoId = 2
                         });
@@ -595,6 +595,26 @@ namespace WEB_API_HealTime.Migrations
                     b.HasIndex("CuidadorId");
 
                     b.ToTable("CuidadorPacientes");
+
+                    b.HasData(
+                        new
+                        {
+                            PacienteId = 4,
+                            CuidadorId = 2,
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(68)
+                        },
+                        new
+                        {
+                            PacienteId = 5,
+                            CuidadorId = 2,
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(69)
+                        },
+                        new
+                        {
+                            PacienteId = 6,
+                            CuidadorId = 2,
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(70)
+                        });
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pacientes.GrauParentesco", b =>
@@ -629,6 +649,16 @@ namespace WEB_API_HealTime.Migrations
                         {
                             GrauParentescoId = 3,
                             DescGrauParentesco = "Filha/Filho"
+                        },
+                        new
+                        {
+                            GrauParentescoId = 4,
+                            DescGrauParentesco = "Esposa"
+                        },
+                        new
+                        {
+                            GrauParentescoId = 5,
+                            DescGrauParentesco = "Marido"
                         });
                 });
 
@@ -682,6 +712,22 @@ namespace WEB_API_HealTime.Migrations
                     b.HasIndex("ResponsavelId");
 
                     b.ToTable("ResponsaveisPacientes");
+
+                    b.HasData(
+                        new
+                        {
+                            PacienteId = 4,
+                            ResponsavelId = 1,
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(91),
+                            GrauParentescoId = 1
+                        },
+                        new
+                        {
+                            PacienteId = 5,
+                            ResponsavelId = 1,
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(93),
+                            GrauParentescoId = 3
+                        });
                 });
 
             modelBuilder.Entity("WEB_API_HealTime.Models.Pessoas.ContatoPessoa", b =>
@@ -729,14 +775,21 @@ namespace WEB_API_HealTime.Migrations
                         {
                             PessoaId = 1,
                             Celular = "11978486810",
-                            CriadoEm = new DateTime(2023, 6, 19, 19, 19, 56, 897, DateTimeKind.Local).AddTicks(2031),
-                            Email = "user@user.com"
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(40),
+                            Email = "may@may.com"
                         },
                         new
                         {
-                            PessoaId = 4,
+                            PessoaId = 2,
                             Celular = "11978486810",
-                            CriadoEm = new DateTime(2023, 6, 19, 19, 19, 56, 897, DateTimeKind.Local).AddTicks(2040),
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(49),
+                            Email = "thi@thi.com"
+                        },
+                        new
+                        {
+                            PessoaId = 3,
+                            Celular = "11978486810",
+                            CriadoEm = new DateTime(2023, 6, 20, 20, 0, 11, 487, DateTimeKind.Local).AddTicks(50),
                             Email = "dan@dan.com"
                         });
                 });
@@ -827,45 +880,61 @@ namespace WEB_API_HealTime.Migrations
                         {
                             PessoaId = 1,
                             CpfPessoa = "67146867064",
-                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NomePessoa = "Responsavel",
-                            PasswordHash = new byte[] { 64, 248, 60, 60, 69, 132, 238, 115, 156, 166, 118, 185, 170, 215, 59, 220, 236, 201, 77, 61, 152, 45, 230, 60, 106, 6, 217, 177, 140, 126, 24, 202, 43, 72, 52, 187, 13, 111, 218, 81, 33, 45, 158, 73, 41, 17, 69, 205, 177, 64, 88, 146, 120, 205, 164, 109, 132, 196, 179, 106, 189, 161, 71, 10 },
-                            PasswordSalt = new byte[] { 254, 171, 235, 58, 8, 47, 147, 22, 128, 199, 147, 69, 2, 147, 55, 107, 115, 206, 77, 146, 156, 94, 76, 98, 48, 170, 74, 117, 137, 229, 247, 19, 67, 0, 82, 54, 224, 245, 201, 214, 73, 33, 37, 127, 183, 51, 0, 168, 60, 150, 172, 185, 179, 35, 206, 63, 47, 241, 97, 35, 64, 92, 50, 210, 198, 67, 204, 7, 212, 167, 101, 123, 27, 117, 9, 43, 229, 254, 96, 4, 1, 65, 226, 215, 149, 175, 49, 246, 183, 251, 36, 83, 120, 223, 66, 252, 73, 177, 54, 209, 233, 212, 202, 98, 125, 64, 14, 228, 201, 99, 6, 62, 94, 229, 204, 65, 12, 202, 63, 228, 132, 0, 138, 57, 221, 143, 20, 119 },
-                            SobreNomePessoa = "Marzo",
+                            DtNascPessoa = new DateTime(2003, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NomePessoa = "Mayara",
+                            PasswordHash = new byte[] { 132, 93, 193, 19, 129, 161, 139, 122, 241, 175, 161, 151, 127, 224, 150, 165, 115, 126, 226, 222, 241, 29, 13, 115, 121, 138, 130, 89, 186, 103, 241, 131, 49, 186, 21, 45, 161, 157, 110, 95, 88, 111, 125, 241, 11, 143, 161, 116, 248, 26, 64, 155, 85, 17, 115, 185, 194, 186, 135, 253, 51, 240, 220, 115 },
+                            PasswordSalt = new byte[] { 207, 159, 49, 21, 202, 191, 203, 158, 132, 46, 8, 190, 144, 185, 157, 254, 64, 118, 75, 4, 144, 81, 62, 110, 1, 217, 35, 235, 179, 228, 92, 46, 155, 255, 182, 83, 88, 138, 66, 221, 103, 172, 5, 8, 22, 181, 158, 17, 201, 122, 124, 127, 182, 158, 72, 9, 90, 69, 192, 126, 93, 22, 37, 168, 66, 167, 27, 76, 208, 89, 252, 240, 186, 131, 31, 97, 194, 23, 18, 42, 190, 129, 18, 165, 173, 24, 12, 226, 207, 37, 5, 207, 9, 233, 239, 71, 200, 143, 192, 62, 68, 167, 121, 38, 218, 166, 83, 137, 53, 188, 18, 3, 143, 5, 30, 104, 240, 247, 118, 48, 159, 102, 250, 111, 200, 217, 97, 253 },
+                            SobreNomePessoa = "Pilecarte",
                             TipoPessoa = 3
                         },
                         new
                         {
                             PessoaId = 2,
-                            CpfPessoa = "15063626050",
-                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NomePessoa = "PacienteIncapaz",
-                            PasswordHash = new byte[] { 64, 248, 60, 60, 69, 132, 238, 115, 156, 166, 118, 185, 170, 215, 59, 220, 236, 201, 77, 61, 152, 45, 230, 60, 106, 6, 217, 177, 140, 126, 24, 202, 43, 72, 52, 187, 13, 111, 218, 81, 33, 45, 158, 73, 41, 17, 69, 205, 177, 64, 88, 146, 120, 205, 164, 109, 132, 196, 179, 106, 189, 161, 71, 10 },
-                            PasswordSalt = new byte[] { 254, 171, 235, 58, 8, 47, 147, 22, 128, 199, 147, 69, 2, 147, 55, 107, 115, 206, 77, 146, 156, 94, 76, 98, 48, 170, 74, 117, 137, 229, 247, 19, 67, 0, 82, 54, 224, 245, 201, 214, 73, 33, 37, 127, 183, 51, 0, 168, 60, 150, 172, 185, 179, 35, 206, 63, 47, 241, 97, 35, 64, 92, 50, 210, 198, 67, 204, 7, 212, 167, 101, 123, 27, 117, 9, 43, 229, 254, 96, 4, 1, 65, 226, 215, 149, 175, 49, 246, 183, 251, 36, 83, 120, 223, 66, 252, 73, 177, 54, 209, 233, 212, 202, 98, 125, 64, 14, 228, 201, 99, 6, 62, 94, 229, 204, 65, 12, 202, 63, 228, 132, 0, 138, 57, 221, 143, 20, 119 },
-                            SobreNomePessoa = "Marzo",
-                            TipoPessoa = 2
-                        },
-                        new
-                        {
-                            PessoaId = 3,
                             CpfPessoa = "94840911053",
-                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NomePessoa = "Cuidador",
-                            PasswordHash = new byte[] { 64, 248, 60, 60, 69, 132, 238, 115, 156, 166, 118, 185, 170, 215, 59, 220, 236, 201, 77, 61, 152, 45, 230, 60, 106, 6, 217, 177, 140, 126, 24, 202, 43, 72, 52, 187, 13, 111, 218, 81, 33, 45, 158, 73, 41, 17, 69, 205, 177, 64, 88, 146, 120, 205, 164, 109, 132, 196, 179, 106, 189, 161, 71, 10 },
-                            PasswordSalt = new byte[] { 254, 171, 235, 58, 8, 47, 147, 22, 128, 199, 147, 69, 2, 147, 55, 107, 115, 206, 77, 146, 156, 94, 76, 98, 48, 170, 74, 117, 137, 229, 247, 19, 67, 0, 82, 54, 224, 245, 201, 214, 73, 33, 37, 127, 183, 51, 0, 168, 60, 150, 172, 185, 179, 35, 206, 63, 47, 241, 97, 35, 64, 92, 50, 210, 198, 67, 204, 7, 212, 167, 101, 123, 27, 117, 9, 43, 229, 254, 96, 4, 1, 65, 226, 215, 149, 175, 49, 246, 183, 251, 36, 83, 120, 223, 66, 252, 73, 177, 54, 209, 233, 212, 202, 98, 125, 64, 14, 228, 201, 99, 6, 62, 94, 229, 204, 65, 12, 202, 63, 228, 132, 0, 138, 57, 221, 143, 20, 119 },
-                            SobreNomePessoa = "Marzo",
+                            DtNascPessoa = new DateTime(2003, 7, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NomePessoa = "Thiago",
+                            PasswordHash = new byte[] { 132, 93, 193, 19, 129, 161, 139, 122, 241, 175, 161, 151, 127, 224, 150, 165, 115, 126, 226, 222, 241, 29, 13, 115, 121, 138, 130, 89, 186, 103, 241, 131, 49, 186, 21, 45, 161, 157, 110, 95, 88, 111, 125, 241, 11, 143, 161, 116, 248, 26, 64, 155, 85, 17, 115, 185, 194, 186, 135, 253, 51, 240, 220, 115 },
+                            PasswordSalt = new byte[] { 207, 159, 49, 21, 202, 191, 203, 158, 132, 46, 8, 190, 144, 185, 157, 254, 64, 118, 75, 4, 144, 81, 62, 110, 1, 217, 35, 235, 179, 228, 92, 46, 155, 255, 182, 83, 88, 138, 66, 221, 103, 172, 5, 8, 22, 181, 158, 17, 201, 122, 124, 127, 182, 158, 72, 9, 90, 69, 192, 126, 93, 22, 37, 168, 66, 167, 27, 76, 208, 89, 252, 240, 186, 131, 31, 97, 194, 23, 18, 42, 190, 129, 18, 165, 173, 24, 12, 226, 207, 37, 5, 207, 9, 233, 239, 71, 200, 143, 192, 62, 68, 167, 121, 38, 218, 166, 83, 137, 53, 188, 18, 3, 143, 5, 30, 104, 240, 247, 118, 48, 159, 102, 250, 111, 200, 217, 97, 253 },
+                            SobreNomePessoa = "Roque",
                             TipoPessoa = 4
                         },
                         new
                         {
-                            PessoaId = 4,
+                            PessoaId = 3,
                             CpfPessoa = "50967422027",
                             DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            NomePessoa = "Paciente",
-                            PasswordHash = new byte[] { 64, 248, 60, 60, 69, 132, 238, 115, 156, 166, 118, 185, 170, 215, 59, 220, 236, 201, 77, 61, 152, 45, 230, 60, 106, 6, 217, 177, 140, 126, 24, 202, 43, 72, 52, 187, 13, 111, 218, 81, 33, 45, 158, 73, 41, 17, 69, 205, 177, 64, 88, 146, 120, 205, 164, 109, 132, 196, 179, 106, 189, 161, 71, 10 },
-                            PasswordSalt = new byte[] { 254, 171, 235, 58, 8, 47, 147, 22, 128, 199, 147, 69, 2, 147, 55, 107, 115, 206, 77, 146, 156, 94, 76, 98, 48, 170, 74, 117, 137, 229, 247, 19, 67, 0, 82, 54, 224, 245, 201, 214, 73, 33, 37, 127, 183, 51, 0, 168, 60, 150, 172, 185, 179, 35, 206, 63, 47, 241, 97, 35, 64, 92, 50, 210, 198, 67, 204, 7, 212, 167, 101, 123, 27, 117, 9, 43, 229, 254, 96, 4, 1, 65, 226, 215, 149, 175, 49, 246, 183, 251, 36, 83, 120, 223, 66, 252, 73, 177, 54, 209, 233, 212, 202, 98, 125, 64, 14, 228, 201, 99, 6, 62, 94, 229, 204, 65, 12, 202, 63, 228, 132, 0, 138, 57, 221, 143, 20, 119 },
+                            NomePessoa = "Dan",
+                            PasswordHash = new byte[] { 132, 93, 193, 19, 129, 161, 139, 122, 241, 175, 161, 151, 127, 224, 150, 165, 115, 126, 226, 222, 241, 29, 13, 115, 121, 138, 130, 89, 186, 103, 241, 131, 49, 186, 21, 45, 161, 157, 110, 95, 88, 111, 125, 241, 11, 143, 161, 116, 248, 26, 64, 155, 85, 17, 115, 185, 194, 186, 135, 253, 51, 240, 220, 115 },
+                            PasswordSalt = new byte[] { 207, 159, 49, 21, 202, 191, 203, 158, 132, 46, 8, 190, 144, 185, 157, 254, 64, 118, 75, 4, 144, 81, 62, 110, 1, 217, 35, 235, 179, 228, 92, 46, 155, 255, 182, 83, 88, 138, 66, 221, 103, 172, 5, 8, 22, 181, 158, 17, 201, 122, 124, 127, 182, 158, 72, 9, 90, 69, 192, 126, 93, 22, 37, 168, 66, 167, 27, 76, 208, 89, 252, 240, 186, 131, 31, 97, 194, 23, 18, 42, 190, 129, 18, 165, 173, 24, 12, 226, 207, 37, 5, 207, 9, 233, 239, 71, 200, 143, 192, 62, 68, 167, 121, 38, 218, 166, 83, 137, 53, 188, 18, 3, 143, 5, 30, 104, 240, 247, 118, 48, 159, 102, 250, 111, 200, 217, 97, 253 },
                             SobreNomePessoa = "Marzo",
                             TipoPessoa = 1
+                        },
+                        new
+                        {
+                            PessoaId = 4,
+                            CpfPessoa = "15063626050",
+                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NomePessoa = "Nicolly",
+                            SobreNomePessoa = "Sodré",
+                            TipoPessoa = 2
+                        },
+                        new
+                        {
+                            PessoaId = 5,
+                            CpfPessoa = "70414926056",
+                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NomePessoa = "Giovana",
+                            SobreNomePessoa = "Silva",
+                            TipoPessoa = 2
+                        },
+                        new
+                        {
+                            PessoaId = 6,
+                            CpfPessoa = "46473986090",
+                            DtNascPessoa = new DateTime(2004, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            NomePessoa = "Pedro",
+                            SobreNomePessoa = "Rocha",
+                            TipoPessoa = 2
                         });
                 });
 
