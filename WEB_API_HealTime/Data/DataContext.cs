@@ -568,112 +568,157 @@ public class DataContext : DbContext
 
         /* -> END MEDICO */
         #endregion
-        #region VALORES_DEFAULT
+        #region MEDICAÇÕES DEFAULT
         mdBuilder.Entity<Medicacao>()
             .HasData(
                 new Medicacao
                 {
                     MedicacaoId = 1,
                     TipoMedicacaoId = 1,
-                    NomeMedicacao = "DIPIRONA 300ml",
+                    NomeMedicacao = "DIPIRONA 80g",
                     CompostoAtivoMedicacao = "pirazolônico não narcótico ",
                     Generico = "S",
-                    LaboratorioMedicacao = "Algum por ai",
+                    LaboratorioMedicacao = "Sanofi-Aventis",
                     StatusMedicacao = EnumStatusMedicacao.ATIVO
                 },
                 new Medicacao
                 {
                     MedicacaoId = 2,
                     TipoMedicacaoId = 2,
-                    NomeMedicacao = "EXEMPLO",
-                    CompostoAtivoMedicacao = "EXEMPLO ",
-                    Generico = "N",
-                    LaboratorioMedicacao = "Algum outro por ai",
+                    NomeMedicacao = "Rocefin",
+                    CompostoAtivoMedicacao = "ceftriaxona",
+                    Generico = "S",
+                    LaboratorioMedicacao = "Roche",
                     StatusMedicacao = EnumStatusMedicacao.ATIVO
                 }
             );
-
+        #endregion
+        #region MEDICOS DEFAULT
         mdBuilder.Entity<Medico>()
                 .HasData(
                 new Medico
                 {
                     MedicoId = 1,
                     CrmMedico = "054321",
-                    NmMedico = "Dr Val",
+                    NmMedico = "Dr Guilherme Costa",
                     UfCrmMedico = "SP"
                 },
                 new Medico
                 {
                     MedicoId = 2,
                     CrmMedico = "012345",
-                    NmMedico = "Dr Teste",
+                    NmMedico = "Dr Adriana Gomes",
                     UfCrmMedico = "RJ"
                 }
                 );
+        #endregion
+        #region Pessoas (Acessos default)
         Criptografia.CriarPasswordHash("1q2w3e4r", out byte[] hash, out byte[] salt);
         mdBuilder.Entity<Pessoa>()
             .HasData(
                 new Pessoa
                 {
                     PessoaId = 1,
-                    NomePessoa = "Responsavel",
-                    SobreNomePessoa = "Marzo",
+                    NomePessoa = "Mayara",
+                    SobreNomePessoa = "Pilecarte",
                     CpfPessoa = "67146867064",
-                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    DtNascPessoa = DateTime.Parse("2003-12-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
                     TipoPessoa = EnumTipoPessoa.Responsavel
-                },
-                new Pessoa
-                {
-                    PessoaId = 2,
-                    NomePessoa = "PacienteIncapaz",
-                    SobreNomePessoa = "Marzo",
-                    CpfPessoa = "15063626050",
-                    DtNascPessoa = DateTime.Parse("2004-02-15"),
-                    PasswordHash = hash,
-                    PasswordSalt = salt,
-                    TipoPessoa = EnumTipoPessoa.PacienteIncapaz
                 }, new Pessoa
                 {
-                    PessoaId = 3,
-                    NomePessoa = "Cuidador",
-                    SobreNomePessoa = "Marzo",
+                    PessoaId = 2,
+                    NomePessoa = "Thiago",
+                    SobreNomePessoa = "Roque",
                     CpfPessoa = "94840911053",
-                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    DtNascPessoa = DateTime.Parse("2003-07-28"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
                     TipoPessoa = EnumTipoPessoa.Cuidador
                 },
                 new Pessoa
                 {
-                    PessoaId = 4,
-                    NomePessoa = "Paciente",
+                    PessoaId = 3,
+                    NomePessoa = "Dan",
                     SobreNomePessoa = "Marzo",
                     CpfPessoa = "50967422027",
                     DtNascPessoa = DateTime.Parse("2004-02-15"),
                     PasswordHash = hash,
                     PasswordSalt = salt,
                     TipoPessoa = EnumTipoPessoa.Paciente
+                },
+                new Pessoa
+                {
+                    PessoaId = 4,
+                    NomePessoa = "Nicolly",
+                    SobreNomePessoa = "Sodré",
+                    CpfPessoa = "15063626050",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    TipoPessoa = EnumTipoPessoa.PacienteIncapaz
+                },
+                new Pessoa
+                {
+                    PessoaId = 5,
+                    NomePessoa = "Giovana",
+                    SobreNomePessoa = "Silva",
+                    CpfPessoa = "70414926056",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    TipoPessoa = EnumTipoPessoa.PacienteIncapaz
+                },
+                new Pessoa
+                {
+                    PessoaId = 6,
+                    NomePessoa = "Pedro",
+                    SobreNomePessoa = "Rocha",
+                    CpfPessoa = "46473986090",
+                    DtNascPessoa = DateTime.Parse("2004-02-15"),
+                    TipoPessoa = EnumTipoPessoa.PacienteIncapaz
                 }
             );
+        #endregion
+        #region Contato pessoa
         mdBuilder.Entity<ContatoPessoa>()
             .HasData(
                 new ContatoPessoa
                 {
                     PessoaId = 1,
-                    Email = "user@user.com",
+                    Email = "may@may.com",
                     CriadoEm = DateTime.Now,
                     Celular = "11978486810"
                 },
                 new ContatoPessoa
                 {
-                    PessoaId = 4,
+                    PessoaId = 2,
+                    Email = "thi@thi.com",
+                    CriadoEm = DateTime.Now,
+                    Celular = "11978486810"
+                },
+                new ContatoPessoa
+                {
+                    PessoaId = 3,
                     Email = "dan@dan.com",
                     CriadoEm = DateTime.Now,
                     Celular = "11978486810"
                 }
             );
+        #endregion
+        #region Cuidador Paciente default 
+        mdBuilder.Entity<CuidadorPaciente>()
+            .HasData(
+                new CuidadorPaciente { PacienteId = 4, CuidadorId = 2, CriadoEm = DateTime.Now },
+                new CuidadorPaciente { PacienteId = 5, CuidadorId = 2, CriadoEm = DateTime.Now },
+                new CuidadorPaciente { PacienteId = 6, CuidadorId = 2, CriadoEm = DateTime.Now }
+            );
+        #endregion
+        #region Responsavel Paciente Default
+        mdBuilder.Entity<ResponsavelPaciente>()
+            .HasData(
+                new ResponsavelPaciente { PacienteId = 4, ResponsavelId = 1, CriadoEm = DateTime.Now, GrauParentescoId = 1 },
+                new ResponsavelPaciente { PacienteId = 5, ResponsavelId = 1, CriadoEm = DateTime.Now, GrauParentescoId = 3 }
+            );
+        #endregion
+        #region StatusConsulta Default
         mdBuilder.Entity<StatusConsulta>()
             .HasData(
                 new StatusConsulta
@@ -702,19 +747,20 @@ public class DataContext : DbContext
                     DescStatusConsulta = "Fila de espera"
                 }
             );
-        //Tipo medicacao
+        #endregion
+
         mdBuilder.Entity<TipoMedicacao>().HasData(
-                new { TipoMedicacaoId = 1, DescMedicacao = "Aplicado pela boca", TituloTipoMedicacao = "Via oral", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 2, DescMedicacao = "Aplicado  por dembaixo da língua", TituloTipoMedicacao = "Sublingual", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 3, DescMedicacao = "Aplicado pelo canal retal", TituloTipoMedicacao = "Supositorios", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
-                new { TipoMedicacaoId = 4, DescMedicacao = "Aplicada diretamente no sangue", TituloTipoMedicacao = "Intravenosa", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 5, DescMedicacao = "Aplicada diretamente no músculo", TituloTipoMedicacao = "Intramuscular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 6, DescMedicacao = "Aplicada debaixo da pele", TituloTipoMedicacao = "Subcutânea", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 7, DescMedicacao = string.Empty, TituloTipoMedicacao = "Respiratória", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 8, DescMedicacao = "Aplicada por pomadas", TituloTipoMedicacao = "Via tópica", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 9, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Ocular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 10, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Nasal", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
-                new { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
+                new TipoMedicacao { TipoMedicacaoId = 1, DescMedicacao = "Aplicado pela boca", TituloTipoMedicacao = "Via oral", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new TipoMedicacao { TipoMedicacaoId = 2, DescMedicacao = "Aplicado  por dembaixo da língua", TituloTipoMedicacao = "Sublingual", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new TipoMedicacao { TipoMedicacaoId = 3, DescMedicacao = "Aplicado pelo canal retal", TituloTipoMedicacao = "Supositorios", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Enteral },
+                new TipoMedicacao { TipoMedicacaoId = 4, DescMedicacao = "Aplicada diretamente no sangue", TituloTipoMedicacao = "Intravenosa", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 5, DescMedicacao = "Aplicada diretamente no músculo", TituloTipoMedicacao = "Intramuscular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 6, DescMedicacao = "Aplicada debaixo da pele", TituloTipoMedicacao = "Subcutânea", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 7, DescMedicacao = string.Empty, TituloTipoMedicacao = "Respiratória", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 8, DescMedicacao = "Aplicada por pomadas", TituloTipoMedicacao = "Via tópica", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 9, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Ocular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 10, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Nasal", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral },
+                new TipoMedicacao { TipoMedicacaoId = 11, DescMedicacao = string.Empty, TituloTipoMedicacao = "Via Auricular", ClasseAplicacao = EnumClasseAplicacaoMedicacao.Parenteral }
             );
         mdBuilder.Entity<Especialidade>()
             .HasData(
@@ -750,7 +796,17 @@ public class DataContext : DbContext
             {
                 GrauParentescoId = 3,
                 DescGrauParentesco = "Filha/Filho"
-            });
-        #endregion
+            },
+            new GrauParentesco
+            {
+                GrauParentescoId = 4,
+                DescGrauParentesco = "Esposa"
+            },
+            new GrauParentesco
+            {
+                GrauParentescoId = 5,
+                DescGrauParentesco = "Marido"
+            }
+            );
     }
 }
