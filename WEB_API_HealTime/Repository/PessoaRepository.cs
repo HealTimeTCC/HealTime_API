@@ -64,13 +64,13 @@ public class PessoaRepository : IPessoaRepository
         }
     }
 
-    public async Task<string> IncluiPessoa(Pessoa pessoa, ContatoPessoa contatoPessoa = null)
+    public async Task<Pessoa> IncluiPessoa(Pessoa pessoa, ContatoPessoa contatoPessoa = null)
     {
         if (contatoPessoa is null)
         {
             await _context.Pessoas.AddAsync(pessoa);
             await _context.SaveChangesAsync();
-            return pessoa.NomePessoa;
+            return pessoa;
         }
         else
         { 
@@ -79,7 +79,7 @@ public class PessoaRepository : IPessoaRepository
             contatoPessoa.PessoaId = pessoa.PessoaId;
             await _context.ContatoPessoas.AddAsync(contatoPessoa);
             await _context.SaveChangesAsync();
-            return pessoa.NomePessoa;
+            return pessoa;
         }
     }
 

@@ -84,7 +84,7 @@ public class PessoaController : ControllerBase
 
                 if (await _pessoasRepository.ConsultarPessoa(tipoConsultaPessoa: TipoConsultaPessoa.cpf, cpfConsulta: pessoaDto.CpfPessoa) is not null)
                     return BadRequest("Paciente ja cadastrado no sistema");
-                return Ok($"Paciente {await _pessoasRepository.IncluiPessoa(pessoa)} cadastrado com sucesso!");
+                return Ok(await _pessoasRepository.IncluiPessoa(pessoa));
             }
             else
             {
@@ -106,7 +106,7 @@ public class PessoaController : ControllerBase
                 pessoa.PasswordSalt = salt;
                 pessoa.DtNascPessoa = pessoaDto.DtNascPessoa;
 
-                return Ok($"Usuario {await _pessoasRepository.IncluiPessoa(pessoa, contatoPessoa)} cadastrado com sucesso!");
+                return Ok(await _pessoasRepository.IncluiPessoa(pessoa, contatoPessoa));
             }
         }
         catch (Exception ex)
