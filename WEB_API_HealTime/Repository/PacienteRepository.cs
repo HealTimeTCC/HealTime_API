@@ -26,7 +26,7 @@ public class PacienteRepository : IPacienteRepository
     {
         _context = context;
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        _connectionString = configuration.GetConnectionString("mayara");
+        _connectionString = configuration.GetConnectionString("dan");
     }
 
     #region Incluir Observações

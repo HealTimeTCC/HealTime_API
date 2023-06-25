@@ -6,6 +6,8 @@ using WEB_API_HealTime.Models.Medicacoes.Enums;
 using WEB_API_HealTime.Models.Pessoas;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 using WEB_API_HealTime.Models.Pacientes;
+using WEB_API_HealTime.Models;
+
 namespace WEB_API_HealTime.Data;
 
 public class DataContext : DbContext
@@ -29,10 +31,30 @@ public class DataContext : DbContext
     public DbSet<ResponsavelPaciente> ResponsaveisPacientes { get; set; }
     public DbSet<GrauParentesco> GrauParentesco { get; set; }
     public DbSet<CuidadorPaciente> CuidadorPacientes { get; set; }
+    //public DbSet<ControleEstadoAndamentoMedicacao> ControleEstadoAndamentoMedicacao { get; set; }
     #endregion
     protected override void OnModelCreating(ModelBuilder mdBuilder)
     {
         base.OnModelCreating(mdBuilder);
+
+        //mdBuilder.Entity<ControleEstadoAndamentoMedicacao>().
+        //    HasKey(k => k.CodPrescricaoMedicamento)
+        //    .HasName("PK_CodPrescricaoMedicamento");
+
+        //mdBuilder.Entity<ControleEstadoAndamentoMedicacao>()
+        //    .Property(k => k.CodPrescricaoMedicamento)
+        //    .
+        //mdBuilder.Entity<ControleEstadoAndamentoMedicacao>()
+        //    .HasIndex(i => i.CodPrescricaoMedicamento)
+        //    .IsUnique();
+        //mdBuilder.Entity<ControleEstadoAndamentoMedicacao>()
+        //    .Property(i => i.CodControle)
+        //    .HasColumnType("INT");
+        //mdBuilder.Entity<ControleEstadoAndamentoMedicacao>()
+        //    .Property(i => i.QtdeHorarios)
+        //    .HasColumnType("INT");
+
+
 
         #region --> Pacientes <--
         #region GrauParentesco 

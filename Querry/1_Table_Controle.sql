@@ -1,4 +1,4 @@
-USE [DB_HEALTIME]
+USE [DB-HEALTIME]
 
 GO
 --Primeiro cria a tabela de controle
