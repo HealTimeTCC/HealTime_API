@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WEB_API_HealTime\WEB_API_HealTime.csproj" />
+    <ProjectReference Include="..\WEB_API_HealTime\Healtime.Api.csproj" />
   </ItemGroup>
 
   <ItemGroup>
