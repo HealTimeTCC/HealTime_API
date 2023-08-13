@@ -7,8 +7,9 @@ using System.Text;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Repository;
-using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Healtime.Infrastructure.AppServicesExtensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +70,8 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 var app = builder.Build();
-
+var enviroment = app.Environment;
+app.UseExceptionHandling()
 /* DEFINE O LIMTE GLOBAL DE REQUISIÇÕES*/
 
 app.UseRateLimiter();
