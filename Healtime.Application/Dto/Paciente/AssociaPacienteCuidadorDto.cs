@@ -1,5 +1,5 @@
 ﻿
-namespace WEB_API_HealTime.Dto.Paciente;
+namespace Healtime.Application.Dto.Paciente;
 
 public class AssociaPacienteCuidadorDto
 {

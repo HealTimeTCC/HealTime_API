@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Dto.GlobalEnums;
+﻿namespace Healtime.Domain.Enums;
 
 public enum StatusCodeEnum
 {

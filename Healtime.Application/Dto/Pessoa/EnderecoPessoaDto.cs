@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Dto.Pessoa;
+﻿namespace Healtime.Application.Dto.Pessoa;
 
 public class EnderecoPessoaDto
 {

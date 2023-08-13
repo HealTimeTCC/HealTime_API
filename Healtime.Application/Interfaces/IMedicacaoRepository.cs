@@ -1,10 +1,10 @@
-﻿using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.MedicacaoDto;
-using WEB_API_HealTime.Dto.Paciente;
-using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Models.Medicacoes;
+﻿using Healtime.Application.Dto.MedicacaoDto;
+using Healtime.Application.Dto.Paciente;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Entities.Medicacoes;
+using Healtime.Domain.Enums;
 
-namespace WEB_API_HealTime.Repository.Interfaces;
+namespace Healtime.Application.Interfaces;
 
 public interface IMedicacaoRepository
 {
@@ -19,7 +19,7 @@ public interface IMedicacaoRepository
     Task<Medicacao> MedicacaoById(int codMedicacao);
     Task<PrescricaoPaciente> PrescricaoByCod(int codPrescricacao);
     Task<StatusCodeEnum> CancelaPrescricaoMedicacao(int pacienteId);
-    Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPrescricao,bool cancel = false);
+    Task<List<PrescricaoMedicacao>> ListarPrescricaoMedicacoes(int codPrescricao, bool cancel = false);
     Task<List<PrescricaoPaciente>> ListarPrescricaoPacientes(int codPaciente);
     Task<StatusCodeEnum> CancelarPrescricaoPaciente(PrescricaoPaciente prescricaoCancela);
     Task<StatusCodeEnum> CancelaItemMedicacaoPrescricao(int codPrescricao, int codMedicacao);

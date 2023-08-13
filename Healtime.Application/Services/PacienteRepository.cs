@@ -2,7 +2,6 @@
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.Paciente;
 using WEB_API_HealTime.Models.Pacientes;
-using WEB_API_HealTime.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
 using WEB_API_HealTime.Models.Medicacoes;
@@ -15,6 +14,7 @@ using WEB_API_HealTime.Dto.GlobalEnums;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Data;
+using Healtime.Application.Interfaces;
 
 namespace WEB_API_HealTime.Repository;
 

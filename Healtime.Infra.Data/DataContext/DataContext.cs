@@ -5,7 +5,8 @@ using Healtime.Domain.Entities.Medicacoes;
 using Healtime.Domain.Entities.Medicacoes.Enums;
 using Healtime.Domain.Entities.Pacientes;
 using Healtime.Domain.Entities.Pessoas;
-using Healtime.Domain.Entities.Pessoas.Enums;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Healtime.Infra.DataContext;

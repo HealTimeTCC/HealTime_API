@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WEB_API_HealTime.Dto.AgendaConsulta;
+namespace Healtime.Application.Dto.AgendaConsulta;
 
 [NotMapped]
 public class AtualizaStatusConsultaDto

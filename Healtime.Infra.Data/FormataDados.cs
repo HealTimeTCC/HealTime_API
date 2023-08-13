@@ -1,4 +1,6 @@
 ﻿
+using Healtime.Domain.Enums;
+
 namespace Healtime.Infra.Data.Utility;
 
 public static class FormataDados

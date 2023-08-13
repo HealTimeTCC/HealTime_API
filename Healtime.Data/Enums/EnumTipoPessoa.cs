@@ -1,4 +1,4 @@
-﻿namespace Healtime.Domain.Entities.Pessoas.Enums;
+﻿namespace Healtime.Domain.Enums;
 
 public enum EnumTipoPessoa
 {

@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Dto.MedicacaoDto;
+﻿namespace Healtime.Application.Dto.MedicacaoDto;
 
 public class BaixaAndamentoMedicacaoDto
 {

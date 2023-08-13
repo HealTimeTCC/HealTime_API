@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Utility.Enums;
+﻿namespace Healtime.Domain.Enums;
 
 public enum TipoVerificadorCaracteresMinimos
 {

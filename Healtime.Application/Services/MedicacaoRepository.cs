@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Healtime.Application.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
@@ -9,7 +10,6 @@ using WEB_API_HealTime.Models.ConsultasMedicas;
 using WEB_API_HealTime.Models.Medicacoes;
 using WEB_API_HealTime.Models.Medicacoes.Enums;
 using WEB_API_HealTime.Models.Pessoas.Enums;
-using WEB_API_HealTime.Repository.Interfaces;
 
 namespace WEB_API_HealTime.Repository;
 

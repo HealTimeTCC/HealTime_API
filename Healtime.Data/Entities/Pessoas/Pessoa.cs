@@ -1,6 +1,6 @@
 ﻿using Healtime.Domain.Entities.Medicacoes;
 using Healtime.Domain.Entities.Pacientes;
-using Healtime.Domain.Entities.Pessoas.Enums;
+using Healtime.Domain.Enums;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations.Schema;
 

@@ -1,10 +1,9 @@
-﻿using WEB_API_HealTime.Dto.Paciente;
-using WEB_API_HealTime.Models.Pacientes;
-using WEB_API_HealTime.Models.Pessoas.Enums;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Dto.GlobalEnums;
+﻿using Healtime.Application.Dto.Paciente;
+using Healtime.Domain.Entities.Pacientes;
+using Healtime.Domain.Entities.Pessoas;
+using Healtime.Domain.Enums;
 
-namespace WEB_API_HealTime.Repository.Interfaces;
+namespace Healtime.Application.Interfaces;
 
 public interface IPacienteRepository
 {

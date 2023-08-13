@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Healtime.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using WEB_API_HealTime.Data;
 using WEB_API_HealTime.Dto.GlobalEnums;
 using WEB_API_HealTime.Dto.Pessoa;
 using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Repository.Interfaces;
 using WEB_API_HealTime.Utility.EnumsGlobal;
 
 namespace WEB_API_HealTime.Repository;

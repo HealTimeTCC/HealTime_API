@@ -1,10 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.AgendaConsulta;
-using WEB_API_HealTime.Dto.ConsultaMedica;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Repository.Interfaces;
+﻿using Healtime.Application.Dto.AgendaConsulta;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Enums;
 
 namespace WEB_API_HealTime.Repository;
 

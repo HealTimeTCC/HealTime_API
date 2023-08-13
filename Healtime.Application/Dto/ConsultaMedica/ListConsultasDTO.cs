@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WEB_API_HealTime.Dto.AgendaConsulta;
+namespace Healtime.Application.Dto.AgendaConsulta;
 
 public class ListConsultasDTO
 {

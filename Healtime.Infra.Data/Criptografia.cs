@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Healtime.Infra.Data.Utility;
+namespace Healtime.Infra.Data;
 
 public class Criptografia
 {

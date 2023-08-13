@@ -1,4 +1,4 @@
-﻿namespace WEB_API_HealTime.Utility.EnumsGlobal;
+﻿namespace Healtime.Domain.Enums;
 
 public enum CodigoIBGEEnum
 {

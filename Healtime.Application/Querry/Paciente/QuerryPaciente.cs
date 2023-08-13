@@ -1,9 +1,7 @@
-﻿using System.Text;
-using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Models.Pessoas.Enums;
+﻿using Healtime.Domain.Enums;
+using System.Text;
 
-namespace WEB_API_HealTime.Querry.PacienteQuerry;
+namespace Healtime.Application.Querry.PacienteQuerry;
 
 public class QuerryPaciente
 {

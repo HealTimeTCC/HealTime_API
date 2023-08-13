@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using WEB_API_HealTime.Models.Pessoas.Enums;
 
-namespace WEB_API_HealTime.Dto.Paciente;
+namespace Healtime.Application.Dto.Paciente;
 
 public class ResponsavelPacienteDTO
 {

@@ -1,10 +1,9 @@
-﻿using WEB_API_HealTime.Dto.AgendaConsulta;
-using WEB_API_HealTime.Dto.ConsultaMedica;
-using WEB_API_HealTime.Dto.ConsultaMedica.Enums;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Models.ConsultasMedicas;
+﻿using Healtime.Application.Dto.AgendaConsulta;
+using Healtime.Application.Dto.ConsultaMedica;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Enums;
 
-namespace WEB_API_HealTime.Repository.Interfaces;
+namespace Healtime.Application.Interfaces;
 
 public interface IConsultaMedicaRepository
 {
