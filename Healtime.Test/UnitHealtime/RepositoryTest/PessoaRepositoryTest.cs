@@ -1,19 +1,14 @@
-﻿
-using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.Pessoa;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Models.Pessoas.Enums;
-using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Utility;
-using WEB_API_HealTime.Utility.EnumsGlobal;
+﻿using Healtime.Application.Dto.Pessoa;
+using Healtime.Domain.Entities.Pessoas;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Data;
 
 namespace WEB_API_HealTime_Test.UnitHealtime.Repository;
 
-public class PessoaRepositoryFake : IPessoaRepository
+public class PessoaRepositoryTest
 {
     private readonly List<Pessoa> _pessoa;
-    public PessoaRepositoryFake()
+    public PessoaRepositoryTest()
     {
         Criptografia.CriarPasswordHash("1q2w3e4r", out byte[] hash, out byte[] salt);
         

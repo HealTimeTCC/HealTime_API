@@ -1,23 +1,19 @@
-﻿using WEB_API_HealTime.Utility.EnumsGlobal;
-using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.Paciente;
-using WEB_API_HealTime.Models.Pacientes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
-using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Models.Pessoas.Enums;
-using WEB_API_HealTime.Querry.PacienteQuerry;
 using Microsoft.Extensions.Options;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using WEB_API_HealTime.Dto.GlobalEnums;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System.Data;
 using Healtime.Application.Interfaces;
+using Healtime.Infra.Context;
+using Healtime.Application.Dto.Paciente;
+using Healtime.Domain.Entities.Pacientes;
+using Healtime.Domain.Enums;
+using Healtime.Domain.Entities.Medicacoes;
+using Healtime.Application.Querry.PacienteQuerry;
+using Healtime.Domain.Entities.Pessoas;
 
-namespace WEB_API_HealTime.Repository;
-
+namespace Healtime.Application.Services;
 public class PacienteRepository : IPacienteRepository
 {
     private readonly DataContext _context;
@@ -25,8 +21,9 @@ public class PacienteRepository : IPacienteRepository
     public PacienteRepository(DataContext context)
     {
         _context = context;
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        _connectionString = configuration.GetConnectionString("dan");
+        #region Definir outra maneira de pegar essa conn
+        _connectionString = "Server=DANMARZO-01\\MATERIAL;Database=DB-HEALTIME;User Id=sa;Password=1q2w3e4r;Encrypt=False;";
+        #endregion
     }
 
     #region Incluir Observações

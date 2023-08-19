@@ -1,14 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
+using Healtime.Infra.IoC; 
 using System.Text.Json.Serialization;
-using WEB_API_HealTime.Data;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Repository;
 using System.Threading.RateLimiting;
-using Healtime.Infrastructure.AppServicesExtensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,14 +33,7 @@ builder.Services.AddRateLimiter(options =>
 });
 #endregion
 
-builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-#region Container de Injeção de dependencia 
-builder.Services.AddTransient<IPessoaRepository, PessoaRepository>();
-builder.Services.AddTransient<IConsultaMedicaRepository, ConsultaMedicaRepository>();
-builder.Services.AddTransient<IPacienteRepository, PacienteRepository>();
-builder.Services.AddTransient<IMedicacaoRepository, MedicacaoRepository>();
 
-#endregion
 builder.Services.AddControllers();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -63,15 +51,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DataContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("dan"));
-});
-
+#region Add Dependecy Injection
+builder.Services.AddDependecyInjection(builder.Configuration);
+#endregion
 
 var app = builder.Build();
 var enviroment = app.Environment;
-app.UseExceptionHandling()
 /* DEFINE O LIMTE GLOBAL DE REQUISIÇÕES*/
 
 app.UseRateLimiter();
@@ -83,7 +68,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 

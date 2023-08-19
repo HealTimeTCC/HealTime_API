@@ -1,14 +1,10 @@
-﻿using AspNetCoreRateLimit;
+﻿using Healtime.Application.Dto.AgendaConsulta;
+using Healtime.Application.Dto.ConsultaMedica;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Data.Utility;
 using Microsoft.AspNetCore.Mvc;
-using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.AgendaConsulta;
-using WEB_API_HealTime.Dto.ConsultaMedica;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Utility;
-using WEB_API_HealTime.Utility.Enums;
-using WEB_API_HealTime.Utility.EnumsGlobal;
 
 namespace WEB_API_HealTime.Controllers;
 

@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Utility;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Dto.Paciente;
-using WEB_API_HealTime.Dto.PrescricaoDto;
-using WEB_API_HealTime.Dto.MedicacaoDto;
-using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Healtime.Application.Dto.MedicacaoDto;
+using Healtime.Application.Dto.Paciente;
+using Healtime.Application.Dto.PrescricaoDto;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Entities.Medicacoes;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Data.Utility;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WEB_API_HealTime.Controllers;
 

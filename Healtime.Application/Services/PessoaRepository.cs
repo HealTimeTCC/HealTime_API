@@ -1,13 +1,11 @@
-﻿using Healtime.Application.Interfaces;
+﻿using Healtime.Application.Dto.Pessoa;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.Pessoas;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Context;
 using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.Pessoa;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Utility.EnumsGlobal;
 
-namespace WEB_API_HealTime.Repository;
-
+namespace Healtime.Application.Services;
 public class PessoaRepository : IPessoaRepository
 {
     private DataContext _context;
@@ -22,7 +20,6 @@ public class PessoaRepository : IPessoaRepository
 
     public async Task<Pessoa> ConsultarPessoa(TipoConsultaPessoa tipoConsultaPessoa, string cpfConsulta = "", string emailConsulta = "", string idPessoa = "")
     {
-
         return tipoConsultaPessoa switch
         {
             TipoConsultaPessoa.email => await _context.Pessoas

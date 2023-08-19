@@ -1,18 +1,15 @@
-﻿using Healtime.Application.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Healtime.Application.Dto.MedicacaoDto;
+using Healtime.Application.Dto.Paciente;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.ConsultasMedicas;
+using Healtime.Domain.Entities.Medicacoes;
+using Healtime.Domain.Entities.Medicacoes.Enums;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using WEB_API_HealTime.Data;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Dto.MedicacaoDto;
-using WEB_API_HealTime.Dto.Paciente;
-using WEB_API_HealTime.Models.ConsultasMedicas;
-using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Models.Medicacoes.Enums;
-using WEB_API_HealTime.Models.Pessoas.Enums;
 
-namespace WEB_API_HealTime.Repository;
-
+namespace Healtime.Application.Services;
 public class MedicacaoRepository : IMedicacaoRepository
 {
     private readonly DataContext _context;

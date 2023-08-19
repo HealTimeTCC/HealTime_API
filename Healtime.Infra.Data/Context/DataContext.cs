@@ -1,6 +1,4 @@
-﻿
-
-using Healtime.Domain.Entities.ConsultasMedicas;
+﻿using Healtime.Domain.Entities.ConsultasMedicas;
 using Healtime.Domain.Entities.Medicacoes;
 using Healtime.Domain.Entities.Medicacoes.Enums;
 using Healtime.Domain.Entities.Pacientes;
@@ -9,7 +7,7 @@ using Healtime.Domain.Enums;
 using Healtime.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Healtime.Infra.DataContext;
+namespace Healtime.Infra.Context;
 
 public class DataContext : DbContext
 {
@@ -708,21 +706,25 @@ public class DataContext : DbContext
                     PessoaId = 1,
                     Email = "may@may.com",
                     CriadoEm = DateTime.Now,
-                    Celular = "11978486810"
+                    Celular = "11978486810",
+                    CelularSecundario = "11978486810",
                 },
                 new ContatoPessoa
                 {
                     PessoaId = 2,
                     Email = "thi@thi.com",
                     CriadoEm = DateTime.Now,
-                    Celular = "11978486810"
+                    Celular = "11978486810",
+                    CelularSecundario = "11978486810",
                 },
                 new ContatoPessoa
                 {
                     PessoaId = 3,
                     Email = "dan@dan.com",
                     CriadoEm = DateTime.Now,
-                    Celular = "11978486810"
+                    Celular = "11978486810",
+                    CelularSecundario = "11978486810",
+
                 }
             );
         #endregion

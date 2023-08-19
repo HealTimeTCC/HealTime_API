@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Healtime.Application.Dto.Pessoa;
+using Healtime.Application.Interfaces;
+using Healtime.Domain.Entities.Pessoas;
+using Healtime.Domain.Enums;
+using Healtime.Infra.Data;
+using Healtime.Infra.Data.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using WEB_API_HealTime.Utility;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WEB_API_HealTime.Models.Pessoas;
-using WEB_API_HealTime.Dto.Pessoa;
-using WEB_API_HealTime.Repository.Interfaces;
-using WEB_API_HealTime.Models.Pessoas.Enums;
-using WEB_API_HealTime.Utility.EnumsGlobal;
-using WEB_API_HealTime.Utility.Enums;
-using WEB_API_HealTime.Dto.GlobalEnums;
-using WEB_API_HealTime.Models.Medicacoes;
-using WEB_API_HealTime.Repository;
 
 namespace WEB_API_HealTime.Controllers;
 

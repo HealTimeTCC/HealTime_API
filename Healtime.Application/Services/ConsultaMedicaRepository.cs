@@ -1,18 +1,17 @@
 ﻿using Healtime.Application.Dto.AgendaConsulta;
+using Healtime.Application.Dto.ConsultaMedica;
 using Healtime.Application.Interfaces;
 using Healtime.Domain.Entities.ConsultasMedicas;
 using Healtime.Domain.Enums;
+using Healtime.Infra.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace WEB_API_HealTime.Repository;
+namespace Healtime.Application.Services;
 
 public class ConsultaMedicaRepository : IConsultaMedicaRepository
 {
     private readonly DataContext _context;
-    public ConsultaMedicaRepository(DataContext context)
-    {
-        _context = context;
-    }
-
+    public ConsultaMedicaRepository(DataContext context){ _context = context; }
     public async Task<StatusCodeEnum> AtualizaSituacaoConsultaAgendada(AtualizaStatusConsultaDto atualiza)
     {
         try

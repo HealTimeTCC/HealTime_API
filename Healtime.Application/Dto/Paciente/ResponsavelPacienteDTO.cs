@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using WEB_API_HealTime.Models.Pessoas.Enums;
+﻿using Healtime.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Healtime.Application.Dto.Paciente;
 

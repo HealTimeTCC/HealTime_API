@@ -12,4 +12,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Healtime.Application\Healtime.Application.csproj" />
+    <ProjectReference Include="..\Healtime.Infra.Data\Healtime.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -24,4 +24,10 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Healtime.Application\Healtime.Application.csproj" />
+    <ProjectReference Include="..\Healtime.Data\Healtime.Domain.csproj" />
+    <ProjectReference Include="..\Healtime.Infra.Data\Healtime.Infra.Data.csproj" />
+  </ItemGroup>
+
 </Project>
