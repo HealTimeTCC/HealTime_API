@@ -11,7 +11,7 @@ Para iniciar a API será necessário:
 - EF Core 7
 
 - Para gerar o banco de dados, mude a string de conexão e no terminal com o diretorio apontado para o projeto execute: dotnet ef database update
-- Recomenda-se o uso do Visual Studio 2022 para executar a API
+- Recomenda-se o uso do Visual Studio 2022 para executar a API em Debug e para gerar o Release da API
 - Obs: Por padrão a API está rodando na porta 7777
 
 
